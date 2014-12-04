@@ -1,0 +1,69 @@
+# Copyright (c) 2014, the Dart project authors.  Please see the AUTHORS file
+# for details. All rights reserved. Use of this source code is governed by a
+# BSD-style license that can be found in the LICENSE file.
+
+# Don't run any test-like files that show up in packages directories. It
+# shouldn't be necessary to run "pub install" in these packages, but if you do
+# it shouldn't break the tests.
+*/packages/*/*: Skip
+*/*/packages/*/*: Skip
+*/*/*/packages/*/*: Skip
+*/*/*/*/packages/*/*: Skip
+*/*/*/*/*/packages/*/*: Skip
+
+build/test/intl_message_basic_example_test: Skip # invalid import under pub's package-layout
+
+[ $compiler == dart2js ]
+test/*: Skip  # raw tests only meant to be run in dartium. Other browsers run
+              # the output of pub-build
+test/intl_message_basic_example_test: Skip # invalid import under pub's package-layout
+
+[ $compiler == none && ($runtime == drt || $runtime == dartium || $runtime == ContentShellOnAndroid) ]
+test/date_time_format_http_request_test: Skip # Times out flakily. Issue 19544
+test/date_time_format_local_even_test: Skip # Times out flakily. Issue 19544
+test/date_time_format_local_odd_test: Skip # Times out flakily. Issue 19544
+build/test/date_time_format_http_request_test: Skip # Times out flakily. Issue 19544
+build/test/date_time_format_local_even_test: Skip # Times out flakily. Issue 19544
+build/test/date_time_format_local_odd_test: Skip # Times out flakily. Issue 19544
+
+[ $runtime == opera && $compiler == dart2js ]
+build/test/find_default_locale_browser_test: Fail
+build/test/date_time_format_http_request_test: Skip # Timeout.
+
+[ $ie ]
+build/test/date_time_format_http_request_test: Fail # Issue 8983
+
+[ $runtime == vm ]
+test/find_default_locale_browser_test: Skip
+test/date_time_format_http_request_test: Skip
+build/test/find_default_locale_browser_test: Skip
+build/test/date_time_format_http_request_test: Skip
+
+[ $runtime == vm && $system == windows ]
+test/find_default_locale_standalone_test: Fail # Issue 8110
+build/test/find_default_locale_standalone_test: Fail # Issue 8110
+
+[ $compiler == dart2js && $runtime == chromeOnAndroid ]
+build/test/date_time_format_http_request_test: Fail # TODO(kasperl): Please triage.
+
+[ $browser ]
+test/date_time_format_file_even_test: Skip # Uses dart:io.
+test/date_time_format_file_odd_test: Skip # Uses dart:io.
+test/find_default_locale_standalone_test: Skip # Uses dart:io.
+test/message_extraction/examples_parsing_test: Skip # Users dart:io
+test/message_extraction/failed_extraction_test: Skip # Users dart:io
+test/message_extraction/message_extraction_test: Skip # Uses dart:io.
+test/message_extraction/message_extraction_no_deferred_test: Skip # Uses dart:io.
+test/message_extraction/really_fail_extraction_test: Skip # Users dart:io
+test/message_extraction/embedded_plural_text_after_test: Skip # Uses dart:io.
+test/message_extraction/embedded_plural_text_before_test: Skip # Uses dart:io.
+build/test/date_time_format_file_even_test: Skip # Uses dart:io.
+build/test/date_time_format_file_odd_test: Skip # Uses dart:io.
+build/test/find_default_locale_standalone_test: Skip # Uses dart:io.
+build/test/message_extraction/examples_parsing_test: Skip # Users dart:io
+build/test/message_extraction/failed_extraction_test: Skip # Users dart:io
+build/test/message_extraction/message_extraction_test: Skip # Uses dart:io.
+build/test/message_extraction/message_extraction_no_deferred_test: Skip # Uses dart:io.
+build/test/message_extraction/really_fail_extraction_test: Skip # Users dart:io
+build/test/message_extraction/embedded_plural_text_after_test: Skip # Uses dart:io.
+build/test/message_extraction/embedded_plural_text_before_test: Skip # Uses dart:io.

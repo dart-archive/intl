@@ -13,3 +13,19 @@ dependencies:
 dev_dependencies:
   unittest: '>=0.10.0 <0.12.0'
   fixnum: '>=0.9.0 <0.10.0'
+transformers:
+- $dart2js:
+    $exclude:
+    - test/date_time_format_file_even_test.dart
+    - test/date_time_format_file_odd_test.dart
+    - test/find_default_locale_standalone_test.dart
+    - test/message_extraction/embedded_plural_text_after_test.dart
+    - test/message_extraction/embedded_plural_text_before_test.dart
+    - test/message_extraction/examples_parsing_test.dart
+    - test/message_extraction/failed_extraction_test.dart
+    - test/message_extraction/make_hardcoded_translation.dart
+    - test/message_extraction/message_extraction_no_deferred_test.dart
+    - test/message_extraction/message_extraction_test.dart
+    - test/message_extraction/really_fail_extraction_test.dart
+    - test/message_extraction/really_fail_extraction_test.dart
+    - test/intl_message_basic_example_test.dart # invalid import under pub's package-layout
