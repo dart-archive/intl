@@ -2,14 +2,9 @@
 # for details. All rights reserved. Use of this source code is governed by a
 # BSD-style license that can be found in the LICENSE file.
 
-# Don't run any test-like files that show up in packages directories. It
-# shouldn't be necessary to run "pub install" in these packages, but if you do
-# it shouldn't break the tests.
+# Don't run any test-like files that show up in packages directories.
 */packages/*/*: Skip
-*/*/packages/*/*: Skip
-*/*/*/packages/*/*: Skip
-*/*/*/*/packages/*/*: Skip
-*/*/*/*/*/packages/*/*: Skip
+
 
 build/test/intl_message_basic_example_test: Skip # invalid import under pub's package-layout
 
