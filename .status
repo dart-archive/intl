@@ -31,8 +31,7 @@ build/test/date_time_format_http_request_test: Fail # Issue 8983
 [ $runtime == vm ]
 test/find_default_locale_browser_test: Skip
 test/date_time_format_http_request_test: Skip
-build/test/find_default_locale_browser_test: Skip
-build/test/date_time_format_http_request_test: Skip
+build/*: Skip
 
 [ $runtime == vm && $system == windows ]
 test/find_default_locale_standalone_test: Fail # Issue 8110

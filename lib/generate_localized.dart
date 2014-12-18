@@ -154,7 +154,7 @@ void generateIndividualMessageFile(String basicLocale,
  */
 String prologue(String locale) => """
 /**
- * DO NOT EDIT. This is code generated via pkg/intl/generate_localized.dart
+ * DO NOT EDIT. This is code generated via package:intl/generate_localized.dart
  * This is a library that provides messages for a $locale locale. All the
  * messages from the main program should be duplicated here with the same
  * function name.
@@ -216,7 +216,7 @@ String generateMainImportFile() {
  */
 var mainPrologue = """
 /**
- * DO NOT EDIT. This is code generated via pkg/intl/generate_localized.dart
+ * DO NOT EDIT. This is code generated via package:intl/generate_localized.dart
  * This is a library that looks up messages for specific locales by
  * delegating to the appropriate library.
  */

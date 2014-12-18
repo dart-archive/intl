@@ -15,9 +15,8 @@
  * libraries. See the class comments for more details.
  *
  * There is also a simple example application that can be found in the
- * [example/basic]
- * (https://code.google.com/p/dart/source/browse/#svn%2Fbranches%2Fbleeding_edge%2Fdart%2Fpkg%2Fintl%2Fexample%2Fbasic)
- *  directory.
+ * [example/basic](https://github.com/dart-lang/intl/tree/master/example/basic)
+ * directory.
  */
 library intl;
 
