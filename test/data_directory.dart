@@ -29,7 +29,7 @@ bool _isIntlRoot(String dir) {
 }
 
 String get intlDirectory {
-  var dir = Platform.script.path;
+  var dir = path.fromUri(Platform.script);
   var root = path.rootPrefix(dir);
 
   while (dir != root) {
