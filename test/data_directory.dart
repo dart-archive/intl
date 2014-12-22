@@ -6,10 +6,10 @@
  * A utility function for test and tools that compensates (at least for very
  * simple cases) for file-dependent programs being run from different
  * directories. The important cases are
- *   -running in the directory that contains the test itself, i.e.
- *    pkg/intl/test or a sub-directory.
- *   -running in pkg/intl, which is where the editor will run things by default
- *   -running in the top-level dart directory, where the build tests run
+ *   - running in the directory that contains the test itself, i.e.
+ *    test/ or a sub-directory.
+ *   - running in root of this package, which is where the editor and bots will
+ *   run things by default
  */
 library data_directory;
 
@@ -20,37 +20,24 @@ String get dataDirectory {
   return path.join(intlDirectory, datesRelativeToIntl);
 }
 
+/// Returns whether [dir] is the root of the `intl` package. We validate that it
+/// is by looking for a pubspec file with the entry `name: intl`.
+bool _isIntlRoot(String dir) {
+  var file = new File(path.join(dir, 'pubspec.yaml'));
+  if (!file.existsSync()) return false;
+  return file.readAsStringSync().contains('name: intl\n');
+}
+
 String get intlDirectory {
-  var components = path.split(path.current);
-  var foundIntlDir = false;
+  var dir = Platform.script.path;
+  var root = path.rootPrefix(dir);
 
-  /**
-   * A helper function that returns false (indicating we should stop iterating)
-   * if the argument to the previous call was 'intl' and also sets
-   * the outer scope [foundIntlDir].
-   */
-  bool checkForIntlDir(String each) {
-    if (foundIntlDir) return false;
-    foundIntlDir = (each == 'intl') ? true : false;
-    return true;
-  }
-
-  var pathUpToIntl = components.takeWhile(checkForIntlDir).toList();
-  // We assume that if we're not somewhere underneath the intl hierarchy
-  // that we are in the dart root.
-  if (foundIntlDir) {
-    return path.joinAll(pathUpToIntl);
-  } else {
-    if (new Directory(path.join(path.current, 'pkg', 'intl')).existsSync()) {
-      return path.join(path.current, 'pkg', 'intl');
-    }
-    if (new Directory(
-        path.join(path.current, '..', 'pkg', 'intl')).existsSync()) {
-      return path.join(path.current, '..', 'pkg', 'intl');
-    }
+  while (dir != root) {
+    if (_isIntlRoot(dir)) return dir;
+    dir = path.dirname(dir);
   }
   throw new UnsupportedError(
-      'Cannot find ${path.join('pkg','intl')} directory.');
+      'Cannot find the root directory of the `intl` package.');
 }
 
 String get datesRelativeToIntl => path.join('lib', 'src', 'data', 'dates');
