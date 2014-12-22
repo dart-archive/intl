@@ -4,7 +4,8 @@
 
 # Don't run any test-like files that show up in packages directories.
 */packages/*/*: Skip
-
+*/*/packages/*/*: Skip
+*/*/*/packages/*/*: Skip
 
 build/test/intl_message_basic_example_test: Skip # invalid import under pub's package-layout
 
