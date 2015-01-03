@@ -17,22 +17,28 @@ internationalization mechanisms. This library also defines the
 The package has a single current locale, called [defaultLocale][defaultLocale].
 Operations will use that locale unless told to do otherwise.
 
-To set the global locale, you can explicitly set it, e.g.
+You can explicitly set the global locale
 
       Intl.defaultLocale = 'pt_BR';
 
-or get it from the browser by
+or get it from the browser
 
       import "package:intl/intl_browser.dart";
       ...
       findSystemLocale().then(runTheRestOfMyProgram);
 
-To temporarily override the current locale, pass the operation
-to [withLocale][withLocale].
+To override the current locale for a particular operation, pass the operation
+to [withLocale][withLocale]. Note that this includes async tasks
+spawned from that operation, and that the argument to
+[withLocale][withLocale]
+will supercede the [defaultLocale][defaultLocale] while the operation
+is active. If you are using different locales within an application,
+the [withLocale][withLocale] operation may be preferable to setting
+[defaultLocale][defaultLocale].
 
       Intl.withLocale('fr', () => print(myLocalizedMessage());
 
-To override it for a very specific operation you can create a format object in
+To specify the locale for an operation you can create a format object in
 a specific locale, or pass in the locale as a parameter to methods.
 
       var format = new DateFormat.yMd("ar");

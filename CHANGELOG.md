@@ -1,3 +1,9 @@
+## 0.12.0
+  * Make withLocale and defaultLocale use a zone, so async operations
+    inside withLocale also get the correct locale. Bumping the version
+    as this might be considered breaking, or at least
+    behavior-changing.
+
 ## 0.11.12
   * Number formatting now accepts "int-like" inputs that don't have to
     conform to the num interface. In particular, you can now pass an Int64

@@ -20,6 +20,7 @@
  */
 library intl;
 
+import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
 import 'dart:math';
@@ -88,11 +89,21 @@ class Intl {
    */
   String _locale;
 
-  /** The default locale. This defaults to being set from systemLocale, but
+  /**
+   * The default locale. This defaults to being set from systemLocale, but
    * can also be set explicitly, and will then apply to any new instances where
-   * the locale isn't specified.
+   * the locale isn't specified. Note that a locale parameter to
+   * [Intl.withLocale]
+   * will supercede this value while that operation is active. Using
+   * [Intl.withLocale] may be preferable if you are using different locales
+   * in the same application.
    */
-  static String defaultLocale;
+  static String get defaultLocale {
+    var zoneLocale = Zone.current[#Intl.locale];
+    return zoneLocale == null ? _defaultLocale: zoneLocale;
+  }
+  static set defaultLocale(String newLocale) => _defaultLocale = newLocale;
+  static String _defaultLocale;
 
   /**
    * The system's locale, as obtained from the window.navigator.language
@@ -341,26 +352,33 @@ class Intl {
   }
 
   /**
-   * Format the given function with a specific [locale], given a
-   * [message_function] that takes no parameters. The [message_function] can be
-   * a simple message function that just returns the result of `Intl.message()`
-   * it can be a wrapper around a message function that takes arguments, or it
-   * can be something more complex that manipulates multiple message
-   * functions.
+   * Run [function] with the default locale set to [locale] and
+   * return the result.
    *
-   * In either case, the purpose of this is to delay calling [message_function]
-   * until the proper locale has been set. This returns the result of calling
-   * [message_function], which could be of an arbitrary type.
+   * This is run in a zone, so async operations invoked
+   * from within [function] will still have the locale set.
+   *
+   * In simple usage [function] might be a single
+   * `Intl.message()` call or number/date formatting operation. But it can
+   * also be an arbitrary function that calls multiple Intl operations.
+   *
+   * For example
+   *
+   *       Intl.withLocale("fr", () => new NumberFormat.format(123456));
+   *
+   * or
+   *
+   *       hello(name) => Intl.message(
+   *           "Hello $name.",
+   *           name: 'hello',
+   *           args: [name],
+   *           desc: 'Say Hello');
+   *       Intl.withLocale("zh", new Timer(new Duration(milliseconds:10),
+   *           () => print(hello("World")));
    */
-  static withLocale(String locale, Function message_function) {
-    // We have to do this silliness because Locale is not known at compile time,
-    // but must be a static variable in order to be visible to the Intl.message
-    // invocation.
-    var oldLocale = getCurrentLocale();
-    defaultLocale = Intl.canonicalizedLocale(locale);
-    var result = message_function();
-    defaultLocale = oldLocale;
-    return result;
+  static withLocale(String locale, function()) {
+    var canonical = Intl.canonicalizedLocale(locale);
+    return runZoned(function, zoneValues: {#Intl.locale : canonical});
   }
 
   /**

@@ -6,6 +6,7 @@
  */
 library number_closure_test;
 
+import 'dart:async';
 import "package:intl/intl.dart";
 import "package:unittest/unittest.dart";
 
@@ -23,6 +24,7 @@ main() {
   test("testPlusSignInExponentPart", testPlusSignInExponentPart);
   test("testApis", testApis);
   test("testLocaleSwitch", testLocaleSwitch);
+  test("testLocaleSwitchAsync", testLocaleSwitchAsync);
 }
 
 /**
@@ -381,8 +383,16 @@ testLocaleSwitch() {
   Intl.withLocale("fr", verifyFrenchLocale);
 }
 
+testLocaleSwitchAsync() {
+  Intl.withLocale("fr", () {
+    new Timer(new Duration(milliseconds:10), expectAsync(verifyFrenchLocale));
+  });
+  // Verify that things running outside the zone still get en_US.
+  testStandardFormat();
+}
+
 void verifyFrenchLocale() {
   var fmt = new NumberFormat('#,###');
   var str = fmt.format(1234567890);
-  expect('1\u00a0234\u00a0567\u00a0890', str);
+  expect(str, '1\u00a0234\u00a0567\u00a0890');
 }
