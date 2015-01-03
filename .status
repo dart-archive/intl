@@ -38,6 +38,9 @@ build/*: Skip
 test/find_default_locale_standalone_test: Fail # Issue 8110
 build/test/find_default_locale_standalone_test: Fail # Issue 8110
 
+[ $runtime == jsshell ]
+test/number_closure_test: Fail # Doesn't support timer > 0, used in async test
+
 [ $compiler == dart2js && $runtime == chromeOnAndroid ]
 build/test/date_time_format_http_request_test: Fail # TODO(kasperl): Please triage.
 
