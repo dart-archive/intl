@@ -1,3 +1,11 @@
+## 0.12.0+1
+  * Fixes bug with printing a percent or permille format with no fraction
+  part and a number with no integer part. For example, print 0.12 with a
+  format pattern of "#%". The test for whether
+  there was a printable integer part tested the basic number, so it ignored the
+  integer digits. This was introduced in 0.11.2 when we stopped multiplying
+  the input number in the percent/permille case.
+
 ## 0.12.0
   * Make withLocale and defaultLocale use a zone, so async operations
     inside withLocale also get the correct locale. Bumping the version

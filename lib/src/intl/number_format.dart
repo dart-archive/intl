@@ -310,7 +310,7 @@ class NumberFormat {
     var integerDigits = _integerDigits(integerPart, extraIntegerDigits);
     var digitLength = integerDigits.length;
 
-    if (_hasPrintableIntegerPart(integerPart)) {
+    if (_hasIntegerDigits(integerDigits)) {
       _pad(minimumIntegerDigits - digitLength);
       for (var i = 0; i < digitLength; i++) {
         _addDigit(integerDigits.codeUnitAt(i));
@@ -386,11 +386,12 @@ class NumberFormat {
 
   /**
    * Return true if we have a main integer part which is printable, either
-   * because we have digits left of the decimal point, or because there are
-   * a minimum number of printable digits greater than 1.
+   * because we have digits left of the decimal point (this may include digits
+   * which have been moved left because of percent or permille formatting),
+   * or because the minimum number of printable digits is greater than 1.
    */
-  bool _hasPrintableIntegerPart(x) =>
-      x > 0 || minimumIntegerDigits > 0;
+  bool _hasIntegerDigits(String digits) =>
+      digits.isNotEmpty || minimumIntegerDigits > 0;
 
   /** A group of methods that provide support for writing digits and other
    * required characters into [_buffer] easily.

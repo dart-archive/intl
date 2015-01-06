@@ -143,6 +143,14 @@ main() {
     }
   });
 
+  test('Percent with no decimals and no integer part', () {
+    var number = new NumberFormat("#%");
+      var formatted = number.format(0.12);
+      expect(formatted, "12%");
+      var readBack = number.parse(formatted);
+      expect(0.12, readBack);
+  });
+
   // We can't do these in the normal tests because those also format the
   // numbers and we're reading them in a format where they won't print
   // back the same way.
