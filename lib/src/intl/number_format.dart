@@ -710,7 +710,7 @@ class _NumberParser {
     }
 
     var normalizedText = _normalized.toString();
-    var parsed = int.parse(normalizedText, onError: (message) => null);
+    num parsed = int.parse(normalizedText, onError: (message) => null);
     if (parsed == null) parsed = double.parse(normalizedText);
     return parsed / scale;
   }

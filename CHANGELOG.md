@@ -1,3 +1,7 @@
+## 0.12.0+2
+  * No user impacting changes. Tighten up a couple method signatures to specify
+  that int is required.
+
 ## 0.12.0+1
   * Fixes bug with printing a percent or permille format with no fraction
   part and a number with no integer part. For example, print 0.12 with a

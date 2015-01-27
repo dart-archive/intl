@@ -124,7 +124,7 @@ class _Stream {
    * Return the next [howMany] items, or as many as there are remaining.
    * Advance the stream by that many positions.
    */
-  read([howMany = 1]) {
+  read([int howMany = 1]) {
     var result = peek(howMany);
     index += howMany;
     return result;
@@ -143,7 +143,7 @@ class _Stream {
    * Return the next [howMany] items, or as many as there are remaining.
    * Does not modify the stream position.
    */
-  peek([howMany = 1]) {
+  peek([int howMany = 1]) {
     var result;
     if (contents is String) {
       result = contents.substring(
