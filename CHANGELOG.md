@@ -1,3 +1,6 @@
+## 0.12.0+3
+  * Update pubspec dependencies to allow analyzer version 23.
+
 ## 0.12.0+2
   * No user impacting changes. Tighten up a couple method signatures to specify
   that int is required.
