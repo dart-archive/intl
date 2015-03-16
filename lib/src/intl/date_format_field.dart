@@ -39,11 +39,32 @@ abstract class _DateFormatField {
   /** Abstract method for subclasses to implementing parsing for their format.*/
   void parse(_Stream input, _DateBuilder dateFields);
 
+  /**
+   * Abstract method for subclasses to implementing 'loose' parsing for
+   * their format, accepting input case-insensitively, and allowing some
+   * delimiters to be skipped.
+   */
+  void parseLoose(_Stream input, _DateBuilder dateFields);
+
   /** Parse a literal field. We just look for the exact input. */
   void parseLiteral(_Stream input) {
     var found = input.read(width);
     if (found != pattern) {
       throwFormatException(input);
+    }
+  }
+
+  /**
+   * Parse a literal field. We accept either an exact match, or an arbitrary
+   * amount of whitespace.
+   */
+  void parseLiteralLoose(_Stream input) {
+    var found = input.peek(width);
+    if (found == pattern) {
+      input.read(width);
+    }
+    while (!input.atEnd() && input.peek().trim().isEmpty) {
+      input.read();
     }
   }
 
@@ -64,8 +85,11 @@ class _DateFormatLiteralField extends _DateFormatField {
   _DateFormatLiteralField(pattern, parent): super(pattern, parent);
 
   parse(_Stream input, _DateBuilder dateFields) {
-    return parseLiteral(input);
+    parseLiteral(input);
   }
+
+  parseLoose(_Stream input, _DateBuilder dateFields) =>
+    parseLiteralLoose(input);
 }
 
 /**
@@ -84,8 +108,11 @@ class _DateFormatQuotedField extends _DateFormatField {
   }
 
   parse(_Stream input, _DateBuilder dateFields) {
-    return parseLiteral(input);
+    parseLiteral(input);
   }
+
+  parseLoose(_Stream input, _DateBuilder dateFields) =>
+    parseLiteralLoose(input);
 
   void patchQuotes() {
     if (pattern == "''") {
@@ -95,6 +122,110 @@ class _DateFormatQuotedField extends _DateFormatField {
       var twoEscapedQuotes = new RegExp(r"''");
       pattern = pattern.replaceAll(twoEscapedQuotes, "'");
     }
+  }
+}
+
+/**
+ * A field that parses "loosely", meaning that we'll accept input that is
+ * missing delimiters, has upper/lower case mixed up, and might not strictly
+ * conform to the pattern, e.g. the pattern calls for Sep we might accept
+ * sep, september, sEPTember. Doesn't affect numeric fields.
+ */
+class _LoosePatternField extends _DateFormatPatternField {
+  _LoosePatternField(String pattern, parent) : super(pattern, parent);
+
+   /**
+    * Parse from a list of possibilities, but case-insensitively.
+    * Assumes that input is lower case.
+    */
+   int parseEnumeratedString(_Stream input, List possibilities) {
+     var lowercasePossibilities = possibilities
+         .map((x) => x.toLowerCase())
+         .toList();
+     try {
+       return super.parseEnumeratedString(input, lowercasePossibilities);
+     } on FormatException {
+       return -1;
+     }
+   }
+
+  /**
+   * Parse a month name, case-insensitively, and set it in [dateFields].
+   * Assumes that [input] is lower case.
+   */
+  void parseMonth(input, dateFields) {
+    if (width <= 2) {
+      handleNumericField(input, dateFields.setMonth);
+      return;
+    }
+    var possibilities =
+        [symbols.MONTHS, symbols.SHORTMONTHS];
+    for (var monthNames in possibilities) {
+      var month = parseEnumeratedString(input, monthNames);
+      if (month != -1) {
+        dateFields.month = month + 1;
+        return;
+      }
+    }
+  }
+
+  /**
+   * Parse a standalone day name, case-insensitively.
+   * Assumes that input is lower case. Doesn't do anything
+   */
+  void parseStandaloneDay(input) {
+    // This is ignored, but we still have to skip over it the correct amount.
+    if (width <= 2) {
+      handleNumericField(input, (x) => x);
+      return;
+    }
+    var possibilities =
+        [symbols.STANDALONEWEEKDAYS, symbols.STANDALONESHORTWEEKDAYS];
+    for (var dayNames in possibilities) {
+       var day = parseEnumeratedString(input, dayNames);
+       if (day != -1) {
+         return;
+       }
+     }
+  }
+
+  /**
+   * Parse a standalone month name, case-insensitively.
+   * Assumes that input is lower case. Doesn't do anything
+   */
+  void parseStandaloneMonth(input, dateFields) {
+    if (width <= 2) {
+      handleNumericField(input, (x) => x);
+      return;
+    }
+    var possibilities =
+        [symbols.STANDALONEMONTHS, symbols.STANDALONESHORTMONTHS];
+    for (var monthNames in possibilities) {
+      var month = parseEnumeratedString(input, monthNames);
+      if (month != -1) {
+        dateFields.month = month + 1;
+        return;
+      }
+    }
+  }
+
+  /**
+   * Parse a day of the week name, case-insensitively.
+   * Assumes that input is lower case. Doesn't do anything
+   */
+  void parseDayOfWeek(_Stream input) {
+    // This is IGNORED, but we still have to skip over it the correct amount.
+    if (width <= 2) {
+      handleNumericField(input, (x) => x);
+      return;
+    }
+    var possibilities = [symbols.WEEKDAYS, symbols.SHORTWEEKDAYS];
+    for (var dayNames in possibilities) {
+       var day = parseEnumeratedString(input, dayNames);
+       if (day != -1) {
+         return;
+       }
+     }
   }
 }
 
@@ -118,6 +249,16 @@ class _DateFormatPatternField extends _DateFormatField {
    */
   void parse(_Stream input, _DateBuilder dateFields) {
     parseField(input, dateFields);
+  }
+
+
+  /**
+   * Parse the date according to our specification and put the result
+   * into the correct place in dateFields. Allow looser parsing, accepting
+   * case-insensitive input and skipped delimiters.
+   */
+  void parseLoose(_Stream input, _DateBuilder dateFields) {
+    new _LoosePatternField(pattern, parent).parse(input, dateFields);
   }
 
   /**

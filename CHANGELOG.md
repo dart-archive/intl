@@ -1,3 +1,11 @@
+## 0.12.1
+  * Adds a DateFormat.parseLoose that accepts mixed case and missing
+  delimiters when parsing dates. It also allows arbitrary amounts of
+  whitespace anywhere that whitespace is expected. So, for example,
+  in en-US locale a yMMMd format would accept "SEP 3   2014", even
+  though it would generate "Sep 3, 2014". This is fairly limited, and
+  its reliability in other locales is not known.
+
 ## 0.12.0+3
   * Update pubspec dependencies to allow analyzer version 23.
 

@@ -262,6 +262,58 @@ class DateFormat {
       _parse(inputString, utc: utc, strict: false);
 
   /**
+   * Given user input, attempt to parse the [inputString] "loosely" into the
+   * anticipated format, accepting some variations from the strict format.
+   *
+   * If [inputString]
+   * is accepted by [parseStrict], just return the result. If not, attempt to
+   * parse it, but accepting either upper or
+   * lower case, allowing delimiters to be missing and replaced or
+   * supplemented with whitespace,
+   * and allowing arbitrary amounts of whitespace wherever whitespace is
+   * permitted. Note that this does not allow trailing characters, the way
+   * [parse] does. It also does not allow leading whitespace on delimiters,
+   * and does not allow alternative names for months or weekdays other than
+   * those the format knows about. The restrictions are quite arbitrary and
+   * it's not known how well they'll work for locales that aren't English-like.
+   *
+   * If [inputString] does not parse, this throws a
+   * [FormatException].
+   *
+   * For example, this will accept
+   *
+   *       new DateTimeFormat.yMMMd("en_US").parseLoose("SEp   3 2014");
+   *       new DateTimeFormat.yMd("en_US").parseLoose("09    03/2014");
+   *
+   * It will NOT accept
+   *
+   *      // "Sept" is not a valid month name.
+   *      new DateTimeFormat.yMMMd("en_US").parseLoose("Sept 3, 2014");
+   *      // Delimiters can't have leading whitespace.
+   *      new DateTimeFormat.yMd("en_US").parseLoose("09 / 03 / 2014");
+   */
+  DateTime parseLoose(String inputString, [utc = false]) {
+    try {
+      return _parse(inputString, utc: utc, strict: true);
+    } on FormatException {
+      return _parseLoose(inputString.toLowerCase(), utc);
+    }
+  }
+
+  _parseLoose(String inputString, bool utc) {
+    var dateFields = new _DateBuilder();
+    if (utc) dateFields.utc = true;
+    var stream = new _Stream(inputString);
+    _formatFields.forEach((f) => f.parseLoose(stream, dateFields));
+    if (!stream.atEnd()) {
+      throw new FormatException(
+          "Characters remaining after date parsing in $inputString");
+    }
+    dateFields.verify(inputString);
+    return dateFields.asDate();
+  }
+
+  /**
    * Given user input, attempt to parse the [inputString] into the anticipated
    * format, treating it as being in the local timezone. If [inputString] does
    * not match our format, throws a [FormatException]. This will reject dates
