@@ -122,7 +122,7 @@ message string, for plurals and genders.
         name: "remainingEmailsMessage",
         args: [howMany, userName],
         desc: "How many emails remain after archiving.",
-        examples: {'number': 42, 'userName': 'Fred'});
+        examples: {'howMany': 42, 'userName': 'Fred'});
 
       print(remainingEmailsMessage(1, "Fred"));
 
@@ -139,7 +139,7 @@ provide its parameters to the [Intl.plural][Intl.plural] call instead.
           name: "remainingEmailsMessage",
           args: [howMany, userName],
           desc: "How many emails remain after archiving.",
-          examples: {'number': 42, 'userName': 'Fred'});
+          examples: {'howMany': 42, 'userName': 'Fred'});
 
 Similarly, there is an [Intl.gender][Intl.gender] message, and plurals
 and genders can be nested.
