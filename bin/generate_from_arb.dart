@@ -33,16 +33,20 @@ Map<String, List<MainMessage>> messages;
 main(List<String> args) {
   var targetDir;
   var parser = new ArgParser();
-  parser.addFlag("suppress-warnings", defaultsTo: false,
+  parser.addFlag("suppress-warnings",
+      defaultsTo: false,
       callback: (x) => suppressWarnings = x,
       help: 'Suppress printing of warnings.');
-  parser.addOption("output-dir", defaultsTo: '.',
+  parser.addOption("output-dir",
+      defaultsTo: '.',
       callback: (x) => targetDir = x,
       help: 'Specify the output directory.');
-  parser.addOption("generated-file-prefix", defaultsTo: '',
+  parser.addOption("generated-file-prefix",
+      defaultsTo: '',
       callback: (x) => generatedFilePrefix = x,
       help: 'Specify a prefix to be used for the generated file names.');
-  parser.addFlag("use-deferred-loading", defaultsTo: true,
+  parser.addFlag("use-deferred-loading",
+      defaultsTo: true,
       callback: (x) => useDeferredLoading = x,
       help: 'Generate message code that must be loaded with deferred loading. '
       'Otherwise, all messages are eagerly loaded.');
@@ -64,16 +68,16 @@ main(List<String> args) {
 
   messages = new Map();
   for (var eachMap in allMessages) {
-    eachMap.forEach((key, value) =>
-        messages.putIfAbsent(key, () => []).add(value));
+    eachMap.forEach(
+        (key, value) => messages.putIfAbsent(key, () => []).add(value));
   }
   for (var arg in jsonFiles) {
     var file = new File(arg);
     generateLocaleFile(file, targetDir);
   }
 
-  var mainImportFile = new File(path.join(targetDir,
-      '${generatedFilePrefix}messages_all.dart'));
+  var mainImportFile =
+      new File(path.join(targetDir, '${generatedFilePrefix}messages_all.dart'));
   mainImportFile.writeAsStringSync(generateMainImportFile());
 }
 
@@ -121,7 +125,8 @@ BasicTranslatedMessage recreateIntlObjects(String id, data) {
   if (data == null) return null;
   var parsed = pluralAndGenderParser.parse(data).value;
   if (parsed is LiteralString && parsed.string.isEmpty) {
-    parsed = plainParser.parse(data).value;;
+    parsed = plainParser.parse(data).value;
+    ;
   }
   return new BasicTranslatedMessage(id, parsed);
 }
@@ -131,11 +136,11 @@ BasicTranslatedMessage recreateIntlObjects(String id, data) {
  * up its original messages in our [messages].
  */
 class BasicTranslatedMessage extends TranslatedMessage {
-  BasicTranslatedMessage(String name, translated) :
-      super(name, translated);
+  BasicTranslatedMessage(String name, translated) : super(name, translated);
 
-  List<MainMessage> get originalMessages => (super.originalMessages == null) ?
-      _findOriginals() : super.originalMessages;
+  List<MainMessage> get originalMessages => (super.originalMessages == null)
+      ? _findOriginals()
+      : super.originalMessages;
 
   // We know that our [id] is the name of the message, which is used as the
   //key in [messages].

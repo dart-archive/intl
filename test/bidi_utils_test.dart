@@ -2,7 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-
 library bidi_utils_test;
 
 import 'package:intl/intl.dart';
@@ -55,7 +54,6 @@ main() {
     expect(Bidi.hasAnyRtl('<input value=\u05e0>123', false), isTrue);
     expect(Bidi.hasAnyRtl('<input value=\u05e0>123', true), isFalse);
   });
-
 
   test('endsWithLtr', () {
     expect(Bidi.endsWithLtr('a'), isTrue);
@@ -119,7 +117,6 @@ main() {
         equals("a <span dir=rtl>(asc)</span> <span dir=rtl>{{123}}</span>"));
     expect(Bidi.guardBracketInHtml(strWithoutRtl, false),
         equals("a <span dir=ltr>(asc)</span> <span dir=ltr>{{123}}</span>"));
-
   });
 
   test('guardBracketInText', () {
@@ -146,7 +143,6 @@ main() {
         equals("a \u200f(asc)\u200f \u200f{{123}}\u200f"));
     expect(Bidi.guardBracketInText(strWithoutRtl, false),
         equals("a \u200e(asc)\u200e \u200e{{123}}\u200e"));
-
   });
 
   test('enforceRtlInHtml', () {
@@ -191,33 +187,31 @@ main() {
         equals(TextDirection.UNKNOWN.value));
     expect(Bidi.estimateDirectionOfText('! (...)', isHtml: false).value,
         equals(TextDirection.UNKNOWN.value));
-    expect(Bidi.estimateDirectionOfText('All-Ascii content',
-                                        isHtml: false).value,
+    expect(
+        Bidi.estimateDirectionOfText('All-Ascii content', isHtml: false).value,
         equals(TextDirection.LTR.value));
     expect(Bidi.estimateDirectionOfText('-17.0%', isHtml: false).value,
         equals(TextDirection.LTR.value));
     expect(Bidi.estimateDirectionOfText('http://foo/bar/', isHtml: false).value,
         equals(TextDirection.LTR.value));
     expect(Bidi.estimateDirectionOfText(
-        'http://foo/bar/?s=\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0'
-        '\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0'
-        '\u05d0\u05d0\u05d0\u05d0\u05d0').value,
+            'http://foo/bar/?s=\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0'
+            '\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0'
+            '\u05d0\u05d0\u05d0\u05d0\u05d0').value,
         equals(TextDirection.LTR.value));
     expect(Bidi.estimateDirectionOfText('\u05d0', isHtml: false).value,
         equals(TextDirection.RTL.value));
+    expect(Bidi.estimateDirectionOfText('9 \u05d0 -> 17.5, 23, 45, 19',
+        isHtml: false).value, equals(TextDirection.RTL.value));
     expect(Bidi.estimateDirectionOfText(
-        '9 \u05d0 -> 17.5, 23, 45, 19', isHtml: false).value,
-        equals(TextDirection.RTL.value));
-    expect(Bidi.estimateDirectionOfText(
-        'http://foo/bar/ \u05d0 http://foo2/bar2/ http://foo3/bar3/').value,
+            'http://foo/bar/ \u05d0 http://foo2/bar2/ http://foo3/bar3/').value,
         equals(TextDirection.RTL.value));
     expect(Bidi.estimateDirectionOfText(
         '\u05d0\u05d9\u05df \u05de\u05de\u05e9 \u05de\u05d4 \u05dc\u05e8\u05d0'
         '\u05d5\u05ea: \u05dc\u05d0 \u05e6\u05d9\u05dc\u05de\u05ea\u05d9 \u05d4'
         '\u05e8\u05d1\u05d4 \u05d5\u05d2\u05dd \u05d0\u05dd \u05d4\u05d9\u05d9'
         '\u05ea\u05d9 \u05de\u05e6\u05dc\u05dd, \u05d4\u05d9\u05d4 \u05e9'
-        '\u05dd').value,
-        equals(TextDirection.RTL.value));
+        '\u05dd').value, equals(TextDirection.RTL.value));
     expect(Bidi.estimateDirectionOfText(
         '\u05db\u05d0 - http://geek.co.il/gallery/v/2007-06 - \u05d0\u05d9'
         '\u05df \u05de\u05de\u05e9 \u05de\u05d4 \u05dc\u05e8\u05d0\u05d5\u05ea:'
@@ -230,41 +224,37 @@ main() {
         '\u05dc\u05d4\u05e1\u05ea\u05db\u05dc \u05e2\u05dc \u05db\u05de\u05d4 '
         '\u05ea\u05de\u05d5\u05e0\u05d5\u05ea \u05de\u05e9\u05e9\u05e2\u05d5'
         '\u05ea \u05d9\u05e9\u05e0\u05d5 \u05d9\u05d5\u05ea\u05e8 \u05e9\u05d9'
-        '\u05e9 \u05dc\u05d9 \u05d1\u05d0\u05ea\u05e8', isHtml: false).value,
-        equals(TextDirection.RTL.value));
+        '\u05e9 \u05dc\u05d9 \u05d1\u05d0\u05ea\u05e8',
+        isHtml: false).value, equals(TextDirection.RTL.value));
     expect(Bidi.estimateDirectionOfText(
         'CAPTCHA \u05de\u05e9\u05d5\u05db\u05dc\u05dc '
-        '\u05de\u05d3\u05d9?').value,
-        equals(TextDirection.RTL.value));
+        '\u05de\u05d3\u05d9?').value, equals(TextDirection.RTL.value));
     expect(Bidi.estimateDirectionOfText(
         'Yes Prime Minister \u05e2\u05d3\u05db\u05d5\u05df. \u05e9\u05d0\u05dc'
         '\u05d5 \u05d0\u05d5\u05ea\u05d9 \u05de\u05d4 \u05d0\u05e0\u05d9 '
         '\u05e8\u05d5\u05e6\u05d4 \u05de\u05ea\u05e0\u05d4 \u05dc\u05d7'
-        '\u05d2').value,
-        equals(TextDirection.RTL.value));
+        '\u05d2').value, equals(TextDirection.RTL.value));
     expect(Bidi.estimateDirectionOfText(
-        '17.4.02 \u05e9\u05e2\u05d4:13-20 .15-00 .\u05dc\u05d0 \u05d4\u05d9'
-        '\u05d9\u05ea\u05d9 \u05db\u05d0\u05df.').value,
+            '17.4.02 \u05e9\u05e2\u05d4:13-20 .15-00 .\u05dc\u05d0 \u05d4\u05d9'
+            '\u05d9\u05ea\u05d9 \u05db\u05d0\u05df.').value,
         equals(TextDirection.RTL.value));
     expect(Bidi.estimateDirectionOfText(
         '5710 5720 5730. \u05d4\u05d3\u05dc\u05ea. \u05d4\u05e0\u05e9\u05d9'
-        '\u05e7\u05d4', isHtml: false).value,
-        equals(TextDirection.RTL.value));
+        '\u05e7\u05d4', isHtml: false).value, equals(TextDirection.RTL.value));
     expect(Bidi.estimateDirectionOfText(
         '\u05d4\u05d3\u05dc\u05ea http://www.google.com '
-        'http://www.gmail.com').value,
-        equals(TextDirection.RTL.value));
+        'http://www.gmail.com').value, equals(TextDirection.RTL.value));
     expect(Bidi.estimateDirectionOfText(
-        '\u05d4\u05d3\u05dc <some quite nasty html mark up>').value,
+            '\u05d4\u05d3\u05dc <some quite nasty html mark up>').value,
         equals(TextDirection.LTR.value));
     expect(Bidi.estimateDirectionOfText(
-        '\u05d4\u05d3\u05dc <some quite nasty html mark up>').value,
+            '\u05d4\u05d3\u05dc <some quite nasty html mark up>').value,
         equals(TextDirection.LTR.value));
     expect(Bidi.estimateDirectionOfText(
-        '\u05d4\u05d3\u05dc\u05ea &amp; &lt; &gt;').value,
+            '\u05d4\u05d3\u05dc\u05ea &amp; &lt; &gt;').value,
         equals(TextDirection.LTR.value));
     expect(Bidi.estimateDirectionOfText(
-        '\u05d4\u05d3\u05dc\u05ea &amp; &lt; &gt;', isHtml: true).value,
+            '\u05d4\u05d3\u05dc\u05ea &amp; &lt; &gt;', isHtml: true).value,
         equals(TextDirection.RTL.value));
   });
 
@@ -299,7 +289,6 @@ main() {
         '\u05de\u05d3\u05d9?', true);
     bidiText.add(item);
 
-
     item = new SampleItem('Yes Prime Minister \u05e2\u05d3\u05db\u05d5\u05df. '
         '\u05e9\u05d0\u05dc\u05d5 \u05d0\u05d5\u05ea\u05d9 \u05de\u05d4 \u05d0'
         '\u05e0\u05d9 \u05e8\u05d5\u05e6\u05d4 \u05de\u05ea\u05e0\u05d4 '
@@ -325,12 +314,12 @@ main() {
     bidiText.add(item);
 
     for (var i = 0; i < bidiText.length; i++) {
-        var isRtlDir = Bidi.detectRtlDirectionality(bidiText[i].text,
-                                                    isHtml: bidiText[i].isHtml);
+      var isRtlDir = Bidi.detectRtlDirectionality(bidiText[i].text,
+          isHtml: bidiText[i].isHtml);
       if (isRtlDir != bidiText[i].isRtl) {
         var str = '"${bidiText[i].text} " should be '
-                  '${bidiText[i].isRtl ? "rtl" : "ltr"} but detected as '
-                  '${isRtlDir ? "rtl" : "ltr"}';
+            '${bidiText[i].isRtl ? "rtl" : "ltr"} but detected as '
+            '${isRtlDir ? "rtl" : "ltr"}';
         //alert(str);
       }
       expect(bidiText[i].isRtl, isRtlDir);
@@ -342,6 +331,8 @@ class SampleItem {
   String text;
   bool isRtl;
   bool isHtml;
-  SampleItem([someText='', someIsRtl=false, isHtml=false]) :
-      this.text=someText, this.isRtl=someIsRtl, this.isHtml=isHtml;
+  SampleItem([someText = '', someIsRtl = false, isHtml = false])
+      : this.text = someText,
+        this.isRtl = someIsRtl,
+        this.isHtml = isHtml;
 }

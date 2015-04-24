@@ -16,11 +16,12 @@ library date_time_patterns;
  * Returns a Map from locale names to another Map that goes from skeletons
  * to the locale-specific formatting patterns.
  * Internal use only. Call initializeDateFormatting instead.
- **/Map dateTimePatternMap() => const {
+ **/
+Map dateTimePatternMap() => const {
   /**
    * Extended set of localized date/time patterns for locale af.
    */
-  'af' : const {
+  'af': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -64,13 +65,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale am.
    */
-  'am' : const {
+  'am': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -114,13 +115,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale ar.
    */
-  'ar' : const {
+  'ar': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -164,13 +165,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale az.
    */
-  'az' : const {
+  'az': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -214,13 +215,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale bg.
    */
-  'bg' : const {
+  'bg': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -264,13 +265,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale bn.
    */
-  'bn' : const {
+  'bn': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -314,13 +315,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale br.
    */
-  'br' : const {
+  'br': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -364,13 +365,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale ca.
    */
-  'ca' : const {
+  'ca': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -414,13 +415,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale chr.
    */
-  'chr' : const {
+  'chr': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -464,13 +465,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale cs.
    */
-  'cs' : const {
+  'cs': const {
     'd': 'd.', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -514,13 +515,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale cy.
    */
-  'cy' : const {
+  'cy': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -564,13 +565,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale da.
    */
-  'da' : const {
+  'da': const {
     'd': 'd.', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -614,13 +615,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale de.
    */
-  'de' : const {
+  'de': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -664,13 +665,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale de_AT.
    */
-  'de_AT' : const {
+  'de_AT': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -714,13 +715,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale de_CH.
    */
-  'de_CH' : const {
+  'de_CH': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -764,13 +765,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale el.
    */
-  'el' : const {
+  'el': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -814,13 +815,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale en.
    */
-  'en' : const {
+  'en': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -864,13 +865,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale en_AU.
    */
-  'en_AU' : const {
+  'en_AU': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -914,13 +915,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale en_GB.
    */
-  'en_GB' : const {
+  'en_GB': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -964,13 +965,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale en_IE.
    */
-  'en_IE' : const {
+  'en_IE': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -1014,13 +1015,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale en_IN.
    */
-  'en_IN' : const {
+  'en_IN': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -1064,13 +1065,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale en_SG.
    */
-  'en_SG' : const {
+  'en_SG': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -1114,13 +1115,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale en_US.
    */
-  'en_US' : const {
+  'en_US': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -1164,13 +1165,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale en_ZA.
    */
-  'en_ZA' : const {
+  'en_ZA': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -1214,13 +1215,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale es.
    */
-  'es' : const {
+  'es': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -1264,13 +1265,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale es_419.
    */
-  'es_419' : const {
+  'es_419': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -1314,13 +1315,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale es_ES.
    */
-  'es_ES' : const {
+  'es_ES': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -1364,13 +1365,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale et.
    */
-  'et' : const {
+  'et': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -1414,13 +1415,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale eu.
    */
-  'eu' : const {
+  'eu': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -1464,13 +1465,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale fa.
    */
-  'fa' : const {
+  'fa': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -1514,13 +1515,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale fi.
    */
-  'fi' : const {
+  'fi': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -1564,13 +1565,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale fil.
    */
-  'fil' : const {
+  'fil': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -1614,13 +1615,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale fr.
    */
-  'fr' : const {
+  'fr': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -1664,13 +1665,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale fr_CA.
    */
-  'fr_CA' : const {
+  'fr_CA': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -1714,13 +1715,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale gl.
    */
-  'gl' : const {
+  'gl': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -1764,13 +1765,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale gsw.
    */
-  'gsw' : const {
+  'gsw': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -1814,13 +1815,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale gu.
    */
-  'gu' : const {
+  'gu': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -1864,13 +1865,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale haw.
    */
-  'haw' : const {
+  'haw': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -1914,13 +1915,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale he.
    */
-  'he' : const {
+  'he': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -1964,13 +1965,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale hi.
    */
-  'hi' : const {
+  'hi': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -2014,13 +2015,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale hr.
    */
-  'hr' : const {
+  'hr': const {
     'd': 'd.', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -2064,13 +2065,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale hu.
    */
-  'hu' : const {
+  'hu': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -2114,13 +2115,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale hy.
    */
-  'hy' : const {
+  'hy': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -2164,13 +2165,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale id.
    */
-  'id' : const {
+  'id': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -2214,13 +2215,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale in.
    */
-  'in' : const {
+  'in': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -2264,13 +2265,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale is.
    */
-  'is' : const {
+  'is': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -2314,13 +2315,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale it.
    */
-  'it' : const {
+  'it': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -2364,13 +2365,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale iw.
    */
-  'iw' : const {
+  'iw': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -2414,13 +2415,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale ja.
    */
-  'ja' : const {
+  'ja': const {
     'd': 'd日', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -2464,13 +2465,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale ka.
    */
-  'ka' : const {
+  'ka': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -2514,13 +2515,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale kk.
    */
-  'kk' : const {
+  'kk': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -2564,13 +2565,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale km.
    */
-  'km' : const {
+  'km': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -2614,13 +2615,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale kn.
    */
-  'kn' : const {
+  'kn': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -2664,13 +2665,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale ko.
    */
-  'ko' : const {
+  'ko': const {
     'd': 'd일', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -2714,13 +2715,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale ky.
    */
-  'ky' : const {
+  'ky': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -2764,13 +2765,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale ln.
    */
-  'ln' : const {
+  'ln': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -2814,13 +2815,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale lo.
    */
-  'lo' : const {
+  'lo': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -2864,13 +2865,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale lt.
    */
-  'lt' : const {
+  'lt': const {
     'd': 'dd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -2914,13 +2915,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale lv.
    */
-  'lv' : const {
+  'lv': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -2964,13 +2965,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale mk.
    */
-  'mk' : const {
+  'mk': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -3014,13 +3015,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale ml.
    */
-  'ml' : const {
+  'ml': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -3064,13 +3065,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale mn.
    */
-  'mn' : const {
+  'mn': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -3097,7 +3098,7 @@ library date_time_patterns;
     'yMMMM': 'y MMMM', // YEAR_MONTH
     'yMMMMd': 'y \'оны\' MMMM \'сарын\' d', // YEAR_MONTH_DAY
     'yMMMMEEEEd': 'EEEE, y \'оны\' MMMM \'сарын\' d',
-            // YEAR_MONTH_WEEKDAY_DAY
+    // YEAR_MONTH_WEEKDAY_DAY
     'yQQQ': 'y QQQ', // YEAR_ABBR_QUARTER
     'yQQQQ': 'y \'оны\' QQQQ', // YEAR_QUARTER
     'H': 'HH', // HOUR24
@@ -3115,13 +3116,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale mo.
    */
-  'mo' : const {
+  'mo': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -3165,13 +3166,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale mr.
    */
-  'mr' : const {
+  'mr': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -3215,13 +3216,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale ms.
    */
-  'ms' : const {
+  'ms': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -3265,13 +3266,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale mt.
    */
-  'mt' : const {
+  'mt': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -3315,13 +3316,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale my.
    */
-  'my' : const {
+  'my': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -3365,13 +3366,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale nb.
    */
-  'nb' : const {
+  'nb': const {
     'd': 'd.', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -3415,13 +3416,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale ne.
    */
-  'ne' : const {
+  'ne': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -3465,13 +3466,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale nl.
    */
-  'nl' : const {
+  'nl': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -3515,13 +3516,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale no.
    */
-  'no' : const {
+  'no': const {
     'd': 'd.', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -3565,13 +3566,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale no_NO.
    */
-  'no_NO' : const {
+  'no_NO': const {
     'd': 'd.', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -3615,13 +3616,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale or.
    */
-  'or' : const {
+  'or': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -3665,13 +3666,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale pa.
    */
-  'pa' : const {
+  'pa': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -3715,13 +3716,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale pl.
    */
-  'pl' : const {
+  'pl': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -3765,13 +3766,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale pt.
    */
-  'pt' : const {
+  'pt': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -3815,13 +3816,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale pt_BR.
    */
-  'pt_BR' : const {
+  'pt_BR': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -3865,13 +3866,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale pt_PT.
    */
-  'pt_PT' : const {
+  'pt_PT': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -3915,13 +3916,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale ro.
    */
-  'ro' : const {
+  'ro': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -3965,13 +3966,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale ru.
    */
-  'ru' : const {
+  'ru': const {
     'd': 'd', // DAY
     'E': 'ccc', // ABBR_WEEKDAY
     'EEEE': 'cccc', // WEEKDAY
@@ -4015,13 +4016,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale sh.
    */
-  'sh' : const {
+  'sh': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -4065,13 +4066,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale si.
    */
-  'si' : const {
+  'si': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -4115,13 +4116,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale sk.
    */
-  'sk' : const {
+  'sk': const {
     'd': 'd.', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -4165,13 +4166,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale sl.
    */
-  'sl' : const {
+  'sl': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -4215,13 +4216,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale sq.
    */
-  'sq' : const {
+  'sq': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -4265,13 +4266,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale sr.
    */
-  'sr' : const {
+  'sr': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -4315,13 +4316,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale sv.
    */
-  'sv' : const {
+  'sv': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -4365,13 +4366,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale sw.
    */
-  'sw' : const {
+  'sw': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -4415,13 +4416,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale ta.
    */
-  'ta' : const {
+  'ta': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -4465,13 +4466,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale te.
    */
-  'te' : const {
+  'te': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -4515,13 +4516,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale th.
    */
-  'th' : const {
+  'th': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -4565,13 +4566,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale tl.
    */
-  'tl' : const {
+  'tl': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -4615,13 +4616,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale tr.
    */
-  'tr' : const {
+  'tr': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -4665,13 +4666,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale uk.
    */
-  'uk' : const {
+  'uk': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -4715,13 +4716,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale ur.
    */
-  'ur' : const {
+  'ur': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -4765,13 +4766,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale uz.
    */
-  'uz' : const {
+  'uz': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -4815,13 +4816,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale vi.
    */
-  'vi' : const {
+  'vi': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -4865,13 +4866,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale zh.
    */
-  'zh' : const {
+  'zh': const {
     'd': 'd日', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -4915,13 +4916,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale zh_CN.
    */
-  'zh_CN' : const {
+  'zh_CN': const {
     'd': 'd日', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -4965,13 +4966,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale zh_HK.
    */
-  'zh_HK' : const {
+  'zh_HK': const {
     'd': 'd日', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -5015,13 +5016,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale zh_TW.
    */
-  'zh_TW' : const {
+  'zh_TW': const {
     'd': 'd日', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -5065,13 +5066,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale zu.
    */
-  'zu' : const {
+  'zu': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -5115,13 +5116,13 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   },
 
   /**
    * Extended set of localized date/time patterns for locale en_ISO.
    */
-  'en_ISO' : const {
+  'en_ISO': const {
     'd': 'd', // DAY
     'E': 'EEE', // ABBR_WEEKDAY
     'EEEE': 'EEEE', // WEEKDAY
@@ -5165,6 +5166,6 @@ library date_time_patterns;
     'v': 'v', // ABBR_GENERIC_TZ
     'z': 'z', // ABBR_SPECIFIC_TZ
     'zzzz': 'zzzz', // SPECIFIC_TZ
-    'ZZZZ': 'ZZZZ'  // ABBR_UTC_TZ
+    'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
   }
 };

@@ -32,14 +32,12 @@ Future initializeDateFormatting(String locale, String filePath) {
   initializeDateSymbols(() => new LazyLocaleData(
       reader, _createDateSymbol, availableLocalesForDateFormatting));
   var reader2 = new FileDataReader(path.join(filePath, 'patterns'));
-  initializeDatePatterns(() => new LazyLocaleData(
-      reader2, (x) => x, availableLocalesForDateFormatting));
-  return initializeIndividualLocaleDateFormatting(
-      (symbols, patterns) {
-        return Future.wait([
-            symbols.initLocale(locale),
-            patterns.initLocale(locale)]);
-      });
+  initializeDatePatterns(() =>
+      new LazyLocaleData(reader2, (x) => x, availableLocalesForDateFormatting));
+  return initializeIndividualLocaleDateFormatting((symbols, patterns) {
+    return Future
+        .wait([symbols.initLocale(locale), patterns.initLocale(locale)]);
+  });
 }
 
 /** Defines how new date symbol entries are created. */

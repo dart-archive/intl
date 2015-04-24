@@ -10,6 +10,4 @@ import "package:intl/intl.dart";
 
 embeddedPlural2(n) => Intl.message(
     "${Intl.plural(n, zero: 'none', one: 'one', other: 'some')} plus text.",
-    name: 'embeddedPlural2',
-    desc: 'An embedded plural',
-    args: [n]);
+    name: 'embeddedPlural2', desc: 'An embedded plural', args: [n]);

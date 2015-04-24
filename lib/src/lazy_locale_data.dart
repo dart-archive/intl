@@ -9,6 +9,7 @@
  */
 
 library lazy_locale_data;
+
 import 'dart:async';
 import 'dart:convert';
 import 'intl_helpers.dart';
@@ -90,8 +91,9 @@ class LazyLocaleData {
    * Throw an exception indicating that the locale has no data available,
    * either locally or remotely.
    */
-  unsupportedLocale(localeName) { throw new LocaleDataException(
-      'Locale $localeName has no data available');}
+  unsupportedLocale(localeName) {
+    throw new LocaleDataException('Locale $localeName has no data available');
+  }
 
   /**
    * Initialize for locale. Internal use only. As a user, call
@@ -99,8 +101,9 @@ class LazyLocaleData {
    */
   Future initLocale(String localeName) {
     var data = _reader.read(localeName);
-    return jsonData(data).then( (input) {
-        map[localeName] = _creationFunction(input);});
+    return jsonData(data).then((input) {
+      map[localeName] = _creationFunction(input);
+    });
   }
 
   /**
@@ -108,6 +111,6 @@ class LazyLocaleData {
    * return another future that parses the JSON into a usable format.
    */
   Future jsonData(Future input) {
-    return input.then( (response) => JSON.decode(response));
+    return input.then((response) => JSON.decode(response));
   }
 }

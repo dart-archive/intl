@@ -13,6 +13,7 @@
  */
 
 library date_format_internal;
+
 import 'dart:async';
 import 'intl_helpers.dart';
 import '../date_symbols.dart';
@@ -24,9 +25,8 @@ import '../date_symbols.dart';
  * to an instance of UninitializedLocaleData, so any attempt to use it will
  * result in an informative error message.
  */
-var dateTimeSymbols =
-    new UninitializedLocaleData('initializeDateFormatting(<locale>)',
-        en_USSymbols);
+var dateTimeSymbols = new UninitializedLocaleData(
+    'initializeDateFormatting(<locale>)', en_USSymbols);
 
 /**
  * This holds the patterns used for date/time formatting, indexed
@@ -35,9 +35,8 @@ var dateTimeSymbols =
  * to an instance of UninitializedLocaleData, so any attempt to use it will
  * result in an informative error message.
  */
-var dateTimePatterns =
-    new UninitializedLocaleData('initializeDateFormatting(<locale>)',
-        en_USPatterns);
+var dateTimePatterns = new UninitializedLocaleData(
+    'initializeDateFormatting(<locale>)', en_USPatterns);
 
 /**
  * Initialize the symbols dictionary. This should be passed a function that

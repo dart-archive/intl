@@ -30,16 +30,14 @@ Future initializeDateFormatting(String locale, String url) {
   initializeDateSymbols(() => new LazyLocaleData(
       reader, _createDateSymbol, availableLocalesForDateFormatting));
   var reader2 = new HttpRequestDataReader('${url}patterns/');
-  initializeDatePatterns(() => new LazyLocaleData(
-      reader2, (x) => x, availableLocalesForDateFormatting));
-  var actualLocale = Intl.verifiedLocale(locale,
-      (l) => availableLocalesForDateFormatting.contains(l));
-  return initializeIndividualLocaleDateFormatting(
-      (symbols, patterns) {
-        return Future.wait([
-            symbols.initLocale(actualLocale),
-            patterns.initLocale(actualLocale)]);
-      });
+  initializeDatePatterns(() =>
+      new LazyLocaleData(reader2, (x) => x, availableLocalesForDateFormatting));
+  var actualLocale = Intl.verifiedLocale(
+      locale, (l) => availableLocalesForDateFormatting.contains(l));
+  return initializeIndividualLocaleDateFormatting((symbols, patterns) {
+    return Future.wait(
+        [symbols.initLocale(actualLocale), patterns.initLocale(actualLocale)]);
+  });
 }
 
 /** Defines how new date symbol entries are created. */

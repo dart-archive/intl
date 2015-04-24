@@ -10,7 +10,10 @@ import "package:unittest/unittest.dart";
 main() {
   test("Expect failure because of embedded plural with text after it", () {
     var specialFiles = ['embedded_plural_text_after.dart'];
-    runTestWithWarnings(warningsAreErrors: true, expectedExitCode: 1,
-        embeddedPlurals: false, sourceFiles: specialFiles);
+    runTestWithWarnings(
+        warningsAreErrors: true,
+        expectedExitCode: 1,
+        embeddedPlurals: false,
+        sourceFiles: specialFiles);
   });
 }

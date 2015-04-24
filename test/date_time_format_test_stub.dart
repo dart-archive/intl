@@ -44,7 +44,7 @@ List<String> evenLocales() {
 }
 
 void runWith(TestListFunc getSubset, String dir,
-             InitializeDateFormattingFunc initFunction) {
+    InitializeDateFormattingFunc initFunction) {
   // Initialize one locale just so we know what the list is.
   // Also, note that we take the list of locales as a function so that we don't
   // evaluate it until after we know that all the locales are available.
@@ -55,15 +55,13 @@ void runWith(TestListFunc getSubset, String dir,
     if (initialized) {
       return null;
     }
-    return initFunction("en_US", dir)
-        .then((_) {
-          return Future.forEach(DateFormat.allLocalesWithSymbols(), (locale) {
-            return initFunction(locale, dir);
-          });
-        })
-        .then((_) {
-          initialized = true;
-        });
+    return initFunction("en_US", dir).then((_) {
+      return Future.forEach(DateFormat.allLocalesWithSymbols(), (locale) {
+        return initFunction(locale, dir);
+      });
+    }).then((_) {
+      initialized = true;
+    });
   });
 
   runDateTests(getSubset);

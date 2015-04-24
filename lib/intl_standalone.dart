@@ -63,7 +63,8 @@ RegExp _appleDefaultsRegex = new RegExp(r'((\w\w)_\w+)');
 String _checkEnvironmentVariable() {
   try {
     return Platform.environment['LANG'];
-  } catch (e) {};
+  } catch (e) {}
+  ;
   return null;
 }
 

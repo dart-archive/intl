@@ -18,11 +18,11 @@ import 'date_time_format_test_stub.dart';
 main() {
   useHtmlConfiguration();
   var url = "http://localhost:${window.location.port}"
-    "/packages/intl/src/data/dates/";
+      "/packages/intl/src/data/dates/";
 
-   test("Initializing a locale that needs fallback", () {
-     initializeDateFormatting("de_DE", url).then(expectAsync((_) => true));
-   });
+  test("Initializing a locale that needs fallback", () {
+    initializeDateFormatting("de_DE", url).then(expectAsync((_) => true));
+  });
 
   runWith(smallSetOfLocales, url, initializeDateFormatting);
 }

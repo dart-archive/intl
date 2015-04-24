@@ -45,7 +45,8 @@ main() {
     check("09 3 2014");
     check("09 00003    2014");
     check("09/    03/2014");
-    expect(() => format.parseLoose("09 / 03 / 2014"), throwsA(new isInstanceOf<FormatException>()));
+    expect(() => format.parseLoose("09 / 03 / 2014"),
+        throwsA(new isInstanceOf<FormatException>()));
   });
 
   test("Loose parsing yMd that parses strict", () {

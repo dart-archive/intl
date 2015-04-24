@@ -74,8 +74,8 @@ abstract class Message {
    */
   String get name => parent == null ? '<unnamed>' : parent.name;
 
-  String checkValidity(MethodInvocation node, List arguments,
-                       String outerName, FormalParameterList outerArgs) {
+  String checkValidity(MethodInvocation node, List arguments, String outerName,
+      FormalParameterList outerArgs) {
     var hasArgs = arguments.any(
         (each) => each is NamedExpression && each.name.label.name == 'args');
     var hasParameters = !outerArgs.parameters.isEmpty;
@@ -83,9 +83,8 @@ abstract class Message {
       return "The 'args' argument for Intl.message must be specified";
     }
 
-    var messageName = arguments.firstWhere(
-        (eachArg) => eachArg is NamedExpression &&
-            eachArg.name.label.name == 'name',
+    var messageName = arguments.firstWhere((eachArg) =>
+            eachArg is NamedExpression && eachArg.name.label.name == 'name',
         orElse: () => null);
     if (messageName == null) {
       return "The 'name' argument for Intl.message must be specified";
@@ -99,13 +98,12 @@ abstract class Message {
           "the name of the containing function ("
           "'${messageName.expression.value}' vs. '$outerName')";
     }
-    var simpleArguments = arguments.where(
-        (each) => each is NamedExpression
-        && ["desc", "name"].contains(each.name.label.name));
+    var simpleArguments = arguments.where((each) => each is NamedExpression &&
+        ["desc", "name"].contains(each.name.label.name));
     var values = simpleArguments.map((each) => each.expression).toList();
     for (var arg in values) {
       if (arg is! StringLiteral) {
-        return( "Intl.message arguments must be string literals: $arg");
+        return ("Intl.message arguments must be string literals: $arg");
       }
     }
     return null;
@@ -147,15 +145,15 @@ abstract class Message {
    */
   String escapeAndValidateString(String value) {
     const escapes = const {
-      r"\" : r"\\",
-      '"' : r'\"',
-      "\b" : r"\b",
-      "\f" : r"\f",
-      "\n" : r"\n",
-      "\r" : r"\r",
-      "\t" : r"\t",
-      "\v" : r"\v",
-      "'"  : r"\'",
+      r"\": r"\\",
+      '"': r'\"',
+      "\b": r"\b",
+      "\f": r"\f",
+      "\n": r"\n",
+      "\r": r"\r",
+      "\t": r"\t",
+      "\v": r"\v",
+      "'": r"\'",
     };
 
     _escape(String s) => (escapes[s] == null) ? s : escapes[s];
@@ -192,7 +190,6 @@ abstract class Message {
  * main Intl.message call, plurals, and genders.
  */
 abstract class ComplexMessage extends Message {
-
   ComplexMessage(parent) : super(parent);
 
   /**
@@ -265,8 +262,7 @@ class VariableSubstitution extends Message {
    * save it separately and look it up case-insensitively once the parent
    * (and its arguments) are definitely available.
    */
-  VariableSubstitution.named(String name, Message parent)
-      : super(parent) {
+  VariableSubstitution.named(String name, Message parent) : super(parent) {
     _variableNameUpper = name.toUpperCase();
   }
 
@@ -277,7 +273,9 @@ class VariableSubstitution extends Message {
     if (arguments.isEmpty) return null;
     // We may have been given an all-uppercase version of the name, so compare
     // case-insensitive.
-    _index = arguments.map((x) => x.toUpperCase()).toList()
+    _index = arguments
+        .map((x) => x.toUpperCase())
+        .toList()
         .indexOf(_variableNameUpper);
     if (_index == -1) {
       throw new ArgumentError(
@@ -310,7 +308,6 @@ class VariableSubstitution extends Message {
 }
 
 class MainMessage extends ComplexMessage {
-
   MainMessage() : super(null);
 
   /**
@@ -321,8 +318,8 @@ class MainMessage extends ComplexMessage {
   List<Message> messagePieces = [];
 
   /** Verify that this looks like a correct Intl.message invocation. */
-  String checkValidity(MethodInvocation node, List arguments,
-      String outerName, FormalParameterList outerArgs) {
+  String checkValidity(MethodInvocation node, List arguments, String outerName,
+      FormalParameterList outerArgs) {
     if (arguments.first is! StringLiteral) {
       return "Intl.message messages must be string literals";
     }
@@ -375,7 +372,9 @@ class MainMessage extends ComplexMessage {
    * the name.
    */
   String get name => _name == null ? computeName() : _name;
-  set name(String newName) { _name = newName; }
+  set name(String newName) {
+    _name = newName;
+  }
 
   String computeName() => name = expanded((msg, chunk) => "");
 
@@ -394,12 +393,12 @@ class MainMessage extends ComplexMessage {
    * suitably escaping it.
    */
   void addTranslation(String locale, Message translated) {
-      translated.parent = this;
-      translations[locale] = translated.toCode();
+    translated.parent = this;
+    translations[locale] = translated.toCode();
   }
 
-  toCode() => throw
-      new UnsupportedError("MainMessage.toCode requires a locale");
+  toCode() =>
+      throw new UnsupportedError("MainMessage.toCode requires a locale");
 
   /**
    * Generate code for this message, expecting it to be part of a map
@@ -421,14 +420,24 @@ class MainMessage extends ComplexMessage {
    */
   void operator []=(attributeName, value) {
     switch (attributeName) {
-      case "desc" : description = value; return;
-      case "examples" : examples = value; return;
-      case "name" : name = value; return;
+      case "desc":
+        description = value;
+        return;
+      case "examples":
+        examples = value;
+        return;
+      case "name":
+        name = value;
+        return;
       // We use the actual args from the parser rather than what's given in the
       // arguments to Intl.message.
-      case "args" : return;
-      case "meaning" : meaning = value; return;
-      default: return;
+      case "args":
+        return;
+      case "meaning":
+        meaning = value;
+        return;
+      default:
+        return;
     }
   }
 
@@ -438,14 +447,20 @@ class MainMessage extends ComplexMessage {
    */
   operator [](attributeName) {
     switch (attributeName) {
-      case "desc" : return description;
-      case "examples" : return examples;
-      case "name" : return name;
+      case "desc":
+        return description;
+      case "examples":
+        return examples;
+      case "name":
+        return name;
       // We use the actual args from the parser rather than what's given in the
       // arguments to Intl.message.
-      case "args" : return [];
-      case "meaning" : return meaning;
-      default: return null;
+      case "args":
+        return [];
+      case "meaning":
+        return meaning;
+      default:
+        return null;
     }
   }
 
@@ -466,7 +481,6 @@ class MainMessage extends ComplexMessage {
  * plurals and genders.
  */
 abstract class SubMessage extends ComplexMessage {
-
   SubMessage() : super(null);
 
   /**
@@ -508,11 +522,12 @@ abstract class SubMessage extends ComplexMessage {
   List<String> get codeAttributeNames;
 
   String expanded([Function transform = _nullTransform]) {
-    fullMessageForClause(key) => key + '{' +
-        transform(parent, this[key]).toString() + '}';
+    fullMessageForClause(key) =>
+        key + '{' + transform(parent, this[key]).toString() + '}';
     var clauses = attributeNames
         .where((key) => this[key] != null)
-        .map(fullMessageForClause).toList();
+        .map(fullMessageForClause)
+        .toList();
     return "{$mainArgument,$icuMessageName, ${clauses.join("")}}";
   }
 
@@ -522,10 +537,9 @@ abstract class SubMessage extends ComplexMessage {
     out.write(dartMessageName);
     out.write('(');
     out.write(mainArgument);
-    var args = codeAttributeNames.where(
-        (attribute) => this[attribute] != null);
-    args.fold(out, (buffer, arg) => buffer..write(
-        ", $arg: '${this[arg].toCode()}'"));
+    var args = codeAttributeNames.where((attribute) => this[attribute] != null);
+    args.fold(
+        out, (buffer, arg) => buffer..write(", $arg: '${this[arg].toCode()}'"));
     out.write(")}");
     return out.toString();
   }
@@ -537,7 +551,6 @@ abstract class SubMessage extends ComplexMessage {
  * with "male", "female", and "other" as the possible options.
  */
 class Gender extends SubMessage {
-
   Gender();
   /**
    * Create a new Gender providing [mainArgument] and the list of possible
@@ -545,8 +558,8 @@ class Gender extends SubMessage {
    * variable name and whose second element is either a [String] or
    * a list of strings and [Message] or [VariableSubstitution].
    */
-  Gender.from(String mainArgument, List clauses, Message parent) :
-      super.from(mainArgument, clauses, parent);
+  Gender.from(String mainArgument, List clauses, Message parent)
+      : super.from(mainArgument, clauses, parent);
 
   Message female;
   Message male;
@@ -565,75 +578,114 @@ class Gender extends SubMessage {
   void operator []=(attributeName, rawValue) {
     var value = Message.from(rawValue, this);
     switch (attributeName) {
-      case "female" : female = value; return;
-      case "male" : male = value; return;
-      case "other" : other = value; return;
-      default: return;
+      case "female":
+        female = value;
+        return;
+      case "male":
+        male = value;
+        return;
+      case "other":
+        other = value;
+        return;
+      default:
+        return;
     }
   }
   Message operator [](String attributeName) {
     switch (attributeName) {
-      case "female" : return female;
-      case "male" : return male;
-      case "other" : return other;
-      default: return other;
+      case "female":
+        return female;
+      case "male":
+        return male;
+      case "other":
+        return other;
+      default:
+        return other;
     }
   }
 }
 
 class Plural extends SubMessage {
+  Plural();
+  Plural.from(String mainArgument, List clauses, Message parent)
+      : super.from(mainArgument, clauses, parent);
 
-   Plural();
-   Plural.from(String mainArgument, List clauses, Message parent) :
-     super.from(mainArgument, clauses, parent);
+  Message zero;
+  Message one;
+  Message two;
+  Message few;
+  Message many;
+  Message other;
 
-   Message zero;
-   Message one;
-   Message two;
-   Message few;
-   Message many;
-   Message other;
+  String get icuMessageName => "plural";
+  String get dartMessageName => "Intl.plural";
 
-   String get icuMessageName => "plural";
-   String get dartMessageName => "Intl.plural";
+  get attributeNames => ["=0", "=1", "=2", "few", "many", "other"];
+  get codeAttributeNames => ["zero", "one", "two", "few", "many", "other"];
 
-   get attributeNames => ["=0", "=1", "=2", "few", "many", "other"];
-   get codeAttributeNames => ["zero", "one", "two", "few", "many", "other"];
-
-   /**
+  /**
     * The node will have the attribute names as strings, so we translate
     * between those and the fields of the class.
     */
-   void operator []=(String attributeName, rawValue) {
-     var value = Message.from(rawValue, this);
-     switch (attributeName) {
-       case "zero" : zero = value; return;
-       case "=0" : zero = value; return;
-       case "one" : one = value; return;
-       case "=1" : one = value; return;
-       case "two" : two = value; return;
-       case "=2" : two = value; return;
-       case "few" : few = value; return;
-       case "many" : many = value; return;
-       case "other" : other = value; return;
-       default: return;
-     }
-   }
+  void operator []=(String attributeName, rawValue) {
+    var value = Message.from(rawValue, this);
+    switch (attributeName) {
+      case "zero":
+        zero = value;
+        return;
+      case "=0":
+        zero = value;
+        return;
+      case "one":
+        one = value;
+        return;
+      case "=1":
+        one = value;
+        return;
+      case "two":
+        two = value;
+        return;
+      case "=2":
+        two = value;
+        return;
+      case "few":
+        few = value;
+        return;
+      case "many":
+        many = value;
+        return;
+      case "other":
+        other = value;
+        return;
+      default:
+        return;
+    }
+  }
 
-   Message operator [](String attributeName) {
-     switch (attributeName) {
-       case "zero" : return zero;
-       case "=0" : return zero;
-       case "one" : return one;
-       case "=1" : return one;
-       case "two" : return two;
-       case "=2" : return two;
-       case "few" : return few;
-       case "many" : return many;
-       case "other" : return other;
-       default: return other;
-     }
-   }
+  Message operator [](String attributeName) {
+    switch (attributeName) {
+      case "zero":
+        return zero;
+      case "=0":
+        return zero;
+      case "one":
+        return one;
+      case "=1":
+        return one;
+      case "two":
+        return two;
+      case "=2":
+        return two;
+      case "few":
+        return few;
+      case "many":
+        return many;
+      case "other":
+        return other;
+      default:
+        return other;
+    }
+  }
 }
 
 /**
@@ -642,7 +694,6 @@ class Plural extends SubMessage {
  * with arbitrary options.
  */
 class Select extends SubMessage {
-
   Select();
   /**
    * Create a new [Select] providing [mainArgument] and the list of possible
@@ -650,8 +701,8 @@ class Select extends SubMessage {
    * variable name and whose second element is either a String or
    * a list of strings and [Message]s or [VariableSubstitution]s.
    */
-  Select.from(String mainArgument, List clauses, Message parent) :
-      super.from(mainArgument, clauses, parent);
+  Select.from(String mainArgument, List clauses, Message parent)
+      : super.from(mainArgument, clauses, parent);
 
   Map<String, Message> cases = new Map<String, Message>();
 
@@ -679,8 +730,7 @@ class Select extends SubMessage {
   Map argumentsOfInterestFor(MethodInvocation node) {
     var casesArgument = node.argumentList.arguments[1];
     return new Map.fromIterable(casesArgument.entries,
-      key: (node) => node.key.value,
-      value: (node) => node.value);
+        key: (node) => node.key.value, value: (node) => node.value);
   }
 
   /**
@@ -696,8 +746,8 @@ class Select extends SubMessage {
     out.write(mainArgument);
     var args = codeAttributeNames;
     out.write(", {");
-    args.fold(out, (buffer, arg) => buffer..write(
-        "'$arg': '${this[arg].toCode()}', "));
+    args.fold(out,
+        (buffer, arg) => buffer..write("'$arg': '${this[arg].toCode()}', "));
     out.write("})}");
     return out.toString();
   }

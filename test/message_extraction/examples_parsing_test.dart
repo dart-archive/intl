@@ -14,12 +14,9 @@ import 'dart:io';
 
 main() {
   test("Message examples are correctly extracted", () {
-    var file = path.join(
-        intlDirectory,
-        'test',
-        'message_extraction',
+    var file = path.join(intlDirectory, 'test', 'message_extraction',
         'sample_with_messages.dart');
     var messages = parseFile(new File(file));
-    expect(messages['message2'].examples, {"x" : 3});
+    expect(messages['message2'].examples, {"x": 3});
   });
 }

@@ -32,21 +32,18 @@ class CompositeMessageLookup {
    * If nothing is found, return [message_str]. The [desc] and [examples]
    * parameters are ignored
    */
-  String lookupMessage(String message_str, [final String desc='',
-      final Map examples=const {}, String locale,
-      String name, List<String> args, String meaning]) {
+  String lookupMessage(String message_str, [final String desc = '',
+      final Map examples = const {}, String locale, String name,
+      List<String> args, String meaning]) {
     var actualLocale = (locale == null) ? Intl.getCurrentLocale() : locale;
-      // For this usage, if the locale doesn't exist for messages, just return
-      // it and we'll fall back to the original version.
-    var verifiedLocale =
-        Intl.verifiedLocale(
-            actualLocale,
-            localeExists,
-            onFailure: (locale)=>locale);
+    // For this usage, if the locale doesn't exist for messages, just return
+    // it and we'll fall back to the original version.
+    var verifiedLocale = Intl.verifiedLocale(actualLocale, localeExists,
+        onFailure: (locale) => locale);
     var messages = availableMessages[verifiedLocale];
     if (messages == null) return message_str;
-    return messages.
-        lookupMessage(message_str, desc, examples, locale, name, args, meaning);
+    return messages.lookupMessage(
+        message_str, desc, examples, locale, name, args, meaning);
   }
 
   /**
@@ -96,12 +93,12 @@ abstract class MessageLookupByLibrary {
    * will be extracted automatically but for the time being it must be passed
    * explicitly in the [name] and [args] arguments.
    */
-  String lookupMessage(String message_str, [final String desc='',
-      final Map examples=const {}, String locale,
-      String name, List<String> args, String meaning]) {
+  String lookupMessage(String message_str, [final String desc = '',
+      final Map examples = const {}, String locale, String name,
+      List<String> args, String meaning]) {
     if (name == null) return message_str;
     var function = this[name];
-    return function == null ? message_str :  Function.apply(function, args);
+    return function == null ? message_str : Function.apply(function, args);
   }
 
   /** Return our message with the given name */

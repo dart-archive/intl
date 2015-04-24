@@ -50,13 +50,13 @@ void writeLocaleList() {
 }
 
 void writeSymbolData() {
-  dateTimeSymbolMap().forEach(
-      (locale, symbols) => writeSymbols(locale, symbols));
+  dateTimeSymbolMap()
+      .forEach((locale, symbols) => writeSymbols(locale, symbols));
 }
 
 void writePatternData() {
-  dateTimePatternMap().forEach(
-      (locale, patterns) => writePatterns(locale, patterns));
+  dateTimePatternMap()
+      .forEach((locale, patterns) => writePatterns(locale, patterns));
 }
 
 void writeSymbols(locale, symbols) {
@@ -68,7 +68,9 @@ void writeSymbols(locale, symbols) {
 
 void writePatterns(locale, patterns) {
   var file = new File(path.join(dataDirectory, 'patterns', '${locale}.json'));
-  file.openWrite()..write(JSON.encode(patterns))..close();
+  file.openWrite()
+    ..write(JSON.encode(patterns))
+    ..close();
 }
 
 void writeToJSON(dynamic data, IOSink out) {

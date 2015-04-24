@@ -11,26 +11,27 @@ library number_symbols;
  */
 class NumberSymbols {
   final String NAME;
-  final String DECIMAL_SEP, GROUP_SEP, PERCENT, ZERO_DIGIT, PLUS_SIGN,
-      MINUS_SIGN, EXP_SYMBOL, PERMILL, INFINITY, NAN, DECIMAL_PATTERN,
-      SCIENTIFIC_PATTERN, PERCENT_PATTERN, CURRENCY_PATTERN, DEF_CURRENCY_CODE;
+  final String DECIMAL_SEP,
+      GROUP_SEP,
+      PERCENT,
+      ZERO_DIGIT,
+      PLUS_SIGN,
+      MINUS_SIGN,
+      EXP_SYMBOL,
+      PERMILL,
+      INFINITY,
+      NAN,
+      DECIMAL_PATTERN,
+      SCIENTIFIC_PATTERN,
+      PERCENT_PATTERN,
+      CURRENCY_PATTERN,
+      DEF_CURRENCY_CODE;
 
-  const NumberSymbols({this.NAME,
-                       this.DECIMAL_SEP,
-                       this.GROUP_SEP,
-                       this.PERCENT,
-                       this.ZERO_DIGIT,
-                       this.PLUS_SIGN,
-                       this.MINUS_SIGN,
-                       this.EXP_SYMBOL,
-                       this.PERMILL,
-                       this.INFINITY,
-                       this.NAN,
-                       this.DECIMAL_PATTERN,
-                       this.SCIENTIFIC_PATTERN,
-                       this.PERCENT_PATTERN,
-                       this.CURRENCY_PATTERN,
-                       this.DEF_CURRENCY_CODE});
+  const NumberSymbols({this.NAME, this.DECIMAL_SEP, this.GROUP_SEP,
+      this.PERCENT, this.ZERO_DIGIT, this.PLUS_SIGN, this.MINUS_SIGN,
+      this.EXP_SYMBOL, this.PERMILL, this.INFINITY, this.NAN,
+      this.DECIMAL_PATTERN, this.SCIENTIFIC_PATTERN, this.PERCENT_PATTERN,
+      this.CURRENCY_PATTERN, this.DEF_CURRENCY_CODE});
 
   toString() => NAME;
 }

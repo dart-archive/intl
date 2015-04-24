@@ -31,8 +31,9 @@ final vmArgs = Platform.executableArguments;
  */
 String get tempDir => _tempDir == null ? _tempDir = _createTempDir() : _tempDir;
 var _tempDir;
-_createTempDir() => useLocalDirectory ? '.' :
-  Directory.systemTemp.createTempSync('message_extraction_test').path;
+_createTempDir() => useLocalDirectory
+    ? '.'
+    : Directory.systemTemp.createTempSync('message_extraction_test').path;
 
 var useLocalDirectory = false;
 
@@ -81,13 +82,15 @@ main(arguments) {
 
 void copyFilesToTempDirectory() {
   if (useLocalDirectory) return;
-  var files = [asTestDirPath('sample_with_messages.dart'),
-      asTestDirPath('part_of_sample_with_messages.dart'),
-      asTestDirPath('verify_messages.dart'),
-      asTestDirPath('run_and_verify.dart'),
-      asTestDirPath('embedded_plural_text_before.dart'),
-      asTestDirPath('embedded_plural_text_after.dart'),
-      asTestDirPath('print_to_list.dart')];
+  var files = [
+    asTestDirPath('sample_with_messages.dart'),
+    asTestDirPath('part_of_sample_with_messages.dart'),
+    asTestDirPath('verify_messages.dart'),
+    asTestDirPath('run_and_verify.dart'),
+    asTestDirPath('embedded_plural_text_before.dart'),
+    asTestDirPath('embedded_plural_text_after.dart'),
+    asTestDirPath('print_to_list.dart')
+  ];
   for (var filename in files) {
     var file = new File(filename);
     file.copySync(path.join(tempDir, path.basename(filename)));
@@ -109,21 +112,21 @@ void deleteGeneratedFiles() {
  * are in dir() and need to be qualified in case that's not our working
  * directory.
  */
-Future<ProcessResult> run(ProcessResult previousResult, List<String> filenames)
-    {
+Future<ProcessResult> run(
+    ProcessResult previousResult, List<String> filenames) {
   // If there's a failure in one of the sub-programs, print its output.
   checkResult(previousResult);
-  var filesInTheRightDirectory = filenames.map((x) => asTempDirPath(x)).toList(
-      );
+  var filesInTheRightDirectory =
+      filenames.map((x) => asTempDirPath(x)).toList();
   // Inject the script argument --output-dir in between the script and its
   // arguments.
   var args = []
-      ..addAll(vmArgs)
-      ..add(filesInTheRightDirectory.first)
-      ..addAll(["--output-dir=$tempDir"])
-      ..addAll(filesInTheRightDirectory.skip(1));
-  var result = Process.run(dart, args, stdoutEncoding: UTF8, stderrEncoding:
-      UTF8);
+    ..addAll(vmArgs)
+    ..add(filesInTheRightDirectory.first)
+    ..addAll(["--output-dir=$tempDir"])
+    ..addAll(filesInTheRightDirectory.skip(1));
+  var result =
+      Process.run(dart, args, stdoutEncoding: UTF8, stderrEncoding: UTF8);
   return result;
 }
 
@@ -141,20 +144,29 @@ void checkResult(ProcessResult previousResult) {
 }
 
 Future<ProcessResult> extractMessages(ProcessResult previousResult) => run(
-    previousResult, [asTestDirPath('../../bin/extract_to_arb.dart'),
-    '--suppress-warnings', 'sample_with_messages.dart',
-    'part_of_sample_with_messages.dart']);
+    previousResult, [
+  asTestDirPath('../../bin/extract_to_arb.dart'),
+  '--suppress-warnings',
+  'sample_with_messages.dart',
+  'part_of_sample_with_messages.dart'
+]);
 
 Future<ProcessResult> generateTranslationFiles(ProcessResult previousResult) =>
-    run(previousResult,
-        [asTestDirPath('make_hardcoded_translation.dart'),
-        'intl_messages.arb']);
+    run(previousResult, [
+  asTestDirPath('make_hardcoded_translation.dart'),
+  'intl_messages.arb'
+]);
 
-Future<ProcessResult> generateCodeFromTranslation(ProcessResult previousResult)
-    => run(previousResult, [asTestDirPath('../../bin/generate_from_arb.dart'),
-    deferredLoadArg, '--generated-file-prefix=foo_',
-    'sample_with_messages.dart', 'part_of_sample_with_messages.dart',
-    'translation_fr.arb', 'translation_de_DE.arb']);
+Future<ProcessResult> generateCodeFromTranslation(
+    ProcessResult previousResult) => run(previousResult, [
+  asTestDirPath('../../bin/generate_from_arb.dart'),
+  deferredLoadArg,
+  '--generated-file-prefix=foo_',
+  'sample_with_messages.dart',
+  'part_of_sample_with_messages.dart',
+  'translation_fr.arb',
+  'translation_de_DE.arb'
+]);
 
-Future<ProcessResult> runAndVerify(ProcessResult previousResult) => run(
-    previousResult, [asTempDirPath('run_and_verify.dart')]);
+Future<ProcessResult> runAndVerify(ProcessResult previousResult) =>
+    run(previousResult, [asTempDirPath('run_and_verify.dart')]);

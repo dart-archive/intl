@@ -19,9 +19,12 @@ import 'package:intl/intl.dart';
 // TODO(alanknight): Use lazy loading of the requested library.
 MessageLookupByLibrary _findExact(localeName) {
   switch (localeName) {
-    case 'th_TH' : return th_TH.messages;
-    case 'de' : return de.messages;
-    default: return null;
+    case 'th_TH':
+      return th_TH.messages;
+    case 'de':
+      return de.messages;
+    default:
+      return null;
   }
 }
 

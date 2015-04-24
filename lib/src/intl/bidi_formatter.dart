@@ -71,12 +71,15 @@ class BidiFormatter {
    * neutral or matches the context, so that the DOM structure of the output
    * does not depend on the combination of directionalities.
    */
-  BidiFormatter.LTR([alwaysSpan=false]) : contextDirection = TextDirection.LTR,
-      _alwaysSpan = alwaysSpan;
-  BidiFormatter.RTL([alwaysSpan=false]) : contextDirection = TextDirection.RTL,
-      _alwaysSpan = alwaysSpan;
-  BidiFormatter.UNKNOWN([alwaysSpan=false]) :
-      contextDirection = TextDirection.UNKNOWN, _alwaysSpan = alwaysSpan;
+  BidiFormatter.LTR([alwaysSpan = false])
+      : contextDirection = TextDirection.LTR,
+        _alwaysSpan = alwaysSpan;
+  BidiFormatter.RTL([alwaysSpan = false])
+      : contextDirection = TextDirection.RTL,
+        _alwaysSpan = alwaysSpan;
+  BidiFormatter.UNKNOWN([alwaysSpan = false])
+      : contextDirection = TextDirection.UNKNOWN,
+        _alwaysSpan = alwaysSpan;
 
   /** Is true if the known context direction for this formatter is RTL. */
   bool get isRTL => contextDirection == TextDirection.RTL;
@@ -97,8 +100,8 @@ class BidiFormatter {
    * a trailing unicode BiDi mark matching the context directionality is
    * appended (LRM or RLM). If [isHtml] is false, we HTML-escape the [text].
    */
-  String wrapWithSpan(String text, {bool isHtml: false, bool resetDir: true,
-                      TextDirection direction}) {
+  String wrapWithSpan(String text,
+      {bool isHtml: false, bool resetDir: true, TextDirection direction}) {
     if (direction == null) direction = estimateDirection(text, isHtml: isHtml);
     var result;
     if (!isHtml) text = HTML_ESCAPE.convert(text);
@@ -134,14 +137,13 @@ class BidiFormatter {
    * [isHtml]. [isHtml] is used to designate if the text contains HTML (escaped
    * or unescaped).
    */
-  String wrapWithUnicode(String text, {bool isHtml: false, bool resetDir: true,
-                         TextDirection direction}) {
+  String wrapWithUnicode(String text,
+      {bool isHtml: false, bool resetDir: true, TextDirection direction}) {
     if (direction == null) direction = estimateDirection(text, isHtml: isHtml);
     var result = text;
     if (contextDirection.isDirectionChange(direction)) {
       var marker = direction == TextDirection.RTL ? Bidi.RLE : Bidi.LRE;
       result = "${marker}$text${Bidi.PDF}";
-
     }
     return result + (resetDir ? _resetDir(text, direction, isHtml) : '');
   }
@@ -167,11 +169,11 @@ class BidiFormatter {
   String _resetDir(String text, TextDirection direction, bool isHtml) {
     // endsWithRtl and endsWithLtr are called only if needed (short-circuit).
     if ((contextDirection == TextDirection.LTR &&
-          (direction == TextDirection.RTL ||
-           Bidi.endsWithRtl(text, isHtml))) ||
+            (direction == TextDirection.RTL ||
+                Bidi.endsWithRtl(text, isHtml))) ||
         (contextDirection == TextDirection.RTL &&
-          (direction == TextDirection.LTR ||
-           Bidi.endsWithLtr(text, isHtml)))) {
+            (direction == TextDirection.LTR ||
+                Bidi.endsWithLtr(text, isHtml)))) {
       return contextDirection == TextDirection.LTR ? Bidi.LRM : Bidi.RLM;
     } else {
       return '';

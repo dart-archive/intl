@@ -325,7 +325,7 @@ class DateFormat {
   DateTime parseStrict(String inputString, [utc = false]) =>
       _parse(inputString, utc: utc, strict: true);
 
-  DateTime _parse(String inputString, {utc : false, strict : false}) {
+  DateTime _parse(String inputString, {utc: false, strict: false}) {
     // TODO(alanknight): The Closure code refers to special parsing of numeric
     // values with no delimiters, which we currently don't do. Should we?
     var dateFields = new _DateBuilder();
@@ -564,18 +564,18 @@ class DateFormat {
    * component fields.
    */
   static List<RegExp> _matchers = [
-      // Quoted String - anything between single quotes, with escaping
-      //   of single quotes by doubling them.
-      // e.g. in the pattern "hh 'o''clock'" will match 'o''clock'
-      new RegExp("^\'(?:[^\']|\'\')*\'"),
-      // Fields - any sequence of 1 or more of the same field characters.
-      // e.g. in "hh:mm:ss" will match hh, mm, and ss. But in "hms" would
-      // match each letter individually.
-      new RegExp(
+    // Quoted String - anything between single quotes, with escaping
+    //   of single quotes by doubling them.
+    // e.g. in the pattern "hh 'o''clock'" will match 'o''clock'
+    new RegExp("^\'(?:[^\']|\'\')*\'"),
+    // Fields - any sequence of 1 or more of the same field characters.
+    // e.g. in "hh:mm:ss" will match hh, mm, and ss. But in "hms" would
+    // match each letter individually.
+    new RegExp(
         "^(?:G+|y+|M+|k+|S+|E+|a+|h+|K+|H+|c+|L+|Q+|d+|D+|m+|s+|v+|z+|Z+)"),
-      // Everything else - A sequence that is not quotes or field characters.
-      // e.g. in "hh:mm:ss" will match the colons.
-      new RegExp("^[^\'GyMkSEahKHcLQdDmsvzZ]+")
+    // Everything else - A sequence that is not quotes or field characters.
+    // e.g. in "hh:mm:ss" will match the colons.
+    new RegExp("^[^\'GyMkSEahKHcLQdDmsvzZ]+")
   ];
 
   /**
@@ -583,9 +583,8 @@ class DateFormat {
    * space to separate the two.
    */
   _appendPattern(String inputPattern, [String separator = ' ']) {
-    _pattern = _pattern == null ?
-      inputPattern :
-      "$_pattern$separator$inputPattern";
+    _pattern =
+        _pattern == null ? inputPattern : "$_pattern$separator$inputPattern";
   }
 
   /**
@@ -646,9 +645,10 @@ class DateFormat {
   }
 
   static List get _fieldConstructors => [
-      (pattern, parent) => new _DateFormatQuotedField(pattern, parent),
-      (pattern, parent) => new _DateFormatPatternField(pattern, parent),
-      (pattern, parent) => new _DateFormatLiteralField(pattern, parent)];
+    (pattern, parent) => new _DateFormatQuotedField(pattern, parent),
+    (pattern, parent) => new _DateFormatPatternField(pattern, parent),
+    (pattern, parent) => new _DateFormatLiteralField(pattern, parent)
+  ];
 
   /** Parse the template pattern and return a list of field objects.*/
   List parsePattern(String pattern) {
@@ -663,8 +663,8 @@ class DateFormat {
     var matched = _match(pattern);
     if (matched == null) return [];
 
-    var parsed = _parsePatternHelper(
-        pattern.substring(matched.fullPattern().length));
+    var parsed =
+        _parsePatternHelper(pattern.substring(matched.fullPattern().length));
     parsed.add(matched);
     return parsed;
   }

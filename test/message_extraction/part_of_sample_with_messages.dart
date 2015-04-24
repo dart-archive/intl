@@ -13,14 +13,14 @@ class Person {
 class YouveGotMessages {
 
   // A static message, rather than a standalone function.
-  static staticMessage() => Intl.message("This comes from a static method",
-      name: 'staticMessage');
+  static staticMessage() =>
+      Intl.message("This comes from a static method", name: 'staticMessage');
 
   // An instance method, rather than a standalone function.
-  method() => Intl.message("This comes from a method", name: 'method',
-      desc: 'This is a method with a '
-            'long description which spans '
-            'multiple lines.');
+  method() => Intl.message("This comes from a method",
+      name: 'method', desc: 'This is a method with a '
+      'long description which spans '
+      'multiple lines.');
 
   // A non-lambda, i.e. not using => syntax, and with an additional statement
   // before the Intl.message call.
@@ -34,31 +34,28 @@ class YouveGotMessages {
          zero : 'Is zero plural?',
          one : 'This is singular.',
          other : 'This is plural ($num).')
-        }""",
-        name: "plurals", args: [num], desc: "Basic plurals");
+        }""", name: "plurals", args: [num], desc: "Basic plurals");
 
   whereTheyWent(Person person, String place) =>
       whereTheyWentMessage(person.name, person.gender, place);
 
   whereTheyWentMessage(String name, String gender, String place) {
-    return Intl.message(
-        "${Intl.gender(gender,
+    return Intl.message("${Intl.gender(gender,
             male: '$name went to his $place',
             female: '$name went to her $place',
             other: '$name went to its $place')
         }",
         name: "whereTheyWentMessage",
         args: [name, gender, place],
-        desc: 'A person went to some place that they own, e.g. their room'
-    );
+        desc: 'A person went to some place that they own, e.g. their room');
   }
 
   // English doesn't do enough with genders, so this example is French.
   nested(List people, String place) {
     var names = people.map((x) => x.name).join(", ");
     var number = people.length;
-    var combinedGender = people.every(
-        (x) => x.gender == "female") ? "female" : "other";
+    var combinedGender =
+        people.every((x) => x.gender == "female") ? "female" : "other";
     if (number == 0) combinedGender = "other";
 
     nestedMessage(names, number, combinedGender, place) => Intl.message(
@@ -71,8 +68,7 @@ class YouveGotMessages {
             one: "$names est allée au $place",
           other: "$names sont allées au $place")}'
         )}''',
-       name: "nestedMessage",
-       args: [names, number, combinedGender, place]);
+        name: "nestedMessage", args: [names, number, combinedGender, place]);
     return nestedMessage(names, number, combinedGender, place);
   }
 }

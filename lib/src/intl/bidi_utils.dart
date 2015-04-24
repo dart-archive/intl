@@ -106,18 +106,18 @@ class Bidi {
    * Determines if the first character in [text] with strong directionality is
    * LTR. If [isHtml] is true, the text is HTML or HTML-escaped.
    */
-  static bool startsWithLtr(String text, [isHtml=false]) {
-    return new RegExp('^[^$_RTL_CHARS]*[$_LTR_CHARS]').hasMatch(
-        isHtml? stripHtmlIfNeeded(text) : text);
+  static bool startsWithLtr(String text, [isHtml = false]) {
+    return new RegExp('^[^$_RTL_CHARS]*[$_LTR_CHARS]')
+        .hasMatch(isHtml ? stripHtmlIfNeeded(text) : text);
   }
 
   /**
    * Determines if the first character in [text] with strong directionality is
    * RTL. If [isHtml] is true, the text is HTML or HTML-escaped.
    */
-  static bool startsWithRtl(String text, [isHtml=false]) {
-    return new RegExp('^[^$_LTR_CHARS]*[$_RTL_CHARS]').hasMatch(
-        isHtml? stripHtmlIfNeeded(text) : text);
+  static bool startsWithRtl(String text, [isHtml = false]) {
+    return new RegExp('^[^$_LTR_CHARS]*[$_RTL_CHARS]')
+        .hasMatch(isHtml ? stripHtmlIfNeeded(text) : text);
   }
 
   /**
@@ -125,9 +125,9 @@ class Bidi {
    * character in [text] is LTR. If [isHtml] is true, the text is HTML or
    * HTML-escaped.
    */
-  static bool endsWithLtr(String text, [isHtml=false]) {
-    return new RegExp('[$_LTR_CHARS][^$_RTL_CHARS]*\$').hasMatch(
-        isHtml? stripHtmlIfNeeded(text) : text);
+  static bool endsWithLtr(String text, [isHtml = false]) {
+    return new RegExp('[$_LTR_CHARS][^$_RTL_CHARS]*\$')
+        .hasMatch(isHtml ? stripHtmlIfNeeded(text) : text);
   }
 
   /**
@@ -135,27 +135,27 @@ class Bidi {
    * character in [text] is RTL. If [isHtml] is true, the text is HTML or
    * HTML-escaped.
    */
-  static bool endsWithRtl(String text, [isHtml=false]) {
-    return new RegExp('[$_RTL_CHARS][^$_LTR_CHARS]*\$').hasMatch(
-        isHtml? stripHtmlIfNeeded(text) : text);
+  static bool endsWithRtl(String text, [isHtml = false]) {
+    return new RegExp('[$_RTL_CHARS][^$_LTR_CHARS]*\$')
+        .hasMatch(isHtml ? stripHtmlIfNeeded(text) : text);
   }
 
   /**
    * Determines if the given [text] has any LTR characters in it.
    * If [isHtml] is true, the text is HTML or HTML-escaped.
    */
-  static bool hasAnyLtr(String text, [isHtml=false]) {
-    return new RegExp(r'[' '$_LTR_CHARS' r']').hasMatch(
-        isHtml? stripHtmlIfNeeded(text) : text);
+  static bool hasAnyLtr(String text, [isHtml = false]) {
+    return new RegExp(r'[' '$_LTR_CHARS' r']')
+        .hasMatch(isHtml ? stripHtmlIfNeeded(text) : text);
   }
 
   /**
    * Determines if the given [text] has any RTL characters in it.
    * If [isHtml] is true, the text is HTML or HTML-escaped.
    */
-  static bool hasAnyRtl(String text, [isHtml=false]) {
-    return new RegExp(r'[' '$_RTL_CHARS' r']').hasMatch(
-        isHtml? stripHtmlIfNeeded(text) : text);
+  static bool hasAnyRtl(String text, [isHtml = false]) {
+    return new RegExp(r'[' '$_RTL_CHARS' r']')
+        .hasMatch(isHtml ? stripHtmlIfNeeded(text) : text);
   }
 
   /**
@@ -237,8 +237,9 @@ class Bidi {
       var startIndex = 0;
       Match match = new RegExp('<\\w+').firstMatch(html);
       if (match != null) {
-        buffer..write(html.substring(startIndex, match.end))
-              ..write(' dir=$direction');
+        buffer
+          ..write(html.substring(startIndex, match.end))
+          ..write(' dir=$direction');
         startIndex = match.end;
       }
       return (buffer..write(html.substring(startIndex))).toString();
@@ -285,15 +286,16 @@ class Bidi {
    */
   // TODO(efortuna): Get rid of this once this is implemented in Dart.
   // See Issue 2979.
-  static String _guardBracketHelper(String str, RegExp regexp, [String before,
-      String after]) {
+  static String _guardBracketHelper(String str, RegExp regexp,
+      [String before, String after]) {
     var buffer = new StringBuffer();
     var startIndex = 0;
     regexp.allMatches(str).forEach((match) {
-      buffer..write(str.substring(startIndex, match.start))
-            ..write(before)
-            ..write(str.substring(match.start, match.end))
-            ..write(after);
+      buffer
+        ..write(str.substring(startIndex, match.start))
+        ..write(before)
+        ..write(str.substring(match.start, match.end))
+        ..write(after);
       startIndex = match.end;
     });
     return (buffer..write(str.substring(startIndex))).toString();
@@ -312,8 +314,8 @@ class Bidi {
    * Numbers and URLs are counted as weakly LTR.
    */
   static TextDirection estimateDirectionOfText(String text,
-                                               {bool isHtml: false}) {
-    text = isHtml? stripHtmlIfNeeded(text) : text;
+      {bool isHtml: false}) {
+    text = isHtml ? stripHtmlIfNeeded(text) : text;
     var rtlCount = 0;
     var total = 0;
     var hasWeaklyLtr = false;
@@ -356,11 +358,11 @@ class Bidi {
     // Start at 1 because we're looking for the patterns [\u0591-\u05f2])" or
     // [\u0591-\u05f2]'.
     for (int i = 1; i < str.length; i++) {
-      if (str.substring(i, i+1) == '"'
-          && new RegExp('[\u0591-\u05f2]').hasMatch(str.substring(i-1, i))) {
+      if (str.substring(i, i + 1) == '"' &&
+          new RegExp('[\u0591-\u05f2]').hasMatch(str.substring(i - 1, i))) {
         buf.write('\u05f4');
-      } else if (str.substring(i, i+1) == "'"
-          && new RegExp('[\u0591-\u05f2]').hasMatch(str.substring(i-1, i))) {
+      } else if (str.substring(i, i + 1) == "'" &&
+          new RegExp('[\u0591-\u05f2]').hasMatch(str.substring(i - 1, i))) {
         buf.write('\u05f3');
       } else {
         buf.write(str.substring(i, i + 1));

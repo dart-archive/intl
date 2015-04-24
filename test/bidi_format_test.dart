@@ -2,7 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-
 library bidi_format_test;
 
 import 'package:intl/intl.dart';
@@ -25,9 +24,9 @@ main() {
   var html = '&lt;';
   var longEn = 'abba sabba gabba ';
   var longHe = '\u05e0 \u05e1 \u05e0 ';
-  var ltrFmt = new BidiFormatter.LTR();  // LTR context
-  var rtlFmt = new BidiFormatter.RTL();  // RTL context
-  var unkFmt = new BidiFormatter.UNKNOWN();  // unknown context
+  var ltrFmt = new BidiFormatter.LTR(); // LTR context
+  var rtlFmt = new BidiFormatter.RTL(); // RTL context
+  var unkFmt = new BidiFormatter.UNKNOWN(); // unknown context
 
   test('estimateDirection', () {
     expect(ltrFmt.estimateDirection(''), equals(UNKNOWN));
@@ -41,10 +40,12 @@ main() {
     expect(unkFmt.estimateDirection(he), equals(RTL));
 
     // Text contains HTML or HTML-escaping.
-    expect(ltrFmt.estimateDirection(
-        '<some sort of tag/>$he &amp;', isHtml: false), equals(LTR));
-    expect(ltrFmt.estimateDirection(
-        '<some sort of tag/>$he &amp;', isHtml: true), equals(RTL));
+    expect(
+        ltrFmt.estimateDirection('<some sort of tag/>$he &amp;', isHtml: false),
+        equals(LTR));
+    expect(
+        ltrFmt.estimateDirection('<some sort of tag/>$he &amp;', isHtml: true),
+        equals(RTL));
   });
 
   test('wrapWithSpan', () {
@@ -119,49 +120,49 @@ main() {
         equals('<span></span>'));
 
     // Test overall dir matches context dir (LTR.
-    expect(ltrFmt.wrapWithSpan(en, direction : TextDirection.LTR), equals(en));
+    expect(ltrFmt.wrapWithSpan(en, direction: TextDirection.LTR), equals(en));
     // Test overall dir (but not exit dir) supposedly matches context dir (LTR).
-    expect(ltrFmt.wrapWithSpan(he, direction : TextDirection.LTR),
+    expect(ltrFmt.wrapWithSpan(he, direction: TextDirection.LTR),
         equals('$he$LRM'));
     // Test overall dir matches context dir (RTL.
-    expect(rtlFmt.wrapWithSpan(he, direction : TextDirection.RTL), equals(he));
+    expect(rtlFmt.wrapWithSpan(he, direction: TextDirection.RTL), equals(he));
     // Test overall dir (but not exit dir) supposedly matches context dir (RTL).
-    expect(rtlFmt.wrapWithSpan(en, direction : TextDirection.RTL),
-      equals('$en$RLM'));
+    expect(rtlFmt.wrapWithSpan(en, direction: TextDirection.RTL),
+        equals('$en$RLM'));
 
     // Test overall dir (RTL) doesn't match context dir (LTR).
-    expect(ltrFmt.wrapWithSpan(he, direction : TextDirection.RTL),
+    expect(ltrFmt.wrapWithSpan(he, direction: TextDirection.RTL),
         equals('<span dir=rtl>$he</span>$LRM'));
     // Test supposed overall dir (RTL) doesn't match context dir (LTR).
-    expect(ltrFmt.wrapWithSpan(en, direction : TextDirection.RTL),
+    expect(ltrFmt.wrapWithSpan(en, direction: TextDirection.RTL),
         equals('<span dir=rtl>$en</span>$LRM'));
     // Test overall dir (LTR) doesn't match context dir (RTL).
-    expect(rtlFmt.wrapWithSpan(en, direction : TextDirection.LTR),
+    expect(rtlFmt.wrapWithSpan(en, direction: TextDirection.LTR),
         equals('<span dir=ltr>$en</span>$RLM'));
     // Test supposed overall dir (LTR) doesn't match context dir (RTL).
-    expect(rtlFmt.wrapWithSpan(he, direction : TextDirection.LTR),
+    expect(rtlFmt.wrapWithSpan(he, direction: TextDirection.LTR),
         equals('<span dir=ltr>$he</span>$RLM'));
     // Test supposed overall dir (LTR) doesn't match context dir (unknown).
-    expect(unkFmt.wrapWithSpan(he, direction : TextDirection.LTR),
+    expect(unkFmt.wrapWithSpan(he, direction: TextDirection.LTR),
         equals('<span dir=ltr>$he</span>'));
     // Test supposed overall dir (neutral) doesn't match context dir (LTR).
-    expect(ltrFmt.wrapWithSpan(he, direction : TextDirection.UNKNOWN),
+    expect(ltrFmt.wrapWithSpan(he, direction: TextDirection.UNKNOWN),
         equals('$he$LRM'));
   });
 
   test('wrapWithUnicode', () {
     // Test overall dir matches context dir (LTR), no dirReset.
-    expect(ltrFmt.wrapWithUnicode(en, isHtml: true, resetDir: false),
-        equals(en));
+    expect(
+        ltrFmt.wrapWithUnicode(en, isHtml: true, resetDir: false), equals(en));
     // Test overall dir matches context dir (LTR), dirReset.
-    expect(ltrFmt.wrapWithUnicode(en, isHtml: true, resetDir: true),
-        equals(en));
+    expect(
+        ltrFmt.wrapWithUnicode(en, isHtml: true, resetDir: true), equals(en));
     // Test overall dir matches context dir (RTL), no dirReset.
-    expect(rtlFmt.wrapWithUnicode(he, isHtml: true, resetDir: false),
-        equals(he));
+    expect(
+        rtlFmt.wrapWithUnicode(he, isHtml: true, resetDir: false), equals(he));
     // Test overall dir matches context dir (RTL), dirReset.
-    expect(rtlFmt.wrapWithUnicode(he, isHtml: true, resetDir: true),
-        equals(he));
+    expect(
+        rtlFmt.wrapWithUnicode(he, isHtml: true, resetDir: true), equals(he));
 
     // Test overall dir (RTL) doesn't match context dir (LTR), no dirReset.
     expect(ltrFmt.wrapWithUnicode(he, isHtml: true, resetDir: false),
@@ -182,46 +183,47 @@ main() {
     expect(unkFmt.wrapWithUnicode(he, isHtml: true, resetDir: true),
         equals('$RLE$he$PDF'));
     // Test overall dir (neutral) doesn't match context dir (LTR), dirReset.
-    expect(ltrFmt.wrapWithUnicode('', isHtml: true, resetDir: true),
-        equals(''));
+    expect(
+        ltrFmt.wrapWithUnicode('', isHtml: true, resetDir: true), equals(''));
 
     // Test exit dir (but not overall dir) is opposite to context dir, dirReset.
-    expect(ltrFmt.wrapWithUnicode('$longEn$he$html', isHtml: true,
-        resetDir: true), equals('$longEn$he$html$LRM'));
+    expect(
+        ltrFmt.wrapWithUnicode('$longEn$he$html', isHtml: true, resetDir: true),
+        equals('$longEn$he$html$LRM'));
     // Test overall dir (but not exit dir) is opposite to context dir, dirReset.
     expect(rtlFmt.wrapWithUnicode('$longEn$he', isHtml: true, resetDir: true),
         equals('$LRE$longEn$he$PDF$RLM'));
 
     // Test overall dir matches context dir (LTR).
-    expect(ltrFmt.wrapWithUnicode(en,
-        direction : TextDirection.LTR), equals(en));
+    expect(
+        ltrFmt.wrapWithUnicode(en, direction: TextDirection.LTR), equals(en));
     // Test overall dir (but not exit dir) supposedly matches context dir (LTR).
-    expect(ltrFmt.wrapWithUnicode(he, direction : TextDirection.LTR),
+    expect(ltrFmt.wrapWithUnicode(he, direction: TextDirection.LTR),
         equals('$he$LRM'));
     // Test overall dir matches context dir (RTL).
-    expect(rtlFmt.wrapWithUnicode(he,
-        direction : TextDirection.RTL), equals(he));
+    expect(
+        rtlFmt.wrapWithUnicode(he, direction: TextDirection.RTL), equals(he));
     // Test overall dir (but not exit dir) supposedly matches context dir (RTL).
-    expect(rtlFmt.wrapWithUnicode(en, direction : TextDirection.RTL),
+    expect(rtlFmt.wrapWithUnicode(en, direction: TextDirection.RTL),
         equals('$en$RLM'));
 
     // Test overall dir (RTL) doesn't match context dir (LTR).
-    expect(ltrFmt.wrapWithUnicode(he, direction : TextDirection.RTL),
+    expect(ltrFmt.wrapWithUnicode(he, direction: TextDirection.RTL),
         equals('$RLE$he$PDF$LRM'));
     // Test supposed overall dir (RTL) doesn't match context dir (LTR).
-    expect(ltrFmt.wrapWithUnicode(en, direction : TextDirection.RTL),
+    expect(ltrFmt.wrapWithUnicode(en, direction: TextDirection.RTL),
         equals('$RLE$en$PDF$LRM'));
     // Test overall dir (LTR) doesn't match context dir (RTL).
-    expect(rtlFmt.wrapWithUnicode(en, direction : TextDirection.LTR),
+    expect(rtlFmt.wrapWithUnicode(en, direction: TextDirection.LTR),
         equals('$LRE$en$PDF$RLM'));
     // Test supposed overall dir (LTR) doesn't match context dir (RTL).
-    expect(rtlFmt.wrapWithUnicode(he, direction : TextDirection.LTR),
+    expect(rtlFmt.wrapWithUnicode(he, direction: TextDirection.LTR),
         equals('$LRE$he$PDF$RLM'));
     // Test supposed overall dir (LTR) doesn't match context dir (unknown).
-    expect(unkFmt.wrapWithUnicode(he, direction : TextDirection.LTR),
+    expect(unkFmt.wrapWithUnicode(he, direction: TextDirection.LTR),
         equals('$LRE$he$PDF'));
     // Test supposed overall dir (neutral) doesn't match context dir (LTR).
-    expect(ltrFmt.wrapWithUnicode(he, direction : TextDirection.UNKNOWN),
+    expect(ltrFmt.wrapWithUnicode(he, direction: TextDirection.UNKNOWN),
         equals('$he$LRM'));
   });
 }

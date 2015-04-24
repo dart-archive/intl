@@ -13,12 +13,13 @@ main() {
   });
 }
 
-const defaultFiles =
-    const ["sample_with_messages.dart", "part_of_sample_with_messages.dart"];
+const defaultFiles = const [
+  "sample_with_messages.dart",
+  "part_of_sample_with_messages.dart"
+];
 
 void runTestWithWarnings({bool warningsAreErrors, int expectedExitCode,
-  bool embeddedPlurals: true, List<String> sourceFiles: defaultFiles}) {
-
+    bool embeddedPlurals: true, List<String> sourceFiles: defaultFiles}) {
   void verify(ProcessResult result) {
     try {
       expect(result.exitCode, expectedExitCode);
@@ -38,8 +39,8 @@ void runTestWithWarnings({bool warningsAreErrors, int expectedExitCode,
   }
   var files = sourceFiles.map(asTempDirPath).toList();
   var allArgs = [program]
-      ..addAll(args)
-      ..addAll(files);
+    ..addAll(args)
+    ..addAll(files);
   var callback = expectAsync(verify);
   run(null, allArgs).then(callback);
 }

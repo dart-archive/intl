@@ -16,6 +16,7 @@
  */
 
 library intl_basic_example;
+
 import 'dart:async';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
@@ -39,8 +40,14 @@ void setup(Function program, Function output) {
   var thaiDatesFuture = initializeDateFormatting('th_TH', null);
   var germanMessagesFuture = initializeMessages('de_DE');
   var thaiMessagesFuture = initializeMessages('th_TH');
-  Future.wait([germanDatesFuture, thaiDatesFuture, germanMessagesFuture,
-                thaiMessagesFuture]).then(program);
+  Future
+      .wait([
+    germanDatesFuture,
+    thaiDatesFuture,
+    germanMessagesFuture,
+    thaiMessagesFuture
+  ])
+      .then(program);
 }
 
 // Because the initialization messages return futures we split out the main

@@ -80,7 +80,7 @@ part 'src/intl/number_format.dart';
  *
  * See `tests/message_format_test.dart` for more examples.
  */
- //TODO(efortuna): documentation example involving the offset parameter?
+//TODO(efortuna): documentation example involving the offset parameter?
 
 class Intl {
   /**
@@ -100,7 +100,7 @@ class Intl {
    */
   static String get defaultLocale {
     var zoneLocale = Zone.current[#Intl.locale];
-    return zoneLocale == null ? _defaultLocale: zoneLocale;
+    return zoneLocale == null ? _defaultLocale : zoneLocale;
   }
   static set defaultLocale(String newLocale) => _defaultLocale = newLocale;
   static String _defaultLocale;
@@ -203,7 +203,7 @@ class Intl {
    * [newLocale] is null it will be returned.
    */
   static String verifiedLocale(String newLocale, Function localeExists,
-                               {Function onFailure: _throwLocaleError}) {
+      {Function onFailure: _throwLocaleError}) {
     // TODO(alanknight): Previously we kept a single verified locale on the Intl
     // object, but with different verification for different uses, that's more
     // difficult. As a result, we call this more often. Consider keeping
@@ -260,8 +260,7 @@ class Intl {
     var region = aLocale.substring(3);
     // If it's longer than three it's something odd, so don't touch it.
     if (region.length <= 3) region = region.toUpperCase();
-    return
-        '${aLocale[0]}${aLocale[1]}_$region';
+    return '${aLocale[0]}${aLocale[1]}_$region';
   }
 
   /**
@@ -277,22 +276,26 @@ class Intl {
     // top-level message, so look up our translation by calling Intl.message
     // with ourselves as an argument.
     if (name != null) {
-      return message(
-        plural(howMany,
-            zero: zero, one: one, two: two, few: few, many: many, other: other),
-        name: name,
-        args: args,
-        locale: locale,
-        meaning: meaning);
+      return message(plural(howMany,
+              zero: zero,
+              one: one,
+              two: two,
+              few: few,
+              many: many,
+              other: other),
+          name: name, args: args, locale: locale, meaning: meaning);
     }
     if (other == null) {
       throw new ArgumentError("The 'other' named argument must be provided");
     }
     // TODO(alanknight): This algorithm needs to be locale-dependent.
     switch (howMany) {
-      case 0 : return (zero == null) ? other : zero;
-      case 1 : return (one == null) ? other : one;
-      case 2: return (two == null) ? ((few == null) ? other : few) : two;
+      case 0:
+        return (zero == null) ? other : zero;
+      case 1:
+        return (one == null) ? other : one;
+      case 2:
+        return (two == null) ? ((few == null) ? other : few) : two;
       default:
         if ((howMany == 3 || howMany == 4) && few != null) return few;
         if (howMany > 10 && howMany < 100 && many != null) return many;
@@ -305,29 +308,28 @@ class Intl {
    * Format a message differently depending on [targetGender]. Normally used as
    * part of an Intl.message message that is to be translated.
    */
-  static String gender(String targetGender,
-      {String male, String female, String other,
-       String desc, Map<String, String> examples, String locale, String name,
-       List<String>args, String meaning}) {
+  static String gender(String targetGender, {String male, String female,
+      String other, String desc, Map<String, String> examples, String locale,
+      String name, List<String> args, String meaning}) {
     // If we are passed a name and arguments, then we are operating as a
     // top-level message, so look up our translation by calling Intl.message
     // with ourselves as an argument.
     if (name != null) {
       return message(
-        gender(targetGender, male: male, female: female, other: other),
-        name: name,
-        args: args,
-        locale: locale,
-        meaning: meaning);
+          gender(targetGender, male: male, female: female, other: other),
+          name: name, args: args, locale: locale, meaning: meaning);
     }
 
     if (other == null) {
       throw new ArgumentError("The 'other' named argument must be specified");
     }
-    switch(targetGender) {
-      case "female" : return female == null ? other : female;
-      case "male" : return male == null ? other : male;
-      default: return other;
+    switch (targetGender) {
+      case "female":
+        return female == null ? other : female;
+      case "male":
+        return male == null ? other : male;
+      default:
+        return other;
     }
   }
 
@@ -337,24 +339,21 @@ class Intl {
    * it is not found. Normally used as part
    * of an Intl.message message that is to be translated.
    */
-  static String select(String choice, Map<String, String> cases,
-       {String desc, Map<String, String> examples, String locale, String name,
-       List<String>args, String meaning}) {
+  static String select(String choice, Map<String, String> cases, {String desc,
+      Map<String, String> examples, String locale, String name,
+      List<String> args, String meaning}) {
     // If we are passed a name and arguments, then we are operating as a
     // top-level message, so look up our translation by calling Intl.message
     // with ourselves as an argument.
     if (name != null) {
-      return message(
-          select(choice, cases),
-          name: name,
-          args: args,
-          locale: locale);
+      return message(select(choice, cases),
+          name: name, args: args, locale: locale);
     }
     var exact = cases[choice];
     if (exact != null) return exact;
     var other = cases["other"];
-    if (other == null)
-      throw new ArgumentError("The 'other' case must be specified");
+    if (other ==
+        null) throw new ArgumentError("The 'other' case must be specified");
     return other;
   }
 
@@ -385,7 +384,7 @@ class Intl {
    */
   static withLocale(String locale, function()) {
     var canonical = Intl.canonicalizedLocale(locale);
-    return runZoned(function, zoneValues: {#Intl.locale : canonical});
+    return runZoned(function, zoneValues: {#Intl.locale: canonical});
   }
 
   /**

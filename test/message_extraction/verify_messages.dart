@@ -74,14 +74,13 @@ actuallyVerifyResult() {
   verify('rent');
   verify('rent');
 
-  var fr_lines = expanded.skip(1).skipWhile(
-      (line) => !line.contains('----')).toList();
+  var fr_lines =
+      expanded.skip(1).skipWhile((line) => !line.contains('----')).toList();
   lineIterator = fr_lines.iterator..moveNext();
   verify("Printing messages for fr");
   verify("Il s'agit d'un message");
   verify("Un autre message avec un seul paramètre hello");
-  verify(
-      "Caractères qui doivent être échapper, par exemple barres \\ "
+  verify("Caractères qui doivent être échapper, par exemple barres \\ "
       "dollars \${ (les accolades sont ok), et xml/html réservés <& et "
       "des citations \" "
       "avec quelques paramètres ainsi 1, 2, et 3");
@@ -89,9 +88,8 @@ actuallyVerifyResult() {
   verify("1, b, [c, d]");
   verify('"Soi-disant"');
   verify("Cette chaîne est toujours traduit");
-  verify(
-      "L'interpolation est délicate quand elle se termine une "
-          "phrase comme this.");
+  verify("L'interpolation est délicate quand elle se termine une "
+      "phrase comme this.");
   verify("Cela vient d'une méthode");
   verify("Cette méthode n'est pas un lambda");
   verify("Cela vient d'une méthode statique");
@@ -140,14 +138,13 @@ actuallyVerifyResult() {
   verify('louer');
   verify('loyer');
 
-  var de_lines = fr_lines.skip(1).skipWhile(
-      (line) => !line.contains('----')).toList();
+  var de_lines =
+      fr_lines.skip(1).skipWhile((line) => !line.contains('----')).toList();
   lineIterator = de_lines.iterator..moveNext();
   verify("Printing messages for de_DE");
   verify("Dies ist eine Nachricht");
   verify("Eine weitere Meldung mit dem Parameter hello");
-  verify(
-      "Zeichen, die Flucht benötigen, zB Schrägstriche \\ Dollar "
+  verify("Zeichen, die Flucht benötigen, zB Schrägstriche \\ Dollar "
       "\${ (geschweiften Klammern sind ok) und xml reservierte Zeichen <& und "
       "Zitate \" Parameter 1, 2 und 3");
   verify("Dieser String erstreckt sich über mehrere "

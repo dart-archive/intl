@@ -64,7 +64,7 @@ var formatsToTest = const [
   // ABBR_SPECIFIC_TZ,
   // SPECIFIC_TZ,
   // ABBR_UTC_TZ
-  ];
+];
 
 var icuFormatNamesToTest = const [
   // It would be really nice to not have to duplicate this and just be able
@@ -128,7 +128,7 @@ var icuFormatNamesToTest = const [
  */
 testLocale(String localeName, Map expectedResults, DateTime date) {
   var intl = new Intl(localeName);
-  for(int i=0; i<formatsToTest.length; i++) {
+  for (int i = 0; i < formatsToTest.length; i++) {
     var skeleton = formatsToTest[i];
     var format = intl.date(skeleton);
     var icuName = icuFormatNamesToTest[i];
@@ -145,21 +145,22 @@ testRoundTripParsing(String localeName, DateTime date) {
   // the skeleton WEEKDAY can't be reconstructed at all, and YEAR_MONTH
   // formats don't give us enough information to construct a valid date.
   var badSkeletons = const [
-      DateFormat.ABBR_WEEKDAY,
-      DateFormat.WEEKDAY,
-      DateFormat.QUARTER,
-      DateFormat.ABBR_QUARTER,
-      DateFormat.YEAR,
-      DateFormat.YEAR_NUM_MONTH,
-      DateFormat.YEAR_ABBR_MONTH,
-      DateFormat.YEAR_MONTH,
-      DateFormat.MONTH_WEEKDAY_DAY,
-      DateFormat.NUM_MONTH_WEEKDAY_DAY,
-      DateFormat.ABBR_MONTH_WEEKDAY_DAY];
+    DateFormat.ABBR_WEEKDAY,
+    DateFormat.WEEKDAY,
+    DateFormat.QUARTER,
+    DateFormat.ABBR_QUARTER,
+    DateFormat.YEAR,
+    DateFormat.YEAR_NUM_MONTH,
+    DateFormat.YEAR_ABBR_MONTH,
+    DateFormat.YEAR_MONTH,
+    DateFormat.MONTH_WEEKDAY_DAY,
+    DateFormat.NUM_MONTH_WEEKDAY_DAY,
+    DateFormat.ABBR_MONTH_WEEKDAY_DAY
+  ];
   var originalTime = new DateTime.now();
   var originalTimeZoneOffset = date.timeZoneOffset;
   var originalTimeZoneName = date.timeZoneName;
-  for(int i = 0; i < formatsToTest.length; i++) {
+  for (int i = 0; i < formatsToTest.length; i++) {
     var skeleton = formatsToTest[i];
     if (!badSkeletons.any((x) => x == skeleton)) {
       var format = new DateFormat(skeleton, localeName);
@@ -179,7 +180,7 @@ Function _subsetFunc;
 List<String> _subsetValue;
 
 List<String> get subset {
-  if(_subsetValue == null) {
+  if (_subsetValue == null) {
     _subsetValue = _subsetFunc();
   }
   return _subsetValue;
@@ -201,23 +202,17 @@ void runDateTests(Function subsetFunc) {
     var separateFormat = "${separate1.format(date)} ${separate2.format(date)}";
     expect(multiple1.format(date), equals(multiple2.format(date)));
     expect(multiple1.format(date), equals(separateFormat));
-    var customPunctuation = new DateFormat("yMd").addPattern("jms",":::");
+    var customPunctuation = new DateFormat("yMd").addPattern("jms", ":::");
     var custom = "${separate1.format(date)}:::${separate2.format(date)}";
     expect(customPunctuation.format(date), equals(custom));
   });
 
   test('Basic date format parsing', () {
     var date_format = new DateFormat("d");
-    expect(
-        date_format.parsePattern("hh:mm:ss")
-            .map((x) => x.pattern)
-            .toList(),
-        orderedEquals(["hh",":", "mm",":","ss"]));
-    expect(
-        date_format.parsePattern("hh:mm:ss")
-            .map((x) => x.pattern)
-            .toList(),
-        orderedEquals(["hh",":", "mm",":","ss"]));
+    expect(date_format.parsePattern("hh:mm:ss").map((x) => x.pattern).toList(),
+        orderedEquals(["hh", ":", "mm", ":", "ss"]));
+    expect(date_format.parsePattern("hh:mm:ss").map((x) => x.pattern).toList(),
+        orderedEquals(["hh", ":", "mm", ":", "ss"]));
   });
 
   test('Test ALL the supported formats on representative locales', () {
@@ -289,19 +284,15 @@ void runDateTests(Function subsetFunc) {
     expect(greek.format(aDate), equals(r"12 //// :W \\\\ 27:59 ^&@ 1"));
     var usWithWords = new DateFormat('yy / :W \\ dd:ss ^&@ MMM', 'en_US');
     var greekWithWords = new DateFormat('yy / :W \\ dd:ss ^&@ MMM', 'el_GR');
-    expect(
-        usWithWords.format(aDate),
-        equals(r"12 / :W \ 27:59 ^&@ Jan"));
-    expect(
-        greekWithWords.format(aDate),
-        equals(r"12 / :W \ 27:59 ^&@ Ιαν"));
+    expect(usWithWords.format(aDate), equals(r"12 / :W \ 27:59 ^&@ Jan"));
+    expect(greekWithWords.format(aDate), equals(r"12 / :W \ 27:59 ^&@ Ιαν"));
     var escaped = new DateFormat(r"hh 'o''clock'");
     expect(escaped.format(aDate), equals(r"08 o'clock"));
     var reParsed = escaped.parse(escaped.format(aDate));
     expect(escaped.format(reParsed), equals(escaped.format(aDate)));
     var noSeparators = new DateFormat('HHmmss');
     expect(noSeparators.format(aDate), equals("205859"));
-    });
+  });
 
   test('Test fractional seconds padding', () {
     var one = new DateTime(2012, 1, 27, 20, 58, 59, 1);
@@ -324,12 +315,12 @@ void runDateTests(Function subsetFunc) {
     var localPrinted = format.format(local);
     var parsed = format.parse(localPrinted);
     var parsedUTC = format.parseUTC(format.format(utc));
-    var parsedOffset = parsedUTC.millisecondsSinceEpoch
-        - parsed.millisecondsSinceEpoch;
+    var parsedOffset =
+        parsedUTC.millisecondsSinceEpoch - parsed.millisecondsSinceEpoch;
     expect(parsedOffset, equals(offset));
     expect(utc.hour, equals(parsedUTC.hour));
     expect(local.hour, equals(parsed.hour));
-    });
+  });
 
   test('Test 0-padding', () {
     var someDate = new DateTime(123, 1, 2, 3, 4, 5);
@@ -353,16 +344,26 @@ void runDateTests(Function subsetFunc) {
   });
 
   test('Quarter calculation', () {
-    var quarters = ['Q1', 'Q1', 'Q1',
-                    'Q2', 'Q2', 'Q2',
-                    'Q3', 'Q3', 'Q3',
-                    'Q4', 'Q4', 'Q4'];
+    var quarters = [
+      'Q1',
+      'Q1',
+      'Q1',
+      'Q2',
+      'Q2',
+      'Q2',
+      'Q3',
+      'Q3',
+      'Q3',
+      'Q4',
+      'Q4',
+      'Q4'
+    ];
     var quarterFormat = new DateFormat.QQQ();
     for (int i = 0; i < 12; i++) {
-        var month = i + 1;
-        var aDate = new DateTime(2012, month, 27, 13, 58, 59, 012);
-        var formatted = quarterFormat.format(aDate);
-        expect(formatted, quarters[i]);
+      var month = i + 1;
+      var aDate = new DateTime(2012, month, 27, 13, 58, 59, 012);
+      var formatted = quarterFormat.format(aDate);
+      expect(formatted, quarters[i]);
     }
   });
 
@@ -372,13 +373,12 @@ void runDateTests(Function subsetFunc) {
    * [leapDay], otherwise pass 0.
    */
   Map<int, DateTime> generateDates(int year, int leapDay) =>
-      new Iterable.generate(365 + leapDay, (n) => n + 1)
-        .map((day) {
-          var result = new DateTime(year, 1, day);
-          // TODO(alanknight): This is a workaround for dartbug.com/15560.
-          if (result.toUtc() == result) result = new DateTime(year, 1, day);
-          return result;
-        }).toList().asMap();
+      new Iterable.generate(365 + leapDay, (n) => n + 1).map((day) {
+    var result = new DateTime(year, 1, day);
+    // TODO(alanknight): This is a workaround for dartbug.com/15560.
+    if (result.toUtc() == result) result = new DateTime(year, 1, day);
+    return result;
+  }).toList().asMap();
 
   void verifyOrdinals(Map dates) {
     var f = new DateFormat("D");

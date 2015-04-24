@@ -24,9 +24,9 @@ class UninitializedLocaleData<F> {
   operator [](String key) =>
       (key == 'en_US') ? fallbackData : _throwException();
 
-  String lookupMessage(String message_str, [final String desc='',
-      final Map examples=const {}, String locale,
-      String name, List<String> args, String meaning]) => message_str;
+  String lookupMessage(String message_str, [final String desc = '',
+      final Map examples = const {}, String locale, String name,
+      List<String> args, String meaning]) => message_str;
 
   List get keys => _throwException();
 
@@ -56,8 +56,8 @@ abstract class LocaleDataReader {
  * by the implementing package so that we're not dependent on its
  * implementation.
  */
-var messageLookup = const
-    UninitializedLocaleData('initializeMessages(<locale>)', null);
+var messageLookup =
+    const UninitializedLocaleData('initializeMessages(<locale>)', null);
 
 /**
  * Initialize the message lookup mechanism. This is for internal use only.

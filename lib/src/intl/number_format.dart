@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 part of intl;
+
 /**
  * Provides the ability to format a number in a locale-specific way. The
  * format is specified as a pattern using a subset of the ICU formatting
@@ -117,16 +118,16 @@ class NumberFormat {
       new NumberFormat._forPattern(locale, (x) => newPattern);
 
   /** Create a number format that prints as DECIMAL_PATTERN. */
-  NumberFormat.decimalPattern([String locale]) : this._forPattern(locale,
-      (x) => x.DECIMAL_PATTERN);
+  NumberFormat.decimalPattern([String locale])
+      : this._forPattern(locale, (x) => x.DECIMAL_PATTERN);
 
   /** Create a number format that prints as PERCENT_PATTERN. */
-  NumberFormat.percentPattern([String locale]) : this._forPattern(locale,
-      (x) => x.PERCENT_PATTERN);
+  NumberFormat.percentPattern([String locale])
+      : this._forPattern(locale, (x) => x.PERCENT_PATTERN);
 
   /** Create a number format that prints as SCIENTIFIC_PATTERN. */
-  NumberFormat.scientificPattern([String locale]) : this._forPattern(locale,
-      (x) => x.SCIENTIFIC_PATTERN);
+  NumberFormat.scientificPattern([String locale])
+      : this._forPattern(locale, (x) => x.SCIENTIFIC_PATTERN);
 
   /**
    * Create a number format that prints as CURRENCY_PATTERN. If provided,
@@ -134,16 +135,16 @@ class NumberFormat {
    *        var eurosInCurrentLocale = new NumberFormat
    *            .currencyPattern(Intl.defaultLocale, "€");
    */
-  NumberFormat.currencyPattern([String locale, String nameOrSymbol]) :
-      this._forPattern(locale, (x) => x.CURRENCY_PATTERN, nameOrSymbol);
+  NumberFormat.currencyPattern([String locale, String nameOrSymbol])
+      : this._forPattern(locale, (x) => x.CURRENCY_PATTERN, nameOrSymbol);
 
   /**
    * Create a number format that prints in a pattern we get from
    * the [getPattern] function using the locale [locale].
    */
   NumberFormat._forPattern(String locale, Function getPattern,
-      [this.currencyName]) :
-        _locale = Intl.verifiedLocale(locale, localeExists) {
+      [this.currencyName])
+      : _locale = Intl.verifiedLocale(locale, localeExists) {
     _symbols = numberFormatSymbols[_locale];
     if (currencyName == null) {
       currencyName = _symbols.DEF_CURRENCY_CODE;
@@ -216,8 +217,8 @@ class NumberFormat {
     var mantissa = number / pow(10.0, exponent);
 
     var minIntDigits = minimumIntegerDigits;
-    if (maximumIntegerDigits > 1 && maximumIntegerDigits > minimumIntegerDigits)
-        {
+    if (maximumIntegerDigits > 1 &&
+        maximumIntegerDigits > minimumIntegerDigits) {
       // A repeating range is defined; adjust to it as follows.
       // If repeat == 3, we have 6,5,4=>3; 3,2,1=>0; 0,-1,-2=>-3;
       // -3,-4,-5=>-6, etc. This takes into account that the
@@ -396,10 +397,18 @@ class NumberFormat {
   /** A group of methods that provide support for writing digits and other
    * required characters into [_buffer] easily.
    */
-  void _add(String x) { _buffer.write(x);}
-  void _addCharCode(int x) { _buffer.writeCharCode(x);}
-  void _addZero() { _buffer.write(symbols.ZERO_DIGIT);}
-  void _addDigit(int x) { _buffer.writeCharCode(_localeZero + x - _zero);}
+  void _add(String x) {
+    _buffer.write(x);
+  }
+  void _addCharCode(int x) {
+    _buffer.writeCharCode(x);
+  }
+  void _addZero() {
+    _buffer.write(symbols.ZERO_DIGIT);
+  }
+  void _addDigit(int x) {
+    _buffer.writeCharCode(_localeZero + x - _zero);
+  }
 
   /** Print padding up to [numberOfDigits] above what's included in [basic]. */
   void _pad(int numberOfDigits, [String basic = '']) {
@@ -533,8 +542,9 @@ class _NumberParser {
   /**
    *  Create a new [_NumberParser] on which we can call parse().
    */
-  _NumberParser(this.format, text) : this.text = text,
-      this.input = new _Stream(text) {
+  _NumberParser(this.format, text)
+      : this.text = text,
+        this.input = new _Stream(text) {
     value = parse();
   }
 
@@ -545,28 +555,29 @@ class _NumberParser {
    * [symbols.PERCENT] might be " %", and we must handle that before we
    * look at an individual space.
    */
-  Map<String, Function> get replacements => _replacements == null ?
-      _replacements = _initializeReplacements() : _replacements;
+  Map<String, Function> get replacements => _replacements == null
+      ? _replacements = _initializeReplacements()
+      : _replacements;
 
   var _replacements;
 
   Map _initializeReplacements() => {
-      symbols.DECIMAL_SEP: () => '.',
-      symbols.EXP_SYMBOL: () => 'E',
-      symbols.GROUP_SEP: handleSpace,
-      symbols.PERCENT: () {
-        scale = _NumberFormatParser._PERCENT_SCALE;
-        return '';
-      },
-      symbols.PERMILL: () {
-        scale = _NumberFormatParser._PER_MILLE_SCALE;
-        return '';
-      },
-      ' ' : handleSpace,
-      '\u00a0' : handleSpace,
-      '+': () => '+',
-      '-': () => '-',
-    };
+    symbols.DECIMAL_SEP: () => '.',
+    symbols.EXP_SYMBOL: () => 'E',
+    symbols.GROUP_SEP: handleSpace,
+    symbols.PERCENT: () {
+      scale = _NumberFormatParser._PERCENT_SCALE;
+      return '';
+    },
+    symbols.PERMILL: () {
+      scale = _NumberFormatParser._PER_MILLE_SCALE;
+      return '';
+    },
+    ' ': handleSpace,
+    '\u00a0': handleSpace,
+    '+': () => '+',
+    '-': () => '-',
+  };
 
   invalidFormat() =>
       throw new FormatException("Invalid number: ${input.contents}");
@@ -609,9 +620,9 @@ class _NumberParser {
    */
   void checkPrefixes({bool skip: false}) {
     bool checkPrefix(String prefix, skip) {
-        var matched = prefix.isNotEmpty && input.startsWith(prefix);
-        if (skip && matched) input.read(prefix.length);
-        return matched;
+      var matched = prefix.isNotEmpty && input.startsWith(prefix);
+      if (skip && matched) input.read(prefix.length);
+      return matched;
     }
 
     // TODO(alanknight): There's a faint possibility of a bug here where
@@ -755,8 +766,8 @@ class _NumberFormatParser {
    * Create a new [_NumberFormatParser] for a particular [NumberFormat] and
    * [input] pattern.
    */
-  _NumberFormatParser(this.format, input, this.currencyName) :
-      pattern = _iterator(input) {
+  _NumberFormatParser(this.format, input, this.currencyName)
+      : pattern = _iterator(input) {
     pattern.moveNext();
   }
 
@@ -890,9 +901,10 @@ class _NumberFormatParser {
 
     // Do syntax checking on the digits.
     if (decimalPos < 0 && digitRightCount > 0 ||
-        decimalPos >= 0 && (decimalPos < digitLeftCount ||
-            decimalPos > digitLeftCount + zeroDigitCount) ||
-            groupingCount == 0) {
+        decimalPos >= 0 &&
+            (decimalPos < digitLeftCount ||
+                decimalPos > digitLeftCount + zeroDigitCount) ||
+        groupingCount == 0) {
       throw new FormatException('Malformed pattern "${pattern.input}"');
     }
     var totalDigits = digitLeftCount + zeroDigitCount + digitRightCount;
@@ -913,8 +925,8 @@ class _NumberFormatParser {
     var effectiveDecimalPos = decimalPos >= 0 ? decimalPos : totalDigits;
     format.minimumIntegerDigits = effectiveDecimalPos - digitLeftCount;
     if (format._useExponentialNotation) {
-      format.maximumIntegerDigits = digitLeftCount +
-          format.minimumIntegerDigits;
+      format.maximumIntegerDigits =
+          digitLeftCount + format.minimumIntegerDigits;
 
       // In exponential display, we need to at least show something.
       if (format.maximumFractionDigits == 0 &&
@@ -927,8 +939,8 @@ class _NumberFormatParser {
     if (!format._groupingSizeSetExplicitly) {
       format._groupingSize = format._finalGroupingSize;
     }
-    format._decimalSeparatorAlwaysShown = decimalPos == 0 ||
-        decimalPos == totalDigits;
+    format._decimalSeparatorAlwaysShown =
+        decimalPos == 0 || decimalPos == totalDigits;
 
     return trunk.toString();
   }
@@ -953,8 +965,8 @@ class _NumberFormatParser {
         break;
       case _PATTERN_ZERO_DIGIT:
         if (digitRightCount > 0) {
-          throw new FormatException('Unexpected "0" in pattern "' +
-              pattern.input + '"');
+          throw new FormatException(
+              'Unexpected "0" in pattern "' + pattern.input + '"');
         }
         zeroDigitCount++;
         if (groupingCount >= 0 && decimalPos < 0) {
@@ -1066,5 +1078,4 @@ class _StringIterator implements Iterator<String> {
     if (input is! String) throw new ArgumentError(input);
     return input;
   }
-
 }

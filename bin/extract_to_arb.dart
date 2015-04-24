@@ -20,18 +20,24 @@ import 'package:args/args.dart';
 main(List<String> args) {
   var targetDir;
   var parser = new ArgParser();
-  parser.addFlag("suppress-warnings", defaultsTo: false, callback: (x) =>
-      suppressWarnings = x, help: 'Suppress printing of warnings.');
-  parser.addFlag("warnings-are-errors", defaultsTo: false, callback: (x) =>
-      warningsAreErrors = x,
+  parser.addFlag("suppress-warnings",
+      defaultsTo: false,
+      callback: (x) => suppressWarnings = x,
+      help: 'Suppress printing of warnings.');
+  parser.addFlag("warnings-are-errors",
+      defaultsTo: false,
+      callback: (x) => warningsAreErrors = x,
       help: 'Treat all warnings as errors, stop processing ');
-  parser.addFlag("embedded-plurals", defaultsTo: true,
+  parser.addFlag("embedded-plurals",
+      defaultsTo: true,
       callback: (x) => allowEmbeddedPluralsAndGenders = x,
       help: 'Allow plurals and genders to be embedded as part of a larger '
-          'string, otherwise they must be at the top level.');
+      'string, otherwise they must be at the top level.');
 
-  parser.addOption("output-dir", defaultsTo: '.', callback: (value) => targetDir
-      = value, help: 'Specify the output directory.');
+  parser.addOption("output-dir",
+      defaultsTo: '.',
+      callback: (value) => targetDir = value,
+      help: 'Specify the output directory.');
   parser.parse(args);
   if (args.length == 0) {
     print('Accepts Dart files and produces intl_messages.json');
@@ -74,7 +80,6 @@ Map toARB(MainMessage message) {
   return out;
 }
 
-
 Map arbMetadata(MainMessage message) {
   var out = {};
   var desc = message.description;
@@ -102,20 +107,20 @@ void addArgumentFor(MainMessage message, String arg, Map result) {
  * Return a version of the message string with
  * with ICU parameters "{variable}" rather than Dart interpolations "$variable".
  */
-String icuForm(MainMessage message) => message.expanded(
-    turnInterpolationIntoICUForm);
+String icuForm(MainMessage message) =>
+    message.expanded(turnInterpolationIntoICUForm);
 
 String turnInterpolationIntoICUForm(Message message, chunk,
     {bool shouldEscapeICU: false}) {
   if (chunk is String) {
-    return shouldEscapeICU? escape(chunk) : chunk;
+    return shouldEscapeICU ? escape(chunk) : chunk;
   }
   if (chunk is int && chunk >= 0 && chunk < message.arguments.length) {
     return "{${message.arguments[chunk]}}";
   }
   if (chunk is SubMessage) {
-    return chunk.expanded((message, chunk) => turnInterpolationIntoICUForm(
-        message, chunk, shouldEscapeICU: true));
+    return chunk.expanded((message, chunk) =>
+        turnInterpolationIntoICUForm(message, chunk, shouldEscapeICU: true));
   }
   if (chunk is Message) {
     return chunk.expanded((message, chunk) => turnInterpolationIntoICUForm(

@@ -107,7 +107,6 @@ String _reportErrorLocation(AstNode node) {
  * the Intl.message invocation.
  */
 class MessageFindingVisitor extends GeneralizingAstVisitor {
-
   MessageFindingVisitor();
 
   /**
@@ -134,11 +133,16 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
 
   Message _expectedInstance(String type) {
     switch (type) {
-      case 'message' : return new MainMessage();
-      case 'plural' : return new Plural();
-      case 'gender' : return new Gender();
-      case 'select' : return new Select();
-      default: return null;
+      case 'message':
+        return new MainMessage();
+      case 'plural':
+        return new Plural();
+      case 'gender':
+        return new Gender();
+      case 'select':
+        return new Select();
+      default:
+        return null;
     }
   }
 
@@ -206,8 +210,8 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
     if (reason != null) {
       if (!suppressWarnings) {
         var err = new StringBuffer()
-            ..write("Skipping invalid Intl.message invocation\n    <$node>\n")
-            ..writeAll(["    reason: $reason\n", _reportErrorLocation(node)]);
+          ..write("Skipping invalid Intl.message invocation\n    <$node>\n")
+          ..writeAll(["    reason: $reason\n", _reportErrorLocation(node)]);
         warnings.add(err.toString());
         print(err);
       }
@@ -231,12 +235,12 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
    * by calling [setAttribute]. This is the common parts between
    * [messageFromIntlMessageCall] and [messageFromDirectPluralOrGenderCall].
    */
-  MainMessage _messageFromNode(MethodInvocation node, Function extract,
-      Function setAttribute) {
+  MainMessage _messageFromNode(
+      MethodInvocation node, Function extract, Function setAttribute) {
     var message = new MainMessage();
     message.name = name;
-    message.arguments = parameters.parameters.map(
-        (x) => x.identifier.name).toList();
+    message.arguments =
+        parameters.parameters.map((x) => x.identifier.name).toList();
     var arguments = node.argumentList.arguments;
     var extractionResult = extract(message, arguments);
     if (extractionResult == null) return null;
@@ -246,8 +250,9 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
       var exp = namedArgument.expression;
       var evaluator = new ConstantEvaluator();
       var basicValue = exp.accept(evaluator);
-      var value = basicValue == ConstantEvaluator.NOT_A_CONSTANT ?
-          exp.toString() : basicValue;
+      var value = basicValue == ConstantEvaluator.NOT_A_CONSTANT
+          ? exp.toString()
+          : basicValue;
       setAttribute(message, name, value);
     }
     return message;
@@ -259,7 +264,6 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
    * and the parameters to the Intl.message call.
    */
   MainMessage messageFromIntlMessageCall(MethodInvocation node) {
-
     MainMessage extractFromIntlCall(MainMessage message, List arguments) {
       try {
         var interpolation = new InterpolationVisitor(message);
@@ -277,8 +281,8 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
       } on IntlMessageExtractionException catch (e) {
         message = null;
         var err = new StringBuffer()
-            ..writeAll(["Error ", e, "\nProcessing <", node, ">\n"])
-            ..write(_reportErrorLocation(node));
+          ..writeAll(["Error ", e, "\nProcessing <", node, ">\n"])
+          ..write(_reportErrorLocation(node));
         print(err);
         warnings.add(err.toString());
       }
@@ -368,9 +372,9 @@ class InterpolationVisitor extends SimpleAstVisitor {
     node.accept(visitor);
     if (!visitor.foundPluralOrGender) {
       throw new IntlMessageExtractionException(
-        "Only simple identifiers and Intl.plural/gender/select expressions "
-        "are allowed in message "
-        "interpolation expressions.\nError at $node");
+          "Only simple identifiers and Intl.plural/gender/select expressions "
+          "are allowed in message "
+          "interpolation expressions.\nError at $node");
     }
   }
 
@@ -451,12 +455,19 @@ class PluralAndGenderVisitor extends SimpleAstVisitor {
    */
   Message messageFromMethodInvocation(MethodInvocation node) {
     var message;
-    switch(node.methodName.name) {
-      case "gender" : message = new Gender(); break;
-      case "plural" : message = new Plural(); break;
-      case "select" : message = new Select(); break;
-      default: throw new IntlMessageExtractionException(
-          "Invalid plural/gender/select message");
+    switch (node.methodName.name) {
+      case "gender":
+        message = new Gender();
+        break;
+      case "plural":
+        message = new Plural();
+        break;
+      case "select":
+        message = new Select();
+        break;
+      default:
+        throw new IntlMessageExtractionException(
+            "Invalid plural/gender/select message");
     }
     message.parent = parent;
 
@@ -469,14 +480,14 @@ class PluralAndGenderVisitor extends SimpleAstVisitor {
       } on IntlMessageExtractionException catch (e) {
         message = null;
         var err = new StringBuffer()
-            ..writeAll(["Error ", e, "\nProcessing <", node, ">"])
-            ..write(_reportErrorLocation(node));
+          ..writeAll(["Error ", e, "\nProcessing <", node, ">"])
+          ..write(_reportErrorLocation(node));
         print(err);
         warnings.add(err.toString());
       }
     });
-    var mainArg = node.argumentList.arguments.firstWhere(
-        (each) => each is! NamedExpression);
+    var mainArg = node.argumentList.arguments
+        .firstWhere((each) => each is! NamedExpression);
     if (mainArg is SimpleStringLiteral) {
       message.mainArgument = mainArg.toString();
     } else {

@@ -33,7 +33,7 @@ main() {
  */
 veryBigNumberCompare(str1, str2) {
   return str1.length == str2.length &&
-         str1.substring(0, 8) == str2.substring(0, 8);
+      str1.substring(0, 8) == str2.substring(0, 8);
 }
 
 testVeryBigNumber() {
@@ -385,7 +385,7 @@ testLocaleSwitch() {
 
 testLocaleSwitchAsync() {
   Intl.withLocale("fr", () {
-    new Timer(new Duration(milliseconds:10), expectAsync(verifyFrenchLocale));
+    new Timer(new Duration(milliseconds: 10), expectAsync(verifyFrenchLocale));
   });
   // Verify that things running outside the zone still get en_US.
   testStandardFormat();

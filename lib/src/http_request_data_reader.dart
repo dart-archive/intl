@@ -26,7 +26,7 @@ class HttpRequestDataReader implements LocaleDataReader {
     var request = new HttpRequest();
     request.timeout = 5000;
     return _getString('$url$locale.json?cacheBlocker=$someNumber', request)
-      .then((r) => r.responseText);
+        .then((r) => r.responseText);
   }
 
   /// Read a string with the given request. This is a stripped down copy
@@ -38,7 +38,8 @@ class HttpRequestDataReader implements LocaleDataReader {
     xhr.onLoad.listen((e) {
       // Note: file:// URIs have status of 0.
       if ((xhr.status >= 200 && xhr.status < 300) ||
-          xhr.status == 0 || xhr.status == 304) {
+          xhr.status == 0 ||
+          xhr.status == 304) {
         completer.complete(xhr);
       } else {
         completer.completeError(e);

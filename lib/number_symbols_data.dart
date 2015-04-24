@@ -17,13 +17,14 @@
  */
 
 library number_symbol_data;
+
 import "number_symbols.dart";
 
 Map numberFormatSymbols = const {
   /**
    * Number formatting symbols for locale af.
    */
-  "af" : const NumberSymbols(
+  "af": const NumberSymbols(
       NAME: "af",
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
@@ -39,12 +40,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'ZAR'
-),
+      DEF_CURRENCY_CODE: 'ZAR'),
   /**
    * Number formatting symbols for locale am.
    */
-  "am" : const NumberSymbols(
+  "am": const NumberSymbols(
       NAME: "am",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -60,12 +60,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'ETB'
-),
+      DEF_CURRENCY_CODE: 'ETB'),
   /**
    * Number formatting symbols for locale ar.
    */
-  "ar" : const NumberSymbols(
+  "ar": const NumberSymbols(
       NAME: "ar",
       DECIMAL_SEP: '\u066B',
       GROUP_SEP: '\u066C',
@@ -81,12 +80,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4\u00A0#,##0.00',
-      DEF_CURRENCY_CODE: 'EGP'
-),
+      DEF_CURRENCY_CODE: 'EGP'),
   /**
    * Number formatting symbols for locale az.
    */
-  "az" : const NumberSymbols(
+  "az": const NumberSymbols(
       NAME: "az",
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
@@ -102,12 +100,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4\u00A0#,##0.00',
-      DEF_CURRENCY_CODE: 'AZN'
-),
+      DEF_CURRENCY_CODE: 'AZN'),
   /**
    * Number formatting symbols for locale bg.
    */
-  "bg" : const NumberSymbols(
+  "bg": const NumberSymbols(
       NAME: "bg",
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
@@ -123,12 +120,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'BGN'
-),
+      DEF_CURRENCY_CODE: 'BGN'),
   /**
    * Number formatting symbols for locale bn.
    */
-  "bn" : const NumberSymbols(
+  "bn": const NumberSymbols(
       NAME: "bn",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -144,12 +140,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##,##0%',
       CURRENCY_PATTERN: '#,##,##0.00\u00A4',
-      DEF_CURRENCY_CODE: 'BDT'
-),
+      DEF_CURRENCY_CODE: 'BDT'),
   /**
    * Number formatting symbols for locale br.
    */
-  "br" : const NumberSymbols(
+  "br": const NumberSymbols(
       NAME: "br",
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
@@ -165,12 +160,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4\u00A0#,##0.00',
-      DEF_CURRENCY_CODE: 'EUR'
-),
+      DEF_CURRENCY_CODE: 'EUR'),
   /**
    * Number formatting symbols for locale ca.
    */
-  "ca" : const NumberSymbols(
+  "ca": const NumberSymbols(
       NAME: "ca",
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
@@ -186,12 +180,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'EUR'
-),
+      DEF_CURRENCY_CODE: 'EUR'),
   /**
    * Number formatting symbols for locale chr.
    */
-  "chr" : const NumberSymbols(
+  "chr": const NumberSymbols(
       NAME: "chr",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -207,12 +200,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'USD'
-),
+      DEF_CURRENCY_CODE: 'USD'),
   /**
    * Number formatting symbols for locale cs.
    */
-  "cs" : const NumberSymbols(
+  "cs": const NumberSymbols(
       NAME: "cs",
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
@@ -228,12 +220,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0\u00A0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'CZK'
-),
+      DEF_CURRENCY_CODE: 'CZK'),
   /**
    * Number formatting symbols for locale cy.
    */
-  "cy" : const NumberSymbols(
+  "cy": const NumberSymbols(
       NAME: "cy",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -249,12 +240,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'GBP'
-),
+      DEF_CURRENCY_CODE: 'GBP'),
   /**
    * Number formatting symbols for locale da.
    */
-  "da" : const NumberSymbols(
+  "da": const NumberSymbols(
       NAME: "da",
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
@@ -270,12 +260,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0\u00A0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'DKK'
-),
+      DEF_CURRENCY_CODE: 'DKK'),
   /**
    * Number formatting symbols for locale de.
    */
-  "de" : const NumberSymbols(
+  "de": const NumberSymbols(
       NAME: "de",
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
@@ -291,12 +280,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0\u00A0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'EUR'
-),
+      DEF_CURRENCY_CODE: 'EUR'),
   /**
    * Number formatting symbols for locale de_AT.
    */
-  "de_AT" : const NumberSymbols(
+  "de_AT": const NumberSymbols(
       NAME: "de_AT",
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
@@ -312,12 +300,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0\u00A0%',
       CURRENCY_PATTERN: '\u00A4\u00A0#,##0.00',
-      DEF_CURRENCY_CODE: 'EUR'
-),
+      DEF_CURRENCY_CODE: 'EUR'),
   /**
    * Number formatting symbols for locale de_CH.
    */
-  "de_CH" : const NumberSymbols(
+  "de_CH": const NumberSymbols(
       NAME: "de_CH",
       DECIMAL_SEP: '.',
       GROUP_SEP: '\'',
@@ -333,12 +320,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0\u00A0%',
       CURRENCY_PATTERN: '\u00A4\u00A0#,##0.00;\u00A4-#,##0.00',
-      DEF_CURRENCY_CODE: 'CHF'
-),
+      DEF_CURRENCY_CODE: 'CHF'),
   /**
    * Number formatting symbols for locale el.
    */
-  "el" : const NumberSymbols(
+  "el": const NumberSymbols(
       NAME: "el",
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
@@ -354,12 +340,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'EUR'
-),
+      DEF_CURRENCY_CODE: 'EUR'),
   /**
    * Number formatting symbols for locale en.
    */
-  "en" : const NumberSymbols(
+  "en": const NumberSymbols(
       NAME: "en",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -375,12 +360,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'USD'
-),
+      DEF_CURRENCY_CODE: 'USD'),
   /**
    * Number formatting symbols for locale en_AU.
    */
-  "en_AU" : const NumberSymbols(
+  "en_AU": const NumberSymbols(
       NAME: "en_AU",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -396,12 +380,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'AUD'
-),
+      DEF_CURRENCY_CODE: 'AUD'),
   /**
    * Number formatting symbols for locale en_GB.
    */
-  "en_GB" : const NumberSymbols(
+  "en_GB": const NumberSymbols(
       NAME: "en_GB",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -417,12 +400,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'GBP'
-),
+      DEF_CURRENCY_CODE: 'GBP'),
   /**
    * Number formatting symbols for locale en_IE.
    */
-  "en_IE" : const NumberSymbols(
+  "en_IE": const NumberSymbols(
       NAME: "en_IE",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -438,12 +420,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'EUR'
-),
+      DEF_CURRENCY_CODE: 'EUR'),
   /**
    * Number formatting symbols for locale en_IN.
    */
-  "en_IN" : const NumberSymbols(
+  "en_IN": const NumberSymbols(
       NAME: "en_IN",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -459,12 +440,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##,##0%',
       CURRENCY_PATTERN: '\u00A4\u00A0#,##,##0.00',
-      DEF_CURRENCY_CODE: 'INR'
-),
+      DEF_CURRENCY_CODE: 'INR'),
   /**
    * Number formatting symbols for locale en_SG.
    */
-  "en_SG" : const NumberSymbols(
+  "en_SG": const NumberSymbols(
       NAME: "en_SG",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -480,12 +460,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'SGD'
-),
+      DEF_CURRENCY_CODE: 'SGD'),
   /**
    * Number formatting symbols for locale en_US.
    */
-  "en_US" : const NumberSymbols(
+  "en_US": const NumberSymbols(
       NAME: "en_US",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -501,12 +480,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'USD'
-),
+      DEF_CURRENCY_CODE: 'USD'),
   /**
    * Number formatting symbols for locale en_ZA.
    */
-  "en_ZA" : const NumberSymbols(
+  "en_ZA": const NumberSymbols(
       NAME: "en_ZA",
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
@@ -522,12 +500,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'ZAR'
-),
+      DEF_CURRENCY_CODE: 'ZAR'),
   /**
    * Number formatting symbols for locale es.
    */
-  "es" : const NumberSymbols(
+  "es": const NumberSymbols(
       NAME: "es",
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
@@ -543,12 +520,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'EUR'
-),
+      DEF_CURRENCY_CODE: 'EUR'),
   /**
    * Number formatting symbols for locale es_419.
    */
-  "es_419" : const NumberSymbols(
+  "es_419": const NumberSymbols(
       NAME: "es_419",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -564,12 +540,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'MXN'
-),
+      DEF_CURRENCY_CODE: 'MXN'),
   /**
    * Number formatting symbols for locale es_ES.
    */
-  "es_ES" : const NumberSymbols(
+  "es_ES": const NumberSymbols(
       NAME: "es_ES",
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
@@ -585,12 +560,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'EUR'
-),
+      DEF_CURRENCY_CODE: 'EUR'),
   /**
    * Number formatting symbols for locale et.
    */
-  "et" : const NumberSymbols(
+  "et": const NumberSymbols(
       NAME: "et",
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
@@ -606,12 +580,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'EUR'
-),
+      DEF_CURRENCY_CODE: 'EUR'),
   /**
    * Number formatting symbols for locale eu.
    */
-  "eu" : const NumberSymbols(
+  "eu": const NumberSymbols(
       NAME: "eu",
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
@@ -627,12 +600,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '%\u00A0#,##0',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'EUR'
-),
+      DEF_CURRENCY_CODE: 'EUR'),
   /**
    * Number formatting symbols for locale fa.
    */
-  "fa" : const NumberSymbols(
+  "fa": const NumberSymbols(
       NAME: "fa",
       DECIMAL_SEP: '\u066B',
       GROUP_SEP: '\u066C',
@@ -648,12 +620,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u200E\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'IRR'
-),
+      DEF_CURRENCY_CODE: 'IRR'),
   /**
    * Number formatting symbols for locale fi.
    */
-  "fi" : const NumberSymbols(
+  "fi": const NumberSymbols(
       NAME: "fi",
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
@@ -669,12 +640,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0\u00A0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'EUR'
-),
+      DEF_CURRENCY_CODE: 'EUR'),
   /**
    * Number formatting symbols for locale fil.
    */
-  "fil" : const NumberSymbols(
+  "fil": const NumberSymbols(
       NAME: "fil",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -690,12 +660,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'PHP'
-),
+      DEF_CURRENCY_CODE: 'PHP'),
   /**
    * Number formatting symbols for locale fr.
    */
-  "fr" : const NumberSymbols(
+  "fr": const NumberSymbols(
       NAME: "fr",
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
@@ -711,12 +680,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0\u00A0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'EUR'
-),
+      DEF_CURRENCY_CODE: 'EUR'),
   /**
    * Number formatting symbols for locale fr_CA.
    */
-  "fr_CA" : const NumberSymbols(
+  "fr_CA": const NumberSymbols(
       NAME: "fr_CA",
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
@@ -732,12 +700,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0\u00A0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'CAD'
-),
+      DEF_CURRENCY_CODE: 'CAD'),
   /**
    * Number formatting symbols for locale ga.
    */
-  "ga" : const NumberSymbols(
+  "ga": const NumberSymbols(
       NAME: "ga",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -753,12 +720,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'EUR'
-),
+      DEF_CURRENCY_CODE: 'EUR'),
   /**
    * Number formatting symbols for locale gl.
    */
-  "gl" : const NumberSymbols(
+  "gl": const NumberSymbols(
       NAME: "gl",
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
@@ -774,12 +740,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'EUR'
-),
+      DEF_CURRENCY_CODE: 'EUR'),
   /**
    * Number formatting symbols for locale gsw.
    */
-  "gsw" : const NumberSymbols(
+  "gsw": const NumberSymbols(
       NAME: "gsw",
       DECIMAL_SEP: '.',
       GROUP_SEP: '\u2019',
@@ -795,12 +760,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0\u00A0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'CHF'
-),
+      DEF_CURRENCY_CODE: 'CHF'),
   /**
    * Number formatting symbols for locale gu.
    */
-  "gu" : const NumberSymbols(
+  "gu": const NumberSymbols(
       NAME: "gu",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -816,12 +780,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##,##0%',
       CURRENCY_PATTERN: '\u00A4#,##,##0.00',
-      DEF_CURRENCY_CODE: 'INR'
-),
+      DEF_CURRENCY_CODE: 'INR'),
   /**
    * Number formatting symbols for locale haw.
    */
-  "haw" : const NumberSymbols(
+  "haw": const NumberSymbols(
       NAME: "haw",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -837,12 +800,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'USD'
-),
+      DEF_CURRENCY_CODE: 'USD'),
   /**
    * Number formatting symbols for locale he.
    */
-  "he" : const NumberSymbols(
+  "he": const NumberSymbols(
       NAME: "he",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -858,12 +820,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'ILS'
-),
+      DEF_CURRENCY_CODE: 'ILS'),
   /**
    * Number formatting symbols for locale hi.
    */
-  "hi" : const NumberSymbols(
+  "hi": const NumberSymbols(
       NAME: "hi",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -879,12 +840,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##,##0%',
       CURRENCY_PATTERN: '\u00A4#,##,##0.00',
-      DEF_CURRENCY_CODE: 'INR'
-),
+      DEF_CURRENCY_CODE: 'INR'),
   /**
    * Number formatting symbols for locale hr.
    */
-  "hr" : const NumberSymbols(
+  "hr": const NumberSymbols(
       NAME: "hr",
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
@@ -900,12 +860,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'HRK'
-),
+      DEF_CURRENCY_CODE: 'HRK'),
   /**
    * Number formatting symbols for locale hu.
    */
-  "hu" : const NumberSymbols(
+  "hu": const NumberSymbols(
       NAME: "hu",
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
@@ -921,12 +880,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'HUF'
-),
+      DEF_CURRENCY_CODE: 'HUF'),
   /**
    * Number formatting symbols for locale hy.
    */
-  "hy" : const NumberSymbols(
+  "hy": const NumberSymbols(
       NAME: "hy",
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
@@ -942,12 +900,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#0%',
       CURRENCY_PATTERN: '#0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'AMD'
-),
+      DEF_CURRENCY_CODE: 'AMD'),
   /**
    * Number formatting symbols for locale id.
    */
-  "id" : const NumberSymbols(
+  "id": const NumberSymbols(
       NAME: "id",
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
@@ -963,12 +920,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'IDR'
-),
+      DEF_CURRENCY_CODE: 'IDR'),
   /**
    * Number formatting symbols for locale in.
    */
-  "in" : const NumberSymbols(
+  "in": const NumberSymbols(
       NAME: "in",
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
@@ -984,12 +940,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'IDR'
-),
+      DEF_CURRENCY_CODE: 'IDR'),
   /**
    * Number formatting symbols for locale is.
    */
-  "is" : const NumberSymbols(
+  "is": const NumberSymbols(
       NAME: "is",
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
@@ -1005,12 +960,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'ISK'
-),
+      DEF_CURRENCY_CODE: 'ISK'),
   /**
    * Number formatting symbols for locale it.
    */
-  "it" : const NumberSymbols(
+  "it": const NumberSymbols(
       NAME: "it",
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
@@ -1026,12 +980,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'EUR'
-),
+      DEF_CURRENCY_CODE: 'EUR'),
   /**
    * Number formatting symbols for locale iw.
    */
-  "iw" : const NumberSymbols(
+  "iw": const NumberSymbols(
       NAME: "iw",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -1047,12 +1000,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'ILS'
-),
+      DEF_CURRENCY_CODE: 'ILS'),
   /**
    * Number formatting symbols for locale ja.
    */
-  "ja" : const NumberSymbols(
+  "ja": const NumberSymbols(
       NAME: "ja",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -1068,12 +1020,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'JPY'
-),
+      DEF_CURRENCY_CODE: 'JPY'),
   /**
    * Number formatting symbols for locale ka.
    */
-  "ka" : const NumberSymbols(
+  "ka": const NumberSymbols(
       NAME: "ka",
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
@@ -1084,18 +1035,16 @@ Map numberFormatSymbols = const {
       EXP_SYMBOL: 'E',
       PERMILL: '\u2030',
       INFINITY: '\u221E',
-      NAN:
-      '\u10D0\u10E0\u00A0\u10D0\u10E0\u10D8\u10E1\u00A0\u10E0\u10D8\u10EA\u10EE\u10D5\u10D8',
+      NAN: '\u10D0\u10E0\u00A0\u10D0\u10E0\u10D8\u10E1\u00A0\u10E0\u10D8\u10EA\u10EE\u10D5\u10D8',
       DECIMAL_PATTERN: '#,##0.###',
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0\u00A0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'GEL'
-),
+      DEF_CURRENCY_CODE: 'GEL'),
   /**
    * Number formatting symbols for locale kk.
    */
-  "kk" : const NumberSymbols(
+  "kk": const NumberSymbols(
       NAME: "kk",
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
@@ -1111,12 +1060,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'KZT'
-),
+      DEF_CURRENCY_CODE: 'KZT'),
   /**
    * Number formatting symbols for locale km.
    */
-  "km" : const NumberSymbols(
+  "km": const NumberSymbols(
       NAME: "km",
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
@@ -1132,12 +1080,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'KHR'
-),
+      DEF_CURRENCY_CODE: 'KHR'),
   /**
    * Number formatting symbols for locale kn.
    */
-  "kn" : const NumberSymbols(
+  "kn": const NumberSymbols(
       NAME: "kn",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -1153,12 +1100,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'INR'
-),
+      DEF_CURRENCY_CODE: 'INR'),
   /**
    * Number formatting symbols for locale ko.
    */
-  "ko" : const NumberSymbols(
+  "ko": const NumberSymbols(
       NAME: "ko",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -1174,12 +1120,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'KRW'
-),
+      DEF_CURRENCY_CODE: 'KRW'),
   /**
    * Number formatting symbols for locale ky.
    */
-  "ky" : const NumberSymbols(
+  "ky": const NumberSymbols(
       NAME: "ky",
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
@@ -1195,12 +1140,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'KGS'
-),
+      DEF_CURRENCY_CODE: 'KGS'),
   /**
    * Number formatting symbols for locale ln.
    */
-  "ln" : const NumberSymbols(
+  "ln": const NumberSymbols(
       NAME: "ln",
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
@@ -1216,12 +1160,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'CDF'
-),
+      DEF_CURRENCY_CODE: 'CDF'),
   /**
    * Number formatting symbols for locale lo.
    */
-  "lo" : const NumberSymbols(
+  "lo": const NumberSymbols(
       NAME: "lo",
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
@@ -1232,18 +1175,16 @@ Map numberFormatSymbols = const {
       EXP_SYMBOL: 'E',
       PERMILL: '\u2030',
       INFINITY: '\u221E',
-      NAN:
-      '\u0E9A\u0ECD\u0EC8\u0EC1\u0EA1\u0EC8\u0E99\u0EC2\u0E95\u0EC0\u0EA5\u0E81',
+      NAN: '\u0E9A\u0ECD\u0EC8\u0EC1\u0EA1\u0EC8\u0E99\u0EC2\u0E95\u0EC0\u0EA5\u0E81',
       DECIMAL_PATTERN: '#,##0.###',
       SCIENTIFIC_PATTERN: '#',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00;\u00A4-#,##0.00',
-      DEF_CURRENCY_CODE: 'LAK'
-),
+      DEF_CURRENCY_CODE: 'LAK'),
   /**
    * Number formatting symbols for locale lt.
    */
-  "lt" : const NumberSymbols(
+  "lt": const NumberSymbols(
       NAME: "lt",
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
@@ -1259,12 +1200,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0\u00A0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'LTL'
-),
+      DEF_CURRENCY_CODE: 'LTL'),
   /**
    * Number formatting symbols for locale lv.
    */
-  "lv" : const NumberSymbols(
+  "lv": const NumberSymbols(
       NAME: "lv",
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
@@ -1280,12 +1220,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'EUR'
-),
+      DEF_CURRENCY_CODE: 'EUR'),
   /**
    * Number formatting symbols for locale mk.
    */
-  "mk" : const NumberSymbols(
+  "mk": const NumberSymbols(
       NAME: "mk",
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
@@ -1301,12 +1240,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4\u00A0#,##0.00',
-      DEF_CURRENCY_CODE: 'MKD'
-),
+      DEF_CURRENCY_CODE: 'MKD'),
   /**
    * Number formatting symbols for locale ml.
    */
-  "ml" : const NumberSymbols(
+  "ml": const NumberSymbols(
       NAME: "ml",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -1322,12 +1260,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##,##0%',
       CURRENCY_PATTERN: '#,##,##0.00\u00A4',
-      DEF_CURRENCY_CODE: 'INR'
-),
+      DEF_CURRENCY_CODE: 'INR'),
   /**
    * Number formatting symbols for locale mn.
    */
-  "mn" : const NumberSymbols(
+  "mn": const NumberSymbols(
       NAME: "mn",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -1343,12 +1280,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4\u00A0#,##0.00',
-      DEF_CURRENCY_CODE: 'MNT'
-),
+      DEF_CURRENCY_CODE: 'MNT'),
   /**
    * Number formatting symbols for locale mr.
    */
-  "mr" : const NumberSymbols(
+  "mr": const NumberSymbols(
       NAME: "mr",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -1364,12 +1300,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '[#E0]',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'INR'
-),
+      DEF_CURRENCY_CODE: 'INR'),
   /**
    * Number formatting symbols for locale ms.
    */
-  "ms" : const NumberSymbols(
+  "ms": const NumberSymbols(
       NAME: "ms",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -1385,12 +1320,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'MYR'
-),
+      DEF_CURRENCY_CODE: 'MYR'),
   /**
    * Number formatting symbols for locale mt.
    */
-  "mt" : const NumberSymbols(
+  "mt": const NumberSymbols(
       NAME: "mt",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -1406,12 +1340,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'EUR'
-),
+      DEF_CURRENCY_CODE: 'EUR'),
   /**
    * Number formatting symbols for locale my.
    */
-  "my" : const NumberSymbols(
+  "my": const NumberSymbols(
       NAME: "my",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -1422,18 +1355,16 @@ Map numberFormatSymbols = const {
       EXP_SYMBOL: 'E',
       PERMILL: '\u2030',
       INFINITY: '\u221E',
-      NAN:
-      '\u1002\u100F\u1014\u103A\u1038\u1019\u101F\u102F\u1010\u103A\u101E\u1031\u102C',
+      NAN: '\u1002\u100F\u1014\u103A\u1038\u1019\u101F\u102F\u1010\u103A\u101E\u1031\u102C',
       DECIMAL_PATTERN: '#,##0.###',
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4\u00A0#,##0.00',
-      DEF_CURRENCY_CODE: 'MMK'
-),
+      DEF_CURRENCY_CODE: 'MMK'),
   /**
    * Number formatting symbols for locale nb.
    */
-  "nb" : const NumberSymbols(
+  "nb": const NumberSymbols(
       NAME: "nb",
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
@@ -1449,12 +1380,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0\u00A0%',
       CURRENCY_PATTERN: '\u00A4\u00A0#,##0.00',
-      DEF_CURRENCY_CODE: 'NOK'
-),
+      DEF_CURRENCY_CODE: 'NOK'),
   /**
    * Number formatting symbols for locale ne.
    */
-  "ne" : const NumberSymbols(
+  "ne": const NumberSymbols(
       NAME: "ne",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -1470,12 +1400,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'NPR'
-),
+      DEF_CURRENCY_CODE: 'NPR'),
   /**
    * Number formatting symbols for locale nl.
    */
-  "nl" : const NumberSymbols(
+  "nl": const NumberSymbols(
       NAME: "nl",
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
@@ -1491,12 +1420,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4\u00A0#,##0.00;\u00A4\u00A0#,##0.00-',
-      DEF_CURRENCY_CODE: 'EUR'
-),
+      DEF_CURRENCY_CODE: 'EUR'),
   /**
    * Number formatting symbols for locale no.
    */
-  "no" : const NumberSymbols(
+  "no": const NumberSymbols(
       NAME: "no",
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
@@ -1512,12 +1440,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0\u00A0%',
       CURRENCY_PATTERN: '\u00A4\u00A0#,##0.00',
-      DEF_CURRENCY_CODE: 'NOK'
-),
+      DEF_CURRENCY_CODE: 'NOK'),
   /**
    * Number formatting symbols for locale no_NO.
    */
-  "no_NO" : const NumberSymbols(
+  "no_NO": const NumberSymbols(
       NAME: "no_NO",
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
@@ -1533,12 +1460,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0\u00A0%',
       CURRENCY_PATTERN: '\u00A4\u00A0#,##0.00',
-      DEF_CURRENCY_CODE: 'NOK'
-),
+      DEF_CURRENCY_CODE: 'NOK'),
   /**
    * Number formatting symbols for locale or.
    */
-  "or" : const NumberSymbols(
+  "or": const NumberSymbols(
       NAME: "or",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -1554,12 +1480,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##,##0%',
       CURRENCY_PATTERN: '\u00A4\u00A0#,##,##0.00',
-      DEF_CURRENCY_CODE: 'INR'
-),
+      DEF_CURRENCY_CODE: 'INR'),
   /**
    * Number formatting symbols for locale pa.
    */
-  "pa" : const NumberSymbols(
+  "pa": const NumberSymbols(
       NAME: "pa",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -1575,12 +1500,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##,##0%',
       CURRENCY_PATTERN: '\u00A4#,##,##0.00',
-      DEF_CURRENCY_CODE: 'INR'
-),
+      DEF_CURRENCY_CODE: 'INR'),
   /**
    * Number formatting symbols for locale pl.
    */
-  "pl" : const NumberSymbols(
+  "pl": const NumberSymbols(
       NAME: "pl",
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
@@ -1596,12 +1520,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'PLN'
-),
+      DEF_CURRENCY_CODE: 'PLN'),
   /**
    * Number formatting symbols for locale pt.
    */
-  "pt" : const NumberSymbols(
+  "pt": const NumberSymbols(
       NAME: "pt",
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
@@ -1617,12 +1540,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'BRL'
-),
+      DEF_CURRENCY_CODE: 'BRL'),
   /**
    * Number formatting symbols for locale pt_BR.
    */
-  "pt_BR" : const NumberSymbols(
+  "pt_BR": const NumberSymbols(
       NAME: "pt_BR",
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
@@ -1638,12 +1560,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'BRL'
-),
+      DEF_CURRENCY_CODE: 'BRL'),
   /**
    * Number formatting symbols for locale pt_PT.
    */
-  "pt_PT" : const NumberSymbols(
+  "pt_PT": const NumberSymbols(
       NAME: "pt_PT",
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
@@ -1659,12 +1580,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'EUR'
-),
+      DEF_CURRENCY_CODE: 'EUR'),
   /**
    * Number formatting symbols for locale ro.
    */
-  "ro" : const NumberSymbols(
+  "ro": const NumberSymbols(
       NAME: "ro",
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
@@ -1680,12 +1600,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0\u00A0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'RON'
-),
+      DEF_CURRENCY_CODE: 'RON'),
   /**
    * Number formatting symbols for locale ru.
    */
-  "ru" : const NumberSymbols(
+  "ru": const NumberSymbols(
       NAME: "ru",
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
@@ -1701,12 +1620,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0\u00A0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'RUB'
-),
+      DEF_CURRENCY_CODE: 'RUB'),
   /**
    * Number formatting symbols for locale si.
    */
-  "si" : const NumberSymbols(
+  "si": const NumberSymbols(
       NAME: "si",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -1722,12 +1640,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'LKR'
-),
+      DEF_CURRENCY_CODE: 'LKR'),
   /**
    * Number formatting symbols for locale sk.
    */
-  "sk" : const NumberSymbols(
+  "sk": const NumberSymbols(
       NAME: "sk",
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
@@ -1743,12 +1660,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0\u00A0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'EUR'
-),
+      DEF_CURRENCY_CODE: 'EUR'),
   /**
    * Number formatting symbols for locale sl.
    */
-  "sl" : const NumberSymbols(
+  "sl": const NumberSymbols(
       NAME: "sl",
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
@@ -1764,12 +1680,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'EUR'
-),
+      DEF_CURRENCY_CODE: 'EUR'),
   /**
    * Number formatting symbols for locale sq.
    */
-  "sq" : const NumberSymbols(
+  "sq": const NumberSymbols(
       NAME: "sq",
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
@@ -1785,12 +1700,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'ALL'
-),
+      DEF_CURRENCY_CODE: 'ALL'),
   /**
    * Number formatting symbols for locale sr.
    */
-  "sr" : const NumberSymbols(
+  "sr": const NumberSymbols(
       NAME: "sr",
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
@@ -1806,12 +1720,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'RSD'
-),
+      DEF_CURRENCY_CODE: 'RSD'),
   /**
    * Number formatting symbols for locale sv.
    */
-  "sv" : const NumberSymbols(
+  "sv": const NumberSymbols(
       NAME: "sv",
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
@@ -1827,12 +1740,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0\u00A0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'SEK'
-),
+      DEF_CURRENCY_CODE: 'SEK'),
   /**
    * Number formatting symbols for locale sw.
    */
-  "sw" : const NumberSymbols(
+  "sw": const NumberSymbols(
       NAME: "sw",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -1848,12 +1760,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'TZS'
-),
+      DEF_CURRENCY_CODE: 'TZS'),
   /**
    * Number formatting symbols for locale ta.
    */
-  "ta" : const NumberSymbols(
+  "ta": const NumberSymbols(
       NAME: "ta",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -1869,12 +1780,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##,##0%',
       CURRENCY_PATTERN: '\u00A4\u00A0#,##,##0.00',
-      DEF_CURRENCY_CODE: 'INR'
-),
+      DEF_CURRENCY_CODE: 'INR'),
   /**
    * Number formatting symbols for locale te.
    */
-  "te" : const NumberSymbols(
+  "te": const NumberSymbols(
       NAME: "te",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -1890,12 +1800,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'INR'
-),
+      DEF_CURRENCY_CODE: 'INR'),
   /**
    * Number formatting symbols for locale th.
    */
-  "th" : const NumberSymbols(
+  "th": const NumberSymbols(
       NAME: "th",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -1911,12 +1820,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'THB'
-),
+      DEF_CURRENCY_CODE: 'THB'),
   /**
    * Number formatting symbols for locale tl.
    */
-  "tl" : const NumberSymbols(
+  "tl": const NumberSymbols(
       NAME: "tl",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -1932,12 +1840,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'PHP'
-),
+      DEF_CURRENCY_CODE: 'PHP'),
   /**
    * Number formatting symbols for locale tr.
    */
-  "tr" : const NumberSymbols(
+  "tr": const NumberSymbols(
       NAME: "tr",
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
@@ -1953,12 +1860,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '%#,##0',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'TRY'
-),
+      DEF_CURRENCY_CODE: 'TRY'),
   /**
    * Number formatting symbols for locale uk.
    */
-  "uk" : const NumberSymbols(
+  "uk": const NumberSymbols(
       NAME: "uk",
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
@@ -1974,12 +1880,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'UAH'
-),
+      DEF_CURRENCY_CODE: 'UAH'),
   /**
    * Number formatting symbols for locale ur.
    */
-  "ur" : const NumberSymbols(
+  "ur": const NumberSymbols(
       NAME: "ur",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -1995,12 +1900,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00\u200E',
-      DEF_CURRENCY_CODE: 'PKR'
-),
+      DEF_CURRENCY_CODE: 'PKR'),
   /**
    * Number formatting symbols for locale uz.
    */
-  "uz" : const NumberSymbols(
+  "uz": const NumberSymbols(
       NAME: "uz",
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
@@ -2016,12 +1920,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4\u00A0#,##0.00',
-      DEF_CURRENCY_CODE: 'UZS'
-),
+      DEF_CURRENCY_CODE: 'UZS'),
   /**
    * Number formatting symbols for locale vi.
    */
-  "vi" : const NumberSymbols(
+  "vi": const NumberSymbols(
       NAME: "vi",
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
@@ -2037,12 +1940,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      DEF_CURRENCY_CODE: 'VND'
-),
+      DEF_CURRENCY_CODE: 'VND'),
   /**
    * Number formatting symbols for locale zh.
    */
-  "zh" : const NumberSymbols(
+  "zh": const NumberSymbols(
       NAME: "zh",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -2058,12 +1960,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4\u00A0#,##0.00',
-      DEF_CURRENCY_CODE: 'CNY'
-),
+      DEF_CURRENCY_CODE: 'CNY'),
   /**
    * Number formatting symbols for locale zh_CN.
    */
-  "zh_CN" : const NumberSymbols(
+  "zh_CN": const NumberSymbols(
       NAME: "zh_CN",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -2079,12 +1980,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4\u00A0#,##0.00',
-      DEF_CURRENCY_CODE: 'CNY'
-),
+      DEF_CURRENCY_CODE: 'CNY'),
   /**
    * Number formatting symbols for locale zh_HK.
    */
-  "zh_HK" : const NumberSymbols(
+  "zh_HK": const NumberSymbols(
       NAME: "zh_HK",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -2100,12 +2000,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'HKD'
-),
+      DEF_CURRENCY_CODE: 'HKD'),
   /**
    * Number formatting symbols for locale zh_TW.
    */
-  "zh_TW" : const NumberSymbols(
+  "zh_TW": const NumberSymbols(
       NAME: "zh_TW",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -2121,12 +2020,11 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'TWD'
-),
+      DEF_CURRENCY_CODE: 'TWD'),
   /**
    * Number formatting symbols for locale zu.
    */
-  "zu" : const NumberSymbols(
+  "zu": const NumberSymbols(
       NAME: "zu",
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
@@ -2142,6 +2040,5 @@ Map numberFormatSymbols = const {
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
-      DEF_CURRENCY_CODE: 'ZAR'
-)
+      DEF_CURRENCY_CODE: 'ZAR')
 };

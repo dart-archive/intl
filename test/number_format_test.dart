@@ -16,9 +16,9 @@ import 'dart:math';
  * Tests the Numeric formatting library in dart.
  */
 var testNumbersWeCanReadBack = {
-  "-1" : -1,
-  "-2" : -2.0,
-  "-0.01" : -0.01,
+  "-1": -1,
+  "-2": -2.0,
+  "-0.01": -0.01,
   "0.001": 0.001,
   "0.01": 0.01,
   "0.1": 0.1,
@@ -38,26 +38,19 @@ var testNumbersWeCanReadBack = {
 };
 
 /** Test numbers that we can't parse because we lose precision in formatting.*/
-var testNumbersWeCannotReadBack = {
-  "3.142" : PI,
-  };
+var testNumbersWeCannotReadBack = {"3.142": PI,};
 
 /** Test numbers that won't work in Javascript because they're too big. */
 var testNumbersOnlyForTheVM = {
-  "10,000,000,000,000,000,000,000,000,000,000" :
+  "10,000,000,000,000,000,000,000,000,000,000":
       10000000000000000000000000000000,
 };
 
-get allTestNumbers =>
-    new Map.from(testNumbersWeCanReadBack)
-      ..addAll(testNumbersWeCannotReadBack)
-      ..addAll(inJavaScript() ? {} : testNumbersOnlyForTheVM);
+get allTestNumbers => new Map.from(testNumbersWeCanReadBack)
+  ..addAll(testNumbersWeCannotReadBack)
+  ..addAll(inJavaScript() ? {} : testNumbersOnlyForTheVM);
 
-var testExponential = const {
-  "1E-3" : 0.001,
-  "1E-2": 0.01,
-  "1.23E0" : 1.23
-  };
+var testExponential = const {"1E-3": 0.001, "1E-2": 0.01, "1.23E0": 1.23};
 
 // TODO(alanknight): Test against currency, which requires generating data
 // for the three different forms that this now supports.
@@ -65,9 +58,9 @@ var testExponential = const {
 // digit support.
 List<NumberFormat> standardFormats(String locale) {
   return [
-          new NumberFormat.decimalPattern(locale),
-          new NumberFormat.percentPattern(locale),
-          ];
+    new NumberFormat.decimalPattern(locale),
+    new NumberFormat.percentPattern(locale),
+  ];
 }
 
 // Pay no attention to the hint. This is here deliberately to have different
@@ -145,10 +138,10 @@ main() {
 
   test('Percent with no decimals and no integer part', () {
     var number = new NumberFormat("#%");
-      var formatted = number.format(0.12);
-      expect(formatted, "12%");
-      var readBack = number.parse(formatted);
-      expect(0.12, readBack);
+    var formatted = number.format(0.12);
+    expect(formatted, "12%");
+    var readBack = number.parse(formatted);
+    expect(0.12, readBack);
   });
 
   // We can't do these in the normal tests because those also format the
@@ -156,7 +149,7 @@ main() {
   // back the same way.
   test('Parsing modifiers,e.g. percent, in the base format', () {
     var number = new NumberFormat();
-    var modified = { "12%" : 0.12, "12\u2030" : 0.012};
+    var modified = {"12%": 0.12, "12\u2030": 0.012};
     modified.addAll(testExponential);
     for (var x in modified.keys) {
       var parsed = number.parse(x);

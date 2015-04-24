@@ -2,7 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-
 part of intl;
 
 /**
@@ -24,13 +23,27 @@ class _DateBuilder {
 
   // Functions that exist just to be closurized so we can pass them to a general
   // method.
-  void setYear(x) { year = x; }
-  void setMonth(x) { month = x; }
-  void setDay(x) { day = x; }
-  void setHour(x) { hour = x; }
-  void setMinute(x) { minute = x; }
-  void setSecond(x) { second = x; }
-  void setFractionalSecond(x) { fractionalSecond = x; }
+  void setYear(x) {
+    year = x;
+  }
+  void setMonth(x) {
+    month = x;
+  }
+  void setDay(x) {
+    day = x;
+  }
+  void setHour(x) {
+    hour = x;
+  }
+  void setMinute(x) {
+    minute = x;
+  }
+  void setSecond(x) {
+    second = x;
+  }
+  void setFractionalSecond(x) {
+    fractionalSecond = x;
+  }
 
   get hour24 => pm ? hour + 12 : hour;
 
@@ -39,29 +52,29 @@ class _DateBuilder {
    * range values, even if the DateTime constructor would accept them. An
    * invalid message will result in throwing a [FormatException].
    */
-   verify(String s) {
-     _verify(month, 1, 12, "month", s);
-     _verify(hour24, 0, 23, "hour", s);
-     _verify(minute, 0, 59, "minute", s);
-     _verify(second, 0, 59, "second", s);
-     _verify(fractionalSecond, 0, 999, "fractional second", s);
-     // Verifying the day is tricky, because it depends on the month. Create
-     // our resulting date and then verify that our values agree with it
-     // as an additional verification. And since we're doing that, also
-     // check the year, which we otherwise can't verify, and the hours,
-     // which will catch cases like "14:00:00 PM".
-     var date = asDate();
-     _verify(hour24, date.hour, date.hour, "hour", s);
-     _verify(day, date.day, date.day, "day", s);
-     _verify(year, date.year, date.year, "year", s);
-   }
+  verify(String s) {
+    _verify(month, 1, 12, "month", s);
+    _verify(hour24, 0, 23, "hour", s);
+    _verify(minute, 0, 59, "minute", s);
+    _verify(second, 0, 59, "second", s);
+    _verify(fractionalSecond, 0, 999, "fractional second", s);
+    // Verifying the day is tricky, because it depends on the month. Create
+    // our resulting date and then verify that our values agree with it
+    // as an additional verification. And since we're doing that, also
+    // check the year, which we otherwise can't verify, and the hours,
+    // which will catch cases like "14:00:00 PM".
+    var date = asDate();
+    _verify(hour24, date.hour, date.hour, "hour", s);
+    _verify(day, date.day, date.day, "day", s);
+    _verify(year, date.year, date.year, "year", s);
+  }
 
-   _verify(int value, int min, int max, String desc, String originalInput) {
-     if (value < min || value > max) {
-       throw new FormatException(
-           "Error parsing $originalInput, invalid $desc value: $value");
-     }
-   }
+  _verify(int value, int min, int max, String desc, String originalInput) {
+    if (value < min || value > max) {
+      throw new FormatException(
+          "Error parsing $originalInput, invalid $desc value: $value");
+    }
+  }
 
   /**
    * Return a date built using our values. If no date portion is set,
@@ -73,22 +86,10 @@ class _DateBuilder {
     var result;
     if (utc) {
       result = new DateTime.utc(
-          year,
-          month,
-          day,
-          hour24,
-          minute,
-          second,
-          fractionalSecond);
+          year, month, day, hour24, minute, second, fractionalSecond);
     } else {
       result = new DateTime(
-          year,
-          month,
-          day,
-          hour24,
-          minute,
-          second,
-          fractionalSecond);
+          year, month, day, hour24, minute, second, fractionalSecond);
       // TODO(alanknight): Issue 15560 means non-UTC dates occasionally come
       // out in UTC. If that happens, retry once. This will always happen if
       // the local time zone is UTC, but that's ok.
@@ -146,9 +147,7 @@ class _Stream {
   peek([int howMany = 1]) {
     var result;
     if (contents is String) {
-      result = contents.substring(
-          index,
-          min(index + howMany, contents.length));
+      result = contents.substring(index, min(index + howMany, contents.length));
     } else {
       // Assume List
       result = contents.sublist(index, index + howMany);

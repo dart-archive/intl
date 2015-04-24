@@ -20,8 +20,8 @@ main() {
     expect(parsed, date);
 
     check(String s) {
-        expect(() => format.parseStrict(s), throwsFormatException);
-        expect(format.parse(s), date);
+      expect(() => format.parseStrict(s), throwsFormatException);
+      expect(format.parse(s), date);
     }
 
     check(formatted + ",");
@@ -43,38 +43,37 @@ main() {
   });
 
   test("Invalid times am/pm", () {
-     var format = new DateFormat.jms();
-     check(s) => expect(() => format.parseStrict(s), throwsFormatException);
-     check("-1:15:00 AM");
-     expect(format.parseStrict("0:15:00 AM"), new DateTime(1970, 1, 1, 0, 15));
-     check("24:00:00 PM");
-     check("24:00:00 AM");
-     check("25:00:00 PM");
-     check("0:-1:00 AM");
-     check("0:60:00 AM");
-     expect(format.parseStrict("0:59:00 AM"), new DateTime(1970, 1, 1, 0, 59));
-     check("0:0:-1 AM");
-     check("0:0:60 AM");
-     check("2:0:60 PM");
-     expect(format.parseStrict("2:0:59 PM"),
-         new DateTime(1970, 1, 1, 14, 0, 59));
-   });
+    var format = new DateFormat.jms();
+    check(s) => expect(() => format.parseStrict(s), throwsFormatException);
+    check("-1:15:00 AM");
+    expect(format.parseStrict("0:15:00 AM"), new DateTime(1970, 1, 1, 0, 15));
+    check("24:00:00 PM");
+    check("24:00:00 AM");
+    check("25:00:00 PM");
+    check("0:-1:00 AM");
+    check("0:60:00 AM");
+    expect(format.parseStrict("0:59:00 AM"), new DateTime(1970, 1, 1, 0, 59));
+    check("0:0:-1 AM");
+    check("0:0:60 AM");
+    check("2:0:60 PM");
+    expect(
+        format.parseStrict("2:0:59 PM"), new DateTime(1970, 1, 1, 14, 0, 59));
+  });
 
   test("Invalid times 24 hour", () {
-     var format = new DateFormat.Hms();
-     check(s) => expect(() => format.parseStrict(s), throwsFormatException);
-     check("-1:15:00");
-     expect(format.parseStrict("0:15:00"), new DateTime(1970, 1, 1, 0, 15));
-     check("24:00:00");
-     check("24:00:00");
-     check("25:00:00");
-     check("0:-1:00");
-     check("0:60:00");
-     expect(format.parseStrict("0:59:00"), new DateTime(1970, 1, 1, 0, 59));
-     check("0:0:-1");
-     check("0:0:60");
-     check("14:0:60");
-     expect(format.parseStrict("14:0:59"),
-         new DateTime(1970, 1, 1, 14, 0, 59));
-   });
+    var format = new DateFormat.Hms();
+    check(s) => expect(() => format.parseStrict(s), throwsFormatException);
+    check("-1:15:00");
+    expect(format.parseStrict("0:15:00"), new DateTime(1970, 1, 1, 0, 15));
+    check("24:00:00");
+    check("24:00:00");
+    check("25:00:00");
+    check("0:-1:00");
+    check("0:60:00");
+    expect(format.parseStrict("0:59:00"), new DateTime(1970, 1, 1, 0, 59));
+    check("0:0:-1");
+    check("0:0:60");
+    check("14:0:60");
+    expect(format.parseStrict("14:0:59"), new DateTime(1970, 1, 1, 14, 0, 59));
+  });
 }
