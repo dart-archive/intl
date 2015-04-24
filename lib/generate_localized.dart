@@ -172,8 +172,6 @@ class MessageLookup extends MessageLookupByLibrary {
   get localeName => '$locale';
 """;
 
-_deferredName(locale) => "lazy_${_libraryName(locale)}";
-
 /**
  * This section generates the messages_all.dart file based on the list of
  * [allLocales].

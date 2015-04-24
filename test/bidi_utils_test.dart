@@ -14,8 +14,6 @@ main() {
   var LRE = '\u202A';
   var RLE = '\u202B';
   var PDF = '\u202C';
-  var LRM = '\u200E';
-  var RLM = '\u200F';
 
   test('isRtlLang', () {
     expect(Bidi.isRtlLanguage('en'), isFalse);

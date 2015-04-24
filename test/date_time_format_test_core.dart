@@ -13,7 +13,6 @@ library date_time_format_tests;
 import 'package:unittest/unittest.dart';
 import 'date_time_format_test_data.dart';
 import 'package:intl/intl.dart';
-import 'package:intl/src/date_format_internal.dart';
 
 var formatsToTest = const [
   DateFormat.DAY,
@@ -157,9 +156,6 @@ testRoundTripParsing(String localeName, DateTime date) {
     DateFormat.NUM_MONTH_WEEKDAY_DAY,
     DateFormat.ABBR_MONTH_WEEKDAY_DAY
   ];
-  var originalTime = new DateTime.now();
-  var originalTimeZoneOffset = date.timeZoneOffset;
-  var originalTimeZoneName = date.timeZoneName;
   for (int i = 0; i < formatsToTest.length; i++) {
     var skeleton = formatsToTest[i];
     if (!badSkeletons.any((x) => x == skeleton)) {

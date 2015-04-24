@@ -25,9 +25,11 @@ class YouveGotMessages {
   // A non-lambda, i.e. not using => syntax, and with an additional statement
   // before the Intl.message call.
   nonLambda() {
-    // TODO(alanknight): I'm really not sure that this shouldn't be disallowed.
-    var x = 'something';
-    return Intl.message("This method is not a lambda", name: 'nonLambda');
+    var aTrueValue = true;
+    var msg = Intl.message("This method is not a lambda", name: 'nonLambda');
+    expect(aTrueValue, isTrue,
+        reason: 'Parser should not fail with additional code.');
+    return msg;
   }
 
   plurals(num) => Intl.message("""${Intl.plural(num,

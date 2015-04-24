@@ -23,7 +23,6 @@ main() {
   var en = 'abba';
   var html = '&lt;';
   var longEn = 'abba sabba gabba ';
-  var longHe = '\u05e0 \u05e1 \u05e0 ';
   var ltrFmt = new BidiFormatter.LTR(); // LTR context
   var rtlFmt = new BidiFormatter.RTL(); // RTL context
   var unkFmt = new BidiFormatter.UNKNOWN(); // unknown context
@@ -91,7 +90,6 @@ main() {
 
     var ltrAlwaysSpanFmt = new BidiFormatter.LTR(true);
     var rtlAlwaysSpanFmt = new BidiFormatter.RTL(true);
-    var unkAlwaysSpanFmt = new BidiFormatter.UNKNOWN(true);
 
     // Test alwaysSpan, overall dir matches context dir (LTR), no dirReset.
     expect(ltrAlwaysSpanFmt.wrapWithSpan(en, isHtml: true, resetDir: false),

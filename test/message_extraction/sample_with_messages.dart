@@ -168,7 +168,6 @@ printStuff(Intl locale) {
     var thing = new YouveGotMessages();
     printOut(thing.method());
     printOut(thing.nonLambda());
-    var x = YouveGotMessages.staticMessage();
     printOut(YouveGotMessages.staticMessage());
     printOut(notAlwaysTranslated());
     printOut(originalNotInBMP());

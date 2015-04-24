@@ -302,12 +302,9 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
    * and the parameters to the Intl.plural or Intl.gender call.
    */
   MainMessage messageFromDirectPluralOrGenderCall(MethodInvocation node) {
-    var pluralOrGender;
-
     MainMessage extractFromPluralOrGender(MainMessage message, _) {
       var visitor = new PluralAndGenderVisitor(message.messagePieces, message);
       node.accept(visitor);
-      pluralOrGender = message.messagePieces.last;
       return message;
     }
 

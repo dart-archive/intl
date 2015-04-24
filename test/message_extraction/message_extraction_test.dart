@@ -116,8 +116,10 @@ Future<ProcessResult> run(
     ProcessResult previousResult, List<String> filenames) {
   // If there's a failure in one of the sub-programs, print its output.
   checkResult(previousResult);
-  var filesInTheRightDirectory =
-      filenames.map((x) => asTempDirPath(x)).toList();
+  var filesInTheRightDirectory = filenames
+      .map((x) => asTempDirPath(x))
+      .map((x) => path.normalize(x))
+      .toList();
   // Inject the script argument --output-dir in between the script and its
   // arguments.
   var args = []

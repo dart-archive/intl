@@ -64,7 +64,6 @@ String _checkEnvironmentVariable() {
   try {
     return Platform.environment['LANG'];
   } catch (e) {}
-  ;
   return null;
 }
 

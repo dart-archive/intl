@@ -68,9 +68,6 @@ class CompositeMessageLookup {
  * messages. See generate_localized.dart.
  */
 abstract class MessageLookupByLibrary {
-  /** Prevent infinite recursion when looking up the message. */
-  bool _lookupInProgress = false;
-
   /**
    * Return the localized version of a message. We are passed the original
    * version of the message, which consists of a
