@@ -42,7 +42,7 @@ main(List<String> args) {
   if (args.length == 0) {
     print('Accepts Dart files and produces intl_messages.json');
     print('Usage: extract_to_arb [options] [files.dart]');
-    print(parser.getUsage());
+    print(parser.usage);
     exit(0);
   }
   var allMessages = {};

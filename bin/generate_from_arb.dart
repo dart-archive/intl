@@ -57,7 +57,7 @@ main(List<String> args) {
     print('Usage: generate_from_arb [options]'
         ' file1.dart file2.dart ...'
         ' translation1_<languageTag>.arb translation2.arb ...');
-    print(parser.getUsage());
+    print(parser.usage);
     exit(0);
   }
 
