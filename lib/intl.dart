@@ -188,10 +188,17 @@ class Intl {
   /**
    * Given [newLocale] return a locale that we have data for that is similar
    * to it, if possible.
+   *
    * If [newLocale] is found directly, return it. If it can't be found, look up
    * based on just the language (e.g. 'en_CA' -> 'en'). Also accepts '-'
    * as a separator and changes it into '_' for lookup, and changes the
    * country to uppercase.
+   *
+   * There is a special case that if a locale named "fallback" is present
+   * and has been initialized, this will return that name. This can be useful
+   * for messages where you don't want to just use the text from the original
+   * source code, but wish to have a universal fallback translation.
+   *
    * Note that null is interpreted as meaning the default locale, so if
    * [newLocale] is null it will be returned.
    */
@@ -210,7 +217,7 @@ class Intl {
       return newLocale;
     }
     for (var each in
-        [canonicalizedLocale(newLocale), shortLocale(newLocale)]) {
+        [canonicalizedLocale(newLocale), shortLocale(newLocale), "fallback"]) {
       if (localeExists(each)) {
         return each;
       }

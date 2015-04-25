@@ -1,3 +1,9 @@
+## 0.12.2+1
+  * Adds a special locale name "fallback" in verifiedLocale. So if a translation
+  is provided for that locale and has been initialized, anything that doesn't
+  find a closer match will use that locale. This can be used instead of having
+  it default to the text in the original source messages.
+
 ## 0.12.1
   * Adds a DateFormat.parseLoose that accepts mixed case and missing
   delimiters when parsing dates. It also allows arbitrary amounts of
