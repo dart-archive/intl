@@ -1,3 +1,7 @@
+## 0.12.3
+
+  * Use latest version of 'analyzer' and 'args' packages.
+
 ## 0.12.2+1
   * Adds a special locale name "fallback" in verifiedLocale. So if a translation
   is provided for that locale and has been initialized, anything that doesn't
@@ -57,7 +61,7 @@
 
 ## 0.11.9
   * Fix bug with per-mille parsing (only divided by 100, not 1000)
-  
+
   * Support percent and per-mille formats with both positive and negative
     variations. Previously would throw an exception for too many modifiers.
 
