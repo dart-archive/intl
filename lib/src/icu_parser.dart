@@ -33,7 +33,7 @@ class IcuParser {
   get nonIcuMessageText => normalText.plus().map((x) => x.join());
   get twoSingleQuotes => string("''").map((x) => "'");
   get number => digit().plus().flatten().trim().map(int.parse);
-  get id => (letter() & (word() | char("_")).star()).flatten();
+  get id => (letter() & (word() | char("_")).star()).flatten().trim();
   get comma => char(",").trim();
 
   /**

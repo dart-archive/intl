@@ -1,3 +1,7 @@
+## 0.12.4
+  * Handle spaces in ARB files where we didn't handle them before, and
+  where Google translation toolkit is now putting them.
+
 ## 0.12.3
 
   * Use latest version of 'analyzer' and 'args' packages.

@@ -62,7 +62,7 @@ var french = {
       "}"
       "}",
   "outerPlural": "{n,plural, =0{rien}=1{un}other{quelques-uns}}",
-  "outerGender": "{g,select, male{homme}female{femme}other{autre}}",
+  "outerGender": "{g,select, male {homme} female {femme} other {autre}}",
   "pluralThatFailsParsing": "{noOfThings,plural, "
       "=1{1 chose:}other{{noOfThings} choses:}}",
   "nestedOuter": "{number,plural, other{"
