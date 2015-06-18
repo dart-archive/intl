@@ -147,7 +147,7 @@ class Intl {
    *       hello(yourName) => Intl.message(
    *         "Hello, $yourName",
    *         name: "hello",
-   *         args: [name],
+   *         args: [yourName],
    *         desc: "Say hello",
    *         examples = {"yourName": "Sparky"}.
    * The source code will be processed via the analyzer to extract out the
