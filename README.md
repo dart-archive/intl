@@ -39,11 +39,26 @@ the [withLocale][withLocale] operation may be preferable to setting
       Intl.withLocale('fr', () => print(myLocalizedMessage());
 
 To specify the locale for an operation you can create a format object in
-a specific locale, or pass in the locale as a parameter to methods.
+a specific locale, pass in the locale as a parameter to methods, or
+set the default locale.
 
-      var format = new DateFormat.yMd("ar");
-      var dateString = format.format(new DateTime.now());
-      print(myMessage(dateString, locale: 'ar');
+```dart
+var format = new DateFormat.yMd("ar");
+var dateString = format.format(new DateTime.now());
+```
+
+or
+
+```dart
+print(myMessage(dateString, locale: 'ar');
+```
+	  
+or
+
+```dart
+Intl.defaultLocale = "es"'
+new DateFormat.jm().format(new DateTime.now());
+```
 
 ## Initialization
 

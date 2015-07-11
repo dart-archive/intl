@@ -9,6 +9,7 @@ part of intl;
 /**
  * DateFormat is for formatting and parsing dates in a locale-sensitive
  * manner.
+ *
  * It allows the user to choose from a set of standard date time formats as well
  * as specify a customized pattern under certain locales. Date elements that
  * vary across locales include month name, week name, field order, etc.
@@ -52,7 +53,11 @@ part of intl;
  * which can also adapt to different locales and is preferred where available.
  *
  * Skeletons: These can be specified either as the ICU constant name or as the
- * skeleton to which it resolves. The supported set of skeletons is as follows
+ * skeleton to which it resolves. The supported set of skeletons is as follows.
+ * For each skeleton there is a named constructor that can be used to create it.
+ * It's also possible to pass the skeleton as a string, but the constructor
+ * is preferred.
+ * 
  *      ICU Name                   Skeleton
  *      --------                   --------
  *      DAY                          d
@@ -104,13 +109,20 @@ part of intl;
  *      new DateFormat.yMd()             -> 7/10/1996
  *      new DateFormat("yMd")            -> 7/10/1996
  *      new DateFormat.yMMMMd("en_US")   -> July 10, 1996
- *      new DateFormat("Hm", "en_US")    -> 12:08 PM
- *      new DateFormat.yMd().add_Hm()    -> 7/10/1996 12:08 PM
+ *      new DateFormat.jm()              -> 5:08 PM
+ *      new DateFormat.yMd().add_jm()    -> 7/10/1996 5:08 PM
+ *      new DateFormat.Hm()              -> 17:08 // force 24 hour time
  *
  * Explicit Pattern Syntax: Formats can also be specified with a pattern string.
- * The skeleton forms will resolve to explicit patterns of this form, but will
- * also adapt to different patterns in different locales.
- * The following characters are reserved:
+ * This can be used for formats that don't have a skeleton available, but these
+ * will not adapt to different locales. For example, in an explicit pattern the 
+ * letters "H" and "h" are available for 24 hour and 12 hour time formats 
+ * respectively. But there isn't a way in an explicit pattern to get the
+ * behaviour of the "j" skeleton, which prints 24 hour or 12 hour time according
+ * to the conventions of the locale, and also includes am/pm markers where 
+ * appropriate. So it is preferable to use the skeletons.
+ *
+ * The following characters are available in explicit patterns:
  *
  *     Symbol   Meaning                Presentation        Example
  *     ------   -------                ------------        -------
@@ -200,7 +212,7 @@ class DateFormat {
    * the locale.
    *
    * For example, in an en_US locale, specifying the skeleton
-   *     new DateFormat('yMEd');
+   *     new DateFormat.yMEd();
    * or the explicit
    *     new DateFormat('EEE, M/d/y');
    * would produce the same result, a date of the form
@@ -282,15 +294,15 @@ class DateFormat {
    *
    * For example, this will accept
    *
-   *       new DateTimeFormat.yMMMd("en_US").parseLoose("SEp   3 2014");
-   *       new DateTimeFormat.yMd("en_US").parseLoose("09    03/2014");
+   *       new DateFormat.yMMMd("en_US").parseLoose("SEp   3 2014");
+   *       new DateFormat.yMd("en_US").parseLoose("09    03/2014");
    *
    * It will NOT accept
    *
    *      // "Sept" is not a valid month name.
-   *      new DateTimeFormat.yMMMd("en_US").parseLoose("Sept 3, 2014");
+   *      new DateFormat.yMMMd("en_US").parseLoose("Sept 3, 2014");
    *      // Delimiters can't have leading whitespace.
-   *      new DateTimeFormat.yMd("en_US").parseLoose("09 / 03 / 2014");
+   *      new DateFormat.yMd("en_US").parseLoose("09 / 03 / 2014");
    */
   DateTime parseLoose(String inputString, [utc = false]) {
     try {
