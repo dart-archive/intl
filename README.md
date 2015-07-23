@@ -95,7 +95,8 @@ an [Intl.message][Intl.message] call.
 This provides, in addition to the basic message string, a name, a
 description for translators, the arguments used in the message, and
 examples. The `name` and `args` parameters are required, and must
-match the name and arguments list of the function.  In the future we
+match the name (or ClassName_methodName) and arguments list of the
+function respectively.  In the future we
 hope to have these provided automatically.
 
 This can be run in the program before any translation has been done,

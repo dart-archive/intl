@@ -29,7 +29,7 @@ var french = {
       "dollars \${ (les accolades sont ok), et xml/html réservés <& et "
       "des citations \" "
       "avec quelques paramètres ainsi {a}, {b}, et {c}",
-  "method": "Cela vient d'une méthode",
+  "YouveGotMessages_method": "Cela vient d'une méthode",
   "nonLambda": "Cette méthode n'est pas un lambda",
   "staticMessage": "Cela vient d'une méthode statique",
   "notAlwaysTranslated": "Ce manque certaines traductions",
@@ -89,7 +89,7 @@ var german = {
   "message3": "Zeichen, die Flucht benötigen, zB Schrägstriche \\ Dollar "
       "\${ (geschweiften Klammern sind ok) und xml reservierte Zeichen <& und "
       "Zitate \" Parameter {a}, {b} und {c}",
-  "method": "Dies ergibt sich aus einer Methode",
+  "YouveGotMessages_method": "Dies ergibt sich aus einer Methode",
   "nonLambda": "Diese Methode ist nicht eine Lambda",
   "staticMessage": "Dies ergibt sich aus einer statischen Methode",
   "thisNameIsNotInTheOriginal": "Could this lead to something malicious?",

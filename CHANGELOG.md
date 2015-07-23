@@ -1,3 +1,8 @@
+## 0.12.4+1
+  * Allow the name of an Intl.message to be "ClassName_methodName", as
+    well as "functionName". This makes it easier to disambiguate
+    messages with the same name but in different classes.
+
 ## 0.12.4
   * Handle spaces in ARB files where we didn't handle them before, and
   where Google translation toolkit is now putting them.

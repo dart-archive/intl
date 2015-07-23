@@ -138,12 +138,16 @@ class Intl {
    * returns the value of this call and provides a scope for the variables that
    * will be substituted in the message.
    *
-   * The parameters are a
-   * [message_str] to be translated, which may be interpolated
-   * based on one or more variables, the [name] of the message, which should
-   * match the enclosing function name, the [args] of the enclosing
-   * function, a [desc] providing a description of usage
-   * and a map of [examples] for each interpolated variable. For example
+   * The [message_str] is the string to be translated, which may be interpolated
+   * based on one or more variables. The [name] of the message must 
+   * match the enclosing function name. For methods, it can also be 
+   * className_methodName. So for a method hello in class Simple, the name
+   * can be either "hello" or "Simple_hello". The name must also be globally
+   * unique in the program, so the second form can make it easier to distinguish
+   * messages with the same name but in different classes.
+   * The [args] repeats the arguments of the enclosing
+   * function, [desc] provides a description of usage, 
+   * [examples] is a Map of exmaples for each interpolated variable. For example
    *       hello(yourName) => Intl.message(
    *         "Hello, $yourName",
    *         name: "hello",

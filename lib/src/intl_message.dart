@@ -93,10 +93,23 @@ abstract class Message {
       return "The 'name' argument for Intl.message must be a simple string "
           "literal.";
     }
-    if (outerName != null && outerName != messageName.expression.value) {
-      return "The 'name' argument for Intl.message must match "
-          "the name of the containing function ("
-          "'${messageName.expression.value}' vs. '$outerName')";
+    var hasOuterName = outerName != null;
+    var givenName = messageName.expression.value;
+    var simpleMatch = outerName == givenName;
+    ClassDeclaration classNode(n) {
+      if (n == null) return null;
+      if (n is ClassDeclaration) return n;
+      return classNode(n.parent);
+    }
+    var classDeclaration = classNode(node);
+    var classPlusMethod = classDeclaration == null
+        ? null
+        : "${classDeclaration.name.token.toString()}_$outerName";
+    var classMatch = classPlusMethod != null && (givenName == classPlusMethod);
+    if (!(hasOuterName && (simpleMatch || classMatch))) {
+      return "The 'name' argument for Intl.message must match either"
+          "the name of the containing function or <className>_<methodName> ("
+          "'$givenName' vs. '$outerName')";
     }
     var simpleArguments = arguments.where((each) => each is NamedExpression &&
         ["desc", "name"].contains(each.name.label.name));

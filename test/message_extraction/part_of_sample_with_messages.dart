@@ -18,7 +18,7 @@ class YouveGotMessages {
 
   // An instance method, rather than a standalone function.
   method() => Intl.message("This comes from a method",
-      name: 'method', desc: 'This is a method with a '
+      name: 'YouveGotMessages_method', desc: 'This is a method with a '
       'long description which spans '
       'multiple lines.');
 
