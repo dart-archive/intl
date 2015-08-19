@@ -1,3 +1,6 @@
+## 0.12.4+2
+  * update analyzer to '<0.27.0'
+
 ## 0.12.4+1
   * Allow the name of an Intl.message to be "ClassName_methodName", as
     well as "functionName". This makes it easier to disambiguate
