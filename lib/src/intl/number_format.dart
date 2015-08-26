@@ -216,7 +216,6 @@ class NumberFormat {
     var exponent = (log(number) / log(10)).floor();
     var mantissa = number / pow(10.0, exponent);
 
-    var minIntDigits = minimumIntegerDigits;
     if (maximumIntegerDigits > 1 &&
         maximumIntegerDigits > minimumIntegerDigits) {
       // A repeating range is defined; adjust to it as follows.
@@ -228,7 +227,6 @@ class NumberFormat {
         mantissa *= 10;
         exponent--;
       }
-      minIntDigits = 1;
     } else {
       // No repeating range is defined, use minimum integer digits.
       if (minimumIntegerDigits < 1) {
@@ -399,9 +397,6 @@ class NumberFormat {
    */
   void _add(String x) {
     _buffer.write(x);
-  }
-  void _addCharCode(int x) {
-    _buffer.writeCharCode(x);
   }
   void _addZero() {
     _buffer.write(symbols.ZERO_DIGIT);
