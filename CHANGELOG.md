@@ -1,3 +1,6 @@
+## 0.12.5
+  * Parse Eras in DateFormat.
+
 ## 0.12.4+2
   * update analyzer to '<0.27.0'
 

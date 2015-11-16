@@ -4,11 +4,14 @@
 
 library find_default_locale_browser_test;
 
+import 'package:unittest/html_config.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/intl_browser.dart';
 import 'package:unittest/unittest.dart';
 
 main() {
+  useHtmlConfiguration();
+
   test("Find system locale in browser", () {
     // TODO (alanknight): This only verifies that we found some locale. We
     // should find a way to force the system locale before the test is run

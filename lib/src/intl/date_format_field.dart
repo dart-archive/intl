@@ -283,6 +283,7 @@ class _DateFormatPatternField extends _DateFormatField {
           parseDayOfWeek(input);
           break;
         case 'G':
+          parseEra(input);
           break; // era
         case 'h':
           parse1To12Hours(input, builder);
@@ -619,6 +620,11 @@ class _DateFormatPatternField extends _DateFormatField {
   void parseDayOfWeek(_Stream input) {
     // This is IGNORED, but we still have to skip over it the correct amount.
     var possibilities = width >= 4 ? symbols.WEEKDAYS : symbols.SHORTWEEKDAYS;
+    parseEnumeratedString(input, possibilities);
+  }
+
+  void parseEra(_Stream input) {
+    var possibilities = width >= 4 ? symbols.ERANAMES : symbols.ERAS;
     parseEnumeratedString(input, possibilities);
   }
 
