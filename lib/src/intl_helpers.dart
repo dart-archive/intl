@@ -24,9 +24,8 @@ class UninitializedLocaleData<F> {
   operator [](String key) =>
       (key == 'en_US') ? fallbackData : _throwException();
 
-  String lookupMessage(String message_str, [final String desc = '',
-      final Map examples = const {}, String locale, String name,
-      List<String> args, String meaning]) => message_str;
+  String lookupMessage(String message_str, String locale,
+      String name, List args) => message_str;
 
   List get keys => _throwException();
 

@@ -123,13 +123,13 @@ the message.
           name: "greetingMessage",
           args: [name],
           desc: "Greet the user as they first open the application",
-          examples: {'name': "Emily"});
+          examples: const {'name': "Emily"});
       print(greetingMessage('Dan'));
 
 There is one special class of complex expressions allowed in the
 message string, for plurals and genders.
 
-      remainingEmailsMessage(int howMany, String userName) => 
+      remainingEmailsMessage(int howMany, String userName) =>
         Intl.message(
           "${Intl.plural(howMany,
               zero: 'There are no emails left for $userName.',
@@ -138,7 +138,7 @@ message string, for plurals and genders.
         name: "remainingEmailsMessage",
         args: [howMany, userName],
         desc: "How many emails remain after archiving.",
-        examples: {'howMany': 42, 'userName': 'Fred'});
+        examples: const {'howMany': 42, 'userName': 'Fred'});
 
       print(remainingEmailsMessage(1, "Fred"));
 
@@ -146,7 +146,7 @@ However, since the typical usage for a plural or gender is for it to
 be at the top-level, we can also omit the [Intl.message][Intl.message] call and
 provide its parameters to the [Intl.plural][Intl.plural] call instead.
 
-      remainingEmailsMessage(int howMany, String userName) => 
+      remainingEmailsMessage(int howMany, String userName) =>
         Intl.plural(
           howMany,
           zero: 'There are no emails left for $userName.',
@@ -155,12 +155,12 @@ provide its parameters to the [Intl.plural][Intl.plural] call instead.
           name: "remainingEmailsMessage",
           args: [howMany, userName],
           desc: "How many emails remain after archiving.",
-          examples: {'howMany': 42, 'userName': 'Fred'});
+          examples: const {'howMany': 42, 'userName': 'Fred'});
 
 Similarly, there is an [Intl.gender][Intl.gender] message, and plurals
 and genders can be nested.
 
-      notOnlineMessage(String userName, String userGender) => 
+      notOnlineMessage(String userName, String userGender) =>
         Intl.gender(
           userGender,
           male: '$userName is unavailable because he is not online.',
@@ -169,7 +169,7 @@ and genders can be nested.
           name: "notOnlineMessage",
           args: [userName, userGender],
           desc: "The user is not available to hangout.",
-          examples: {{'userGender': 'male', 'userName': 'Fred'},
+          examples: const {{'userGender': 'male', 'userName': 'Fred'},
               {'userGender': 'female', 'userName' : 'Alice'}});
 
 It's recommended to use complete sentences in the sub-messages to keep
@@ -179,7 +179,7 @@ the structure as simple as possible for the translators.
 
 When your program contains messages that need translation, these must
 be extracted from the program source, sent to human translators, and the
-results need to be incorporated. 
+results need to be incorporated.
 
 To extract messages, run the `extract_to_arb.dart` program.
 
@@ -190,14 +190,14 @@ This will produce a file `intl_messages.arb` with the messages from
 all of these programs. an [ARB]
 (https://code.google.com/p/arb/wiki/ApplicationResourceBundleSpecification)
 format file which can be used for input to translation tools like
-[Google Translator Toolkit](https://translate.google.com/toolkit/) 
+[Google Translator Toolkit](https://translate.google.com/toolkit/)
 The resulting translations can be used to generate a set of libraries
 using the `generate_from_arb.dart` program.
 
 This expects to receive a series of files, one per
-locale. 
+locale.
 
-      pub run intl:generate_from_arb --generated_file_prefix=<prefix> 
+      pub run intl:generate_from_arb --generated_file_prefix=<prefix>
           <my_dart_files> <translated_ARB_files>
 
 This will generate Dart libraries, one per locale, which contain the

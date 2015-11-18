@@ -125,27 +125,55 @@ void generateIndividualMessageFile(String basicLocale,
   usableTranslations.sort((a, b) =>
       a.originalMessages.first.name.compareTo(b.originalMessages.first.name));
   for (var translation in usableTranslations) {
-    for (var original in translation.originalMessages) {
+    // Some messages we generate as methods in this class. Simpler ones
+    // we inline in the map from names to messages.
+    var messagesThatNeedMethods =
+        translation.originalMessages.where((each) => _hasArguments(each));
+    for (var original in messagesThatNeedMethods) {
       result
         ..write("  ")
         ..write(original.toCodeForLocale(locale))
         ..write("\n\n");
     }
   }
-  result.write("\n  final messages = const {\n");
+  // Some gyrations to prevent parts of the deferred libraries from being
+  // inlined into the main one, defeating the space savings. Issue 24356
+  result.write(
+"""
+  final messages = _notInlinedMessages(_notInlinedMessages);
+  static _notInlinedMessages(_) => {
+""");
   var entries = usableTranslations
       .expand((translation) => translation.originalMessages)
-      .map((original) => original.name)
-      .map((name) => "    \"$name\" : $name");
-  result
-    ..write(entries.join(",\n"))
-    ..write("\n  };\n}");
+      .map((original) =>
+          '    "${original.name}" : ${_mapReference(original, locale)}');
+  result..write(entries.join(",\n"))..write("\n  };\n}");
 
   // To preserve compatibility, we don't use the canonical version of the locale
   // in the file name.
   var filename =
       path.join(targetDir, "${generatedFilePrefix}messages_$basicLocale.dart");
   new File(filename).writeAsStringSync(result.toString());
+}
+
+bool _hasArguments(MainMessage message) => message.arguments.length != 0;
+
+/**
+ *  Simple messages are printed directly in the map of message names to
+ *  functions as a call that returns a lambda. e.g.
+ *
+ *        "foo" : simpleMessage("This is foo"),
+ *
+ *  This is helpful for the compiler.
+ **/
+String _mapReference(MainMessage original, String locale) {
+  if (!_hasArguments(original)) {
+    // No parameters, can be printed simply.
+    return 'MessageLookupByLibrary.simpleMessage("'
+        '${original.translations[locale]}")';
+  } else {
+    return original.name;
+  }
 }
 
 /**

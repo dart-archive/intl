@@ -1,5 +1,7 @@
 ## 0.12.5
   * Parse Eras in DateFormat.
+  * Update pubspec.yaml to allow newer version of fixnum.
+  * Improvements to the compiled size of generated messages code with dart2js.
 
 ## 0.12.4+2
   * update analyzer to '<0.27.0'

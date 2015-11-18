@@ -50,7 +50,7 @@ part 'src/intl/number_format.dart';
  *          name: 'today',
  *          args: [date],
  *          desc: 'Indicate the current date',
- *          examples: {'date' : 'June 8, 2012'});
+ *          examples: const {'date' : 'June 8, 2012'});
  *      print(today(new DateTime.now().toString());
  *
  *      howManyPeople(numberOfPeople, place) => Intl.plural(
@@ -60,7 +60,7 @@ part 'src/intl/number_format.dart';
  *          name: 'msg',
  *          args: [numberOfPeople, place],
  *          desc: 'Description of how many people are seen in a place.',
- *          examples: {'numberOfPeople': 3, 'place': 'London'});
+ *          examples: const {'numberOfPeople': 3, 'place': 'London'});
  *
  * Calling `howManyPeople(2, 'Athens');` would
  * produce "I see 2 other people in Athens." as output in the default locale.
@@ -153,7 +153,7 @@ class Intl {
    *         name: "hello",
    *         args: [yourName],
    *         desc: "Say hello",
-   *         examples = {"yourName": "Sparky"}.
+   *         examples = const {"yourName": "Sparky"}.
    * The source code will be processed via the analyzer to extract out the
    * message data, so only a subset of valid Dart code is accepted. In
    * particular, everything must be literal and cannot refer to variables
@@ -172,9 +172,12 @@ class Intl {
    */
   static String message(String message_str, {String desc: '',
       Map<String, String> examples: const {}, String locale, String name,
-      List<String> args, String meaning}) {
-    return messageLookup.lookupMessage(
-        message_str, desc, examples, locale, name, args, meaning);
+      List<String> args, String meaning}) =>
+    _message(message_str, locale, name, args);
+
+  /** Omit the compile-time only parameters so dart2js can see to drop them. */
+  static _message(String message_str, String locale, String name, List args) {
+    return messageLookup.lookupMessage(message_str, locale, name, args);
   }
 
   /**

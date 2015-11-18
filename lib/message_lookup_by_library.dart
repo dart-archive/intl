@@ -32,9 +32,8 @@ class CompositeMessageLookup {
    * If nothing is found, return [message_str]. The [desc] and [examples]
    * parameters are ignored
    */
-  String lookupMessage(String message_str, [final String desc = '',
-      final Map examples = const {}, String locale, String name,
-      List<String> args, String meaning]) {
+  String lookupMessage(String message_str, String locale,
+      String name, List args) {
     var actualLocale = (locale == null) ? Intl.getCurrentLocale() : locale;
     // For this usage, if the locale doesn't exist for messages, just return
     // it and we'll fall back to the original version.
@@ -42,8 +41,8 @@ class CompositeMessageLookup {
         onFailure: (locale) => locale);
     var messages = availableMessages[verifiedLocale];
     if (messages == null) return message_str;
-    return messages.lookupMessage(
-        message_str, desc, examples, locale, name, args, meaning);
+    return messages.
+        lookupMessage(message_str, locale, name, args);
   }
 
   /**
@@ -90,9 +89,7 @@ abstract class MessageLookupByLibrary {
    * will be extracted automatically but for the time being it must be passed
    * explicitly in the [name] and [args] arguments.
    */
-  String lookupMessage(String message_str, [final String desc = '',
-      final Map examples = const {}, String locale, String name,
-      List<String> args, String meaning]) {
+  String lookupMessage(String message_str, String locale, String name, List args) {
     if (name == null) return message_str;
     var function = this[name];
     return function == null ? message_str : Function.apply(function, args);
@@ -111,4 +108,10 @@ abstract class MessageLookupByLibrary {
   String get localeName;
 
   toString() => localeName;
+
+  /**
+   * Return a function that returns the given string.
+   * An optimization for dart2js, used from the generated code.
+   */
+  static simpleMessage(translatedString) => () => translatedString;
 }
