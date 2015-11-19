@@ -3,6 +3,7 @@
   * Update pubspec.yaml to allow newer version of fixnum.
   * Improvements to the compiled size of generated messages code with dart2js.
   * Update Intl pubspec to allow newer version of fixnum
+  * Allow adjacent literal strings to be used for message names/descriptions.
 
 ## 0.12.4+2
   * update analyzer to '<0.27.0'

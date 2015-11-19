@@ -45,7 +45,6 @@ _nullTransform(msg, chunk) => chunk;
  * format and can also print themselves into code.
  */
 abstract class Message {
-
   /**
    * All [Message]s except a [MainMessage] are contained inside some parent,
    * terminating at an Intl.message call which supplies the arguments we
@@ -74,6 +73,18 @@ abstract class Message {
    */
   String get name => parent == null ? '<unnamed>' : parent.name;
 
+  static final _evaluator = new ConstantEvaluator();
+
+  String _evaluateAsString(expression) {
+    var result = expression.accept(_evaluator);
+    if (result == ConstantEvaluator.NOT_A_CONSTANT ||
+        result is! String) {
+      return null;
+    } else {
+      return result;
+    }
+  }
+
   String checkValidity(MethodInvocation node, List arguments, String outerName,
       FormalParameterList outerArgs) {
     var hasArgs = arguments.any(
@@ -83,18 +94,18 @@ abstract class Message {
       return "The 'args' argument for Intl.message must be specified";
     }
 
-    var messageName = arguments.firstWhere((eachArg) =>
+    var messageName = arguments.firstWhere(
+        (eachArg) =>
             eachArg is NamedExpression && eachArg.name.label.name == 'name',
         orElse: () => null);
     if (messageName == null) {
       return "The 'name' argument for Intl.message must be specified";
     }
-    if (messageName.expression is! SimpleStringLiteral) {
-      return "The 'name' argument for Intl.message must be a simple string "
-          "literal.";
+    var givenName = _evaluateAsString(messageName.expression);
+    if (givenName == null) {
+      return "The 'name' argument for Intl.message must be a string literal";
     }
     var hasOuterName = outerName != null;
-    var givenName = messageName.expression.value;
     var simpleMatch = outerName == givenName;
     ClassDeclaration classNode(n) {
       if (n == null) return null;
@@ -115,7 +126,7 @@ abstract class Message {
         ["desc", "name"].contains(each.name.label.name));
     var values = simpleArguments.map((each) => each.expression).toList();
     for (var arg in values) {
-      if (arg is! StringLiteral) {
+      if (_evaluateAsString(arg) == null) {
         return ("Intl.message arguments must be string literals: $arg");
       }
     }
@@ -604,6 +615,7 @@ class Gender extends SubMessage {
         return;
     }
   }
+
   Message operator [](String attributeName) {
     switch (attributeName) {
       case "female":
