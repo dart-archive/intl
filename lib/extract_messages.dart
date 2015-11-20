@@ -487,8 +487,16 @@ class PluralAndGenderVisitor extends SimpleAstVisitor {
         .firstWhere((each) => each is! NamedExpression);
     if (mainArg is SimpleStringLiteral) {
       message.mainArgument = mainArg.toString();
-    } else {
+    } else if (mainArg is SimpleIdentifier) {
       message.mainArgument = mainArg.name;
+    } else {
+      var err = new StringBuffer()
+        ..write("Error (Invalid argument to plural/gender/select, "
+            "must be simple variable reference) "
+            "\nProcessing <$node>")
+        ..write(_reportErrorLocation(node));
+      print(err);
+      warnings.add(err.toString());
     }
     return message;
   }
