@@ -118,7 +118,7 @@ abstract class Message {
         : "${classDeclaration.name.token.toString()}_$outerName";
     var classMatch = classPlusMethod != null && (givenName == classPlusMethod);
     if (!(hasOuterName && (simpleMatch || classMatch))) {
-      return "The 'name' argument for Intl.message must match either"
+      return "The 'name' argument for Intl.message must match either "
           "the name of the containing function or <className>_<methodName> ("
           "'$givenName' vs. '$outerName')";
     }
