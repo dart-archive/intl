@@ -1,3 +1,6 @@
+## 0.12.4+3
+  * update analyzer to '<0.28.0' and fixnum to '<0.11.0'
+
 ## 0.12.4+2
   * update analyzer to '<0.27.0'
 
