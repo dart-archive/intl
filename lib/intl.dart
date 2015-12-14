@@ -139,14 +139,14 @@ class Intl {
    * will be substituted in the message.
    *
    * The [message_str] is the string to be translated, which may be interpolated
-   * based on one or more variables. The [name] of the message must
-   * match the enclosing function name. For methods, it can also be
+   * based on one or more variables. The [name] of the message must 
+   * match the enclosing function name. For methods, it can also be 
    * className_methodName. So for a method hello in class Simple, the name
    * can be either "hello" or "Simple_hello". The name must also be globally
    * unique in the program, so the second form can make it easier to distinguish
    * messages with the same name but in different classes.
    * The [args] repeats the arguments of the enclosing
-   * function, [desc] provides a description of usage,
+   * function, [desc] provides a description of usage, 
    * [examples] is a Map of exmaples for each interpolated variable. For example
    *       hello(yourName) => Intl.message(
    *         "Hello, $yourName",
@@ -185,6 +185,12 @@ class Intl {
    * be the default.
    */
   String get locale => _locale;
+
+  /**
+   * Return true if the locale exists, or if it is null. The null case
+   * is interpreted to mean that we use the default locale.
+   */
+  static bool _localeExists(localeName) => DateFormat.localeExists(localeName);
 
   /**
    * Given [newLocale] return a locale that we have data for that is similar

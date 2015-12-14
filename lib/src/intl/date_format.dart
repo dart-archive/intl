@@ -57,7 +57,7 @@ part of intl;
  * For each skeleton there is a named constructor that can be used to create it.
  * It's also possible to pass the skeleton as a string, but the constructor
  * is preferred.
- *
+ * 
  *      ICU Name                   Skeleton
  *      --------                   --------
  *      DAY                          d
@@ -115,11 +115,11 @@ part of intl;
  *
  * Explicit Pattern Syntax: Formats can also be specified with a pattern string.
  * This can be used for formats that don't have a skeleton available, but these
- * will not adapt to different locales. For example, in an explicit pattern the
- * letters "H" and "h" are available for 24 hour and 12 hour time formats
+ * will not adapt to different locales. For example, in an explicit pattern the 
+ * letters "H" and "h" are available for 24 hour and 12 hour time formats 
  * respectively. But there isn't a way in an explicit pattern to get the
  * behaviour of the "j" skeleton, which prints 24 hour or 12 hour time according
- * to the conventions of the locale, and also includes am/pm markers where
+ * to the conventions of the locale, and also includes am/pm markers where 
  * appropriate. So it is preferable to use the skeletons.
  *
  * The following characters are available in explicit patterns:
@@ -637,6 +637,17 @@ class DateFormat {
   DateSymbols get dateSymbols => dateTimeSymbols[_locale];
 
   /**
+   * Set the locale. If the locale can't be found, we also look up
+   * based on alternative versions, e.g. if we have no 'en_CA' we will
+   * look for 'en' as a fallback. It will also translate en-ca into en_CA.
+   * Null is also considered a valid value for [newLocale], indicating
+   * to use the default.
+   */
+  _setLocale(String newLocale) {
+    _locale = Intl.verifiedLocale(newLocale, localeExists);
+  }
+
+  /**
    * Return true if the locale exists, or if it is null. The null case
    * is interpreted to mean that we use the default locale.
    */
@@ -679,6 +690,5 @@ class DateFormat {
         return _fieldConstructors[i](match.group(0), this);
       }
     }
-    return null;
   }
 }
