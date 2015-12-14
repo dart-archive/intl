@@ -314,13 +314,13 @@ main() {
     for (var i = 0; i < bidiText.length; i++) {
       var isRtlDir = Bidi.detectRtlDirectionality(bidiText[i].text,
           isHtml: bidiText[i].isHtml);
+
       if (isRtlDir != bidiText[i].isRtl) {
         var str = '"${bidiText[i].text} " should be '
             '${bidiText[i].isRtl ? "rtl" : "ltr"} but detected as '
             '${isRtlDir ? "rtl" : "ltr"}';
-        //alert(str);
+        fail(str);
       }
-      expect(bidiText[i].isRtl, isRtlDir);
     }
   });
 }

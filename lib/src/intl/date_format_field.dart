@@ -478,7 +478,7 @@ class _DateFormatPatternField extends _DateFormatField {
 
   String formatAmPm(DateTime date) {
     var hours = date.hour;
-    var index = (date.hour >= 12) && (date.hour < 24) ? 1 : 0;
+    var index = (hours >= 12) && (hours < 24) ? 1 : 0;
     var ampm = symbols.AMPMS;
     return ampm[index];
   }
