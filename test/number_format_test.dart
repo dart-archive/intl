@@ -19,6 +19,7 @@ var testNumbersWeCanReadBack = {
   "-1": -1,
   "-2": -2.0,
   "-0.01": -0.01,
+  "-1.23": -1.23,
   "0.001": 0.001,
   "0.01": 0.01,
   "0.1": 0.1,
@@ -38,7 +39,13 @@ var testNumbersWeCanReadBack = {
 };
 
 /** Test numbers that we can't parse because we lose precision in formatting.*/
-var testNumbersWeCannotReadBack = {"3.142": PI,};
+var testNumbersWeCannotReadBack = {
+  "3.142": PI,
+  "-1.234": -1.2342,
+  "-1.235": -1.2348,
+  "1.234": 1.2342,
+  "1.235": 1.2348
+};
 
 /** Test numbers that won't work in Javascript because they're too big. */
 var testNumbersOnlyForTheVM = {

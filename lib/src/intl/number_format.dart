@@ -81,6 +81,7 @@ class NumberFormat {
     _internalMultiplier = x;
     _multiplierDigits = (log(_multiplier) / LN10).round();
   }
+
   int _internalMultiplier = 1;
 
   /** How many digits are there in the [_multiplier]. */
@@ -264,11 +265,39 @@ class NumberFormat {
    */
   _isInfinite(number) => number is num ? number.isInfinite : false;
   _isNaN(number) => number is num ? number.isNaN : false;
-  _round(number) => number is num ? number.round() : number;
-  _floor(number) => number is num ? number.floor() : number;
 
   /**
-   * Format the basic number portion, inluding the fractional digits.
+   * Helper to get the floor of a number which might not be num. This should
+   * only ever be called with an argument which is positive, or whose abs()
+   *  is negative. The second case is the maximum negative value on a
+   *  fixed-length integer. Since they are integers, they are also their own
+   *  floor.
+   */
+  _floor(number) {
+    if (number.isNegative && !(number.abs().isNegative)) {
+      throw new ArgumentError(
+          "Internal error: expected positive number, got $number");
+    }
+    return (number is num) ? number.floor() : number ~/ 1;
+  }
+
+  /** Helper to round a number which might not be num.*/
+  _round(number) {
+    if (number is num) {
+      return number.round();
+    } else if (number.remainder(1) == 0) {
+      // Not a normal number, but int-like, e.g. Int64
+      return number;
+    } else {
+      // TODO(alanknight): Do this more efficiently. If IntX  had floor and round we could avoid this.
+      var basic = _floor(number);
+      var fraction = (number - basic).toDouble().round();
+      return fraction == 0 ? number : number + fraction;
+    }
+  }
+
+  /**
+   * Format the basic number portion, including the fractional digits.
    */
   void _formatFixed(number) {
     var integerPart;
@@ -384,23 +413,25 @@ class NumberFormat {
   }
 
   /**
-   * Return true if we have a main integer part which is printable, either
-   * because we have digits left of the decimal point (this may include digits
-   * which have been moved left because of percent or permille formatting),
-   * or because the minimum number of printable digits is greater than 1.
-   */
+    * Return true if we have a main integer part which is printable, either
+    * because we have digits left of the decimal point (this may include digits
+    * which have been moved left because of percent or permille formatting),
+    * or because the minimum number of printable digits is greater than 1.
+    */
   bool _hasIntegerDigits(String digits) =>
       digits.isNotEmpty || minimumIntegerDigits > 0;
 
   /** A group of methods that provide support for writing digits and other
-   * required characters into [_buffer] easily.
-   */
+    * required characters into [_buffer] easily.
+    */
   void _add(String x) {
     _buffer.write(x);
   }
+
   void _addZero() {
     _buffer.write(symbols.ZERO_DIGIT);
   }
+
   void _addDigit(int x) {
     _buffer.writeCharCode(_localeZero + x - _zero);
   }
@@ -416,13 +447,13 @@ class NumberFormat {
   }
 
   /**
-   * We are printing the digits of the number from left to right. We may need
-   * to print a thousands separator or other grouping character as appropriate
-   * to the locale. So we find how many places we are from the end of the number
-   * by subtracting our current [position] from the [totalLength] and printing
-   * the separator character every [_groupingSize] digits, with the final
-   * grouping possibly being of a different size, [_finalGroupingSize].
-   */
+    * We are printing the digits of the number from left to right. We may need
+    * to print a thousands separator or other grouping character as appropriate
+    * to the locale. So we find how many places we are from the end of the number
+    * by subtracting our current [position] from the [totalLength] and printing
+    * the separator character every [_groupingSize] digits, with the final
+    * grouping possibly being of a different size, [_finalGroupingSize].
+    */
   void _group(int totalLength, int position) {
     var distanceFromEnd = totalLength - position;
     if (distanceFromEnd <= 1 || _groupingSize <= 0) return;
@@ -474,7 +505,6 @@ class NumberFormat {
  * then calls the system parsing methods on it.
  */
 class _NumberParser {
-
   /** The format for which we are parsing. */
   final NumberFormat format;
 
@@ -557,22 +587,22 @@ class _NumberParser {
   var _replacements;
 
   Map _initializeReplacements() => {
-    symbols.DECIMAL_SEP: () => '.',
-    symbols.EXP_SYMBOL: () => 'E',
-    symbols.GROUP_SEP: handleSpace,
-    symbols.PERCENT: () {
-      scale = _NumberFormatParser._PERCENT_SCALE;
-      return '';
-    },
-    symbols.PERMILL: () {
-      scale = _NumberFormatParser._PER_MILLE_SCALE;
-      return '';
-    },
-    ' ': handleSpace,
-    '\u00a0': handleSpace,
-    '+': () => '+',
-    '-': () => '-',
-  };
+        symbols.DECIMAL_SEP: () => '.',
+        symbols.EXP_SYMBOL: () => 'E',
+        symbols.GROUP_SEP: handleSpace,
+        symbols.PERCENT: () {
+          scale = _NumberFormatParser._PERCENT_SCALE;
+          return '';
+        },
+        symbols.PERMILL: () {
+          scale = _NumberFormatParser._PER_MILLE_SCALE;
+          return '';
+        },
+        ' ': handleSpace,
+        '\u00a0': handleSpace,
+        '+': () => '+',
+        '-': () => '-',
+      };
 
   invalidFormat() =>
       throw new FormatException("Invalid number: ${input.contents}");
@@ -729,7 +759,6 @@ class _NumberParser {
  * to parse a single pattern.
  */
 class _NumberFormatParser {
-
   /**
    * The special characters in the pattern language. All others are treated
    * as literals.
@@ -1072,5 +1101,84 @@ class _StringIterator implements Iterator<String> {
   static String _validate(input) {
     if (input is! String) throw new ArgumentError(input);
     return input;
+  }
+}
+
+/// Used primarily for currency formatting, this number-like class stores
+/// millionths of a currency unit, typically as an Int64.
+///
+/// It supports no operations other than being used for Intl number formatting.
+abstract class MicroMoney {
+  factory MicroMoney(micros) => new _MicroMoney(micros);
+}
+
+/// Used primarily for currency formatting, this stores millionths of a
+/// currency unit, typically as an Int64.
+///
+/// This private class provides the operations needed by the formatting code.
+class _MicroMoney implements MicroMoney {
+  var _micros;
+  _MicroMoney(this._micros);
+  static const _multiplier = 1000000;
+
+  get _integerPart => _micros ~/ _multiplier;
+  int get _fractionPart => (this - _integerPart)._micros.toInt().abs();
+
+  bool get isNegative => _micros.isNegative;
+
+  _MicroMoney abs() => isNegative ? new _MicroMoney(_micros.abs()) : this;
+
+  // Note that if this is done in a general way there's a risk of integer
+  // overflow on JS when multiplying out the [other] parameter, which may be
+  // an Int64. In formatting we only ever subtract out our own integer part.
+  _MicroMoney operator -(other) {
+    if (other is MicroMoney) return new _MicroMoney(_micros - other._micros);
+    return new _MicroMoney(_micros - (other * _multiplier));
+  }
+
+  _MicroMoney operator +(other) {
+    if (other is MicroMoney) return new _MicroMoney(_micros + other._micros);
+    return new _MicroMoney(_micros + (other * _multiplier));
+  }
+
+  _MicroMoney operator ~/(divisor) {
+    if (divisor is! int) {
+      throw new ArgumentError.value(divisor, 'divisor',
+          '_MicroMoney ~/ only supports int arguments.');
+    }
+    return new _MicroMoney((_integerPart ~/ divisor) * _multiplier);
+  }
+
+  _MicroMoney operator *(other) {
+    if (other is! int) {
+    throw new ArgumentError.value(other, 'other',
+        '_MicroMoney * only supports int arguments.');
+    }
+    return new _MicroMoney(
+        (_integerPart * other) * _multiplier + (_fractionPart * other));
+  }
+
+  /// Note that this only really supports remainder from an int,
+  /// not division by another MicroMoney
+  _MicroMoney remainder(other) {
+    if (other is! int) {
+      throw new ArgumentError.value(other, 'other',
+          '_MicroMoney.remainder only supports int arguments.');
+    }
+    return new _MicroMoney(_micros.remainder(other * _multiplier));
+  }
+
+  double toDouble() => _micros.toDouble() / _multiplier;
+
+  int toInt() => _integerPart.toInt();
+
+  String toString() {
+    var beforeDecimal = _integerPart.toString();
+    var decimalPart = '';
+    var fractionPart = _fractionPart;
+    if (fractionPart != 0) {
+      decimalPart = '.' + fractionPart.toString();
+    }
+    return '$beforeDecimal$decimalPart';
   }
 }

@@ -1,10 +1,12 @@
 ## 0.12.5
   * Parse Eras in DateFormat.
-  * Update pubspec.yaml to allow newer version of fixnum.
+  * Update pubspec.yaml to allow newer version of fixnum and analyzer.
   * Improvements to the compiled size of generated messages code with dart2js.
   * Allow adjacent literal strings to be used for message names/descriptions.
   * Provide a better error message for some cases of bad parameters
     to plural/gender/select messages.
+  * Introduce a simple MicroMoney class that can represent currency values
+    scaled by a constant factor.
 
 ## 0.12.4+3
   * update analyzer to '<0.28.0' and fixnum to '<0.11.0'
