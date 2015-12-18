@@ -52,7 +52,7 @@ or
 ```dart
 print(myMessage(dateString, locale: 'ar');
 ```
-	  
+
 or
 
 ```dart
@@ -307,16 +307,16 @@ detected from the text.
         new BidiFormatter.RTL().wrapWithUnicode('xyz');
         new BidiFormatter.RTL().wrapWithSpan('xyz');
 
-[intl_lib]: https://api.dartlang.org/apidocs/channels/stable/dartdoc-viewer/intl/intl
-[Intl]: https://api.dartlang.org/apidocs/channels/stable/dartdoc-viewer/intl
-[DateFormat]: https://api.dartlang.org/apidocs/channels/stable/dartdoc-viewer/intl/intl.DateFormat
-[NumberFormat]: https://api.dartlang.org/apidocs/channels/stable/dartdoc-viewer/intl/intl.NumberFormat
-[withLocale]: https://api.dartlang.org/apidocs/channels/stable/dartdoc-viewer/intl/intl.Intl#id_withLocale
-[defaultLocale]: https://api.dartlang.org/apidocs/channels/stable/dartdoc-viewer/intl/intl.Intl#id_defaultLocale
-[Intl.message]: https://api.dartlang.org/apidocs/channels/stable/dartdoc-viewer/intl/intl.Intl#id_message
-[Intl.plural]: https://api.dartlang.org/apidocs/channels/stable/dartdoc-viewer/intl/intl.Intl#id_plural
-[Intl.gender]: https://api.dartlang.org/apidocs/channels/stable/dartdoc-viewer/intl/intl.Intl#id_gender
-[DateTime]: https://api.dartlang.org/apidocs/channels/stable/dartdoc-viewer/dart:core.DateTime
-[BidiFormatter]: https://api.dartlang.org/apidocs/channels/stable/dartdoc-viewer/intl/intl.BidiFormatter
-[BidiFormatter.RTL]: https://api.dartlang.org/apidocs/channels/stable/dartdoc-viewer/intl/intl.BidiFormatter#id_BidiFormatter-RTL
-[BidiFormatter.LTR]: https://api.dartlang.org/apidocs/channels/stable/dartdoc-viewer/intl/intl.BidiFormatter#id_BidiFormatter-LTR
+[intl_lib]: https://www.dartdocs.org/documentation/intl/latest/intl/intl-library.html
+[Intl]: https://www.dartdocs.org/documentation/intl/latest
+[DateFormat]: https://www.dartdocs.org/documentation/intl/latest/intl/DateFormat-class.html
+[NumberFormat]: https://www.dartdocs.org/documentation/intl/latest/intl/NumberFormat-class.html
+[withLocale]: https://www.dartdocs.org/documentation/intl/latest/intl/Intl/withLocale.html
+[defaultLocale]: https://www.dartdocs.org/documentation/intl/latest/intl/Intl/defaultLocale.html
+[Intl.message]: https://www.dartdocs.org/documentation/intl/latest/intl/Intl/message.html
+[Intl.plural]: https://www.dartdocs.org/documentation/intl/latest/intl/Intl/plural.html
+[Intl.gender]: https://www.dartdocs.org/documentation/intl/latest/intl/Intl/gender.html
+[DateTime]: https://api.dartlang.org/stable/dart-core/DateTime-class.html
+[BidiFormatter]: https://www.dartdocs.org/documentation/intl/latest/intl/BidiFormatter-class.html
+[BidiFormatter.RTL]: https://www.dartdocs.org/documentation/intl/latest/intl/BidiFormatter/BidiFormatter.RTL.html
+[BidiFormatter.LTR]: https://www.dartdocs.org/documentation/intl/latest/intl/BidiFormatter/BidiFormatter.LTR.html

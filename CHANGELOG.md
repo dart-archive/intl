@@ -1,3 +1,6 @@
+## 0.12.6
+  * Update links in README.md to point to current dartdocs.
+
 ## 0.12.5
   * Parse Eras in DateFormat.
   * Update pubspec.yaml to allow newer version of fixnum and analyzer.
