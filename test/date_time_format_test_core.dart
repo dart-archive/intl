@@ -132,7 +132,8 @@ testLocale(String localeName, Map expectedResults, DateTime date) {
     var format = intl.date(skeleton);
     var icuName = icuFormatNamesToTest[i];
     var actualResult = format.format(date);
-    expect(expectedResults[icuName], equals(actualResult));
+    expect(expectedResults[icuName], equals(actualResult),
+        reason: "Mismatch in $localeName, testing skeleton '$skeleton'");
   }
 }
 
@@ -370,11 +371,11 @@ void runDateTests(Function subsetFunc) {
    */
   Map<int, DateTime> generateDates(int year, int leapDay) =>
       new Iterable.generate(365 + leapDay, (n) => n + 1).map((day) {
-    var result = new DateTime(year, 1, day);
-    // TODO(alanknight): This is a workaround for dartbug.com/15560.
-    if (result.toUtc() == result) result = new DateTime(year, 1, day);
-    return result;
-  }).toList().asMap();
+        var result = new DateTime(year, 1, day);
+        // TODO(alanknight): This is a workaround for dartbug.com/15560.
+        if (result.toUtc() == result) result = new DateTime(year, 1, day);
+        return result;
+      }).toList().asMap();
 
   void verifyOrdinals(Map dates) {
     var f = new DateFormat("D");

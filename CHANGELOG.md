@@ -1,5 +1,6 @@
 ## 0.12.6
   * Update links in README.md to point to current dartdocs.
+  * Update locale data to CLDR 28.
 
 ## 0.12.5
   * Parse Eras in DateFormat.
