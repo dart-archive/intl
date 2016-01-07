@@ -580,6 +580,7 @@ class _DateFormatPatternField extends _DateFormatField {
       return symbols.QUARTERS[quarter];
     }
   }
+
   String formatDayOfMonth(DateTime date) {
     return padTo(width, date.day);
   }
@@ -612,9 +613,8 @@ class _DateFormatPatternField extends _DateFormatField {
 
   String formatDayOfWeek(DateTime date) {
     // Note that Dart's weekday returns 1 for Monday and 7 for Sunday.
-    return (width >= 4
-        ? symbols.WEEKDAYS
-        : symbols.SHORTWEEKDAYS)[(date.weekday) % 7];
+    return (width >= 4 ? symbols.WEEKDAYS : symbols.SHORTWEEKDAYS)[
+        (date.weekday) % 7];
   }
 
   void parseDayOfWeek(_Stream input) {
@@ -650,17 +650,9 @@ class _DateFormatPatternField extends _DateFormatField {
   }
 
   /**
-  * Return a string representation of the object padded to the left with
-  * zeros. Primarily useful for numbers.
-  */
-  String padTo(int width, Object toBePrinted) {
-    var basicString = toBePrinted.toString();
-    if (basicString.length >= width) return basicString;
-    var buffer = new StringBuffer();
-    for (var i = 0; i < width - basicString.length; i++) {
-      buffer.write('0');
-    }
-    buffer.write(basicString);
-    return buffer.toString();
-  }
+   * Return a string representation of the object padded to the left with
+   * zeros. Primarily useful for numbers.
+   */
+  static String padTo(int width, Object toBePrinted) =>
+      '$toBePrinted'.padLeft(width, '0');
 }
