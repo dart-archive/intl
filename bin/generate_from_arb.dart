@@ -8,6 +8,10 @@
  * of ARB files representing translations of messages from the corresponding
  * Dart file. See extract_to_arb.dart and make_hardcoded_translation.dart.
  *
+ * If the ARB file has an @@locale or _locale value, that will be used as
+ * the locale. If not, we will try to figure out the locale from the end of
+ * the file name, e.g. foo_en_GB.arb will be assumed to be in en_GB locale.
+ *
  * This produces a series of files named
  * "messages_<locale>.dart" containing messages for a particular locale
  * and a main import file named "messages_all.dart" which has imports all of
@@ -49,7 +53,7 @@ main(List<String> args) {
       defaultsTo: true,
       callback: (x) => useDeferredLoading = x,
       help: 'Generate message code that must be loaded with deferred loading. '
-      'Otherwise, all messages are eagerly loaded.');
+          'Otherwise, all messages are eagerly loaded.');
   parser.parse(args);
   var dartFiles = args.where((x) => x.endsWith("dart")).toList();
   var jsonFiles = args.where((x) => x.endsWith(".arb")).toList();
@@ -92,7 +96,7 @@ void generateLocaleFile(File file, String targetDir) {
   var src = file.readAsStringSync();
   var data = JSON.decode(src);
   data.forEach((k, v) => data[k] = recreateIntlObjects(k, v));
-  var locale = data["_locale"];
+  var locale = data["@@locale"] ?? data["_locale"];
   if (locale != null) {
     locale = locale.translated.string;
   } else {
@@ -102,6 +106,8 @@ void generateLocaleFile(File file, String targetDir) {
     // my_file_fr.arb is locale "fr" or "file_fr".
     var name = path.basenameWithoutExtension(file.path);
     locale = name.split("_").skip(1).join("_");
+    print("No @@locale or _locale field found in $name, "
+        "assuming '$locale' based on the file name.");
   }
   allLocales.add(locale);
 

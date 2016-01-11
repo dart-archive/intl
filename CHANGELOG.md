@@ -1,6 +1,10 @@
 ## 0.12.6
   * Update links in README.md to point to current dartdocs.
   * Update locale data to CLDR 28.
+  * Remove library directive from generated libraries. Conflicted with linter.
+  * Support @@locale in ARB files as well as the older _locale
+  * Print a message when generating from ARB files if we guess the locale
+    from the file name when there's no explicit @@locale or _locale in the file.
 
 ## 0.12.5
   * Parse Eras in DateFormat.

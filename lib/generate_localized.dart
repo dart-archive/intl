@@ -189,7 +189,6 @@ String prologue(String locale) => """
  * function name.
  */
 
-library ${_libraryName(locale)};
 import 'package:$intlImportPath/intl.dart';
 import 'package:$intlImportPath/message_lookup_by_library.dart';
 
@@ -245,8 +244,6 @@ var mainPrologue = """
  * This is a library that looks up messages for specific locales by
  * delegating to the appropriate library.
  */
-
-library messages_all;
 
 import 'dart:async';
 import 'package:$intlImportPath/message_lookup_by_library.dart';
