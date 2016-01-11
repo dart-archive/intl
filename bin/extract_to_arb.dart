@@ -3,11 +3,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/**
- * This script uses the extract_messages.dart library to find the Intl.message
- * calls in the target dart files and produces ARB format output. See
- * https://code.google.com/p/arb/wiki/ApplicationResourceBundleSpecification
- */
+/// This script uses the extract_messages.dart library to find the Intl.message
+/// calls in the target dart files and produces ARB format output. See
+/// https://code.google.com/p/arb/wiki/ApplicationResourceBundleSpecification
 library extract_to_arb;
 
 import 'dart:convert';
@@ -57,21 +55,17 @@ main(List<String> args) {
   }
 }
 
-/**
- * This is a placeholder for transforming a parameter substitution from
- * the translation file format into a Dart interpolation. In our case we
- * store it to the file in Dart interpolation syntax, so the transformation
- * is trivial.
- */
+/// This is a placeholder for transforming a parameter substitution from
+/// the translation file format into a Dart interpolation. In our case we
+/// store it to the file in Dart interpolation syntax, so the transformation
+/// is trivial.
 String leaveTheInterpolationsInDartForm(MainMessage msg, chunk) {
   if (chunk is String) return chunk;
   if (chunk is int) return "\$${msg.arguments[chunk]}";
   return chunk.toCode();
 }
 
-/**
- * Convert the [MainMessage] to a trivial JSON format.
- */
+/// Convert the [MainMessage] to a trivial JSON format.
 Map toARB(MainMessage message) {
   if (message.messagePieces.isEmpty) return null;
   var out = {};
@@ -103,10 +97,8 @@ void addArgumentFor(MainMessage message, String arg, Map result) {
   result[arg] = extraInfo;
 }
 
-/**
- * Return a version of the message string with
- * with ICU parameters "{variable}" rather than Dart interpolations "$variable".
- */
+/// Return a version of the message string with with ICU parameters "{variable}"
+/// rather than Dart interpolations "$variable".
 String icuForm(MainMessage message) =>
     message.expanded(turnInterpolationIntoICUForm);
 

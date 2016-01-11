@@ -2,10 +2,8 @@
 // or details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/**
- * Test date formatting and parsing using locale data read via an http request
- * to a server.
- */
+/// Test date formatting and parsing using locale data read via an http request
+/// to a server.
 
 library date_time_format_http_request_test;
 

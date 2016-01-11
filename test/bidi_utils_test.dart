@@ -7,9 +7,7 @@ library bidi_utils_test;
 import 'package:intl/intl.dart';
 import 'package:unittest/unittest.dart';
 
-/**
- * Tests the bidi utilities library.
- */
+/// Tests the bidi utilities library.
 main() {
   var LRE = '\u202A';
   var RLE = '\u202B';

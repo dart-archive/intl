@@ -2,11 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/**
- * This imports all of the different message libraries and provides an
- * [initializeMessages] function that sets up the lookup for a particular
- * library.
- */
+/// This imports all of the different message libraries and provides an
+/// [initializeMessages] function that sets up the lookup for a particular
+/// library.
 library messages_all;
 
 import 'dart:async';

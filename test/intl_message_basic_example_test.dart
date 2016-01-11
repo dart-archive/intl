@@ -2,9 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/**
- * Tests internationalization of messages using the basic example as a template.
- */
+/// Tests internationalization of messages using the basic example as a
+/// template.
 library intl_message_test_2;
 
 import '../example/basic/basic_example.dart';

@@ -5,6 +5,7 @@
   * Support @@locale in ARB files as well as the older _locale
   * Print a message when generating from ARB files if we guess the locale
     from the file name when there's no explicit @@locale or _locale in the file.
+  * Switch all the source to use line comments.
 
 ## 0.12.5
   * Parse Eras in DateFormat.

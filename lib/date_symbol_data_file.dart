@@ -2,10 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/**
- * This file should be imported, along with date_format.dart in order to read
- * locale data from files in the file system.
- */
+/// This file should be imported, along with date_format.dart in order to read
+/// locale data from files in the file system.
 
 library date_symbol_data_file;
 
@@ -21,12 +19,10 @@ import 'src/lazy_locale_data.dart';
 
 export 'src/data/dates/locale_list.dart';
 
-/**
- * This should be called for at least one [locale] before any date formatting
- * methods are called. It sets up the lookup for date symbols using [path].
- * The [path] parameter should end with a directory separator appropriate
- * for the platform.
- */
+/// This should be called for at least one [locale] before any date formatting
+/// methods are called. It sets up the lookup for date symbols using [path].
+/// The [path] parameter should end with a directory separator appropriate
+/// for the platform.
 Future initializeDateFormatting(String locale, String filePath) {
   var reader = new FileDataReader(path.join(filePath, 'symbols'));
   initializeDateSymbols(() => new LazyLocaleData(
@@ -40,6 +36,6 @@ Future initializeDateFormatting(String locale, String filePath) {
   });
 }
 
-/** Defines how new date symbol entries are created. */
+/// Defines how new date symbol entries are created.
 DateSymbols _createDateSymbol(Map map) =>
     new DateSymbols.deserializeFromMap(map);

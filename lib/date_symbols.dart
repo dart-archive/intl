@@ -3,15 +3,13 @@
 // BSD-style license that can be found in the LICENSE file.
 library date_symbols;
 
-/**
- * This holds onto information about how a particular locale formats dates. It
- * contains mostly strings, e.g. what the names of months or weekdays are,
- * but also indicates things like the first day of the week. We expect the data
- * for instances of these to be generated out of ICU or a similar reference
- * source. This is used in conjunction with the date_time_patterns, which
- * defines for a particular locale the different named formats that will
- * make use of this data.
- */
+/// This holds onto information about how a particular locale formats dates. It
+/// contains mostly strings, e.g. what the names of months or weekdays are,
+/// but also indicates things like the first day of the week. We expect the data
+/// for instances of these to be generated out of ICU or a similar reference
+/// source. This is used in conjunction with the date_time_patterns, which
+/// defines for a particular locale the different named formats that will
+/// make use of this data.
 class DateSymbols {
   String NAME;
   List<String> ERAS,
@@ -114,10 +112,8 @@ class DateSymbols {
   toString() => NAME;
 }
 
-/**
- * We hard-code the locale data for en_US here so that there's at least one
- * locale always available.
- */
+/// We hard-code the locale data for en_US here so that there's at least one
+/// locale always available.
 var en_USSymbols = new DateSymbols(
     NAME: "en_US",
     ERAS: const ['BC', 'AD'],

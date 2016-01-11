@@ -2,11 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/**
- * Tests the DateFormat library in dart. This file contains core tests that
- * are run regardless of where the locale data is found, so it doesn't expect to
- * be run on its own, but rather to be imported and run from another test file.
- */
+/// Tests the DateFormat library in dart. This file contains core tests that are
+/// run regardless of where the locale data is found, so it doesn't expect to be
+/// run on its own, but rather to be imported and run from another test file.
 
 library date_time_format_tests;
 
@@ -119,12 +117,10 @@ var icuFormatNamesToTest = const [
   // ABBR_UTC_TZ
 ];
 
-/**
- * Exercise all of the formats we have explicitly defined on a particular
- * locale. [expectedResults] is a map from ICU format names to the
- * expected result of formatting [date] according to that format in
- * [localeName].
- */
+/// Exercise all of the formats we have explicitly defined on a particular
+/// locale. [expectedResults] is a map from ICU format names to the
+/// expected result of formatting [date] according to that format in
+/// [localeName].
 testLocale(String localeName, Map expectedResults, DateTime date) {
   var intl = new Intl(localeName);
   for (int i = 0; i < formatsToTest.length; i++) {
@@ -169,7 +165,7 @@ testRoundTripParsing(String localeName, DateTime date) {
   }
 }
 
-/** A shortcut for returning all the locales we have available.*/
+/// A shortcut for returning all the locales we have available.
 List<String> allLocales() => DateFormat.allLocalesWithSymbols();
 
 Function _subsetFunc;
@@ -364,11 +360,9 @@ void runDateTests(Function subsetFunc) {
     }
   });
 
-  /**
-   * Generate a map from day numbers in the given [year] (where Jan 1 == 1)
-   * to a Date object. If [year] is a leap year, then pass 1 for
-   * [leapDay], otherwise pass 0.
-   */
+  /// Generate a map from day numbers in the given [year] (where Jan 1 == 1)
+  /// to a Date object. If [year] is a leap year, then pass 1 for
+  /// [leapDay], otherwise pass 0.
   Map<int, DateTime> generateDates(int year, int leapDay) =>
       new Iterable.generate(365 + leapDay, (n) => n + 1).map((day) {
         var result = new DateTime(year, 1, day);

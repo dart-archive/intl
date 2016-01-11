@@ -3,12 +3,10 @@
 // BSD-style license that can be found in the LICENSE file.
 library number_symbols;
 
-/**
- * This holds onto information about how a particular locale formats numbers. It
- * contains strings for things like the decimal separator, digit to use for "0"
- * and infinity. We expect the data for instances to be generated out of ICU
- * or a similar reference source.
- */
+/// This holds onto information about how a particular locale formats
+/// numbers. It contains strings for things like the decimal separator, digit to
+/// use for "0" and infinity. We expect the data for instances to be generated
+/// out of ICU or a similar reference source.
 class NumberSymbols {
   final String NAME;
   final String DECIMAL_SEP,

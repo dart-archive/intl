@@ -4,10 +4,8 @@
 
 part of intl;
 
-/**
- * A class for holding onto the data for a date so that it can be built
- * up incrementally.
- */
+/// A class for holding onto the data for a date so that it can be built
+/// up incrementally.
 class _DateBuilder {
   // Default the date values to the EPOCH so that there's a valid date
   // in case the format doesn't set them.
@@ -47,11 +45,9 @@ class _DateBuilder {
 
   get hour24 => pm ? hour + 12 : hour;
 
-  /**
-   * Verify that we correspond to a valid date. This will reject out of
-   * range values, even if the DateTime constructor would accept them. An
-   * invalid message will result in throwing a [FormatException].
-   */
+  /// Verify that we correspond to a valid date. This will reject out of
+  /// range values, even if the DateTime constructor would accept them. An
+  /// invalid message will result in throwing a [FormatException].
   verify(String s) {
     _verify(month, 1, 12, "month", s);
     _verify(hour24, 0, 23, "hour", s);
@@ -76,10 +72,8 @@ class _DateBuilder {
     }
   }
 
-  /**
-   * Return a date built using our values. If no date portion is set,
-   * use the "Epoch" of January 1, 1970.
-   */
+  /// Return a date built using our values. If no date portion is set,
+  /// use the "Epoch" of January 1, 1970.
   DateTime asDate({retry: true}) {
     // TODO(alanknight): Validate the date, especially for things which
     // can crash the VM, e.g. large month values.
@@ -101,11 +95,9 @@ class _DateBuilder {
   }
 }
 
-/**
- * A simple and not particularly general stream class to make parsing
- * dates from strings simpler. It is general enough to operate on either
- * lists or strings.
- */
+/// A simple and not particularly general stream class to make parsing
+/// dates from strings simpler. It is general enough to operate on either
+/// lists or strings.
 // TODO(alanknight): With the improvements to the collection libraries
 // since this was written we might be able to get rid of it entirely
 // in favor of e.g. aString.split('') giving us an iterable of one-character
@@ -121,29 +113,23 @@ class _Stream {
 
   next() => contents[index++];
 
-  /**
-   * Return the next [howMany] items, or as many as there are remaining.
-   * Advance the stream by that many positions.
-   */
+  /// Return the next [howMany] items, or as many as there are remaining.
+  /// Advance the stream by that many positions.
   read([int howMany = 1]) {
     var result = peek(howMany);
     index += howMany;
     return result;
   }
 
-  /**
-   * Does the input start with the given string, if we start from the
-   * current position.
-   */
+  /// Does the input start with the given string, if we start from the
+  /// current position.
   bool startsWith(String pattern) {
     if (contents is String) return contents.startsWith(pattern, index);
     return pattern == peek(pattern.length);
   }
 
-  /**
-   * Return the next [howMany] items, or as many as there are remaining.
-   * Does not modify the stream position.
-   */
+  /// Return the next [howMany] items, or as many as there are remaining.
+  /// Does not modify the stream position.
   peek([int howMany = 1]) {
     var result;
     if (contents is String) {
@@ -155,13 +141,11 @@ class _Stream {
     return result;
   }
 
-  /** Return the remaining contents of the stream */
+  /// Return the remaining contents of the stream
   rest() => peek(contents.length - index);
 
-  /**
-   * Find the index of the first element for which [f] returns true.
-   * Advances the stream to that position.
-   */
+  /// Find the index of the first element for which [f] returns true.
+  /// Advances the stream to that position.
   int findIndex(Function f) {
     while (!atEnd()) {
       if (f(next())) return index - 1;
@@ -169,10 +153,8 @@ class _Stream {
     return null;
   }
 
-  /**
-   * Find the indexes of all the elements for which [f] returns true.
-   * Leaves the stream positioned at the end.
-   */
+  /// Find the indexes of all the elements for which [f] returns true.
+  /// Leaves the stream positioned at the end.
   List findIndexes(Function f) {
     var results = [];
     while (!atEnd()) {
@@ -181,10 +163,8 @@ class _Stream {
     return results;
   }
 
-  /**
-   * Assuming that the contents are characters, read as many digits as we
-   * can see and then return the corresponding integer. Advance the stream.
-   */
+  /// Assuming that the contents are characters, read as many digits as we
+  /// can see and then return the corresponding integer. Advance the stream.
   var digitMatcher = new RegExp(r'\d+');
   int nextInteger() {
     var string = digitMatcher.stringMatch(rest());

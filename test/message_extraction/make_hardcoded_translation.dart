@@ -3,19 +3,17 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/**
- * This simulates a translation process, reading the messages generated
- * from extract_message.dart for the files sample_with_messages.dart and
- * part_of_sample_with_messages.dart and writing out hard-coded translations for
- * German and French locales.
- */
+/// This simulates a translation process, reading the messages generated from
+/// extract_message.dart for the files sample_with_messages.dart and
+/// part_of_sample_with_messages.dart and writing out hard-coded translations
+/// for German and French locales.
 
 import 'dart:convert';
 import 'dart:io';
 import 'package:path/path.dart' as path;
 import 'package:args/args.dart';
 
-/** A list of the French translations that we will produce. */
+/// A list of the French translations that we will produce.
 var french = {
   "types": r"{a}, {b}, {c}",
   "multiLine": "Cette message prend plusiers lignes.",
@@ -76,7 +74,7 @@ var french = {
       "}}"
 };
 
-/** A list of the German translations that we will produce. */
+/// A list of the German translations that we will produce.
 var german = {
   "types": r"{a}, {b}, {c}",
   "multiLine": "Dieser String erstreckt sich über mehrere Zeilen erstrecken.",
@@ -135,13 +133,11 @@ var german = {
       "}"
 };
 
-/** The output directory for translated files. */
+/// The output directory for translated files.
 String targetDir;
 
-/**
- * Generate a translated json version from [originals] in [locale] looking
- * up the translations in [translations].
- */
+/// Generate a translated json version from [originals] in [locale] looking
+/// up the translations in [translations].
 void translate(Map originals, String locale, Map translations) {
   var translated = {"_locale": locale};
   originals.forEach((name, text) {

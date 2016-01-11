@@ -2,18 +2,16 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/**
- * This provides a basic example of internationalization usage. It uses the
- * local variant of all the facilities, meaning that libraries with the
- * data for all the locales are directly imported by the program. Once lazy
- * loading is available, we expect this to be the preferred mode, with
- * the initialization code actually loading the specific libraries needed.
- *
- * This defines messages for an English locale directly in the program and
- * has separate libraries that define German and Thai messages that say more or
- * less the same thing, and prints the message with the date and time in it
- * formatted appropriately for the locale.
- */
+/// This provides a basic example of internationalization usage. It uses the
+/// local variant of all the facilities, meaning that libraries with the
+/// data for all the locales are directly imported by the program. Once lazy
+/// loading is available, we expect this to be the preferred mode, with
+/// the initialization code actually loading the specific libraries needed.
+///
+/// This defines messages for an English locale directly in the program and
+/// has separate libraries that define German and Thai messages that say more or
+/// less the same thing, and prints the message with the date and time in it
+/// formatted appropriately for the locale.
 
 library intl_basic_example;
 
@@ -22,12 +20,10 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'messages_all.dart';
 
-/**
- * In order to use this both as an example and as a test case, we pass in
- * the function for what we're going to do with the output. For a simple
- * example we just pass in [print] and for tests we pass in a function that
- * adds it a list to be verified.
- */
+/// In order to use this both as an example and as a test case, we pass in
+/// the function for what we're going to do with the output. For a simple
+/// example we just pass in [print] and for tests we pass in a function that
+/// adds it a list to be verified.
 Function doThisWithTheOutput;
 
 void setup(Function program, Function output) {

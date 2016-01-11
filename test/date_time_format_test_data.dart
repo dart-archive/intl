@@ -2,11 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/**
- * Test data for one particular date formatted for a small number of locales.
- * Provides at least a basic check on formatting, including formatting with
- * non-ASCII characters and some different orderings.
- */
+/// Test data for one particular date formatted for a small number of locales.
+/// Provides at least a basic check on formatting, including formatting with
+/// non-ASCII characters and some different orderings.
 
 // TODO(alanknight): Test more locales and a wider variety of test data,
 // possibly by generating test data out of ICU.

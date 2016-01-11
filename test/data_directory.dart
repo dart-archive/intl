@@ -2,15 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/**
- * A utility function for test and tools that compensates (at least for very
- * simple cases) for file-dependent programs being run from different
- * directories. The important cases are
- *   - running in the directory that contains the test itself, i.e.
- *    test/ or a sub-directory.
- *   - running in root of this package, which is where the editor and bots will
- *   run things by default
- */
+/// A utility function for test and tools that compensates (at least for very
+/// simple cases) for file-dependent programs being run from different
+/// directories. The important cases are
+///   - running in the directory that contains the test itself, i.e.
+///    test/ or a sub-directory.
+///   - running in root of this package, which is where the editor and bots will
+///   run things by default
 library data_directory;
 
 import "dart:io";

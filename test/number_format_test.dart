@@ -1,8 +1,6 @@
-/**
- * Copyright (c) 2012, the Dart project authors.  Please see the AUTHORS file
- * for details. All rights reserved. Use of this source code is governed by a
- * BSD-style license that can be found in the LICENSE file.
- */
+/// Copyright (c) 2012, the Dart project authors.  Please see the AUTHORS file
+/// for details. All rights reserved. Use of this source code is governed by a
+/// BSD-style license that can be found in the LICENSE file.
 
 library number_format_test;
 
@@ -12,9 +10,7 @@ import 'package:intl/intl.dart';
 import 'number_test_data.dart';
 import 'dart:math';
 
-/**
- * Tests the Numeric formatting library in dart.
- */
+/// Tests the Numeric formatting library in dart.
 var testNumbersWeCanReadBack = {
   "-1": -1,
   "-2": -2.0,
@@ -38,7 +34,7 @@ var testNumbersWeCanReadBack = {
   "-∞": double.NEGATIVE_INFINITY,
 };
 
-/** Test numbers that we can't parse because we lose precision in formatting.*/
+/// Test numbers that we can't parse because we lose precision in formatting.
 var testNumbersWeCannotReadBack = {
   "3.142": PI,
   "-1.234": -1.2342,
@@ -47,7 +43,7 @@ var testNumbersWeCannotReadBack = {
   "1.235": 1.2348
 };
 
-/** Test numbers that won't work in Javascript because they're too big. */
+/// Test numbers that won't work in Javascript because they're too big.
 var testNumbersOnlyForTheVM = {
   "10,000,000,000,000,000,000,000,000,000,000":
       10000000000000000000000000000000,

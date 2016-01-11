@@ -2,11 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/**
- * This is a program with various [Intl.message] messages. It just prints
- * all of them, and is used for testing of message extraction, translation,
- * and code generation.
- */
+/// This is a program with various [Intl.message] messages. It just prints
+/// all of them, and is used for testing of message extraction, translation,
+/// and code generation.
 library sample;
 
 import "package:intl/intl.dart";
@@ -20,16 +18,21 @@ part 'part_of_sample_with_messages.dart';
 message1() => Intl.message("This is a message", name: 'message1', desc: 'foo');
 
 message2(x) => Intl.message("Another message with parameter $x",
-    name: 'mess' 'age2', desc: 'Description ' '2', args: [x], examples: {'x': 3});
+    name: 'mess' 'age2',
+    desc: 'Description ' '2',
+    args: [x],
+    examples: {'x': 3});
 
 // A string with multiple adjacent strings concatenated together, verify
 // that the parser handles this properly.
-multiLine() => Intl.message("This "
+multiLine() => Intl.message(
+    "This "
     "string "
     "extends "
     "across "
     "multiple "
-    "lines.", name: "multiLine");
+    "lines.",
+    name: "multiLine");
 
 // Have types on the enclosing function's arguments.
 types(int a, String b, List c) =>
@@ -42,9 +45,9 @@ alwaysTranslated() => Intl.message("This string is always translated",
 
 // Test interpolation with curly braces around the expression, but it must
 // still be just a variable reference.
-trickyInterpolation(s) => Intl.message(
-    "Interpolation is tricky when it ends a sentence like ${s}.",
-    name: 'trickyInterpolation', args: [s]);
+trickyInterpolation(s) =>
+    Intl.message("Interpolation is tricky when it ends a sentence like ${s}.",
+        name: 'trickyInterpolation', args: [s]);
 
 get leadingQuotes => Intl.message("\"So-called\"", name: 'leadingQuotes');
 
@@ -94,17 +97,25 @@ pluralThatFailsParsing(noOfThings) => Intl.plural(noOfThings,
 invalidOuterGender(g) => Intl.gender(g, other: 'o');
 
 // A general select
-outerSelect(currency, amount) => Intl.select(currency, {
-  "CDN": "$amount Canadian dollars",
-  "other": "$amount some currency or other."
-}, name: "outerSelect", args: [currency, amount]);
+outerSelect(currency, amount) => Intl.select(
+    currency,
+    {
+      "CDN": "$amount Canadian dollars",
+      "other": "$amount some currency or other."
+    },
+    name: "outerSelect",
+    args: [currency, amount]);
 
 // A select with a plural inside the expressions.
-nestedSelect(currency, amount) => Intl.select(currency, {
-  "CDN": """${Intl.plural(amount, one: '$amount Canadian dollar',
+nestedSelect(currency, amount) => Intl.select(
+    currency,
+    {
+      "CDN": """${Intl.plural(amount, one: '$amount Canadian dollar',
           other: '$amount Canadian dollars')}""",
-  "other": "Whatever",
-}, name: "nestedSelect", args: [currency, amount]);
+      "other": "Whatever",
+    },
+    name: "nestedSelect",
+    args: [currency, amount]);
 
 // A trivial nested plural/gender where both are done directly rather than
 // in interpolations.
@@ -133,7 +144,6 @@ rentAsVerb() => Intl.message("rent",
     desc: "The action of renting, as in rent a car");
 
 printStuff(Intl locale) {
-
   // Use a name that's not a literal so this will get skipped. Then we have
   // a name that's not in the original but we include it in the French
   // translation. Because it's not in the original it shouldn't get included
@@ -151,7 +161,9 @@ printStuff(Intl locale) {
   message3(a, b, c) => Intl.message(
       "Characters that need escaping, e.g slashes \\ dollars \${ (curly braces "
       "are ok) and xml reserved characters <& and quotes \" "
-      "parameters $a, $b, and $c", name: 'message3', args: [a, b, c]);
+      "parameters $a, $b, and $c",
+      name: 'message3',
+      args: [a, b, c]);
   var messageVariable = message3;
 
   printOut("-------------------------------------------");
@@ -235,7 +247,8 @@ main() {
   var f1 = initializeMessages(fr.locale)
       // Since English has the one message which is always translated, we
       // can't print it until French is ready.
-      .then((_) => printStuff(english)).then((_) => printStuff(fr));
+      .then((_) => printStuff(english))
+      .then((_) => printStuff(fr));
   var f2 = initializeMessages('de-de').then((_) => printStuff(de));
   return Future.wait([f1, f2]);
 }

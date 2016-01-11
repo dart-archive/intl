@@ -2,15 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/**
- * A utility program to take locale data represented as a Dart map whose keys
- * are locale names and write it into individual JSON files named by locale.
- * This should be run any time the locale data changes.
- *
- * The files are written under "data/dates", in two subdirectories, "symbols"
- * and "patterns". In "data/dates" it will also generate "locale_list.dart",
- * which is sourced by the date_symbol_data... files.
- */
+/// A utility program to take locale data represented as a Dart map whose keys
+/// are locale names and write it into individual JSON files named by locale.
+/// This should be run any time the locale data changes.
+///
+/// The files are written under "data/dates", in two subdirectories, "symbols"
+/// and "patterns". In "data/dates" it will also generate "locale_list.dart",
+/// which is sourced by the date_symbol_data... files.
 
 import '../lib/date_symbol_data_local.dart';
 import '../lib/date_time_patterns.dart';

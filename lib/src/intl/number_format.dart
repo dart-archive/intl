@@ -4,63 +4,56 @@
 
 part of intl;
 
-/**
- * Provides the ability to format a number in a locale-specific way. The
- * format is specified as a pattern using a subset of the ICU formatting
- * patterns.
- *
- * - `0` A single digit
- * - `#` A single digit, omitted if the value is zero
- * - `.` Decimal separator
- * - `-` Minus sign
- * - `,` Grouping separator
- * - `E` Separates mantissa and expontent
- * - `+` - Before an exponent, indicates it should be prefixed with a plus sign.
- * - `%` - In prefix or suffix, multiply by 100 and show as percentage
- * - `‰ (\u2030)` In prefix or suffix, multiply by 1000 and show as per mille
- * - `¤ (\u00A4)` Currency sign, replaced by currency name
- * - `'` Used to quote special characters
- * - `;` Used to separate the positive and negative patterns if both are present
- *
- * For example,
- *       var f = new NumberFormat("###.0#", "en_US");
- *       print(f.format(12.345));
- *       ==> 12.34
- * If the locale is not specified, it will default to the current locale. If
- * the format is not specified it will print in a basic format with at least
- * one integer digit and three fraction digits.
- *
- * There are also standard patterns available via the special constructors. e.g.
- *       var percent = new NumberFormat.percentFormat("ar");
- *       var eurosInUSFormat = new NumberFormat.currencyPattern("en_US", "€");
- * There are four such constructors: decimalFormat, percentFormat,
- * scientificFormat and currencyFormat. However, at the moment,
- * scientificFormat prints only as equivalent to "#E0" and does not take
- * into account significant digits. The currencyFormat will default to the
- * three-letter name of the currency if no explicit name/symbol is provided.
- */
+/// Provides the ability to format a number in a locale-specific way. The
+/// format is specified as a pattern using a subset of the ICU formatting
+/// patterns.
+///
+/// - `0` A single digit
+/// - `#` A single digit, omitted if the value is zero
+/// - `.` Decimal separator
+/// - `-` Minus sign
+/// - `,` Grouping separator
+/// - `E` Separates mantissa and expontent
+/// - `+` - Before an exponent, to say it should be prefixed with a plus sign.
+/// - `%` - In prefix or suffix, multiply by 100 and show as percentage
+/// - `‰ (\u2030)` In prefix or suffix, multiply by 1000 and show as per mille
+/// - `¤ (\u00A4)` Currency sign, replaced by currency name
+/// - `'` Used to quote special characters
+/// - `;` Used to separate the positive and negative patterns (if both present)
+///
+/// For example,
+///       var f = new NumberFormat("###.0#", "en_US");
+///       print(f.format(12.345));
+///       ==> 12.34
+/// If the locale is not specified, it will default to the current locale. If
+/// the format is not specified it will print in a basic format with at least
+/// one integer digit and three fraction digits.
+///
+/// There are also standard patterns available via the special constructors.
+/// e.g.
+///       var percent = new NumberFormat.percentFormat("ar");
+///       var eurosInUSFormat = new NumberFormat.currencyPattern("en_US", "€");
+/// There are four such constructors: decimalFormat, percentFormat,
+/// scientificFormat and currencyFormat. However, at the moment,
+/// scientificFormat prints only as equivalent to "#E0" and does not take
+/// into account significant digits. The currencyFormat will default to the
+/// three-letter name of the currency if no explicit name/symbol is provided.
 class NumberFormat {
-  /** Variables to determine how number printing behaves. */
+  /// Variables to determine how number printing behaves.
   // TODO(alanknight): If these remain as variables and are set based on the
   // pattern, can we make them final?
   String _negativePrefix = '-';
   String _positivePrefix = '';
   String _negativeSuffix = '';
   String _positiveSuffix = '';
-  /**
-   * How many numbers in a group when using punctuation to group digits in
-   * large numbers. e.g. in en_US: "1,000,000" has a grouping size of 3 digits
-   * between commas.
-   */
+  /// How many numbers in a group when using punctuation to group digits in
+  /// large numbers. e.g. in en_US: "1,000,000" has a grouping size of 3 digits
+  /// between commas.
   int _groupingSize = 3;
-  /**
-   * In some formats the last grouping size may be different than previous
-   * ones, e.g. Hindi.
-   */
+  /// In some formats the last grouping size may be different than previous
+  /// ones, e.g. Hindi.
   int _finalGroupingSize = 3;
-  /**
-   * Set to true if the format has explicitly set the grouping size.
-   */
+  /// Set to true if the format has explicitly set the grouping size.
   bool _groupingSizeSetExplicitly = false;
   bool _decimalSeparatorAlwaysShown = false;
   bool _useSignForPositiveExponent = false;
@@ -72,10 +65,8 @@ class NumberFormat {
   int minimumFractionDigits = 0;
   int minimumExponentDigits = 0;
 
-  /**
-   * For percent and permille, what are we multiplying by in order to
-   * get the printed value, e.g. 100 for percent.
-   */
+  /// For percent and permille, what are we multiplying by in order to
+  /// get the printed value, e.g. 100 for percent.
   int get _multiplier => _internalMultiplier;
   set _multiplier(int x) {
     _internalMultiplier = x;
@@ -84,65 +75,55 @@ class NumberFormat {
 
   int _internalMultiplier = 1;
 
-  /** How many digits are there in the [_multiplier]. */
+  /// How many digits are there in the [_multiplier].
   int _multiplierDigits = 0;
 
-  /**
-   * Stores the pattern used to create this format. This isn't used, but
-   * is helpful in debugging.
-   */
+  /// Stores the pattern used to create this format. This isn't used, but
+  /// is helpful in debugging.
   String _pattern;
 
-  /** The locale in which we print numbers. */
+  /// The locale in which we print numbers.
   final String _locale;
 
-  /** Caches the symbols used for our locale. */
+  /// Caches the symbols used for our locale.
   NumberSymbols _symbols;
 
-  /** The name (or symbol) of the currency to print. */
+  /// The name (or symbol) of the currency to print.
   String currencyName;
 
-  /**
-   * Transient internal state in which to build up the result of the format
-   * operation. We can have this be just an instance variable because Dart is
-   * single-threaded and unless we do an asynchronous operation in the process
-   * of formatting then there will only ever be one number being formatted
-   * at a time. In languages with threads we'd need to pass this on the stack.
-   */
+  /// Transient internal state in which to build up the result of the format
+  /// operation. We can have this be just an instance variable because Dart is
+  /// single-threaded and unless we do an asynchronous operation in the process
+  /// of formatting then there will only ever be one number being formatted
+  /// at a time. In languages with threads we'd need to pass this on the stack.
   final StringBuffer _buffer = new StringBuffer();
 
-  /**
-   * Create a number format that prints using [newPattern] as it applies in
-   * [locale].
-   */
+  /// Create a number format that prints using [newPattern] as it applies in
+  /// [locale].
   factory NumberFormat([String newPattern, String locale]) =>
       new NumberFormat._forPattern(locale, (x) => newPattern);
 
-  /** Create a number format that prints as DECIMAL_PATTERN. */
+  /// Create a number format that prints as DECIMAL_PATTERN.
   NumberFormat.decimalPattern([String locale])
       : this._forPattern(locale, (x) => x.DECIMAL_PATTERN);
 
-  /** Create a number format that prints as PERCENT_PATTERN. */
+  /// Create a number format that prints as PERCENT_PATTERN.
   NumberFormat.percentPattern([String locale])
       : this._forPattern(locale, (x) => x.PERCENT_PATTERN);
 
-  /** Create a number format that prints as SCIENTIFIC_PATTERN. */
+  /// Create a number format that prints as SCIENTIFIC_PATTERN.
   NumberFormat.scientificPattern([String locale])
       : this._forPattern(locale, (x) => x.SCIENTIFIC_PATTERN);
 
-  /**
-   * Create a number format that prints as CURRENCY_PATTERN. If provided,
-   * use [nameOrSymbol] in place of the default currency name. e.g.
-   *        var eurosInCurrentLocale = new NumberFormat
-   *            .currencyPattern(Intl.defaultLocale, "€");
-   */
+  /// Create a number format that prints as CURRENCY_PATTERN. If provided,
+  /// use [nameOrSymbol] in place of the default currency name. e.g.
+  ///        var eurosInCurrentLocale = new NumberFormat
+  ///            .currencyPattern(Intl.defaultLocale, "€");
   NumberFormat.currencyPattern([String locale, String nameOrSymbol])
       : this._forPattern(locale, (x) => x.CURRENCY_PATTERN, nameOrSymbol);
 
-  /**
-   * Create a number format that prints in a pattern we get from
-   * the [getPattern] function using the locale [locale].
-   */
+  /// Create a number format that prints in a pattern we get from
+  /// the [getPattern] function using the locale [locale].
   NumberFormat._forPattern(String locale, Function getPattern,
       [this.currencyName])
       : _locale = Intl.verifiedLocale(locale, localeExists) {
@@ -153,29 +134,21 @@ class NumberFormat {
     _setPattern(getPattern(_symbols));
   }
 
-  /**
-   * Return the locale code in which we operate, e.g. 'en_US' or 'pt'.
-   */
+  /// Return the locale code in which we operate, e.g. 'en_US' or 'pt'.
   String get locale => _locale;
 
-  /**
-   * Return true if the locale exists, or if it is null. The null case
-   * is interpreted to mean that we use the default locale.
-   */
+  /// Return true if the locale exists, or if it is null. The null case
+  /// is interpreted to mean that we use the default locale.
   static bool localeExists(localeName) {
     if (localeName == null) return false;
     return numberFormatSymbols.containsKey(localeName);
   }
 
-  /**
-   * Return the symbols which are used in our locale. Cache them to avoid
-   * repeated lookup.
-   */
+  /// Return the symbols which are used in our locale. Cache them to avoid
+  /// repeated lookup.
   NumberSymbols get symbols => _symbols;
 
-  /**
-   * Format [number] according to our pattern and return the formatted string.
-   */
+  /// Format [number] according to our pattern and return the formatted string.
   String format(number) {
     if (_isNaN(number)) return symbols.NAN;
     if (_isInfinite(number)) return "${_signPrefix(number)}${symbols.INFINITY}";
@@ -189,15 +162,11 @@ class NumberFormat {
     return result;
   }
 
-  /**
-   * Parse the number represented by the string. If it's not
-   * parseable, throws a [FormatException].
-   */
+  /// Parse the number represented by the string. If it's not
+  /// parseable, throws a [FormatException].
   num parse(String text) => new _NumberParser(this, text).value;
 
-  /**
-   * Format the main part of the number in the form dictated by the pattern.
-   */
+  /// Format the main part of the number in the form dictated by the pattern.
   void _formatNumber(number) {
     if (_useExponentialNotation) {
       _formatExponential(number);
@@ -206,7 +175,7 @@ class NumberFormat {
     }
   }
 
-  /** Format the number in exponential notation. */
+  /// Format the number in exponential notation.
   void _formatExponential(num number) {
     if (number == 0.0) {
       _formatFixed(number);
@@ -242,9 +211,7 @@ class NumberFormat {
     _formatExponent(exponent);
   }
 
-  /**
-   * Format the exponent portion, e.g. in "1.3e-5" the "e-5".
-   */
+  /// Format the exponent portion, e.g. in "1.3e-5" the "e-5".
   void _formatExponent(num exponent) {
     _add(symbols.EXP_SYMBOL);
     if (exponent < 0) {
@@ -256,23 +223,19 @@ class NumberFormat {
     _pad(minimumExponentDigits, exponent.toString());
   }
 
-  /** Used to test if we have exceeded Javascript integer limits. */
+  /// Used to test if we have exceeded Javascript integer limits.
   final _maxInt = pow(2, 52);
 
-  /**
-   * Helpers to check numbers that don't conform to the [num] interface,
-   * e.g. Int64
-   */
+  /// Helpers to check numbers that don't conform to the [num] interface,
+  /// e.g. Int64
   _isInfinite(number) => number is num ? number.isInfinite : false;
   _isNaN(number) => number is num ? number.isNaN : false;
 
-  /**
-   * Helper to get the floor of a number which might not be num. This should
-   * only ever be called with an argument which is positive, or whose abs()
-   *  is negative. The second case is the maximum negative value on a
-   *  fixed-length integer. Since they are integers, they are also their own
-   *  floor.
-   */
+  /// Helper to get the floor of a number which might not be num. This should
+  /// only ever be called with an argument which is positive, or whose abs()
+  ///  is negative. The second case is the maximum negative value on a
+  ///  fixed-length integer. Since they are integers, they are also their own
+  ///  floor.
   _floor(number) {
     if (number.isNegative && !(number.abs().isNegative)) {
       throw new ArgumentError(
@@ -281,7 +244,7 @@ class NumberFormat {
     return (number is num) ? number.floor() : number ~/ 1;
   }
 
-  /** Helper to round a number which might not be num.*/
+  /// Helper to round a number which might not be num.
   _round(number) {
     if (number is num) {
       return number.round();
@@ -296,9 +259,7 @@ class NumberFormat {
     }
   }
 
-  /**
-   * Format the basic number portion, including the fractional digits.
-   */
+  /// Format the basic number portion, including the fractional digits.
   void _formatFixed(number) {
     var integerPart;
     int fractionPart;
@@ -353,10 +314,8 @@ class NumberFormat {
     _formatFractionPart((fractionPart + power).toString());
   }
 
-  /**
-   * Compute the raw integer digits which will then be printed with
-   * grouping and translated to localized digits.
-   */
+  /// Compute the raw integer digits which will then be printed with
+  /// grouping and translated to localized digits.
   String _integerDigits(integerPart, extraIntegerDigits) {
     // If the int part is larger than 2^52 and we're on Javascript (so it's
     // really a float) it will lose precision, so pad out the rest of it
@@ -376,11 +335,9 @@ class NumberFormat {
     return "${intDigits}${paddedExtra}${paddingDigits}";
   }
 
-  /**
-   * The digit string of the integer part. This is the empty string if the
-   * integer part is zero and otherwise is the toString() of the integer
-   * part, stripping off any minus sign.
-   */
+  /// The digit string of the integer part. This is the empty string if the
+  /// integer part is zero and otherwise is the toString() of the integer
+  /// part, stripping off any minus sign.
   String _mainIntegerDigits(integer) {
     if (integer == 0) return '';
     var digits = integer.toString();
@@ -390,9 +347,7 @@ class NumberFormat {
     return digits.startsWith('-') ? digits.substring(1) : digits;
   }
 
-  /**
-   * Format the part after the decimal place in a fixed point number.
-   */
+  /// Format the part after the decimal place in a fixed point number.
   void _formatFractionPart(String fractionPart) {
     var fractionCodes = fractionPart.codeUnits;
     var fractionLength = fractionPart.length;
@@ -405,25 +360,22 @@ class NumberFormat {
     }
   }
 
-  /** Print the decimal separator if appropriate. */
+  /// Print the decimal separator if appropriate.
   void _decimalSeparator(bool fractionPresent) {
     if (_decimalSeparatorAlwaysShown || fractionPresent) {
       _add(symbols.DECIMAL_SEP);
     }
   }
 
-  /**
-    * Return true if we have a main integer part which is printable, either
-    * because we have digits left of the decimal point (this may include digits
-    * which have been moved left because of percent or permille formatting),
-    * or because the minimum number of printable digits is greater than 1.
-    */
+  /// Return true if we have a main integer part which is printable, either
+  /// because we have digits left of the decimal point (this may include digits
+  /// which have been moved left because of percent or permille formatting),
+  /// or because the minimum number of printable digits is greater than 1.
   bool _hasIntegerDigits(String digits) =>
       digits.isNotEmpty || minimumIntegerDigits > 0;
 
-  /** A group of methods that provide support for writing digits and other
-    * required characters into [_buffer] easily.
-    */
+  /// A group of methods that provide support for writing digits and other
+  /// required characters into [_buffer] easily.
   void _add(String x) {
     _buffer.write(x);
   }
@@ -436,7 +388,7 @@ class NumberFormat {
     _buffer.writeCharCode(_localeZero + x - _zero);
   }
 
-  /** Print padding up to [numberOfDigits] above what's included in [basic]. */
+  /// Print padding up to [numberOfDigits] above what's included in [basic].
   void _pad(int numberOfDigits, [String basic = '']) {
     for (var i = 0; i < numberOfDigits - basic.length; i++) {
       _add(symbols.ZERO_DIGIT);
@@ -446,14 +398,12 @@ class NumberFormat {
     }
   }
 
-  /**
-    * We are printing the digits of the number from left to right. We may need
-    * to print a thousands separator or other grouping character as appropriate
-    * to the locale. So we find how many places we are from the end of the number
-    * by subtracting our current [position] from the [totalLength] and printing
-    * the separator character every [_groupingSize] digits, with the final
-    * grouping possibly being of a different size, [_finalGroupingSize].
-    */
+  /// We are printing the digits of the number from left to right. We may need
+  /// to print a thousands separator or other grouping character as appropriate
+  /// to the locale. So we find how many places we are from the end of the number
+  /// by subtracting our current [position] from the [totalLength] and printing
+  /// the separator character every [_groupingSize] digits, with the final
+  /// grouping possibly being of a different size, [_finalGroupingSize].
   void _group(int totalLength, int position) {
     var distanceFromEnd = totalLength - position;
     if (distanceFromEnd <= 1 || _groupingSize <= 0) return;
@@ -465,26 +415,22 @@ class NumberFormat {
     }
   }
 
-  /** Returns the code point for the character '0'. */
+  /// Returns the code point for the character '0'.
   final _zero = '0'.codeUnits.first;
 
-  /** Returns the code point for the locale's zero digit. */
+  /// Returns the code point for the locale's zero digit.
   // Note that there is a slight risk of a locale's zero digit not fitting
   // into a single code unit, but it seems very unlikely, and if it did,
   // there's a pretty good chance that our assumptions about being able to do
   // arithmetic on it would also be invalid.
   get _localeZero => symbols.ZERO_DIGIT.codeUnits.first;
 
-  /**
-   * Returns the prefix for [x] based on whether it's positive or negative.
-   * In en_US this would be '' and '-' respectively.
-   */
+  /// Returns the prefix for [x] based on whether it's positive or negative.
+  /// In en_US this would be '' and '-' respectively.
   String _signPrefix(x) => x.isNegative ? _negativePrefix : _positivePrefix;
 
-  /**
-   * Returns the suffix for [x] based on wether it's positive or negative.
-   * In en_US there are no suffixes for positive or negative.
-   */
+  /// Returns the suffix for [x] based on wether it's positive or negative.
+  /// In en_US there are no suffixes for positive or negative.
   String _signSuffix(x) => x.isNegative ? _negativeSuffix : _positiveSuffix;
 
   void _setPattern(String newPattern) {
@@ -498,63 +444,51 @@ class NumberFormat {
   String toString() => "NumberFormat($_locale, $_pattern)";
 }
 
-/**
- *  A one-time object for parsing a particular numeric string. One-time here
- * means an instance can only parse one string. This is implemented by
- * transforming from a locale-specific format to one that the system can parse,
- * then calls the system parsing methods on it.
- */
+///  A one-time object for parsing a particular numeric string. One-time here
+/// means an instance can only parse one string. This is implemented by
+/// transforming from a locale-specific format to one that the system can parse,
+/// then calls the system parsing methods on it.
 class _NumberParser {
-  /** The format for which we are parsing. */
+  /// The format for which we are parsing.
   final NumberFormat format;
 
-  /** The text we are parsing. */
+  /// The text we are parsing.
   final String text;
 
-  /** What we use to iterate over the input text. */
+  /// What we use to iterate over the input text.
   final _Stream input;
 
-  /**
-   * The result of parsing [text] according to [format]. Automatically
-   * populated in the constructor.
-   */
+  /// The result of parsing [text] according to [format]. Automatically
+  /// populated in the constructor.
   num value;
 
-  /** The symbols used by our format. */
+  /// The symbols used by our format.
   NumberSymbols get symbols => format.symbols;
 
-  /** Where we accumulate the normalized representation of the number. */
+  /// Where we accumulate the normalized representation of the number.
   final StringBuffer _normalized = new StringBuffer();
 
-  /**
-   * Did we see something that indicates this is, or at least might be,
-   * a positive number.
-   */
+  /// Did we see something that indicates this is, or at least might be,
+  /// a positive number.
   bool gotPositive = false;
 
-  /**
-   * Did we see something that indicates this is, or at least might be,
-   * a negative number.
-   */
+  /// Did we see something that indicates this is, or at least might be,
+  /// a negative number.
   bool gotNegative = false;
-  /**
-   * Did we see the required positive suffix at the end. Should
-   * match [gotPositive].
-   */
+  /// Did we see the required positive suffix at the end. Should
+  /// match [gotPositive].
   bool gotPositiveSuffix = false;
-  /**
-   * Did we see the required negative suffix at the end. Should
-   * match [gotNegative].
-   */
+  /// Did we see the required negative suffix at the end. Should
+  /// match [gotNegative].
   bool gotNegativeSuffix = false;
 
-  /** Should we stop parsing before hitting the end of the string. */
+  /// Should we stop parsing before hitting the end of the string.
   bool done = false;
 
-  /** Have we already skipped over any required prefixes. */
+  /// Have we already skipped over any required prefixes.
   bool prefixesSkipped = false;
 
-  /** If the number is percent or permill, what do we divide by at the end. */
+  /// If the number is percent or permill, what do we divide by at the end.
   int scale = 1;
 
   String get _positivePrefix => format._positivePrefix;
@@ -564,22 +498,18 @@ class _NumberParser {
   int get _zero => format._zero;
   int get _localeZero => format._localeZero;
 
-  /**
-   *  Create a new [_NumberParser] on which we can call parse().
-   */
+  ///  Create a new [_NumberParser] on which we can call parse().
   _NumberParser(this.format, text)
       : this.text = text,
         this.input = new _Stream(text) {
     value = parse();
   }
 
-  /**
-   *  The strings we might replace with functions that return the replacement
-   * values. They are functions because we might need to check something
-   * in the context. Note that the ordering is important here. For example,
-   * [symbols.PERCENT] might be " %", and we must handle that before we
-   * look at an individual space.
-   */
+  ///  The strings we might replace with functions that return the replacement
+  /// values. They are functions because we might need to check something
+  /// in the context. Note that the ordering is important here. For example,
+  /// [symbols.PERCENT] might be " %", and we must handle that before we
+  /// look at an individual space.
   Map<String, Function> get replacements => _replacements == null
       ? _replacements = _initializeReplacements()
       : _replacements;
@@ -607,28 +537,23 @@ class _NumberParser {
   invalidFormat() =>
       throw new FormatException("Invalid number: ${input.contents}");
 
-  /**
-   * Replace a space in the number with the normalized form. If space is not
-   * a significant character (normally grouping) then it's just invalid. If it
-   * is the grouping character, then it's only valid if it's followed by a
-   * digit. e.g. '$12 345.00'
-   */
+  /// Replace a space in the number with the normalized form. If space is not
+  /// a significant character (normally grouping) then it's just invalid. If it
+  /// is the grouping character, then it's only valid if it's followed by a
+  /// digit. e.g. '$12 345.00'
   handleSpace() =>
       groupingIsNotASpaceOrElseItIsSpaceFollowedByADigit ? '' : invalidFormat();
 
-  /**
-   * Determine if a space is a valid character in the number. See [handleSpace].
-   */
+  /// Determine if a space is a valid character in the number. See
+  /// [handleSpace].
   bool get groupingIsNotASpaceOrElseItIsSpaceFollowedByADigit {
     if (symbols.GROUP_SEP != '\u00a0' || symbols.GROUP_SEP != ' ') return true;
     var peeked = input.peek(symbols.GROUP_SEP.length + 1);
     return asDigit(peeked[peeked.length - 1]) != null;
   }
 
-  /**
-   * Turn [char] into a number representing a digit, or null if it doesn't
-   * represent a digit in this locale.
-   */
+  /// Turn [char] into a number representing a digit, or null if it doesn't
+  /// represent a digit in this locale.
   int asDigit(String char) {
     var charCode = char.codeUnitAt(0);
     var digitValue = charCode - _localeZero;
@@ -639,10 +564,8 @@ class _NumberParser {
     }
   }
 
-  /**
-   * Check to see if the input begins with either the positive or negative
-   * prefixes. Set the [gotPositive] and [gotNegative] variables accordingly.
-   */
+  /// Check to see if the input begins with either the positive or negative
+  /// prefixes. Set the [gotPositive] and [gotNegative] variables accordingly.
   void checkPrefixes({bool skip: false}) {
     bool checkPrefix(String prefix, skip) {
       var matched = prefix.isNotEmpty && input.startsWith(prefix);
@@ -667,22 +590,18 @@ class _NumberParser {
     }
   }
 
-  /**
-   * If the rest of our input is either the positive or negative suffix,
-   * set [gotPositiveSuffix] or [gotNegativeSuffix] accordingly.
-   */
+  /// If the rest of our input is either the positive or negative suffix,
+  /// set [gotPositiveSuffix] or [gotNegativeSuffix] accordingly.
   void checkSuffixes() {
     var remainder = input.rest();
     if (remainder == _positiveSuffix) gotPositiveSuffix = true;
     if (remainder == _negativeSuffix) gotNegativeSuffix = true;
   }
 
-  /**
-   * We've encountered a character that's not a digit. Go through our
-   * replacement rules looking for how to handle it. If we see something
-   * that's not a digit and doesn't have a replacement, then we're done
-   * and the number is probably invalid.
-   */
+  /// We've encountered a character that's not a digit. Go through our
+  /// replacement rules looking for how to handle it. If we see something
+  /// that's not a digit and doesn't have a replacement, then we're done
+  /// and the number is probably invalid.
   void processNonDigit() {
     for (var key in replacements.keys) {
       if (input.startsWith(key)) {
@@ -702,10 +621,8 @@ class _NumberParser {
     }
   }
 
-  /**
-   * Parse [text] and return the resulting number. Throws [FormatException]
-   * if we can't parse it.
-   */
+  /// Parse [text] and return the resulting number. Throws [FormatException]
+  /// if we can't parse it.
   num parse() {
     if (text == symbols.NAN) return double.NAN;
     if (text == "$_positivePrefix${symbols.INFINITY}$_positiveSuffix") {
@@ -725,14 +642,12 @@ class _NumberParser {
     return parsed;
   }
 
-  /** The number is invalid, throw a [FormatException]. */
+  /// The number is invalid, throw a [FormatException].
   void invalidNumber() =>
       throw new FormatException("Invalid Number: ${input.contents}");
 
-  /**
-   * Parse the number portion of the input, i.e. not any prefixes or suffixes,
-   * and assuming NaN and Infinity are already handled.
-   */
+  /// Parse the number portion of the input, i.e. not any prefixes or suffixes,
+  /// and assuming NaN and Infinity are already handled.
   num parseNumber(_Stream input) {
     while (!done && !input.atEnd()) {
       int digit = asDigit(input.peek());
@@ -752,17 +667,13 @@ class _NumberParser {
   }
 }
 
-/**
- * Private class that parses the numeric formatting pattern and sets the
- * variables in [format] to appropriate values. Instances of this are
- * transient and store parsing state in instance variables, so can only be used
- * to parse a single pattern.
- */
+/// Private class that parses the numeric formatting pattern and sets the
+/// variables in [format] to appropriate values. Instances of this are
+/// transient and store parsing state in instance variables, so can only be used
+/// to parse a single pattern.
 class _NumberFormatParser {
-  /**
-   * The special characters in the pattern language. All others are treated
-   * as literals.
-   */
+  /// The special characters in the pattern language. All others are treated
+  /// as literals.
   static const _PATTERN_SEPARATOR = ';';
   static const _QUOTE = "'";
   static const _PATTERN_DIGIT = '#';
@@ -777,28 +688,26 @@ class _NumberFormatParser {
   static const _PATTERN_EXPONENT = 'E';
   static const _PATTERN_PLUS = '+';
 
-  /** The format whose state we are setting. */
+  /// The format whose state we are setting.
   final NumberFormat format;
 
-  /** The pattern we are parsing. */
+  /// The pattern we are parsing.
   final _StringIterator pattern;
 
-  /** We can be passed a specific currency symbol, regardless of the locale. */
+  /// We can be passed a specific currency symbol, regardless of the locale.
   String currencyName;
 
-  /**
-   * Create a new [_NumberFormatParser] for a particular [NumberFormat] and
-   * [input] pattern.
-   */
+  /// Create a new [_NumberFormatParser] for a particular [NumberFormat] and
+  /// [input] pattern.
   _NumberFormatParser(this.format, input, this.currencyName)
       : pattern = _iterator(input) {
     pattern.moveNext();
   }
 
-  /** The [NumberSymbols] for the locale in which our [format] prints. */
+  /// The [NumberSymbols] for the locale in which our [format] prints.
   NumberSymbols get symbols => format.symbols;
 
-  /** Parse the input pattern and set the values. */
+  /// Parse the input pattern and set the values.
   void parse() {
     format._positivePrefix = _parseAffix();
     var trunk = _parseTrunk();
@@ -825,16 +734,12 @@ class _NumberFormatParser {
     }
   }
 
-  /**
-   * Variable used in parsing prefixes and suffixes to keep track of
-   * whether or not we are in a quoted region.
-   */
+  /// Variable used in parsing prefixes and suffixes to keep track of
+  /// whether or not we are in a quoted region.
   bool inQuote = false;
 
-  /**
-   * Parse a prefix or suffix and return the prefix/suffix string. Note that
-   * this also may modify the state of [format].
-   */
+  /// Parse a prefix or suffix and return the prefix/suffix string. Note that
+  /// this also may modify the state of [format].
   String _parseAffix() {
     var affix = new StringBuffer();
     inQuote = false;
@@ -842,11 +747,9 @@ class _NumberFormatParser {
     return affix.toString();
   }
 
-  /**
-   * Parse an individual character as part of a prefix or suffix.  Return true
-   * if we should continue to look for more affix characters, and false if
-   * we have reached the end.
-   */
+  /// Parse an individual character as part of a prefix or suffix.  Return true
+  /// if we should continue to look for more affix characters, and false if
+  /// we have reached the end.
   bool parseCharacterAffix(StringBuffer affix) {
     var ch = pattern.current;
     if (ch == null) return false;
@@ -896,17 +799,15 @@ class _NumberFormatParser {
     return true;
   }
 
-  /** Variables used in [_parseTrunk] and [parseTrunkCharacter]. */
+  /// Variables used in [_parseTrunk] and [parseTrunkCharacter].
   var decimalPos = -1;
   var digitLeftCount = 0;
   var zeroDigitCount = 0;
   var digitRightCount = 0;
   var groupingCount = -1;
 
-  /**
-   * Parse the "trunk" portion of the pattern, the piece that doesn't include
-   * positive or negative prefixes or suffixes.
-   */
+  /// Parse the "trunk" portion of the pattern, the piece that doesn't include
+  /// positive or negative prefixes or suffixes.
   String _parseTrunk() {
     var loop = true;
     var trunk = new StringBuffer();
@@ -969,11 +870,9 @@ class _NumberFormatParser {
     return trunk.toString();
   }
 
-  /**
-   * Parse an individual character of the trunk. Return true if we should
-   * continue to look for additional trunk characters or false if we have
-   * reached the end.
-   */
+  /// Parse an individual character of the trunk. Return true if we should
+  /// continue to look for additional trunk characters or false if we have
+  /// reached the end.
   bool parseTrunkCharacter(trunk) {
     var ch = pattern.current;
     switch (ch) {
@@ -1051,31 +950,23 @@ class _NumberFormatParser {
   }
 }
 
-/**
- * Returns an [Iterable] on the string as a list of substrings.
- */
+/// Returns an [Iterable] on the string as a list of substrings.
 Iterable _iterable(String s) => new _StringIterable(s);
 
-/**
- * Return an iterator on the string as a list of substrings.
- */
+/// Return an iterator on the string as a list of substrings.
 Iterator _iterator(String s) => new _StringIterator(s);
 
 // TODO(nweiz): remove this when issue 3780 is fixed.
-/**
- * Provides an Iterable that wraps [_iterator] so it can be used in a `for`
- * loop.
- */
+/// Provides an Iterable that wraps [_iterator] so it can be used in a `for`
+/// loop.
 class _StringIterable extends IterableBase<String> {
   final Iterator<String> iterator;
 
   _StringIterable(String s) : iterator = _iterator(s);
 }
 
-/**
- * Provides an iterator over a string as a list of substrings, and also
- * gives us a lookahead of one via the [peek] method.
- */
+/// Provides an iterator over a string as a list of substrings, and also
+/// gives us a lookahead of one via the [peek] method.
 class _StringIterator implements Iterator<String> {
   final String input;
   int nextIndex = 0;

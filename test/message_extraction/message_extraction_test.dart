@@ -13,22 +13,20 @@ import '../data_directory.dart';
 
 final dart = Platform.executable;
 
-/** Should we use deferred loading. */
+/// Should we use deferred loading.
 bool useDeferredLoading = true;
 
 String get _deferredLoadPrefix => useDeferredLoading ? '' : 'no-';
 
 String get deferredLoadArg => '--${_deferredLoadPrefix}use-deferred-loading';
 
-/** The VM arguments we were given, most important package-root. */
+/// The VM arguments we were given, most important package-root.
 final vmArgs = Platform.executableArguments;
 
-/**
- * For testing we move the files into a temporary directory so as not to leave
- * generated files around after a failed test. For debugging, we omit that
- * step if [useLocalDirectory] is true. The place we move them to is saved as
- * [tempDir].
- */
+/// For testing we move the files into a temporary directory so as not to leave
+/// generated files around after a failed test. For debugging, we omit that
+/// step if [useLocalDirectory] is true. The place we move them to is saved as
+/// [tempDir].
 String get tempDir => _tempDir == null ? _tempDir = _createTempDir() : _tempDir;
 var _tempDir;
 _createTempDir() => useLocalDirectory
@@ -37,23 +35,19 @@ _createTempDir() => useLocalDirectory
 
 var useLocalDirectory = false;
 
-/**
- * Translate a relative file path into this test directory. This is
- * applied to all the arguments of [run]. It will ignore a string that
- * is an absolute path or begins with "--", because some of the arguments
- * might be command-line options.
- */
+/// Translate a relative file path into this test directory. This is
+/// applied to all the arguments of [run]. It will ignore a string that
+/// is an absolute path or begins with "--", because some of the arguments
+/// might be command-line options.
 String asTestDirPath([String s]) {
   if (s == null || s.startsWith("--") || path.isAbsolute(s)) return s;
   return path.join(intlDirectory, 'test', 'message_extraction', s);
 }
 
-/**
- * Translate a relative file path into our temp directory. This is
- * applied to all the arguments of [run]. It will ignore a string that
- * is an absolute path or begins with "--", because some of the arguments
- * might be command-line options.
- */
+/// Translate a relative file path into our temp directory. This is
+/// applied to all the arguments of [run]. It will ignore a string that
+/// is an absolute path or begins with "--", because some of the arguments
+/// might be command-line options.
 String asTempDirPath([String s]) {
   if (s == null || s.startsWith("--") || path.isAbsolute(s)) return s;
   return path.join(tempDir, s);
@@ -107,11 +101,9 @@ void deleteGeneratedFiles() {
   }
 }
 
-/**
- * Run the process with the given list of filenames, which we assume
- * are in dir() and need to be qualified in case that's not our working
- * directory.
- */
+/// Run the process with the given list of filenames, which we assume
+/// are in dir() and need to be qualified in case that's not our working
+/// directory.
 Future<ProcessResult> run(
     ProcessResult previousResult, List<String> filenames) {
   // If there's a failure in one of the sub-programs, print its output.

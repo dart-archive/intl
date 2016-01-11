@@ -6,223 +6,219 @@ part of intl;
 
 // TODO(efortuna): Customized pattern system -- suggested by i18n needs
 // feedback on appropriateness.
-/**
- * DateFormat is for formatting and parsing dates in a locale-sensitive
- * manner.
- *
- * It allows the user to choose from a set of standard date time formats as well
- * as specify a customized pattern under certain locales. Date elements that
- * vary across locales include month name, week name, field order, etc.
- * We also allow the user to use any customized pattern to parse or format
- * date-time strings under certain locales. Date elements that vary across
- * locales include month name, weekname, field, order, etc.
- *
- * Formatting dates in the default "en_US" format does not require any
- * initialization. e.g.
- *       print(new DateFormat.yMMMd().format(new Date.now()));
- *
- * But for other locales, the formatting data for the locale must be
- * obtained. This can currently be done
- * in one of three ways, determined by which library you import. In all cases,
- * the "initializeDateFormatting" method must be called and will return a future
- * that is complete once the locale data is available. The result of the future
- * isn't important, but the data for that locale is available to the date
- * formatting and parsing once it completes.
- *
- * The easiest option is that the data may be available locally, imported in a
- * library that contains data for all the locales.
- *       import 'package:intl/date_symbol_data_local.dart';
- *       initializeDateFormatting("fr_FR", null).then((_) => runMyCode());
- *
- * If we are running outside of a browser, we may want to read the data
- * from files in the file system.
- *       import 'package:intl/date_symbol_data_file.dart';
- *       initializeDateFormatting("de_DE", null).then((_) => runMyCode());
- *
- * If we are running in a browser, we may want to read the data from the
- * server using the XmlHttpRequest mechanism.
- *       import 'package:intl/date_symbol_data_http_request.dart';
- *       initializeDateFormatting("pt_BR", null).then((_) => runMyCode());
- *
- * The code in example/basic/basic_example.dart shows a full example of
- * using this mechanism.
- *
- * Once we have the locale data, we need to specify the particular format.
- * This library uses the ICU/JDK date/time pattern specification both for
- * complete format specifications and also the abbreviated "skeleton" form
- * which can also adapt to different locales and is preferred where available.
- *
- * Skeletons: These can be specified either as the ICU constant name or as the
- * skeleton to which it resolves. The supported set of skeletons is as follows.
- * For each skeleton there is a named constructor that can be used to create it.
- * It's also possible to pass the skeleton as a string, but the constructor
- * is preferred.
- *
- *      ICU Name                   Skeleton
- *      --------                   --------
- *      DAY                          d
- *      ABBR_WEEKDAY                 E
- *      WEEKDAY                      EEEE
- *      ABBR_STANDALONE_MONTH        LLL
- *      STANDALONE_MONTH             LLLL
- *      NUM_MONTH                    M
- *      NUM_MONTH_DAY                Md
- *      NUM_MONTH_WEEKDAY_DAY        MEd
- *      ABBR_MONTH                   MMM
- *      ABBR_MONTH_DAY               MMMd
- *      ABBR_MONTH_WEEKDAY_DAY       MMMEd
- *      MONTH                        MMMM
- *      MONTH_DAY                    MMMMd
- *      MONTH_WEEKDAY_DAY            MMMMEEEEd
- *      ABBR_QUARTER                 QQQ
- *      QUARTER                      QQQQ
- *      YEAR                         y
- *      YEAR_NUM_MONTH               yM
- *      YEAR_NUM_MONTH_DAY           yMd
- *      YEAR_NUM_MONTH_WEEKDAY_DAY   yMEd
- *      YEAR_ABBR_MONTH              yMMM
- *      YEAR_ABBR_MONTH_DAY          yMMMd
- *      YEAR_ABBR_MONTH_WEEKDAY_DAY  yMMMEd
- *      YEAR_MONTH                   yMMMM
- *      YEAR_MONTH_DAY               yMMMMd
- *      YEAR_MONTH_WEEKDAY_DAY       yMMMMEEEEd
- *      YEAR_ABBR_QUARTER            yQQQ
- *      YEAR_QUARTER                 yQQQQ
- *      HOUR24                       H
- *      HOUR24_MINUTE                Hm
- *      HOUR24_MINUTE_SECOND         Hms
- *      HOUR                         j
- *      HOUR_MINUTE                  jm
- *      HOUR_MINUTE_SECOND           jms
- *      HOUR_MINUTE_GENERIC_TZ       jmv
- *      HOUR_MINUTE_TZ               jmz
- *      HOUR_GENERIC_TZ              jv
- *      HOUR_TZ                      jz
- *      MINUTE                       m
- *      MINUTE_SECOND                ms
- *      SECOND                       s
- *
- * Examples Using the US Locale:
- *
- *      Pattern                           Result
- *      ----------------                  -------
- *      new DateFormat.yMd()             -> 7/10/1996
- *      new DateFormat("yMd")            -> 7/10/1996
- *      new DateFormat.yMMMMd("en_US")   -> July 10, 1996
- *      new DateFormat.jm()              -> 5:08 PM
- *      new DateFormat.yMd().add_jm()    -> 7/10/1996 5:08 PM
- *      new DateFormat.Hm()              -> 17:08 // force 24 hour time
- *
- * Explicit Pattern Syntax: Formats can also be specified with a pattern string.
- * This can be used for formats that don't have a skeleton available, but these
- * will not adapt to different locales. For example, in an explicit pattern the
- * letters "H" and "h" are available for 24 hour and 12 hour time formats
- * respectively. But there isn't a way in an explicit pattern to get the
- * behaviour of the "j" skeleton, which prints 24 hour or 12 hour time according
- * to the conventions of the locale, and also includes am/pm markers where
- * appropriate. So it is preferable to use the skeletons.
- *
- * The following characters are available in explicit patterns:
- *
- *     Symbol   Meaning                Presentation        Example
- *     ------   -------                ------------        -------
- *     G        era designator         (Text)              AD
- *     y        year                   (Number)            1996
- *     M        month in year          (Text & Number)     July & 07
- *     L        standalone month       (Text & Number)     July & 07
- *     d        day in month           (Number)            10
- *     c        standalone day         (Number)            10
- *     h        hour in am/pm (1~12)   (Number)            12
- *     H        hour in day (0~23)     (Number)            0
- *     m        minute in hour         (Number)            30
- *     s        second in minute       (Number)            55
- *     S        fractional second      (Number)            978
- *     E        day of week            (Text)              Tuesday
- *     D        day in year            (Number)            189
- *     a        am/pm marker           (Text)              PM
- *     k        hour in day (1~24)     (Number)            24
- *     K        hour in am/pm (0~11)   (Number)            0
- *     z        time zone              (Text)              Pacific Standard Time
- *     Z        time zone (RFC 822)    (Number)            -0800
- *     v        time zone (generic)    (Text)              Pacific Time
- *     Q        quarter                (Text)              Q3
- *     '        escape for text        (Delimiter)         'Date='
- *     ''       single quote           (Literal)           'o''clock'
- *
- * The count of pattern letters determine the format.
- *
- * **Text**:
- * * 5 pattern letters--use narrow form for standalone. Otherwise does not apply
- * * 4 or more pattern letters--use full form,
- * * 3 pattern letters--use short or abbreviated form if one exists
- * * less than 3--use numeric form if one exists
- *
- * **Number**: the minimum number of digits. Shorter numbers are zero-padded to
- * this amount (e.g. if "m" produces "6", "mm" produces "06"). Year is handled
- * specially; that is, if the count of 'y' is 2, the Year will be truncated to
- * 2 digits. (e.g., if "yyyy" produces "1997", "yy" produces "97".) Unlike other
- * fields, fractional seconds are padded on the right with zero.
- *
- * **(Text & Number)**: 3 or over, use text, otherwise use number.
- *
- * Any characters not in the pattern will be treated as quoted text. For
- * instance, characters like ':', '.', ' ', '#' and '@' will appear in the
- * resulting text even though they are not enclosed in single quotes. In our
- * current pattern usage, not all letters have meanings. But those unused
- * letters are strongly discouraged to be used as quoted text without quotes,
- * because we may use other letters as pattern characters in the future.
- *
- * Examples Using the US Locale:
- *
- *     Format Pattern                     Result
- *     --------------                     -------
- *     "yyyy.MM.dd G 'at' HH:mm:ss vvvv"  1996.07.10 AD at 15:08:56 Pacific Time
- *     "EEE, MMM d, ''yy"                 Wed, July 10, '96
- *     "h:mm a"                           12:08 PM
- *     "hh 'o''clock' a, zzzz"            12 o'clock PM, Pacific Daylight Time
- *     "K:mm a, vvv"                      0:00 PM, PT
- *     "yyyyy.MMMMM.dd GGG hh:mm aaa"     01996.July.10 AD 12:08 PM
- *
- * When parsing a date string using the abbreviated year pattern ("yy"),
- * DateFormat must interpret the abbreviated year relative to some
- * century. It does this by adjusting dates to be within 80 years before and 20
- * years after the time the parse function is called. For example, using a
- * pattern of "MM/dd/yy" and a DateParse instance created on Jan 1, 1997,
- * the string "01/11/12" would be interpreted as Jan 11, 2012 while the string
- * "05/04/64" would be interpreted as May 4, 1964. During parsing, only
- * strings consisting of exactly two digits, as defined by {@link
- * java.lang.Character#isDigit(char)}, will be parsed into the default
- * century. Any other numeric string, such as a one digit string, a three or
- * more digit string will be interpreted as its face value.
- *
- * If the year pattern does not have exactly two 'y' characters, the year is
- * interpreted literally, regardless of the number of digits. So using the
- * pattern "MM/dd/yyyy", "01/11/12" parses to Jan 11, 12 A.D.
- */
+/// DateFormat is for formatting and parsing dates in a locale-sensitive
+/// manner.
+///
+/// It allows the user to choose from a set of standard date time formats as
+/// well as specify a customized pattern under certain locales. Date elements
+/// that vary across locales include month name, week name, field order, etc.
+/// We also allow the user to use any customized pattern to parse or format
+/// date-time strings under certain locales. Date elements that vary across
+/// locales include month name, weekname, field, order, etc.
+///
+/// Formatting dates in the default "en_US" format does not require any
+/// initialization. e.g.
+///       print(new DateFormat.yMMMd().format(new Date.now()));
+///
+/// But for other locales, the formatting data for the locale must be
+/// obtained. This can currently be done in one of three ways, determined by
+/// which library you import. In all cases, the "initializeDateFormatting"
+/// method must be called and will return a future that is complete once the
+/// locale data is available. The result of the future isn't important, but the
+/// data for that locale is available to the date formatting and parsing once it
+/// completes.
+///
+/// The easiest option is that the data may be available locally, imported in a
+/// library that contains data for all the locales.
+///       import 'package:intl/date_symbol_data_local.dart';
+///       initializeDateFormatting("fr_FR", null).then((_) => runMyCode());
+///
+/// If we are running outside of a browser, we may want to read the data
+/// from files in the file system.
+///       import 'package:intl/date_symbol_data_file.dart';
+///       initializeDateFormatting("de_DE", null).then((_) => runMyCode());
+///
+/// If we are running in a browser, we may want to read the data from the
+/// server using the XmlHttpRequest mechanism.
+///       import 'package:intl/date_symbol_data_http_request.dart';
+///       initializeDateFormatting("pt_BR", null).then((_) => runMyCode());
+///
+/// The code in example/basic/basic_example.dart shows a full example of
+/// using this mechanism.
+///
+/// Once we have the locale data, we need to specify the particular format.
+/// This library uses the ICU/JDK date/time pattern specification both for
+/// complete format specifications and also the abbreviated "skeleton" form
+/// which can also adapt to different locales and is preferred where available.
+///
+/// Skeletons: These can be specified either as the ICU constant name or as the
+/// skeleton to which it resolves. The supported set of skeletons is as follows.
+/// For each skeleton there is a named constructor that can be used to create
+/// it.  It's also possible to pass the skeleton as a string, but the
+/// constructor is preferred.
+///
+///      ICU Name                   Skeleton
+///      --------                   --------
+///      DAY                          d
+///      ABBR_WEEKDAY                 E
+///      WEEKDAY                      EEEE
+///      ABBR_STANDALONE_MONTH        LLL
+///      STANDALONE_MONTH             LLLL
+///      NUM_MONTH                    M
+///      NUM_MONTH_DAY                Md
+///      NUM_MONTH_WEEKDAY_DAY        MEd
+///      ABBR_MONTH                   MMM
+///      ABBR_MONTH_DAY               MMMd
+///      ABBR_MONTH_WEEKDAY_DAY       MMMEd
+///      MONTH                        MMMM
+///      MONTH_DAY                    MMMMd
+///      MONTH_WEEKDAY_DAY            MMMMEEEEd
+///      ABBR_QUARTER                 QQQ
+///      QUARTER                      QQQQ
+///      YEAR                         y
+///      YEAR_NUM_MONTH               yM
+///      YEAR_NUM_MONTH_DAY           yMd
+///      YEAR_NUM_MONTH_WEEKDAY_DAY   yMEd
+///      YEAR_ABBR_MONTH              yMMM
+///      YEAR_ABBR_MONTH_DAY          yMMMd
+///      YEAR_ABBR_MONTH_WEEKDAY_DAY  yMMMEd
+///      YEAR_MONTH                   yMMMM
+///      YEAR_MONTH_DAY               yMMMMd
+///      YEAR_MONTH_WEEKDAY_DAY       yMMMMEEEEd
+///      YEAR_ABBR_QUARTER            yQQQ
+///      YEAR_QUARTER                 yQQQQ
+///      HOUR24                       H
+///      HOUR24_MINUTE                Hm
+///      HOUR24_MINUTE_SECOND         Hms
+///      HOUR                         j
+///      HOUR_MINUTE                  jm
+///      HOUR_MINUTE_SECOND           jms
+///      HOUR_MINUTE_GENERIC_TZ       jmv
+///      HOUR_MINUTE_TZ               jmz
+///      HOUR_GENERIC_TZ              jv
+///      HOUR_TZ                      jz
+///      MINUTE                       m
+///      MINUTE_SECOND                ms
+///      SECOND                       s
+///
+/// Examples Using the US Locale:
+///
+///      Pattern                           Result
+///      ----------------                  -------
+///      new DateFormat.yMd()             -> 7/10/1996
+///      new DateFormat("yMd")            -> 7/10/1996
+///      new DateFormat.yMMMMd("en_US")   -> July 10, 1996
+///      new DateFormat.jm()              -> 5:08 PM
+///      new DateFormat.yMd().add_jm()    -> 7/10/1996 5:08 PM
+///      new DateFormat.Hm()              -> 17:08 // force 24 hour time
+///
+/// Explicit Pattern Syntax: Formats can also be specified with a pattern
+/// string.  This can be used for formats that don't have a skeleton available,
+/// but these will not adapt to different locales. For example, in an explicit
+/// pattern the letters "H" and "h" are available for 24 hour and 12 hour time
+/// formats respectively. But there isn't a way in an explicit pattern to get
+/// the behaviour of the "j" skeleton, which prints 24 hour or 12 hour time
+/// according to the conventions of the locale, and also includes am/pm markers
+/// where appropriate. So it is preferable to use the skeletons.
+///
+/// The following characters are available in explicit patterns:
+///
+///     Symbol   Meaning                Presentation       Example
+///     ------   -------                ------------       -------
+///     G        era designator         (Text)             AD
+///     y        year                   (Number)           1996
+///     M        month in year          (Text & Number)    July & 07
+///     L        standalone month       (Text & Number)    July & 07
+///     d        day in month           (Number)           10
+///     c        standalone day         (Number)           10
+///     h        hour in am/pm (1~12)   (Number)           12
+///     H        hour in day (0~23)     (Number)           0
+///     m        minute in hour         (Number)           30
+///     s        second in minute       (Number)           55
+///     S        fractional second      (Number)           978
+///     E        day of week            (Text)             Tuesday
+///     D        day in year            (Number)           189
+///     a        am/pm marker           (Text)             PM
+///     k        hour in day (1~24)     (Number)           24
+///     K        hour in am/pm (0~11)   (Number)           0
+///     z        time zone              (Text)             Pacific Standard Time
+///     Z        time zone (RFC 822)    (Number)           -0800
+///     v        time zone (generic)    (Text)             Pacific Time
+///     Q        quarter                (Text)             Q3
+///     '        escape for text        (Delimiter)        'Date='
+///     ''       single quote           (Literal)          'o''clock'
+///
+/// The count of pattern letters determine the format.
+///
+/// **Text**:
+/// * 5 pattern letters--use narrow form for standalone. Otherwise not used.
+/// * 4 or more pattern letters--use full form,
+/// * 3 pattern letters--use short or abbreviated form if one exists
+/// * less than 3--use numeric form if one exists
+///
+/// **Number**: the minimum number of digits. Shorter numbers are zero-padded to
+/// this amount (e.g. if "m" produces "6", "mm" produces "06"). Year is handled
+/// specially; that is, if the count of 'y' is 2, the Year will be truncated to
+/// 2 digits. (e.g., if "yyyy" produces "1997", "yy" produces "97".) Unlike
+/// other fields, fractional seconds are padded on the right with zero.
+///
+/// **(Text & Number)**: 3 or over, use text, otherwise use number.
+///
+/// Any characters not in the pattern will be treated as quoted text. For
+/// instance, characters like ':', '.', ' ', '#' and '@' will appear in the
+/// resulting text even though they are not enclosed in single quotes. In our
+/// current pattern usage, not all letters have meanings. But those unused
+/// letters are strongly discouraged to be used as quoted text without quotes,
+/// because we may use other letters as pattern characters in the future.
+///
+/// Examples Using the US Locale:
+///
+///     Format Pattern                    Result
+///     --------------                    -------
+///     "yyyy.MM.dd G 'at' HH:mm:ss vvvv" 1996.07.10 AD at 15:08:56 Pacific Time
+///     "EEE, MMM d, ''yy"                Wed, July 10, '96
+///     "h:mm a"                          12:08 PM
+///     "hh 'o''clock' a, zzzz"           12 o'clock PM, Pacific Daylight Time
+///     "K:mm a, vvv"                     0:00 PM, PT
+///     "yyyyy.MMMMM.dd GGG hh:mm aaa"    01996.July.10 AD 12:08 PM
+///
+/// When parsing a date string using the abbreviated year pattern ("yy"),
+/// DateFormat must interpret the abbreviated year relative to some
+/// century. It does this by adjusting dates to be within 80 years before and 20
+/// years after the time the parse function is called. For example, using a
+/// pattern of "MM/dd/yy" and a DateParse instance created on Jan 1, 1997,
+/// the string "01/11/12" would be interpreted as Jan 11, 2012 while the string
+/// "05/04/64" would be interpreted as May 4, 1964. During parsing, only
+/// strings consisting of exactly two digits, as defined by {@link
+/// java.lang.Character#isDigit(char)}, will be parsed into the default
+/// century. Any other numeric string, such as a one digit string, a three or
+/// more digit string will be interpreted as its face value.
+///
+/// If the year pattern does not have exactly two 'y' characters, the year is
+/// interpreted literally, regardless of the number of digits. So using the
+/// pattern "MM/dd/yyyy", "01/11/12" parses to Jan 11, 12 A.D.
 
 class DateFormat {
 
-  /**
-   * Creates a new DateFormat, using the format specified by [newPattern]. For
-   * forms that match one of our predefined skeletons, we look up the
-   * corresponding pattern in [locale] (or in the default locale if none is
-   * specified) and use the resulting full format string. This is the
-   * preferred usage, but if [newPattern] does not match one of the skeletons,
-   * then it is used as a format directly, but will not be adapted to suit
-   * the locale.
-   *
-   * For example, in an en_US locale, specifying the skeleton
-   *     new DateFormat.yMEd();
-   * or the explicit
-   *     new DateFormat('EEE, M/d/y');
-   * would produce the same result, a date of the form
-   *     Wed, 6/27/2012
-   * The first version would produce a different format string if used in
-   * another locale, but the second format would always be the same.
-   *
-   * If [locale] does not exist in our set of supported locales then an
-   * [ArgumentError] is thrown.
-   */
+  /// Creates a new DateFormat, using the format specified by [newPattern]. For
+  /// forms that match one of our predefined skeletons, we look up the
+  /// corresponding pattern in [locale] (or in the default locale if none is
+  /// specified) and use the resulting full format string. This is the
+  /// preferred usage, but if [newPattern] does not match one of the skeletons,
+  /// then it is used as a format directly, but will not be adapted to suit
+  /// the locale.
+  ///
+  /// For example, in an en_US locale, specifying the skeleton
+  ///     new DateFormat.yMEd();
+  /// or the explicit
+  ///     new DateFormat('EEE, M/d/y');
+  /// would produce the same result, a date of the form
+  ///     Wed, 6/27/2012
+  /// The first version would produce a different format string if used in
+  /// another locale, but the second format would always be the same.
+  ///
+  /// If [locale] does not exist in our set of supported locales then an
+  /// [ArgumentError] is thrown.
   DateFormat([String newPattern, String locale]) {
     // TODO(alanknight): It should be possible to specify multiple skeletons eg
     // date, time, timezone all separately. Adding many or named parameters to
@@ -233,10 +229,8 @@ class DateFormat {
     addPattern(newPattern);
   }
 
-  /**
-   * Return a string representing [date] formatted according to our locale
-   * and internal format.
-   */
+  /// Return a string representing [date] formatted according to our locale
+  /// and internal format.
   String format(DateTime date) {
     // TODO(efortuna): read optional TimeZone argument (or similar)?
     var result = new StringBuffer();
@@ -244,66 +238,58 @@ class DateFormat {
     return result.toString();
   }
 
-  /**
-   * NOT YET IMPLEMENTED.
-   *
-   * Returns a date string indicating how long ago (3 hours, 2 minutes)
-   * something has happened or how long in the future something will happen
-   * given a [reference] DateTime relative to the current time.
-   */
+  /// NOT YET IMPLEMENTED.
+  ///
+  /// Returns a date string indicating how long ago (3 hours, 2 minutes)
+  /// something has happened or how long in the future something will happen
+  /// given a [reference] DateTime relative to the current time.
   String formatDuration(DateTime reference) => '';
 
-  /**
-   * NOT YET IMPLEMENTED.
-   *
-   * Formats a string indicating how long ago (negative [duration]) or how far
-   * in the future (positive [duration]) some time is with respect to a
-   * reference [date].
-   */
+  /// NOT YET IMPLEMENTED.
+  ///
+  /// Formats a string indicating how long ago (negative [duration]) or how far
+  /// in the future (positive [duration]) some time is with respect to a
+  /// reference [date].
   String formatDurationFrom(Duration duration, DateTime date) => '';
 
-  /**
-   * Given user input, attempt to parse the [inputString] into the anticipated
-   * format, treating it as being in the local timezone. If [inputString] does
-   * not match our format, throws a [FormatException]. This will accept dates
-   * whose values are not strictly valid, or strings with additional characters
-   * (including whitespace) after a valid date. For stricter parsing, use
-   * [parseStrict].
-   */
+  /// Given user input, attempt to parse the [inputString] into the anticipated
+  /// format, treating it as being in the local timezone. If [inputString] does
+  /// not match our format, throws a [FormatException]. This will accept dates
+  /// whose values are not strictly valid, or strings with additional characters
+  /// (including whitespace) after a valid date. For stricter parsing, use
+  /// [parseStrict].
   DateTime parse(String inputString, [utc = false]) =>
       _parse(inputString, utc: utc, strict: false);
 
-  /**
-   * Given user input, attempt to parse the [inputString] "loosely" into the
-   * anticipated format, accepting some variations from the strict format.
-   *
-   * If [inputString]
-   * is accepted by [parseStrict], just return the result. If not, attempt to
-   * parse it, but accepting either upper or
-   * lower case, allowing delimiters to be missing and replaced or
-   * supplemented with whitespace,
-   * and allowing arbitrary amounts of whitespace wherever whitespace is
-   * permitted. Note that this does not allow trailing characters, the way
-   * [parse] does. It also does not allow leading whitespace on delimiters,
-   * and does not allow alternative names for months or weekdays other than
-   * those the format knows about. The restrictions are quite arbitrary and
-   * it's not known how well they'll work for locales that aren't English-like.
-   *
-   * If [inputString] does not parse, this throws a
-   * [FormatException].
-   *
-   * For example, this will accept
-   *
-   *       new DateFormat.yMMMd("en_US").parseLoose("SEp   3 2014");
-   *       new DateFormat.yMd("en_US").parseLoose("09    03/2014");
-   *
-   * It will NOT accept
-   *
-   *      // "Sept" is not a valid month name.
-   *      new DateFormat.yMMMd("en_US").parseLoose("Sept 3, 2014");
-   *      // Delimiters can't have leading whitespace.
-   *      new DateFormat.yMd("en_US").parseLoose("09 / 03 / 2014");
-   */
+  /// Given user input, attempt to parse the [inputString] "loosely" into the
+  /// anticipated format, accepting some variations from the strict format.
+  ///
+  /// If [inputString]
+  /// is accepted by [parseStrict], just return the result. If not, attempt to
+  /// parse it, but accepting either upper or
+  /// lower case, allowing delimiters to be missing and replaced or
+  /// supplemented with whitespace,
+  /// and allowing arbitrary amounts of whitespace wherever whitespace is
+  /// permitted. Note that this does not allow trailing characters, the way
+  /// [parse] does. It also does not allow leading whitespace on delimiters,
+  /// and does not allow alternative names for months or weekdays other than
+  /// those the format knows about. The restrictions are quite arbitrary and
+  /// it's not known how well they'll work for locales that aren't English-like.
+  ///
+  /// If [inputString] does not parse, this throws a
+  /// [FormatException].
+  ///
+  /// For example, this will accept
+  ///
+  ///       new DateFormat.yMMMd("en_US").parseLoose("SEp   3 2014");
+  ///       new DateFormat.yMd("en_US").parseLoose("09    03/2014");
+  ///
+  /// It will NOT accept
+  ///
+  ///      // "Sept" is not a valid month name.
+  ///      new DateFormat.yMMMd("en_US").parseLoose("Sept 3, 2014");
+  ///      // Delimiters can't have leading whitespace.
+  ///      new DateFormat.yMd("en_US").parseLoose("09 / 03 / 2014");
   DateTime parseLoose(String inputString, [utc = false]) {
     try {
       return _parse(inputString, utc: utc, strict: true);
@@ -325,15 +311,13 @@ class DateFormat {
     return dateFields.asDate();
   }
 
-  /**
-   * Given user input, attempt to parse the [inputString] into the anticipated
-   * format, treating it as being in the local timezone. If [inputString] does
-   * not match our format, throws a [FormatException]. This will reject dates
-   * whose values are not strictly valid, even if the
-   * DateTime constructor will accept them. It will also rejct strings with
-   * additional characters (including whitespace) after a valid date. For
-   * looser parsing, use [parse].
-   */
+  /// Given user input, attempt to parse the [inputString] into the anticipated
+  /// format, treating it as being in the local timezone. If [inputString] does
+  /// not match our format, throws a [FormatException]. This will reject dates
+  /// whose values are not strictly valid, even if the
+  /// DateTime constructor will accept them. It will also rejct strings with
+  /// additional characters (including whitespace) after a valid date. For
+  /// looser parsing, use [parse].
   DateTime parseStrict(String inputString, [utc = false]) =>
       _parse(inputString, utc: utc, strict: true);
 
@@ -352,51 +336,41 @@ class DateFormat {
     return dateFields.asDate();
   }
 
-  /**
-   * Given user input, attempt to parse the [inputString] into the anticipated
-   * format, treating it as being in UTC.
-   *
-   * The canonical Dart style name
-   * is [parseUtc], but [parseUTC] is retained
-   * for backward-compatibility.
-   */
+  /// Given user input, attempt to parse the [inputString] into the anticipated
+  /// format, treating it as being in UTC.
+  ///
+  /// The canonical Dart style name
+  /// is [parseUtc], but [parseUTC] is retained
+  /// for backward-compatibility.
   DateTime parseUTC(String inputString) => parse(inputString, true);
 
-  /**
-   * Given user input, attempt to parse the [inputString] into the anticipated
-   * format, treating it as being in UTC.
-   *
-   * The canonical Dart style name
-   * is [parseUtc], but [parseUTC] is retained
-   * for backward-compatibility.
-   */
+  /// Given user input, attempt to parse the [inputString] into the anticipated
+  /// format, treating it as being in UTC.
+  ///
+  /// The canonical Dart style name
+  /// is [parseUtc], but [parseUTC] is retained
+  /// for backward-compatibility.
   DateTime parseUtc(String inputString) => parse(inputString, true);
 
-  /**
-   * Return the locale code in which we operate, e.g. 'en_US' or 'pt'.
-   */
+  /// Return the locale code in which we operate, e.g. 'en_US' or 'pt'.
   String get locale => _locale;
 
-  /**
-   * Returns a list of all locales for which we have date formatting
-   * information.
-   */
+  /// Returns a list of all locales for which we have date formatting
+  /// information.
   static List<String> allLocalesWithSymbols() => dateTimeSymbols.keys.toList();
 
-  /**
-   * The named constructors for this class are all conveniences for creating
-   * instances using one of the known "skeleton" formats, and having code
-   * completion support for discovering those formats.
-   * So,
-   *     new DateFormat.yMd("en_US")
-   * is equivalent to
-   *     new DateFormat("yMd", "en_US")
-   * To create a compound format you can use these constructors in combination
-   * with the add_ methods below. e.g.
-   *     new DateFormat.yMd().add_Hms();
-   * If the optional [locale] is omitted, the format will be created using the
-   * default locale in [Intl.systemLocale].
-   */
+  /// The named constructors for this class are all conveniences for creating
+  /// instances using one of the known "skeleton" formats, and having code
+  /// completion support for discovering those formats.
+  /// So,
+  ///     new DateFormat.yMd("en_US")
+  /// is equivalent to
+  ///     new DateFormat("yMd", "en_US")
+  /// To create a compound format you can use these constructors in combination
+  /// with the add_ methods below. e.g.
+  ///     new DateFormat.yMd().add_Hms();
+  /// If the optional [locale] is omitted, the format will be created using the
+  /// default locale in [Intl.systemLocale].
   DateFormat.d([locale]) : this("d", locale);
   DateFormat.E([locale]) : this("E", locale);
   DateFormat.EEEE([locale]) : this("EEEE", locale);
@@ -439,13 +413,11 @@ class DateFormat {
   DateFormat.ms([locale]) : this("ms", locale);
   DateFormat.s([locale]) : this("s", locale);
 
-  /**
-   * The "add_*" methods append a particular skeleton to the format, or set
-   * it as the only format if none was previously set. These are primarily
-   * useful for creating compound formats. For example
-   *       new DateFormat.yMd().add_Hms();
-   * would create a date format that prints both the date and the time.
-   */
+  /// The "add_*" methods append a particular skeleton to the format, or set
+  /// it as the only format if none was previously set. These are primarily
+  /// useful for creating compound formats. For example
+  ///       new DateFormat.yMd().add_Hms();
+  /// would create a date format that prints both the date and the time.
   DateFormat add_d() => addPattern("d");
   DateFormat add_E() => addPattern("E");
   DateFormat add_EEEE() => addPattern("EEEE");
@@ -488,10 +460,8 @@ class DateFormat {
   DateFormat add_ms() => addPattern("ms");
   DateFormat add_s() => addPattern("s");
 
-  /**
-   * For each of the skeleton formats we also allow the use of the corresponding
-   * ICU constant names.
-   */
+  /// For each of the skeleton formats we also allow the use of the
+  /// corresponding ICU constant names.
   static const String ABBR_MONTH = 'MMM';
   static const String DAY = 'd';
   static const String ABBR_WEEKDAY = 'E';
@@ -534,26 +504,20 @@ class DateFormat {
   static const String MINUTE_SECOND = 'ms';
   static const String SECOND = 's';
 
-  /** The locale in which we operate, e.g. 'en_US', or 'pt'. */
+  /// The locale in which we operate, e.g. 'en_US', or 'pt'.
   String _locale;
 
-  /**
-   * The full template string. This may have been specified directly, or
-   * it may have been derived from a skeleton and the locale information
-   * on how to interpret that skeleton.
-   */
+  /// The full template string. This may have been specified directly, or
+  /// it may have been derived from a skeleton and the locale information
+  /// on how to interpret that skeleton.
   String _pattern;
 
-  /**
-   * We parse the format string into individual [_DateFormatField] objects
-   * that are used to do the actual formatting and parsing. Do not use
-   * this variable directly, use the getter [_formatFields].
-   */
+  /// We parse the format string into individual [_DateFormatField] objects
+  /// that are used to do the actual formatting and parsing. Do not use
+  /// this variable directly, use the getter [_formatFields].
   List<_DateFormatField> _formatFieldsPrivate;
 
-  /**
-   * Getter for [_formatFieldsPrivate] that lazily initializes it.
-   */
+  /// Getter for [_formatFieldsPrivate] that lazily initializes it.
   get _formatFields {
     if (_formatFieldsPrivate == null) {
       if (_pattern == null) _useDefaultPattern();
@@ -562,19 +526,15 @@ class DateFormat {
     return _formatFieldsPrivate;
   }
 
-  /**
-   * We are being asked to do formatting without having set any pattern.
-   * Use a default.
-   */
+  /// We are being asked to do formatting without having set any pattern.
+  /// Use a default.
   _useDefaultPattern() {
     add_yMMMMd();
     add_jms();
   }
 
-  /**
-   * A series of regular expressions used to parse a format string into its
-   * component fields.
-   */
+  /// A series of regular expressions used to parse a format string into its
+  /// component fields.
   static List<RegExp> _matchers = [
     // Quoted String - anything between single quotes, with escaping
     //   of single quotes by doubling them.
@@ -590,22 +550,18 @@ class DateFormat {
     new RegExp("^[^\'GyMkSEahKHcLQdDmsvzZ]+")
   ];
 
-  /**
-   * Set our pattern, appending it to any existing patterns. Also adds a single
-   * space to separate the two.
-   */
+  /// Set our pattern, appending it to any existing patterns. Also adds a single
+  /// space to separate the two.
   _appendPattern(String inputPattern, [String separator = ' ']) {
     _pattern =
         _pattern == null ? inputPattern : "$_pattern$separator$inputPattern";
   }
 
-  /**
-   * Add [inputPattern] to this instance as a pattern. If there was a previous
-   * pattern, then this appends to it, separating the two by [separator].
-   * [inputPattern] is first looked up in our list of known skeletons.
-   * If it's found there, then use the corresponding pattern for this locale.
-   * If it's not, then treat [inputPattern] as an explicit pattern.
-   */
+  /// Add [inputPattern] to this instance as a pattern. If there was a previous
+  /// pattern, then this appends to it, separating the two by [separator].
+  /// [inputPattern] is first looked up in our list of known skeletons.
+  /// If it's found there, then use the corresponding pattern for this locale.
+  /// If it's not, then treat [inputPattern] as an explicit pattern.
   DateFormat addPattern(String inputPattern, [String separator = ' ']) {
     // TODO(alanknight): This is an expensive operation. Caching recently used
     // formats, or possibly introducing an entire "locale" object that would
@@ -621,25 +577,21 @@ class DateFormat {
     return this;
   }
 
-  /** Return the pattern that we use to format dates.*/
+  /// Return the pattern that we use to format dates.
   get pattern => _pattern;
 
-  /** Return the skeletons for our current locale. */
+  /// Return the skeletons for our current locale.
   Map get _availableSkeletons => dateTimePatterns[locale];
 
-  /**
-   * Return the [DateSymbol] information for the locale. This can be useful
-   * to find lists like the names of weekdays or months in a locale, but
-   * the structure of this data may change, and it's generally better to go
-   * through the [format] and [parse] APIs. If the locale isn't present, or
-   * is uninitialized, returns null;
-   */
+  /// Return the [DateSymbol] information for the locale. This can be useful
+  /// to find lists like the names of weekdays or months in a locale, but
+  /// the structure of this data may change, and it's generally better to go
+  /// through the [format] and [parse] APIs. If the locale isn't present, or
+  /// is uninitialized, returns null;
   DateSymbols get dateSymbols => dateTimeSymbols[_locale];
 
-  /**
-   * Return true if the locale exists, or if it is null. The null case
-   * is interpreted to mean that we use the default locale.
-   */
+  /// Return true if the locale exists, or if it is null. The null case
+  /// is interpreted to mean that we use the default locale.
   static bool localeExists(localeName) {
     if (localeName == null) return false;
     return dateTimeSymbols.containsKey(localeName);
@@ -651,13 +603,13 @@ class DateFormat {
     (pattern, parent) => new _DateFormatLiteralField(pattern, parent)
   ];
 
-  /** Parse the template pattern and return a list of field objects.*/
+  /// Parse the template pattern and return a list of field objects.
   List parsePattern(String pattern) {
     if (pattern == null) return null;
     return _parsePatternHelper(pattern).reversed.toList();
   }
 
-  /** Recursive helper for parsing the template pattern. */
+  /// Recursive helper for parsing the template pattern.
   List _parsePatternHelper(String pattern) {
     if (pattern.isEmpty) return [];
 
@@ -670,7 +622,7 @@ class DateFormat {
     return parsed;
   }
 
-  /** Find elements in a string that are patterns for specific fields.*/
+  /// Find elements in a string that are patterns for specific fields.
   _DateFormatField _match(String pattern) {
     for (var i = 0; i < _matchers.length; i++) {
       var regex = _matchers[i];

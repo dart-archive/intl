@@ -2,10 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/**
- * This contains a reader that accesses data using the HttpRequest
- * facility, and thus works only in the web browser.
- */
+/// This contains a reader that accesses data using the HttpRequest
+/// facility, and thus works only in the web browser.
 
 library http_request_data_reader;
 
@@ -15,7 +13,7 @@ import 'intl_helpers.dart';
 
 class HttpRequestDataReader implements LocaleDataReader {
 
-  /** The base url from which we read the data. */
+  /// The base url from which we read the data.
   String url;
   HttpRequestDataReader(this.url);
 

@@ -2,21 +2,17 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/**
- * Contains a parser for ICU format plural/gender/select format for localized
- * messages. See extract_to_arb.dart and make_hardcoded_translation.dart.
- */
+/// Contains a parser for ICU format plural/gender/select format for localized
+/// messages. See extract_to_arb.dart and make_hardcoded_translation.dart.
 library icu_parser;
 
 import 'package:intl/src/intl_message.dart';
 import 'package:petitparser/petitparser.dart';
 
-/**
- * This defines a grammar for ICU MessageFormat syntax. Usage is
- *       new IcuParser.message.parse(<string>).value;
- * The "parse" method will return a Success or Failure object which responds
- * to "value".
- */
+/// This defines a grammar for ICU MessageFormat syntax. Usage is
+///       new IcuParser.message.parse(<string>).value;
+/// The "parse" method will return a Success or Failure object which responds
+/// to "value".
 class IcuParser {
   get openCurly => char("{");
 
@@ -36,10 +32,8 @@ class IcuParser {
   get id => (letter() & (word() | char("_")).star()).flatten().trim();
   get comma => char(",").trim();
 
-  /**
-   * Given a list of possible keywords, return a rule that accepts any of them.
-   * e.g., given ["male", "female", "other"], accept any of them.
-   */
+  /// Given a list of possible keywords, return a rule that accepts any of them.
+  /// e.g., given ["male", "female", "other"], accept any of them.
   asKeywords(list) => list.map(string).reduce((a, b) => a | b).flatten().trim();
 
   get pluralKeyword => asKeywords(
@@ -83,17 +77,13 @@ class IcuParser {
   get parameter => (openCurly & id & closeCurly)
       .map((param) => new VariableSubstitution.named(param[1], null));
 
-  /**
-   * The primary entry point for parsing. Accepts a string and produces
-   * a parsed representation of it as a Message.
-   */
+  /// The primary entry point for parsing. Accepts a string and produces
+  /// a parsed representation of it as a Message.
   get message => (pluralOrGenderOrSelect | empty)
       .map((chunk) => Message.from(chunk, null));
 
-  /**
-   * Represents an ordinary message, i.e. not a plural/gender/select, although
-   * it may have parameters.
-   */
+  /// Represents an ordinary message, i.e. not a plural/gender/select, although
+  /// it may have parameters.
   get nonIcuMessage =>
       (simpleText | empty).map((chunk) => Message.from(chunk, null));
 

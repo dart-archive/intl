@@ -2,23 +2,21 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/**
- * This is for use in extracting messages from a Dart program
- * using the Intl.message() mechanism and writing them to a file for
- * translation. This provides only the stub of a mechanism, because it
- * doesn't define how the file should be written. It provides an
- * [IntlMessage] class that holds the extracted data and [parseString]
- * and [parseFile] methods which
- * can extract messages that conform to the expected pattern:
- *       (parameters) => Intl.message("Message $parameters", desc: ...);
- * It uses the analyzer package to do the parsing, so may
- * break if there are changes to the API that it provides.
- * An example can be found in test/message_extraction/extract_to_json.dart
- *
- * Note that this does not understand how to follow part directives, so it
- * has to explicitly be given all the files that it needs. A typical use case
- * is to run it on all .dart files in a directory.
- */
+/// This is for use in extracting messages from a Dart program
+/// using the Intl.message() mechanism and writing them to a file for
+/// translation. This provides only the stub of a mechanism, because it
+/// doesn't define how the file should be written. It provides an
+/// [IntlMessage] class that holds the extracted data and [parseString]
+/// and [parseFile] methods which
+/// can extract messages that conform to the expected pattern:
+///       (parameters) => Intl.message("Message $parameters", desc: ...);
+/// It uses the analyzer package to do the parsing, so may
+/// break if there are changes to the API that it provides.
+/// An example can be found in test/message_extraction/extract_to_json.dart
+///
+/// Note that this does not understand how to follow part directives, so it
+/// has to explicitly be given all the files that it needs. A typical use case
+/// is to run it on all .dart files in a directory.
 library extract_messages;
 
 import 'dart:io';
@@ -26,41 +24,32 @@ import 'dart:io';
 import 'package:analyzer/analyzer.dart';
 import 'package:intl/src/intl_message.dart';
 
-/**
- * If this is true, print warnings for skipped messages. Otherwise, warnings
- * are suppressed.
- */
+/// If this is true, print warnings for skipped messages. Otherwise, warnings
+/// are suppressed.
 bool suppressWarnings = false;
 
-/**
- * If this is true, then treat all warnings as errors.
- */
+/// If this is true, then treat all warnings as errors.
 bool warningsAreErrors = false;
 
-/**
- * This accumulates a list of all warnings/errors we have found. These are
- * saved as strings right now, so all that can really be done is print and
- * count them.
- */
+/// This accumulates a list of all warnings/errors we have found. These are
+/// saved as strings right now, so all that can really be done is print and
+/// count them.
 List<String> warnings = [];
 
-/** Were there any warnings or errors in extracting messages. */
+/// Were there any warnings or errors in extracting messages.
 bool get hasWarnings => warnings.isNotEmpty;
 
-/** Are plural and gender expressions required to be at the top level
- * of an expression, or are they allowed to be embedded in string literals.
- *
- * For example, the following expression
- *     'There are ${Intl.plural(...)} items'.
- * is legal if [allowEmbeddedPluralsAndGenders] is true, but illegal
- * if [allowEmbeddedPluralsAndGenders] is false.
- */
+/// Are plural and gender expressions required to be at the top level
+/// of an expression, or are they allowed to be embedded in string literals.
+///
+/// For example, the following expression
+///     'There are ${Intl.plural(...)} items'.
+/// is legal if [allowEmbeddedPluralsAndGenders] is true, but illegal
+/// if [allowEmbeddedPluralsAndGenders] is false.
 bool allowEmbeddedPluralsAndGenders = true;
 
-/**
- * Parse the source of the Dart program file [file] and return a Map from
- * message names to [IntlMessage] instances.
- */
+/// Parse the source of the Dart program file [file] and return a Map from
+/// message names to [IntlMessage] instances.
 Map<String, MainMessage> parseFile(File file) {
   try {
     _root = parseDartFile(file.path);
@@ -75,18 +64,14 @@ Map<String, MainMessage> parseFile(File file) {
   return visitor.messages;
 }
 
-/**
- * The root of the compilation unit, and the first node we visit. We hold
- * on to this for error reporting, as it can give us line numbers of other
- * nodes.
- */
+/// The root of the compilation unit, and the first node we visit. We hold
+/// on to this for error reporting, as it can give us line numbers of other
+/// nodes.
 CompilationUnit _root;
 
-/**
- * An arbitrary string describing where the source code came from. Most
- * obviously, this could be a file path. We use this when reporting
- * invalid messages.
- */
+/// An arbitrary string describing where the source code came from. Most
+/// obviously, this could be a file path. We use this when reporting
+/// invalid messages.
 String _origin;
 
 String _reportErrorLocation(AstNode node) {
@@ -100,29 +85,23 @@ String _reportErrorLocation(AstNode node) {
   return result.toString();
 }
 
-/**
- * This visits the program source nodes looking for Intl.message uses
- * that conform to its pattern and then creating the corresponding
- * IntlMessage objects. We have to find both the enclosing function, and
- * the Intl.message invocation.
- */
+/// This visits the program source nodes looking for Intl.message uses
+/// that conform to its pattern and then creating the corresponding
+/// IntlMessage objects. We have to find both the enclosing function, and
+/// the Intl.message invocation.
 class MessageFindingVisitor extends GeneralizingAstVisitor {
   MessageFindingVisitor();
 
-  /**
-   * Accumulates the messages we have found, keyed by name.
-   */
+  /// Accumulates the messages we have found, keyed by name.
   final Map<String, MainMessage> messages = new Map<String, MainMessage>();
 
-  /**
-   * We keep track of the data from the last MethodDeclaration,
-   * FunctionDeclaration or FunctionExpression that we saw on the way down,
-   * as that will be the nearest parent of the Intl.message invocation.
-   */
+  /// We keep track of the data from the last MethodDeclaration,
+  /// FunctionDeclaration or FunctionExpression that we saw on the way down,
+  /// as that will be the nearest parent of the Intl.message invocation.
   FormalParameterList parameters;
   String name;
 
-  /** Return true if [node] matches the pattern we expect for Intl.message() */
+  /// Return true if [node] matches the pattern we expect for Intl.message()
   bool looksLikeIntlMessage(MethodInvocation node) {
     const validNames = const ["message", "plural", "gender", "select"];
     if (!validNames.contains(node.methodName.name)) return false;
@@ -146,10 +125,8 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
     }
   }
 
-  /**
-   * Returns a String describing why the node is invalid, or null if no
-   * reason is found, so it's presumed valid.
-   */
+  /// Returns a String describing why the node is invalid, or null if no
+  /// reason is found, so it's presumed valid.
   String checkValidity(MethodInvocation node) {
     // The containing function cannot have named parameters.
     if (parameters.parameters.any((each) => each.kind == ParameterKind.NAMED)) {
@@ -160,10 +137,8 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
     return instance.checkValidity(node, arguments, name, parameters);
   }
 
-  /**
-   * Record the parameters of the function or method declaration we last
-   * encountered before seeing the Intl.message call.
-   */
+  /// Record the parameters of the function or method declaration we last
+  /// encountered before seeing the Intl.message call.
   void visitMethodDeclaration(MethodDeclaration node) {
     parameters = node.parameters;
     if (parameters == null) {
@@ -173,10 +148,8 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
     super.visitMethodDeclaration(node);
   }
 
-  /**
-   * Record the parameters of the function or method declaration we last
-   * encountered before seeing the Intl.message call.
-   */
+  /// Record the parameters of the function or method declaration we last
+  /// encountered before seeing the Intl.message call.
   void visitFunctionDeclaration(FunctionDeclaration node) {
     parameters = node.functionExpression.parameters;
     if (parameters == null) {
@@ -186,24 +159,20 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
     super.visitFunctionDeclaration(node);
   }
 
-  /**
-   * Examine method invocations to see if they look like calls to Intl.message.
-   * If we've found one, stop recursing. This is important because we can have
-   * Intl.message(...Intl.plural...) and we don't want to treat the inner
-   * plural as if it was an outermost message.
-   */
+  /// Examine method invocations to see if they look like calls to Intl.message.
+  /// If we've found one, stop recursing. This is important because we can have
+  /// Intl.message(...Intl.plural...) and we don't want to treat the inner
+  /// plural as if it was an outermost message.
   void visitMethodInvocation(MethodInvocation node) {
     if (!addIntlMessage(node)) {
       super.visitMethodInvocation(node);
     }
   }
 
-  /**
-   * Check that the node looks like an Intl.message invocation, and create
-   * the [IntlMessage] object from it and store it in [messages]. Return true
-   * if we successfully extracted a message and should stop looking. Return
-   * false if we didn't, so should continue recursing.
-   */
+  /// Check that the node looks like an Intl.message invocation, and create
+  /// the [IntlMessage] object from it and store it in [messages]. Return true
+  /// if we successfully extracted a message and should stop looking. Return
+  /// false if we didn't, so should continue recursing.
   bool addIntlMessage(MethodInvocation node) {
     if (!looksLikeIntlMessage(node)) return false;
     var reason = checkValidity(node);
@@ -228,13 +197,11 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
     return true;
   }
 
-  /**
-   * Create a MainMessage from [node] using the name and
-   * parameters of the last function/method declaration we encountered,
-   * and the values we get by calling [extract]. We set those values
-   * by calling [setAttribute]. This is the common parts between
-   * [messageFromIntlMessageCall] and [messageFromDirectPluralOrGenderCall].
-   */
+  /// Create a MainMessage from [node] using the name and
+  /// parameters of the last function/method declaration we encountered,
+  /// and the values we get by calling [extract]. We set those values
+  /// by calling [setAttribute]. This is the common parts between
+  /// [messageFromIntlMessageCall] and [messageFromDirectPluralOrGenderCall].
   MainMessage _messageFromNode(
       MethodInvocation node, Function extract, Function setAttribute) {
     var message = new MainMessage();
@@ -258,11 +225,9 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
     return message;
   }
 
-  /**
-   * Create a MainMessage from [node] using the name and
-   * parameters of the last function/method declaration we encountered
-   * and the parameters to the Intl.message call.
-   */
+  /// Create a MainMessage from [node] using the name and
+  /// parameters of the last function/method declaration we encountered
+  /// and the parameters to the Intl.message call.
   MainMessage messageFromIntlMessageCall(MethodInvocation node) {
     MainMessage extractFromIntlCall(MainMessage message, List arguments) {
       try {
@@ -296,11 +261,9 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
     return _messageFromNode(node, extractFromIntlCall, setValue);
   }
 
-  /**
-   * Create a MainMessage from [node] using the name and
-   * parameters of the last function/method declaration we encountered
-   * and the parameters to the Intl.plural or Intl.gender call.
-   */
+  /// Create a MainMessage from [node] using the name and
+  /// parameters of the last function/method declaration we encountered
+  /// and the parameters to the Intl.plural or Intl.gender call.
   MainMessage messageFromDirectPluralOrGenderCall(MethodInvocation node) {
     MainMessage extractFromPluralOrGender(MainMessage message, _) {
       var visitor = new PluralAndGenderVisitor(message.messagePieces, message);
@@ -317,16 +280,14 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
   }
 }
 
-/**
- * Given an interpolation, find all of its chunks, validate that they are only
- * simple variable substitutions or else Intl.plural/gender calls,
- * and keep track of the pieces of text so that other parts
- * of the program can deal with the simple string sections and the generated
- * parts separately. Note that this is a SimpleAstVisitor, so it only
- * traverses one level of children rather than automatically recursing. If we
- * find a plural or gender, which requires recursion, we do it with a separate
- * special-purpose visitor.
- */
+/// Given an interpolation, find all of its chunks, validate that they are only
+/// simple variable substitutions or else Intl.plural/gender calls,
+/// and keep track of the pieces of text so that other parts
+/// of the program can deal with the simple string sections and the generated
+/// parts separately. Note that this is a SimpleAstVisitor, so it only
+/// traverses one level of children rather than automatically recursing. If we
+/// find a plural or gender, which requires recursion, we do it with a separate
+/// special-purpose visitor.
 class InterpolationVisitor extends SimpleAstVisitor {
   final Message message;
 
@@ -387,25 +348,19 @@ class InterpolationVisitor extends SimpleAstVisitor {
   List get arguments => message.arguments;
 }
 
-/**
- * A visitor to extract information from Intl.plural/gender sends. Note that
- * this is a SimpleAstVisitor, so it doesn't automatically recurse. So this
- * needs to be called where we expect a plural or gender immediately below.
- */
+/// A visitor to extract information from Intl.plural/gender sends. Note that
+/// this is a SimpleAstVisitor, so it doesn't automatically recurse. So this
+/// needs to be called where we expect a plural or gender immediately below.
 class PluralAndGenderVisitor extends SimpleAstVisitor {
-  /**
-   * A plural or gender always exists in the context of a parent message,
-   * which could in turn also be a plural or gender.
-   */
+  /// A plural or gender always exists in the context of a parent message,
+  /// which could in turn also be a plural or gender.
   final ComplexMessage parent;
 
-  /**
-   * The pieces of the message. We are given an initial version of this
-   * from our parent and we add to it as we find additional information.
-   */
+  /// The pieces of the message. We are given an initial version of this
+  /// from our parent and we add to it as we find additional information.
   List pieces;
 
-  /** This will be set to true if we find a plural or gender. */
+  /// This will be set to true if we find a plural or gender.
   bool foundPluralOrGender = false;
 
   PluralAndGenderVisitor(this.pieces, this.parent) : super();
@@ -426,7 +381,7 @@ class PluralAndGenderVisitor extends SimpleAstVisitor {
     super.visitMethodInvocation(node);
   }
 
-  /** Return true if [node] matches the pattern for plural or gender message.*/
+  /// Return true if [node] matches the pattern for plural or gender message.
   bool looksLikePluralOrGender(MethodInvocation node) {
     if (!["plural", "gender", "select"].contains(node.methodName.name)) {
       return false;
@@ -436,20 +391,16 @@ class PluralAndGenderVisitor extends SimpleAstVisitor {
     return target.token.toString() == "Intl";
   }
 
-  /**
-   * Returns a String describing why the node is invalid, or null if no
-   * reason is found, so it's presumed valid.
-   */
+  /// Returns a String describing why the node is invalid, or null if no
+  /// reason is found, so it's presumed valid.
   String checkValidity(MethodInvocation node) {
     // TODO(alanknight): Add reasonable validity checks.
     return null;
   }
 
-  /**
-   * Create a MainMessage from [node] using the name and
-   * parameters of the last function/method declaration we encountered
-   * and the parameters to the Intl.message call.
-   */
+  /// Create a MainMessage from [node] using the name and
+  /// parameters of the last function/method declaration we encountered
+  /// and the parameters to the Intl.message call.
   Message messageFromMethodInvocation(MethodInvocation node) {
     var message;
     switch (node.methodName.name) {
@@ -502,18 +453,12 @@ class PluralAndGenderVisitor extends SimpleAstVisitor {
   }
 }
 
-/**
- * Exception thrown when we cannot process a message properly.
- */
+/// Exception thrown when we cannot process a message properly.
 class IntlMessageExtractionException implements Exception {
-  /**
-   * A message describing the error.
-   */
+  /// A message describing the error.
   final String message;
 
-  /**
-   * Creates a new exception with an optional error [message].
-   */
+  /// Creates a new exception with an optional error [message].
   const IntlMessageExtractionException([this.message = ""]);
 
   String toString() => "IntlMessageExtractionException: $message";

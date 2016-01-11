@@ -2,10 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/**
- * This contains a reader that accesses data from local files, so it can't
- * be run in the browser.
- */
+/// This contains a reader that accesses data from local files, so it can't
+/// be run in the browser.
 
 library file_data_reader;
 

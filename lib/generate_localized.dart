@@ -2,15 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/**
- * This provides utilities for generating localized versions of
- * messages. It does not stand alone, but expects to be given
- * TranslatedMessage objects and generate code for a particular locale
- * based on them.
- *
- * An example of usage can be found
- * in test/message_extract/generate_from_json.dart
- */
+/// This provides utilities for generating localized versions of
+/// messages. It does not stand alone, but expects to be given
+/// TranslatedMessage objects and generate code for a particular locale
+/// based on them.
+///
+/// An example of usage can be found
+/// in test/message_extract/generate_from_json.dart
 library generate_localized;
 
 import 'intl.dart';
@@ -18,74 +16,54 @@ import 'src/intl_message.dart';
 import 'dart:io';
 import 'package:path/path.dart' as path;
 
-/**
- * If the import path following package: is something else, modify the
- * [intlImportPath] variable to change the import directives in the generated
- * code.
- */
+/// If the import path following package: is something else, modify the
+/// [intlImportPath] variable to change the import directives in the generated
+/// code.
 var intlImportPath = 'intl';
 
-/**
- * If the path to the generated files is something other than the current
- * directory, update the [generatedImportPath] variable to change the import
- * directives in the generated code.
- */
+/// If the path to the generated files is something other than the current
+/// directory, update the [generatedImportPath] variable to change the import
+/// directives in the generated code.
 var generatedImportPath = '';
 
-/**
- * Given a base file, return the file prefixed with the path to import it.
- * By default, that is in the current directory, but if [generatedImportPath]
- * has been set, then use that as a prefix.
- */
+/// Given a base file, return the file prefixed with the path to import it.
+/// By default, that is in the current directory, but if [generatedImportPath]
+/// has been set, then use that as a prefix.
 String importForGeneratedFile(String file) =>
     generatedImportPath.isEmpty ? file : "$generatedImportPath/$file";
 
-/**
- * A list of all the locales for which we have translations. Code that does
- * the reading of translations should add to this.
- */
+/// A list of all the locales for which we have translations. Code that does
+/// the reading of translations should add to this.
 List<String> allLocales = [];
 
-/**
- * If we have more than one set of messages to generate in a particular
- * directory we may want to prefix some to distinguish them.
- */
+/// If we have more than one set of messages to generate in a particular
+/// directory we may want to prefix some to distinguish them.
 String generatedFilePrefix = '';
 
-/**
- * Should we use deferred loading for the generated libraries.
- */
+/// Should we use deferred loading for the generated libraries.
 bool useDeferredLoading = true;
 
-/**
- * This represents a message and its translation. We assume that the translation
- * has some identifier that allows us to figure out the original message it
- * corresponds to, and that it may want to transform the translated text in
- * some way, e.g. to turn whatever format the translation uses for variables
- * into a Dart string interpolation. Specific translation
- * mechanisms are expected to subclass this.
- */
+/// This represents a message and its translation. We assume that the
+/// translation has some identifier that allows us to figure out the original
+/// message it corresponds to, and that it may want to transform the translated
+/// text in some way, e.g. to turn whatever format the translation uses for
+/// variables into a Dart string interpolation. Specific translation mechanisms
+/// are expected to subclass this.
 abstract class TranslatedMessage {
-  /**
-   * The identifier for this message. In the simplest case, this is the name
-   * parameter from the Intl.message call,
-   * but it can be any identifier that this program and the output of the
-   * translation can agree on as identifying a message.
-   */
+  /// The identifier for this message. In the simplest case, this is the name
+  /// parameter from the Intl.message call,
+  /// but it can be any identifier that this program and the output of the
+  /// translation can agree on as identifying a message.
   final String id;
 
-  /** Our translated version of all the [originalMessages]. */
+  /// Our translated version of all the [originalMessages].
   final Message translated;
 
-  /**
-   * The original messages that we are a translation of. There can
-   *  be more than one original message for the same translation.
-   */
+  /// The original messages that we are a translation of. There can
+  ///  be more than one original message for the same translation.
   List<MainMessage> originalMessages;
 
-  /**
-   * For backward compatibility, we still have the originalMessage API.
-   */
+  /// For backward compatibility, we still have the originalMessage API.
   MainMessage get originalMessage => originalMessages.first;
   set originalMessage(MainMessage m) => originalMessages = [m];
 
@@ -96,16 +74,12 @@ abstract class TranslatedMessage {
   toString() => id.toString();
 }
 
-/**
- * We can't use a hyphen in a Dart library name, so convert the locale
- * separator to an underscore.
- */
+/// We can't use a hyphen in a Dart library name, so convert the locale
+/// separator to an underscore.
 String _libraryName(String x) => 'messages_' + x.replaceAll('-', '_');
 
-/**
- * Generate a file <[generated_file_prefix]>_messages_<[locale]>.dart
- * for the [translations] in [locale] and put it in [targetDir].
- */
+/// Generate a file <[generated_file_prefix]>_messages_<[locale]>.dart
+/// for the [translations] in [locale] and put it in [targetDir].
 void generateIndividualMessageFile(String basicLocale,
     Iterable<TranslatedMessage> translations, String targetDir) {
   var result = new StringBuffer();
@@ -158,14 +132,13 @@ void generateIndividualMessageFile(String basicLocale,
 
 bool _hasArguments(MainMessage message) => message.arguments.length != 0;
 
-/**
- *  Simple messages are printed directly in the map of message names to
- *  functions as a call that returns a lambda. e.g.
- *
- *        "foo" : simpleMessage("This is foo"),
- *
- *  This is helpful for the compiler.
- **/
+///  Simple messages are printed directly in the map of message names to
+///  functions as a call that returns a lambda. e.g.
+///
+///        "foo" : simpleMessage("This is foo"),
+///
+///  This is helpful for the compiler.
+/// */
 String _mapReference(MainMessage original, String locale) {
   if (!_hasArguments(original)) {
     // No parameters, can be printed simply.
@@ -176,18 +149,14 @@ String _mapReference(MainMessage original, String locale) {
   }
 }
 
-/**
- * This returns the mostly constant string used in
- * [generateIndividualMessageFile] for the beginning of the file,
- * parameterized by [locale].
- */
+/// This returns the mostly constant string used in
+/// [generateIndividualMessageFile] for the beginning of the file,
+/// parameterized by [locale].
 String prologue(String locale) => """
-/**
- * DO NOT EDIT. This is code generated via package:intl/generate_localized.dart
- * This is a library that provides messages for a $locale locale. All the
- * messages from the main program should be duplicated here with the same
- * function name.
- */
+/// DO NOT EDIT. This is code generated via package:intl/generate_localized.dart
+/// This is a library that provides messages for a $locale locale. All the
+/// messages from the main program should be duplicated here with the same
+/// function name.
 
 import 'package:$intlImportPath/intl.dart';
 import 'package:$intlImportPath/message_lookup_by_library.dart';
@@ -199,10 +168,8 @@ class MessageLookup extends MessageLookupByLibrary {
   get localeName => '$locale';
 """;
 
-/**
- * This section generates the messages_all.dart file based on the list of
- * [allLocales].
- */
+/// This section generates the messages_all.dart file based on the list of
+/// [allLocales].
 String generateMainImportFile() {
   var output = new StringBuffer();
   output.write(mainPrologue);
@@ -234,16 +201,12 @@ String generateMainImportFile() {
   return output.toString();
 }
 
-/**
- * Constant string used in [generateMainImportFile] for the beginning of the
- * file.
- */
+/// Constant string used in [generateMainImportFile] for the beginning of the
+/// file.
 var mainPrologue = """
-/**
- * DO NOT EDIT. This is code generated via package:intl/generate_localized.dart
- * This is a library that looks up messages for specific locales by
- * delegating to the appropriate library.
- */
+/// DO NOT EDIT. This is code generated via package:intl/generate_localized.dart
+/// This is a library that looks up messages for specific locales by
+/// delegating to the appropriate library.
 
 import 'dart:async';
 import 'package:$intlImportPath/message_lookup_by_library.dart';
@@ -252,15 +215,13 @@ import 'package:$intlImportPath/intl.dart';
 
 """;
 
-/**
- * Constant string used in [generateMainImportFile] as the end of the file.
- */
+/// Constant string used in [generateMainImportFile] as the end of the file.
 const closing = """
     default: return null;
   }
 }
 
-/** User programs should call this before using [localeName] for messages.*/
+/// User programs should call this before using [localeName] for messages.
 Future initializeMessages(String localeName) {
   initializeInternalMessageLookup(() => new CompositeMessageLookup());
   var lib = _deferredLibraries[Intl.canonicalizedLocale(localeName)];
