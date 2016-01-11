@@ -24,21 +24,27 @@ class _DateBuilder {
   void setYear(x) {
     year = x;
   }
+
   void setMonth(x) {
     month = x;
   }
+
   void setDay(x) {
     day = x;
   }
+
   void setHour(x) {
     hour = x;
   }
+
   void setMinute(x) {
     minute = x;
   }
+
   void setSecond(x) {
     second = x;
   }
+
   void setFractionalSecond(x) {
     fractionalSecond = x;
   }
@@ -68,7 +74,8 @@ class _DateBuilder {
   _verify(int value, int min, int max, String desc, String originalInput) {
     if (value < min || value > max) {
       throw new FormatException(
-          "Error parsing $originalInput, invalid $desc value: $value");
+          "Error parsing $originalInput, invalid $desc value: $value."
+          " Expected value between $min and $max.");
     }
   }
 
