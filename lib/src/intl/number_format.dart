@@ -171,6 +171,7 @@ class NumberFormat {
   /// use [nameOrSymbol] in place of the default currency name. e.g.
   ///        var eurosInCurrentLocale = new NumberFormat
   ///            .currencyPattern(Intl.defaultLocale, "€");
+  @Deprecated("Use NumberFormat.currency")
   factory NumberFormat.currencyPattern(
       [String locale, String currencyNameOrSymbol]) {
     // If it looks like an iso4217 name, pass as name, otherwise as symbol.

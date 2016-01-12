@@ -11,6 +11,7 @@
   * Introduce new NumberFormat.currency constructor which can explicitly take a
     separate currency name and symbol, as well as the number of decimal digits.
   * Provide a default number of decimal digits per-currency.
+  * Deprecate NumberFormat.currencyPattern.
 
 ## 0.12.5
   * Parse Eras in DateFormat.
