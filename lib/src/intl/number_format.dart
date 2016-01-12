@@ -32,7 +32,8 @@ part of intl;
 /// There are also standard patterns available via the special constructors.
 /// e.g.
 ///       var percent = new NumberFormat.percentFormat("ar");
-///       var eurosInUSFormat = new NumberFormat.currencyPattern("en_US", "€");
+///       var eurosInUSFormat = new NumberFormat.currency(locale: "en_US",
+///           symbol: "€");
 /// There are four such constructors: decimalFormat, percentFormat,
 /// scientificFormat and currencyFormat. However, at the moment,
 /// scientificFormat prints only as equivalent to "#E0" and does not take
@@ -46,13 +47,16 @@ class NumberFormat {
   String _positivePrefix = '';
   String _negativeSuffix = '';
   String _positiveSuffix = '';
+
   /// How many numbers in a group when using punctuation to group digits in
   /// large numbers. e.g. in en_US: "1,000,000" has a grouping size of 3 digits
   /// between commas.
   int _groupingSize = 3;
+
   /// In some formats the last grouping size may be different than previous
   /// ones, e.g. Hindi.
   int _finalGroupingSize = 3;
+
   /// Set to true if the format has explicitly set the grouping size.
   bool _groupingSizeSetExplicitly = false;
   bool _decimalSeparatorAlwaysShown = false;
@@ -88,8 +92,49 @@ class NumberFormat {
   /// Caches the symbols used for our locale.
   NumberSymbols _symbols;
 
-  /// The name (or symbol) of the currency to print.
+  /// The name of the currency to print, in ISO 4217 form.
   String currencyName;
+
+  /// The symbol to be used when formatting this as currency.
+  ///
+  /// For example, "$", "US$", or "€".
+  String _currencySymbol;
+
+  /// The symbol to be used when formatting this as currency.
+  ///
+  /// For example, "$", "US$", or "€".
+  String get currencySymbol => _currencySymbol ?? currencyName;
+
+  /// The number of decimal places to use when formatting.
+  ///
+  /// If this is not explicitly specified in the constructor, then for
+  /// currencies we use the default value for the currency if the name is given,
+  /// otherwise we use the value from the pattern for the locale.
+  ///
+  /// So, for example,
+  ///      new NumberFormat.currency(name: 'USD', decimalDigits: 7)
+  /// will format with 7 decimal digits, because that's what we asked for. But
+  ///       new NumberFormat.currency(locale: 'en_US', name: 'JPY')
+  /// will format with zero, because that's the default for JPY, and the
+  /// currency's default takes priority over the locale's default.
+  ///       new NumberFormat.currency(locale: 'en_US')
+  /// will format with two, which is the default for that locale.
+  ///
+  int get decimalDigits => _decimalDigits;
+
+  int _decimalDigits;
+
+  /// For currencies, the default number of decimal places to use in
+  /// formatting. Defaults to two for non-currencies or currencies where it's
+  /// not specified.
+  int get _defaultDecimalDigits =>
+      currencyFractionDigits[currencyName.toUpperCase()] ??
+          currencyFractionDigits['DEFAULT'];
+
+  /// If we have a currencyName, use that currencies decimal digits, unless
+  /// we've explicitly specified some other number.
+  bool get _overridesDecimalDigits =>
+      decimalDigits != null || currencyName != symbols.DEF_CURRENCY_CODE;
 
   /// Transient internal state in which to build up the result of the format
   /// operation. We can have this be just an instance variable because Dart is
@@ -115,22 +160,77 @@ class NumberFormat {
   NumberFormat.scientificPattern([String locale])
       : this._forPattern(locale, (x) => x.SCIENTIFIC_PATTERN);
 
-  /// Create a number format that prints as CURRENCY_PATTERN. If provided,
+  /// A regular expression to validate currency names are exactly three
+  /// alphabetic characters.
+  static final _checkCurrencyName = new RegExp(r'^[a-zA-Z]{3}$');
+
+  /// Create a number format that prints as CURRENCY_PATTERN. (Deprecated:
+  /// prefer NumberFormat.currency)
+  ///
+  /// If provided,
   /// use [nameOrSymbol] in place of the default currency name. e.g.
   ///        var eurosInCurrentLocale = new NumberFormat
   ///            .currencyPattern(Intl.defaultLocale, "€");
-  NumberFormat.currencyPattern([String locale, String nameOrSymbol])
-      : this._forPattern(locale, (x) => x.CURRENCY_PATTERN, nameOrSymbol);
+  factory NumberFormat.currencyPattern(
+      [String locale, String currencyNameOrSymbol]) {
+    // If it looks like an iso4217 name, pass as name, otherwise as symbol.
+    if (currencyNameOrSymbol != null &&
+        _checkCurrencyName.hasMatch(currencyNameOrSymbol)) {
+      return new NumberFormat.currency(
+          locale: locale, name: currencyNameOrSymbol);
+    } else {
+      return new NumberFormat.currency(
+          locale: locale, symbol: currencyNameOrSymbol);
+    }
+  }
+
+  /// Create a [NumberFormat] that formats using the locale's CURRENCY_PATTERN.
+  ///
+  /// If [locale] is not specified, it will use the current default locale.
+  ///
+  /// If [name] is specified, the currency with that ISO 4217 name will be used.
+  /// Otherwise we will use the default currency name for the current locale. If
+  /// no [symbol] is specified, we will use the currency name in the formatted
+  /// result. e.g.
+  ///      var f = new NumberFormat.currency(locale: 'en_US', name: 'EUR')
+  /// will format currency like "EUR1.23". If we did not specify the name, it
+  /// would format like "USD1.23".
+  ///
+  /// If [symbol] is used, then that symbol will be used in formatting instead
+  /// of the name. e.g.
+  ///      var eurosInCurrentLocale = new NumberFormat.currency(symbol: "€");
+  /// will format like "€1.23". Otherwise it will use the currency name.
+  /// If this is not explicitly specified in the constructor, then for
+  /// currencies we use the default value for the currency if the name is given,
+  ///  otherwise we use the value from the pattern for the locale.
+  ///
+  /// If [decimalDigits] is specified, numbers will format with that many digits
+  /// after the decimal place. If it's not, they will use the default for the
+  /// currency in [name], and the default currency for [locale] if the currency
+  /// name is not specified. e.g.
+  ///       new NumberFormat.currency(name: 'USD', decimalDigits: 7)
+  /// will format with 7 decimal digits, because that's what we asked for. But
+  ///       new NumberFormat.currency(locale: 'en_US', name: 'JPY')
+  /// will format with zero, because that's the default for JPY, and the
+  /// currency's default takes priority over the locale's default.
+  ///       new NumberFormat.currency(locale: 'en_US')
+  /// will format with two, which is the default for that locale.
+  // TODO(alanknight): Should we allow decimalDigits on other numbers.
+  NumberFormat.currency(
+      {String locale, String name, String symbol, int decimalDigits})
+      : this._forPattern(locale, (x) => x.CURRENCY_PATTERN,
+            name: name, currencySymbol: symbol, decimalDigits: decimalDigits);
 
   /// Create a number format that prints in a pattern we get from
   /// the [getPattern] function using the locale [locale].
   NumberFormat._forPattern(String locale, Function getPattern,
-      [this.currencyName])
+      {name, currencySymbol, decimalDigits})
       : _locale = Intl.verifiedLocale(locale, localeExists) {
+    this._currencySymbol = currencySymbol;
+    this._decimalDigits = decimalDigits;
     _symbols = numberFormatSymbols[_locale];
-    if (currencyName == null) {
-      currencyName = _symbols.DEF_CURRENCY_CODE;
-    }
+    currencyName = name ?? _symbols.DEF_CURRENCY_CODE;
+
     _setPattern(getPattern(_symbols));
   }
 
@@ -437,8 +537,14 @@ class NumberFormat {
     if (newPattern == null) return;
     // Make spaces non-breaking
     _pattern = newPattern.replaceAll(' ', '\u00a0');
-    var parser = new _NumberFormatParser(this, newPattern, currencyName);
+    var parser = new _NumberFormatParser(
+        this, newPattern, currencySymbol, decimalDigits);
     parser.parse();
+    if (_overridesDecimalDigits) {
+      var digits = decimalDigits ?? _defaultDecimalDigits;
+      minimumFractionDigits = digits;
+      maximumFractionDigits = digits;
+    }
   }
 
   String toString() => "NumberFormat($_locale, $_pattern)";
@@ -475,9 +581,11 @@ class _NumberParser {
   /// Did we see something that indicates this is, or at least might be,
   /// a negative number.
   bool gotNegative = false;
+
   /// Did we see the required positive suffix at the end. Should
   /// match [gotPositive].
   bool gotPositiveSuffix = false;
+
   /// Did we see the required negative suffix at the end. Should
   /// match [gotNegative].
   bool gotNegativeSuffix = false;
@@ -695,11 +803,16 @@ class _NumberFormatParser {
   final _StringIterator pattern;
 
   /// We can be passed a specific currency symbol, regardless of the locale.
-  String currencyName;
+  String currencySymbol;
+
+  /// We can be given a specific number of decimal places, overriding the
+  /// default.
+  final int decimalDigits;
 
   /// Create a new [_NumberFormatParser] for a particular [NumberFormat] and
   /// [input] pattern.
-  _NumberFormatParser(this.format, input, this.currencyName)
+  _NumberFormatParser(
+      this.format, input, this.currencySymbol, this.decimalDigits)
       : pattern = _iterator(input) {
     pattern.moveNext();
   }
@@ -775,7 +888,7 @@ class _NumberFormatParser {
           return false;
         case _PATTERN_CURRENCY_SIGN:
           // TODO(alanknight): Handle the local/global/portable currency signs
-          affix.write(currencyName);
+          affix.write(currencySymbol);
           break;
         case _PATTERN_PERCENT:
           if (format._multiplier != 1 && format._multiplier != _PERCENT_SCALE) {
@@ -1034,16 +1147,16 @@ class _MicroMoney implements MicroMoney {
 
   _MicroMoney operator ~/(divisor) {
     if (divisor is! int) {
-      throw new ArgumentError.value(divisor, 'divisor',
-          '_MicroMoney ~/ only supports int arguments.');
+      throw new ArgumentError.value(
+          divisor, 'divisor', '_MicroMoney ~/ only supports int arguments.');
     }
     return new _MicroMoney((_integerPart ~/ divisor) * _multiplier);
   }
 
   _MicroMoney operator *(other) {
     if (other is! int) {
-    throw new ArgumentError.value(other, 'other',
-        '_MicroMoney * only supports int arguments.');
+      throw new ArgumentError.value(
+          other, 'other', '_MicroMoney * only supports int arguments.');
     }
     return new _MicroMoney(
         (_integerPart * other) * _multiplier + (_fractionPart * other));
@@ -1053,8 +1166,8 @@ class _MicroMoney implements MicroMoney {
   /// not division by another MicroMoney
   _MicroMoney remainder(other) {
     if (other is! int) {
-      throw new ArgumentError.value(other, 'other',
-          '_MicroMoney.remainder only supports int arguments.');
+      throw new ArgumentError.value(
+          other, 'other', '_MicroMoney.remainder only supports int arguments.');
     }
     return new _MicroMoney(_micros.remainder(other * _multiplier));
   }

@@ -62,7 +62,7 @@ var microMoneyValues = {
 main() {
   test('int64', () {
     int64Values.forEach((number, expected) {
-      var currency = new NumberFormat.currencyPattern().format(number);
+      var currency = new NumberFormat.currency().format(number);
       expect(currency, expected.first);
       var percent = new NumberFormat.percentPattern().format(number);
       expect(percent, expected[1]);
@@ -71,7 +71,7 @@ main() {
 
   test('int32', () {
     int32Values.forEach((number, expected) {
-      var currency = new NumberFormat.currencyPattern().format(number);
+      var currency = new NumberFormat.currency().format(number);
       expect(currency, expected.first);
       var percent = new NumberFormat.percentPattern().format(number);
       expect(percent, expected[1]);

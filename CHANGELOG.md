@@ -8,6 +8,9 @@
   * Switch all the source to use line comments.
   * Slight improvement to the error message when parsing dates has an invalid
     value.
+  * Introduce new NumberFormat.currency constructor which can explicitly take a
+    separate currency name and symbol, as well as the number of decimal digits.
+  * Provide a default number of decimal digits per-currency.
 
 ## 0.12.5
   * Parse Eras in DateFormat.

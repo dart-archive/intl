@@ -81,35 +81,11 @@ main() {
     var testFormats = standardFormats(locale);
     var testLength = (testFormats.length * 3) + 1;
     var list = mainList.take(testLength).iterator;
+    list.moveNext();
     mainList = mainList.skip(testLength);
-    var nextLocaleFromList = (list..moveNext()).current;
-    test("Test against ICU data for $locale", () {
-      expect(locale, nextLocaleFromList);
-      for (var format in testFormats) {
-        var formatted = format.format(123);
-        var negative = format.format(-12.3);
-        var large = format.format(1234567890);
-        var expected = (list..moveNext()).current;
-        expect(formatted, expected);
-        var expectedNegative = (list..moveNext()).current;
-        // Some of these results from CLDR have a leading LTR/RTL indicator,
-        // which we don't want. We also treat the difference between Unicode
-        // minus sign (2212) and hyphen-minus (45) as not significant.
-        expectedNegative = expectedNegative
-            .replaceAll("\u200e", "")
-            .replaceAll("\u200f", "")
-            .replaceAll("\u2212", "-");
-        expect(negative, expectedNegative);
-        var expectedLarge = (list..moveNext()).current;
-        expect(large, expectedLarge);
-        var readBack = format.parse(formatted);
-        expect(readBack, 123);
-        var readBackNegative = format.parse(negative);
-        expect(readBackNegative, -12.3);
-        var readBackLarge = format.parse(large);
-        expect(readBackLarge, 1234567890);
-      }
-    });
+    if (locale == list.current) {
+      testAgainstIcu(locale, testFormats, list);
+    }
   }
 
   test('Simple set of numbers', () {
@@ -162,7 +138,7 @@ main() {
 
   test('Explicit currency name', () {
     var amount = 1000000.32;
-    var usConvention = new NumberFormat.currencyPattern('en_US', '€');
+    var usConvention = new NumberFormat.currency(locale: 'en_US', symbol: '€');
     var formatted = usConvention.format(amount);
     expect(formatted, '€1,000,000.32');
     var readBack = usConvention.parse(formatted);
@@ -175,7 +151,7 @@ main() {
     expect(readBack, amount);
 
     /// Verify we can leave off the currency and it gets filled in.
-    var plainSwiss = new NumberFormat.currencyPattern('de_CH');
+    var plainSwiss = new NumberFormat.currency(locale: 'de_CH');
     formatted = plainSwiss.format(amount);
     expect(formatted, r"CHF" + nbsp + "1'000'000.32");
     readBack = plainSwiss.parse(formatted);
@@ -198,10 +174,74 @@ main() {
   });
 
   test('Unparseable', () {
-    var format = new NumberFormat.currencyPattern();
+    var format = new NumberFormat.currency();
     expect(() => format.parse("abcdefg"), throwsFormatException);
     expect(() => format.parse(""), throwsFormatException);
     expect(() => format.parse("1.0zzz"), throwsFormatException);
     expect(() => format.parse("-∞+1"), throwsFormatException);
+  });
+
+  var digitsCheck = {
+    0: "@4",
+    1: "@4.3",
+    2: "@4.32",
+    3: "@4.322",
+    4: "@4.3220",
+  };
+
+  test('Decimal digits', () {
+    var amount = 4.3219876;
+    for (var digits in digitsCheck.keys) {
+      var f = new NumberFormat.currency(
+          locale: 'en_US', symbol: '@', decimalDigits: digits);
+      var formatted = f.format(amount);
+      expect(formatted, digitsCheck[digits]);
+    }
+    var defaultFormat = new NumberFormat.currency(locale: 'en_US', symbol: '@');
+    var formatted = defaultFormat.format(amount);
+    expect(formatted, digitsCheck[2]);
+
+    var jpy =
+        new NumberFormat.currency(locale: 'en_US', name: 'JPY', symbol: '@');
+    formatted = jpy.format(amount);
+    expect(formatted, digitsCheck[0]);
+
+    var jpyLower =
+        new NumberFormat.currency(locale: 'en_US', name: 'jpy', symbol: '@');
+    formatted = jpyLower.format(amount);
+    expect(formatted, digitsCheck[0]);
+
+    var tnd = new NumberFormat.currency(name: 'TND', symbol: '@');
+    formatted = tnd.format(amount);
+    expect(formatted, digitsCheck[3]);
+  });
+}
+
+void testAgainstIcu(locale, List<NumberFormat> testFormats, list) {
+  test("Test against ICU data for $locale", () {
+    for (var format in testFormats) {
+      var formatted = format.format(123);
+      var negative = format.format(-12.3);
+      var large = format.format(1234567890);
+      var expected = (list..moveNext()).current;
+      expect(formatted, expected);
+      var expectedNegative = (list..moveNext()).current;
+      // Some of these results from CLDR have a leading LTR/RTL indicator,
+      // which we don't want. We also treat the difference between Unicode
+      // minus sign (2212) and hyphen-minus (45) as not significant.
+      expectedNegative = expectedNegative
+          .replaceAll("\u200e", "")
+          .replaceAll("\u200f", "")
+          .replaceAll("\u2212", "-");
+      expect(negative, expectedNegative);
+      var expectedLarge = (list..moveNext()).current;
+      expect(large, expectedLarge);
+      var readBack = format.parse(formatted);
+      expect(readBack, 123);
+      var readBackNegative = format.parse(negative);
+      expect(readBackNegative, -12.3);
+      var readBackLarge = format.parse(large);
+      expect(readBackLarge, 1234567890);
+    }
   });
 }
