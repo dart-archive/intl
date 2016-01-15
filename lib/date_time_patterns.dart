@@ -13,9 +13,8 @@ library date_time_patterns;
 /// Returns a Map from locale names to another Map that goes from skeletons
 /// to the locale-specific formatting patterns.
 /// Internal use only. Call initializeDateFormatting instead.
-/// */
 Map dateTimePatternMap() => const {
-/// Extended set of localized date/time patterns for locale af.
+      /// Extended set of localized date/time patterns for locale af.
       'af': const {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY

@@ -3222,7 +3222,12 @@ Map dateTimeSymbolMap() => {
             '4th quarter'
           ],
           AMPMS: const ['am', 'pm'],
-          DATEFORMATS: const ['EEEE, d MMMM y', 'dMMMM,y', 'dMMM,y', 'd/M/yy'],
+          DATEFORMATS: const [
+            'EEEE, d MMMM y',
+            'd MMMM y',
+            'd MMM y',
+            'd/M/yy'
+          ],
           TIMEFORMATS: const [
             'h:mm:ss a zzzz',
             'h:mm:ss a z',
