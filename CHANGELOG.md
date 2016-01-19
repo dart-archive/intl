@@ -1,4 +1,5 @@
 ## 0.12.7
+ * Update SDK dependency to 1.12.0, to reflect use of null-aware operators.
 
 ## 0.12.6
   * Update links in README.md to point to current dartdocs.
