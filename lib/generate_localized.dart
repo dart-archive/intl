@@ -121,7 +121,7 @@ void generateIndividualMessageFile(String basicLocale,
       .expand((translation) => translation.originalMessages)
       .map((original) =>
           '    "${original.name}" : ${_mapReference(original, locale)}');
-  result..write(entries.join(",\n"))..write("\n  };\n}");
+  result..write(entries.join(",\n"))..write("\n  };\n}\n");
 
   // To preserve compatibility, we don't use the canonical version of the locale
   // in the file name.
@@ -153,10 +153,10 @@ String _mapReference(MainMessage original, String locale) {
 /// [generateIndividualMessageFile] for the beginning of the file,
 /// parameterized by [locale].
 String prologue(String locale) => """
-/// DO NOT EDIT. This is code generated via package:intl/generate_localized.dart
-/// This is a library that provides messages for a $locale locale. All the
-/// messages from the main program should be duplicated here with the same
-/// function name.
+// DO NOT EDIT. This is code generated via package:intl/generate_localized.dart
+// This is a library that provides messages for a $locale locale. All the
+// messages from the main program should be duplicated here with the same
+// function name.
 
 import 'package:$intlImportPath/intl.dart';
 import 'package:$intlImportPath/message_lookup_by_library.dart';
@@ -164,8 +164,8 @@ import 'package:$intlImportPath/message_lookup_by_library.dart';
 final messages = new MessageLookup();
 
 class MessageLookup extends MessageLookupByLibrary {
-
   get localeName => '$locale';
+
 """;
 
 /// This section generates the messages_all.dart file based on the list of
@@ -181,12 +181,12 @@ String generateMainImportFile() {
     output.write("as ${_libraryName(locale)};\n");
   }
   output.write("\n");
-  output.write("\nMap<String, Function> _deferredLibraries = {\n");
+  output.write("Map<String, Function> _deferredLibraries = {\n");
   for (var rawLocale in allLocales) {
     var locale = Intl.canonicalizedLocale(rawLocale);
     var loadOperation = (useDeferredLoading)
-        ? "  '$locale' : () => ${_libraryName(locale)}.loadLibrary(),\n"
-        : "  '$locale' : () => new Future.value(null),\n";
+        ? "  '$locale': () => ${_libraryName(locale)}.loadLibrary(),\n"
+        : "  '$locale': () => new Future.value(null),\n";
     output.write(loadOperation);
   }
   output.write("};\n");
@@ -195,7 +195,7 @@ String generateMainImportFile() {
   for (var rawLocale in allLocales) {
     var locale = Intl.canonicalizedLocale(rawLocale);
     output.write(
-        "    case '$locale' : return ${_libraryName(locale)}.messages;\n");
+        "    case '$locale':\n      return ${_libraryName(locale)}.messages;\n");
   }
   output.write(closing);
   return output.toString();
@@ -204,20 +204,21 @@ String generateMainImportFile() {
 /// Constant string used in [generateMainImportFile] for the beginning of the
 /// file.
 var mainPrologue = """
-/// DO NOT EDIT. This is code generated via package:intl/generate_localized.dart
-/// This is a library that looks up messages for specific locales by
-/// delegating to the appropriate library.
+// DO NOT EDIT. This is code generated via package:intl/generate_localized.dart
+// This is a library that looks up messages for specific locales by
+// delegating to the appropriate library.
 
 import 'dart:async';
+
+import 'package:$intlImportPath/intl.dart';
 import 'package:$intlImportPath/message_lookup_by_library.dart';
 import 'package:$intlImportPath/src/intl_helpers.dart';
-import 'package:$intlImportPath/intl.dart';
 
 """;
 
 /// Constant string used in [generateMainImportFile] as the end of the file.
 const closing = """
-    default: return null;
+    default:\n      return null;
   }
 }
 
