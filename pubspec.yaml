@@ -12,6 +12,7 @@ dependencies:
   path: '>=0.9.0 <2.0.0'
   petitparser: '>=1.1.3 <2.0.0'
 dev_dependencies:
+  barback: ^0.15.2
   fixnum: '>=0.9.0 <0.11.0'
   unittest: '>=0.10.0 <0.12.0'
 transformers:
@@ -29,3 +30,6 @@ transformers:
     - test/message_extraction/message_extraction_test.dart
     - test/message_extraction/really_fail_extraction_test.dart
     - test/intl_message_basic_example_test.dart # invalid import under pub's package-layout
+- intl:
+    $include:
+    - test/messages_with_transformer/main.dart

@@ -20,12 +20,14 @@ library generate_from_arb;
 
 import 'dart:convert';
 import 'dart:io';
-import 'package:intl/extract_messages.dart';
-import 'package:intl/src/icu_parser.dart';
-import 'package:intl/src/intl_message.dart';
-import 'package:intl/generate_localized.dart';
-import 'package:path/path.dart' as path;
+
 import 'package:args/args.dart';
+import 'package:path/path.dart' as path;
+
+import 'package:intl/extract_messages.dart';
+import 'package:intl/generate_localized.dart';
+import 'package:intl/src/intl_message.dart';
+import 'package:intl/src/icu_parser.dart';
 
 /// Keeps track of all the messages we have processed so far, keyed by message
 /// name.
@@ -63,9 +65,11 @@ main(List<String> args) {
   }
 
   // We're re-parsing the original files to find the corresponding messages,
-  // so if there are warnings extracting the messages, suppress them.
+  // so if there are warnings extracting the messages, suppress them, and
+  // always pretend the transformer was in use so we don't fail for missing
+  // names/args.
   suppressWarnings = true;
-  var allMessages = dartFiles.map((each) => parseFile(new File(each)));
+  var allMessages = dartFiles.map((each) => parseFile(new File(each), true));
 
   messages = new Map();
   for (var eachMap in allMessages) {

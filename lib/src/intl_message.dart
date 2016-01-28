@@ -65,8 +65,7 @@ abstract class Message {
 
   String _evaluateAsString(expression) {
     var result = expression.accept(_evaluator);
-    if (result == ConstantEvaluator.NOT_A_CONSTANT ||
-        result is! String) {
+    if (result == ConstantEvaluator.NOT_A_CONSTANT || result is! String) {
       return null;
     } else {
       return result;
@@ -74,11 +73,12 @@ abstract class Message {
   }
 
   String checkValidity(MethodInvocation node, List arguments, String outerName,
-      FormalParameterList outerArgs) {
+      FormalParameterList outerArgs,
+      {bool nameAndArgsGenerated: false}) {
     var hasArgs = arguments.any(
         (each) => each is NamedExpression && each.name.label.name == 'args');
     var hasParameters = !outerArgs.parameters.isEmpty;
-    if (!hasArgs && hasParameters) {
+    if (!nameAndArgsGenerated && !hasArgs && hasParameters) {
       return "The 'args' argument for Intl.message must be specified";
     }
 
@@ -86,30 +86,26 @@ abstract class Message {
         (eachArg) =>
             eachArg is NamedExpression && eachArg.name.label.name == 'name',
         orElse: () => null);
-    if (messageName == null) {
+    if (!nameAndArgsGenerated && messageName == null) {
       return "The 'name' argument for Intl.message must be specified";
     }
-    var givenName = _evaluateAsString(messageName.expression);
-    if (givenName == null) {
+
+    var givenName =
+        messageName == null ? null : _evaluateAsString(messageName.expression);
+    if (messageName != null && givenName == null) {
       return "The 'name' argument for Intl.message must be a string literal";
     }
     var hasOuterName = outerName != null;
-    var simpleMatch = outerName == givenName;
-    ClassDeclaration classNode(n) {
-      if (n == null) return null;
-      if (n is ClassDeclaration) return n;
-      return classNode(n.parent);
-    }
-    var classDeclaration = classNode(node);
-    var classPlusMethod = classDeclaration == null
-        ? null
-        : "${classDeclaration.name.token.toString()}_$outerName";
+    var simpleMatch = outerName == givenName || givenName == null;
+
+    var classPlusMethod = Message.classPlusMethodName(node, outerName);
     var classMatch = classPlusMethod != null && (givenName == classPlusMethod);
     if (!(hasOuterName && (simpleMatch || classMatch))) {
       return "The 'name' argument for Intl.message must match either "
           "the name of the containing function or <className>_<methodName> ("
-          "'$givenName' vs. '$outerName')";
+          "was '$givenName' but must be '$outerName'  or '$classPlusMethod')";
     }
+
     var simpleArguments = arguments.where((each) => each is NamedExpression &&
         ["desc", "name"].contains(each.name.label.name));
     var values = simpleArguments.map((each) => each.expression).toList();
@@ -119,6 +115,23 @@ abstract class Message {
       }
     }
     return null;
+  }
+
+  /// Return the name of the enclosing class (if any) plus method name, or null
+  /// if there's no enclosing class.
+  ///
+  /// For a method foo in class Bar we allow either "foo" or "Bar_Foo" as the
+  /// name.
+  static String classPlusMethodName(MethodInvocation node, String outerName) {
+    ClassDeclaration classNode(n) {
+      if (n == null) return null;
+      if (n is ClassDeclaration) return n;
+      return classNode(n.parent);
+    }
+    var classDeclaration = classNode(node);
+    return classDeclaration == null
+        ? null
+        : "${classDeclaration.name.token}_$outerName";
   }
 
   /// Turn a value, typically read from a translation file or created out of an
@@ -145,7 +158,8 @@ abstract class Message {
   /// code.
   String toCode();
 
-  /// Escape the string for use in generated Dart code and validate that it
+  /// Escape the string for use in generated Dart code and
+  /// optionally validate that it
   /// doesn't  doesn't contain any illegal interpolations. We only allow
   /// simple variables ("$foo", but not "${foo}") and Intl.gender/plural
   /// calls.
@@ -165,13 +179,16 @@ abstract class Message {
     _escape(String s) => (escapes[s] == null) ? s : escapes[s];
 
     var escaped = value.splitMapJoin("", onNonMatch: _escape);
+    return disallowInvalidInterpolations(escaped);
+  }
 
-    // We don't allow any ${} expressions, only $variable to avoid malicious
-    // code. Disallow any usage of "${". If that makes a false positive
-    // on a translation that legitimately contains "\\${" or other variations,
-    // we'll live with that rather than risk a false negative.
+  /// Disallow ${} expressions, only allow $variable so as to avoid malicious
+  /// code. Disallow any usage of "${". If that makes a false positive
+  /// on a translation that legitimately contains "\\${" or other variations,
+  /// we'll live with that rather than risk a false negative.
+  String disallowInvalidInterpolations(String input) {
     var validInterpolations = new RegExp(r"(\$\w+)|(\${\w+})");
-    var validMatches = validInterpolations.allMatches(escaped);
+    var validMatches = validInterpolations.allMatches(input);
     escapeInvalidMatches(Match m) {
       var valid = validMatches.any((x) => x.start == m.start);
       if (valid) {
@@ -180,7 +197,7 @@ abstract class Message {
         return "\\${m.group(0)}";
       }
     }
-    return escaped.replaceAllMapped("\$", escapeInvalidMatches);
+    return input.replaceAllMapped("\$", escapeInvalidMatches);
   }
 
   /// Expand this string out into a printed form. The function [f] will be
@@ -301,14 +318,22 @@ class MainMessage extends ComplexMessage {
   /// printing it for See [expanded], [toCode].
   List<Message> messagePieces = [];
 
+  /// The position in the source at which this message starts.
+  int sourcePosition;
+
+  /// The position in the source at which this message ends.
+  int endPosition;
+
   /// Verify that this looks like a correct Intl.message invocation.
   String checkValidity(MethodInvocation node, List arguments, String outerName,
-      FormalParameterList outerArgs) {
+      FormalParameterList outerArgs,
+      {nameAndArgsGenerated: false}) {
     if (arguments.first is! StringLiteral) {
       return "Intl.message messages must be string literals";
     }
 
-    return super.checkValidity(node, arguments, outerName, outerArgs);
+    return super.checkValidity(node, arguments, outerName, outerArgs,
+        nameAndArgsGenerated: nameAndArgsGenerated);
   }
 
   void addPieces(List<Message> messages) {
@@ -338,6 +363,9 @@ class MainMessage extends ComplexMessage {
 
   /// The arguments list from the Intl.message call.
   List arguments;
+
+  /// The locale argument from the Intl.message call
+  String locale;
 
   /// When generating code, we store translations for each locale
   /// associated with the original message.
@@ -382,6 +410,24 @@ class MainMessage extends ComplexMessage {
     return out.toString();
   }
 
+  turnInterpolationBackIntoStringForm(Message message, chunk) {
+    if (chunk is String) return escapeAndValidateString(chunk);
+    if (chunk is int) return r"${" + message.arguments[chunk] + "}";
+    if (chunk is Message) return chunk.toCode();
+    throw new ArgumentError.value(chunk, "Unexpected value in Intl.message");
+  }
+
+  String toOriginalCode() {
+    var out = new StringBuffer()..write('Intl.message("');
+    out.write(expanded(turnInterpolationBackIntoStringForm));
+    out.write('", ');
+    out.write('name: "$name", ');
+    out.write(locale == null ? "" : 'locale: "$locale", ');
+    out.write("args: [${arguments.join(', ')}]");
+    out.write(")");
+    return out.toString();
+  }
+
   /// The AST node will have the attribute names as strings, so we translate
   /// between those and the fields of the class.
   void operator []=(attributeName, value) {
@@ -401,6 +447,9 @@ class MainMessage extends ComplexMessage {
         return;
       case "meaning":
         meaning = value;
+        return;
+      case "locale":
+        locale = value;
         return;
       default:
         return;
@@ -504,6 +553,7 @@ abstract class SubMessage extends ComplexMessage {
 /// with "male", "female", and "other" as the possible options.
 class Gender extends SubMessage {
   Gender();
+
   /// Create a new Gender providing [mainArgument] and the list of possible
   /// clauses. Each clause is expected to be a list whose first element is a
   /// variable name and whose second element is either a [String] or
@@ -640,6 +690,7 @@ class Plural extends SubMessage {
 /// with arbitrary options.
 class Select extends SubMessage {
   Select();
+
   /// Create a new [Select] providing [mainArgument] and the list of possible
   /// clauses. Each clause is expected to be a list whose first element is a
   /// variable name and whose second element is either a String or

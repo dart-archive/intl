@@ -163,6 +163,8 @@ import 'package:$intlImportPath/message_lookup_by_library.dart';
 
 final messages = new MessageLookup();
 
+final _keepAnalysisHappy = Intl.defaultLocale;
+
 class MessageLookup extends MessageLookupByLibrary {
   get localeName => '$locale';
 

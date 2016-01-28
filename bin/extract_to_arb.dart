@@ -10,13 +10,16 @@ library extract_to_arb;
 
 import 'dart:convert';
 import 'dart:io';
-import 'package:intl/extract_messages.dart';
-import 'package:path/path.dart' as path;
-import 'package:intl/src/intl_message.dart';
+
 import 'package:args/args.dart';
+import 'package:path/path.dart' as path;
+
+import 'package:intl/extract_messages.dart';
+import 'package:intl/src/intl_message.dart';
 
 main(List<String> args) {
   var targetDir;
+  bool transformer;
   var parser = new ArgParser();
   parser.addFlag("suppress-warnings",
       defaultsTo: false,
@@ -30,7 +33,12 @@ main(List<String> args) {
       defaultsTo: true,
       callback: (x) => allowEmbeddedPluralsAndGenders = x,
       help: 'Allow plurals and genders to be embedded as part of a larger '
-      'string, otherwise they must be at the top level.');
+          'string, otherwise they must be at the top level.');
+  parser.addFlag("transformer",
+      defaultsTo: false,
+      callback: (x) => transformer = x,
+      help: "Assume that the transformer is in use, so name and args "
+          "don't need to be specified for messages.");
 
   parser.addOption("output-dir",
       defaultsTo: '.',
@@ -45,7 +53,7 @@ main(List<String> args) {
   }
   var allMessages = {};
   for (var arg in args.where((x) => x.contains(".dart"))) {
-    var messages = parseFile(new File(arg));
+    var messages = parseFile(new File(arg), transformer);
     messages.forEach((k, v) => allMessages.addAll(toARB(v)));
   }
   var file = new File(path.join(targetDir, 'intl_messages.arb'));
@@ -116,7 +124,8 @@ String turnInterpolationIntoICUForm(Message message, chunk,
   }
   if (chunk is Message) {
     return chunk.expanded((message, chunk) => turnInterpolationIntoICUForm(
-        message, chunk, shouldEscapeICU: shouldEscapeICU));
+        message, chunk,
+        shouldEscapeICU: shouldEscapeICU));
   }
   throw new FormatException("Illegal interpolation: $chunk");
 }

@@ -50,34 +50,38 @@ bool allowEmbeddedPluralsAndGenders = true;
 
 /// Parse the source of the Dart program file [file] and return a Map from
 /// message names to [IntlMessage] instances.
-Map<String, MainMessage> parseFile(File file) {
+///
+/// If [transformer] is true, assume the transformer will supply any "name"
+/// and "args" parameters required in Intl.message calls.
+Map<String, MainMessage> parseFile(File file, [transformer = false]) {
   try {
-    _root = parseDartFile(file.path);
+    root = parseDartFile(file.path);
   } on AnalyzerErrorGroup catch (e) {
     print("Error in parsing ${file.path}, no messages extracted.");
     print("  $e");
     return {};
   }
-  _origin = file.path;
+  origin = file.path;
   var visitor = new MessageFindingVisitor();
-  _root.accept(visitor);
+  visitor.generateNameAndArgs = transformer;
+  root.accept(visitor);
   return visitor.messages;
 }
 
 /// The root of the compilation unit, and the first node we visit. We hold
 /// on to this for error reporting, as it can give us line numbers of other
 /// nodes.
-CompilationUnit _root;
+CompilationUnit root;
 
 /// An arbitrary string describing where the source code came from. Most
 /// obviously, this could be a file path. We use this when reporting
 /// invalid messages.
-String _origin;
+String origin;
 
 String _reportErrorLocation(AstNode node) {
   var result = new StringBuffer();
-  if (_origin != null) result.write("    from $_origin");
-  var info = _root.lineInfo;
+  if (origin != null) result.write("    from $origin");
+  var info = root.lineInfo;
   if (info != null) {
     var line = info.getLocation(node.offset);
     result.write("    line: ${line.lineNumber}, column: ${line.columnNumber}");
@@ -94,6 +98,10 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
 
   /// Accumulates the messages we have found, keyed by name.
   final Map<String, MainMessage> messages = new Map<String, MainMessage>();
+
+  /// Should we generate the name and arguments from the function definition,
+  /// meaning we're running in the transformer.
+  bool generateNameAndArgs = false;
 
   /// We keep track of the data from the last MethodDeclaration,
   /// FunctionDeclaration or FunctionExpression that we saw on the way down,
@@ -134,7 +142,8 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
     }
     var arguments = node.argumentList.arguments;
     var instance = _expectedInstance(node.methodName.name);
-    return instance.checkValidity(node, arguments, name, parameters);
+    return instance.checkValidity(node, arguments, name, parameters,
+        nameAndArgsGenerated: generateNameAndArgs);
   }
 
   /// Record the parameters of the function or method declaration we last
@@ -205,7 +214,15 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
   MainMessage _messageFromNode(
       MethodInvocation node, Function extract, Function setAttribute) {
     var message = new MainMessage();
-    message.name = name;
+    message.sourcePosition = node.offset;
+    message.endPosition = node.end;
+    if (generateNameAndArgs) {
+      // Always try for class_method if this is a class method and transforming.
+      // It will be overwritten below if the message specifies it explicitly.
+      message.name = Message.classPlusMethodName(node, name) ?? name;
+    } else {
+      message.name = name;
+    }
     message.arguments =
         parameters.parameters.map((x) => x.identifier.name).toList();
     var arguments = node.argumentList.arguments;
@@ -271,7 +288,7 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
       return message;
     }
 
-    void setAttribute(MainMessage msg, String fieldName, String fieldValue) {
+    void setAttribute(MainMessage msg, String fieldName, fieldValue) {
       if (msg.attributeNames.contains(fieldName)) {
         msg[fieldName] = fieldValue;
       }

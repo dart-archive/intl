@@ -96,13 +96,20 @@ This provides, in addition to the basic message string, a name, a
 description for translators, the arguments used in the message, and
 examples. The `name` and `args` parameters are required, and must
 match the name (or ClassName_methodName) and arguments list of the
-function respectively.  In the future we
-hope to have these provided automatically.
+function respectively. However, there is a transformer provided that
+will automatically insert those parameters for you. In pubspec.yaml,
+add a section like
 
-This can be run in the program before any translation has been done,
-and will just return the message string. It can also be extracted to a
-file and then be made to return a translated version without modifying
-the original program. See "Extracting Messages" below for more
+      transformers:
+      - intl:
+      $include: some_file.dart
+
+and then you can omit the name and args.
+
+A function with an Intl.message call can be run in the program before any
+translation has been done, and will just return the message string. It can also
+be extracted to a file and then be made to return a translated version without
+modifying the original program. See "Extracting Messages" below for more
 details.
 
 The purpose of wrapping the message in a function is to allow it to
