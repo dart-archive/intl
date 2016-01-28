@@ -102,7 +102,7 @@ abstract class Message {
     var classMatch = classPlusMethod != null && (givenName == classPlusMethod);
     if (!(hasOuterName && (simpleMatch || classMatch))) {
       return "The 'name' argument for Intl.message must match either "
-          "the name of the containing function or <className>_<methodName> ("
+          "the name of the containing function or <ClassName>_<methodName> ("
           "was '$givenName' but must be '$outerName'  or '$classPlusMethod')";
     }
 
