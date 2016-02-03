@@ -619,13 +619,12 @@ class _NumberParser {
   /// in the context. Note that the ordering is important here. For example,
   /// [symbols.PERCENT] might be " %", and we must handle that before we
   /// look at an individual space.
-  Map<String, Function> get replacements => _replacements == null
-      ? _replacements = _initializeReplacements()
-      : _replacements;
+  Map<String, Function> get replacements =>
+      _replacements ??= _initializeReplacements();
 
-  var _replacements;
+  Map<String, Function> _replacements;
 
-  Map _initializeReplacements() => {
+  Map<String, Function> _initializeReplacements() => {
         symbols.DECIMAL_SEP: () => '.',
         symbols.EXP_SYMBOL: () => 'E',
         symbols.GROUP_SEP: handleSpace,
@@ -1068,7 +1067,7 @@ class _NumberFormatParser {
 Iterable _iterable(String s) => new _StringIterable(s);
 
 /// Return an iterator on the string as a list of substrings.
-Iterator _iterator(String s) => new _StringIterator(s);
+Iterator<String> _iterator(String s) => new _StringIterator(s);
 
 // TODO(nweiz): remove this when issue 3780 is fixed.
 /// Provides an Iterable that wraps [_iterator] so it can be used in a `for`
@@ -1137,12 +1136,12 @@ class _MicroMoney implements MicroMoney {
   // overflow on JS when multiplying out the [other] parameter, which may be
   // an Int64. In formatting we only ever subtract out our own integer part.
   _MicroMoney operator -(other) {
-    if (other is MicroMoney) return new _MicroMoney(_micros - other._micros);
+    if (other is _MicroMoney) return new _MicroMoney(_micros - other._micros);
     return new _MicroMoney(_micros - (other * _multiplier));
   }
 
   _MicroMoney operator +(other) {
-    if (other is MicroMoney) return new _MicroMoney(_micros + other._micros);
+    if (other is _MicroMoney) return new _MicroMoney(_micros + other._micros);
     return new _MicroMoney(_micros + (other * _multiplier));
   }
 

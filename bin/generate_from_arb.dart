@@ -110,7 +110,7 @@ void generateLocaleFile(File file, String targetDir) {
   }
   allLocales.add(locale);
 
-  var translations = [];
+  List<TranslatedMessage> translations = [];
   data.forEach((key, value) {
     if (value != null) {
       translations.add(value);

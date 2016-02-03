@@ -61,11 +61,14 @@ abstract class TranslatedMessage {
 
   /// The original messages that we are a translation of. There can
   ///  be more than one original message for the same translation.
-  List<MainMessage> originalMessages;
+  List<MainMessage> _originalMessages;
+
+  List<MainMessage> get originalMessages => _originalMessages;
+  set originalMessages(List<MainMessage> x) {_originalMessages = x;}
 
   /// For backward compatibility, we still have the originalMessage API.
   MainMessage get originalMessage => originalMessages.first;
-  set originalMessage(MainMessage m) => originalMessages = [m];
+  set originalMessage(MainMessage m) {originalMessages = [m];}
 
   TranslatedMessage(this.id, this.translated);
 

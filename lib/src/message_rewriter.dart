@@ -33,13 +33,13 @@ String rewriteMessages(String source, String sourceName) {
 /// Find all the messages in the [source] text.
 ///
 /// Report errors as coming from [sourceName]
-List<MainMessage> findMessages(String source, String sourceName) {
+List findMessages(String source, String sourceName) {
   try {
     root = parseCompilationUnit(source, name: sourceName);
   } on AnalyzerErrorGroup catch (e) {
     print("Error in parsing $sourceName, no messages extracted.");
     print("  $e");
-    return '';
+    return [];
   }
   origin = sourceName;
   var visitor = new MessageFindingVisitor();

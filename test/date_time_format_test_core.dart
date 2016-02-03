@@ -168,7 +168,8 @@ testRoundTripParsing(String localeName, DateTime date) {
 /// A shortcut for returning all the locales we have available.
 List<String> allLocales() => DateFormat.allLocalesWithSymbols();
 
-Function _subsetFunc;
+typedef List<String> SubsetFuncType();
+SubsetFuncType _subsetFunc;
 
 List<String> _subsetValue;
 
@@ -182,7 +183,7 @@ List<String> get subset {
 // TODO(alanknight): Run specific tests for the en_ISO locale which isn't
 // included in CLDR, and check that our patterns for it are correct (they
 // very likely aren't).
-void runDateTests(Function subsetFunc) {
+void runDateTests(SubsetFuncType subsetFunc) {
   assert(subsetFunc != null);
   _subsetFunc = subsetFunc;
 
@@ -364,7 +365,8 @@ void runDateTests(Function subsetFunc) {
   /// to a Date object. If [year] is a leap year, then pass 1 for
   /// [leapDay], otherwise pass 0.
   Map<int, DateTime> generateDates(int year, int leapDay) =>
-      new Iterable.generate(365 + leapDay, (n) => n + 1).map((day) {
+      new Iterable.generate(365 + leapDay, (n) => n + 1)
+          .map /*<DateTime>*/ ((day) {
         var result = new DateTime(year, 1, day);
         // TODO(alanknight): This is a workaround for dartbug.com/15560.
         if (result.toUtc() == result) result = new DateTime(year, 1, day);

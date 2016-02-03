@@ -19,7 +19,7 @@ import 'package:intl/src/message_rewriter.dart';
 
 String outputFile = 'transformed_output.dart';
 
-main(args) {
+main(List<String> args) {
   var parser = new ArgParser();
   parser.addOption('output',
       defaultsTo: 'transformed_output.dart',

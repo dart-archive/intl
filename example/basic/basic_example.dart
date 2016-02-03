@@ -25,10 +25,11 @@ import 'messages_all.dart';
 /// example we just pass in [print] and for tests we pass in a function that
 /// adds it a list to be verified.
 Function doThisWithTheOutput;
+typedef ThenList(List l);
 
-void setup(Function program, Function output) {
+void setup(ThenList program, Function output) {
   // Before we use any messages or use date formatting for a locale we must
-  // call their initializtion messages, which are asynchronous, since they
+  // call their initialization messages, which are asynchronous, since they
   // might be reading information from files or over the web. Since we are
   // running here in local mode they will all complete immediately.
   doThisWithTheOutput = output;
@@ -50,7 +51,7 @@ void setup(Function program, Function output) {
 // part of our program into a separate function that runs once all the
 // futures have completed. We are passed the collection of futures, but we
 // don't need to use them, so ignore the parameter.
-runProgram(List<Future> _) {
+runProgram(List _) {
   var aDate = new DateTime.fromMillisecondsSinceEpoch(0, isUtc: true);
   var de = new Intl('de_DE');
   var th = new Intl('th_TH');

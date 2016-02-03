@@ -61,7 +61,7 @@ String _checkEnvironmentVariable() {
 
 /// Run the "defaults read -g AppleLocale" command and return the output in
 /// a future.
-Future _getAppleDefaults() {
+Future<String> _getAppleDefaults() {
   var p = Process.run('defaults', ['read', '-g', 'AppleLocale']);
   var myResult = p.then((result) => _checkResult(result, _appleDefaultsRegex));
   return myResult;
@@ -70,13 +70,13 @@ Future _getAppleDefaults() {
 /// Given [result], find its text and extract the locale from it using [regex],
 /// and set it as the system locale. If the process didn't run correctly then
 /// don't set the variable and return a future that completes with null.
-Future<String> _checkResult(ProcessResult result, RegExp regex) {
-  if (result.exitCode != 0) return new Future.value();
+String _checkResult(ProcessResult result, RegExp regex) {
+  if (result.exitCode != 0) return null;
   var match = regex.firstMatch(result.stdout);
-  if (match == null) return new Future.value();
+  if (match == null) return null;
   var locale = match.group(1);
   _setLocale(locale);
-  return new Future.value(locale);
+  return locale;
 }
 
 /// Set [Intl.systemLocale] to be the canonicalizedLocale of [aLocale].

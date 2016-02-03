@@ -9,7 +9,7 @@ import "package:unittest/unittest.dart";
 
 main() {
   test("Expect failure because of embedded plural with text after it", () {
-    var specialFiles = ['embedded_plural_text_after.dart'];
+    List<String> specialFiles = ['embedded_plural_text_after.dart'];
     runTestWithWarnings(
         warningsAreErrors: true,
         expectedExitCode: 1,

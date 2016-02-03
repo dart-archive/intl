@@ -13,14 +13,14 @@ main() {
   });
 }
 
-const defaultFiles = const [
+const List<String> defaultFiles = const [
   "sample_with_messages.dart",
   "part_of_sample_with_messages.dart"
 ];
 
 void runTestWithWarnings({bool warningsAreErrors, int expectedExitCode,
     bool embeddedPlurals: true, List<String> sourceFiles: defaultFiles}) {
-  void verify(ProcessResult result) {
+  verify(ProcessResult result) {
     try {
       expect(result.exitCode, expectedExitCode);
     } finally {
@@ -30,7 +30,7 @@ void runTestWithWarnings({bool warningsAreErrors, int expectedExitCode,
 
   copyFilesToTempDirectory();
   var program = asTestDirPath("../../bin/extract_to_arb.dart");
-  var args = ["--output-dir=$tempDir"];
+  List<String> args = ["--output-dir=$tempDir"];
   if (warningsAreErrors) {
     args.add('--warnings-are-errors');
   }
@@ -38,9 +38,12 @@ void runTestWithWarnings({bool warningsAreErrors, int expectedExitCode,
     args.add('--no-embedded-plurals');
   }
   var files = sourceFiles.map(asTempDirPath).toList();
-  var allArgs = [program]
+  List<String> allArgs = [program]
     ..addAll(args)
     ..addAll(files);
-  var callback = expectAsync(verify);
+  var callback = expectAsync(verify) as ThenArgument;
+
   run(null, allArgs).then(callback);
 }
+
+typedef dynamic ThenArgument(ProcessResult _);

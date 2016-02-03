@@ -15,11 +15,12 @@ main() {
     // and then verify that it's actually the correct value.
     // We have no way of getting this reliably for Windows, so it will fail.
     Intl.systemLocale = "xx_YY";
-    var callback = expectAsync(verifyLocale);
+    var callback = expectAsync(verifyLocale) as ThenArgument;
     findSystemLocale().then(callback);
   });
 }
 
+typedef ThenArgument(String _);
 verifyLocale(_) {
   expect(Intl.systemLocale, isNot(equals("xx_YY")));
   var pattern = new RegExp(r"\w\w_[A-Z0-9]+");

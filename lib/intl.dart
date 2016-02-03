@@ -94,7 +94,7 @@ class Intl {
     var zoneLocale = Zone.current[#Intl.locale];
     return zoneLocale == null ? _defaultLocale : zoneLocale;
   }
-  static set defaultLocale(String newLocale) => _defaultLocale = newLocale;
+  static set defaultLocale(String newLocale) {_defaultLocale = newLocale;}
   static String _defaultLocale;
 
   /// The system's locale, as obtained from the window.navigator.language
@@ -158,8 +158,8 @@ class Intl {
   /// We may in the future modify the code during compilation to make manually
   /// passing those arguments unnecessary.
   static String message(String message_str, {String desc: '',
-      Map<String, String> examples: const {}, String locale, String name,
-      List<String> args, String meaning}) =>
+      Map<String, dynamic> examples: const {}, String locale, String name,
+      List args, String meaning}) =>
     _message(message_str, locale, name, args);
 
   /// Omit the compile-time only parameters so dart2js can see to drop them.

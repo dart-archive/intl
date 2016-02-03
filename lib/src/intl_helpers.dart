@@ -23,7 +23,7 @@ class UninitializedLocaleData<F> {
   String lookupMessage(String message_str, String locale,
       String name, List args) => message_str;
 
-  List get keys => _throwException();
+  List<String> get keys => _throwException() as List<String>;
 
   bool containsKey(String key) => (key == 'en_US') ? true : _throwException();
 
@@ -47,7 +47,7 @@ abstract class LocaleDataReader {
 /// The internal mechanism for looking up messages. We expect this to be set
 /// by the implementing package so that we're not dependent on its
 /// implementation.
-var messageLookup =
+dynamic messageLookup =
     const UninitializedLocaleData('initializeMessages(<locale>)', null);
 
 /// Initialize the message lookup mechanism. This is for internal use only.

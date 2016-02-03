@@ -24,7 +24,7 @@ List<String> oddLocales() {
 }
 
 /// Return a set of a few locales to run just the tests on a small sample.
-List smallSetOfLocales() {
+List<String> smallSetOfLocales() {
   return allLocales().sublist(0, 10);
 }
 

@@ -139,10 +139,10 @@ abstract class Message {
   /// subclass. We expect to get literal Strings, variable substitutions
   /// represented by integers, things that are already MessageChunks and
   /// lists of the same.
-  static Message from(value, Message parent) {
+  static Message from(Object value, Message parent) {
     if (value is String) return new LiteralString(value, parent);
     if (value is int) return new VariableSubstitution(value, parent);
-    if (value is Iterable) {
+    if (value is List) {
       if (value.length == 1) return Message.from(value[0], parent);
       var result = new CompositeMessage([], parent);
       var items = value.map((x) => from(x, result)).toList();
@@ -150,8 +150,9 @@ abstract class Message {
       return result;
     }
     // We assume this is already a Message.
-    value.parent = parent;
-    return value;
+    Message mustBeAMessage = value;
+    mustBeAMessage.parent = parent;
+    return mustBeAMessage;
   }
 
   /// Return a string representation of this message for use in generated Dart
@@ -164,7 +165,7 @@ abstract class Message {
   /// simple variables ("$foo", but not "${foo}") and Intl.gender/plural
   /// calls.
   String escapeAndValidateString(String value) {
-    const escapes = const {
+    const Map<String, String> escapes = const {
       r"\": r"\\",
       '"': r'\"',
       "\b": r"\b",
@@ -176,7 +177,7 @@ abstract class Message {
       "'": r"\'",
     };
 
-    _escape(String s) => (escapes[s] == null) ? s : escapes[s];
+    String _escape(String s) => (escapes[s] == null) ? s : escapes[s];
 
     var escaped = value.splitMapJoin("", onNonMatch: _escape);
     return disallowInvalidInterpolations(escaped);
@@ -189,7 +190,7 @@ abstract class Message {
   String disallowInvalidInterpolations(String input) {
     var validInterpolations = new RegExp(r"(\$\w+)|(\${\w+})");
     var validMatches = validInterpolations.allMatches(input);
-    escapeInvalidMatches(Match m) {
+    String escapeInvalidMatches(Match m) {
       var valid = validMatches.any((x) => x.start == m.start);
       if (valid) {
         return m.group(0);
@@ -436,7 +437,7 @@ class MainMessage extends ComplexMessage {
         description = value;
         return;
       case "examples":
-        examples = value;
+        examples = value as Map<String, dynamic>;
         return;
       case "name":
         name = value;
@@ -525,7 +526,7 @@ abstract class SubMessage extends ComplexMessage {
   List<String> get codeAttributeNames;
 
   String expanded([Function transform = _nullTransform]) {
-    fullMessageForClause(key) =>
+    fullMessageForClause(String key) =>
         key + '{' + transform(parent, this[key]).toString() + '}';
     var clauses = attributeNames
         .where((key) => this[key] != null)
@@ -720,7 +721,7 @@ class Select extends SubMessage {
   /// case they will all be passed in as a Map rather than as the named
   /// arguments used in Plural/Gender.
   Map argumentsOfInterestFor(MethodInvocation node) {
-    var casesArgument = node.argumentList.arguments[1];
+    MapLiteral casesArgument = node.argumentList.arguments[1];
     return new Map.fromIterable(casesArgument.entries,
         key: (node) => node.key.value, value: (node) => node.value);
   }

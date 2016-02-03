@@ -53,6 +53,7 @@ String asTempDirPath([String s]) {
   return path.join(tempDir, s);
 }
 
+typedef ProcessResult ThenResult(ProcessResult _);
 main(arguments) {
   // If debugging, use --local to avoid copying everything to temporary
   // directories to make it even harder to debug. Note that this will also
@@ -65,7 +66,7 @@ main(arguments) {
   tearDown(deleteGeneratedFiles);
   test("Test round trip message extraction, translation, code generation, "
       "and printing", () {
-    var makeSureWeVerify = expectAsync(runAndVerify);
+    var makeSureWeVerify = expectAsync(runAndVerify) as ThenResult;
     return extractMessages(null).then((result) {
       return generateTranslationFiles(result);
     }).then((result) {
@@ -114,7 +115,7 @@ Future<ProcessResult> run(
       .toList();
   // Inject the script argument --output-dir in between the script and its
   // arguments.
-  var args = []
+  List<String> args = []
     ..addAll(vmArgs)
     ..add(filesInTheRightDirectory.first)
     ..addAll(["--output-dir=$tempDir"])
@@ -124,7 +125,7 @@ Future<ProcessResult> run(
   return result;
 }
 
-void checkResult(ProcessResult previousResult) {
+checkResult(ProcessResult previousResult) {
   if (previousResult != null) {
     if (previousResult.exitCode != 0) {
       print("Error running sub-program:");

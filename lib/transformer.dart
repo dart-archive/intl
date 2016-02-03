@@ -8,7 +8,6 @@ library intl_transformer;
 
 import 'package:barback/barback.dart';
 
-import 'extract_messages.dart';
 import 'src/message_rewriter.dart';
 
 /// Rewrites Intl.message calls to automatically insert the name and args
@@ -18,7 +17,7 @@ class IntlMessageTransformer extends Transformer {
 
   String get allowedExtensions => ".dart";
 
-  Future apply(Transform transform) async {
+  apply(Transform transform) async {
     var content = await transform.primaryInput.readAsString();
     var id = transform.primaryInput.id;
     var newContent = rewriteMessages(content, '$id');

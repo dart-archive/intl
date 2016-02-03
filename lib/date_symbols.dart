@@ -54,31 +54,32 @@ class DateSymbols {
   // TODO(alanknight): Replace this with use of a more general serialization
   // facility once one is available. Issue 4926.
   DateSymbols.deserializeFromMap(Map map) {
+    List<String> _getStringList(String name) => new List<String>.from(map[name]);
     NAME = map["NAME"];
-    ERAS = map["ERAS"];
-    ERANAMES = map["ERANAMES"];
-    NARROWMONTHS = map["NARROWMONTHS"];
-    STANDALONENARROWMONTHS = map["STANDALONENARROWMONTHS"];
-    MONTHS = map["MONTHS"];
-    STANDALONEMONTHS = map["STANDALONEMONTHS"];
-    SHORTMONTHS = map["SHORTMONTHS"];
-    STANDALONESHORTMONTHS = map["STANDALONESHORTMONTHS"];
-    WEEKDAYS = map["WEEKDAYS"];
-    STANDALONEWEEKDAYS = map["STANDALONEWEEKDAYS"];
-    SHORTWEEKDAYS = map["SHORTWEEKDAYS"];
-    STANDALONESHORTWEEKDAYS = map["STANDALONESHORTWEEKDAYS"];
-    NARROWWEEKDAYS = map["NARROWWEEKDAYS"];
-    STANDALONENARROWWEEKDAYS = map["STANDALONENARROWWEEKDAYS"];
-    SHORTQUARTERS = map["SHORTQUARTERS"];
-    QUARTERS = map["QUARTERS"];
-    AMPMS = map["AMPMS"];
-    DATEFORMATS = map["DATEFORMATS"];
-    TIMEFORMATS = map["TIMEFORMATS"];
-    AVAILABLEFORMATS = map["AVAILABLEFORMATS"];
+    ERAS = _getStringList("ERAS");
+    ERANAMES = _getStringList("ERANAMES");
+    NARROWMONTHS = _getStringList("NARROWMONTHS");
+    STANDALONENARROWMONTHS = _getStringList("STANDALONENARROWMONTHS");
+    MONTHS = _getStringList("MONTHS");
+    STANDALONEMONTHS = _getStringList("STANDALONEMONTHS");
+    SHORTMONTHS = _getStringList("SHORTMONTHS");
+    STANDALONESHORTMONTHS = _getStringList("STANDALONESHORTMONTHS");
+    WEEKDAYS = _getStringList("WEEKDAYS");
+    STANDALONEWEEKDAYS = _getStringList("STANDALONEWEEKDAYS");
+    SHORTWEEKDAYS = _getStringList("SHORTWEEKDAYS");
+    STANDALONESHORTWEEKDAYS = _getStringList("STANDALONESHORTWEEKDAYS");
+    NARROWWEEKDAYS = _getStringList("NARROWWEEKDAYS");
+    STANDALONENARROWWEEKDAYS = _getStringList("STANDALONENARROWWEEKDAYS");
+    SHORTQUARTERS = _getStringList("SHORTQUARTERS");
+    QUARTERS = _getStringList("QUARTERS");
+    AMPMS = _getStringList("AMPMS");
+    DATEFORMATS = _getStringList("DATEFORMATS");
+    TIMEFORMATS = _getStringList("TIMEFORMATS");
+    AVAILABLEFORMATS = new Map<String, String>.from(map["AVAILABLEFORMATS"] ?? {});
     FIRSTDAYOFWEEK = map["FIRSTDAYOFWEEK"];
-    WEEKENDRANGE = map["WEEKENDRANGE"];
+    WEEKENDRANGE = new List<int>.from(map["WEEKENDRANGE"]);
     FIRSTWEEKCUTOFFDAY = map["FIRSTWEEKCUTOFFDAY"];
-    DATETIMEFORMATS = map["DATETIMEFORAMTS"];
+    DATETIMEFORMATS = _getStringList("DATETIMEFORMATS");
   }
 
   Map serializeToMap() => {

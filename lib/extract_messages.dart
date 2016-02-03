@@ -229,7 +229,8 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
     var extractionResult = extract(message, arguments);
     if (extractionResult == null) return null;
 
-    for (var namedArgument in arguments.where((x) => x is NamedExpression)) {
+    for (NamedExpression namedArgument
+        in arguments.where((x) => x is NamedExpression)) {
       var name = namedArgument.name.label.name;
       var exp = namedArgument.expression;
       var evaluator = new ConstantEvaluator();
@@ -259,7 +260,7 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
                 "Error at $node");
           }
         }
-        message.messagePieces.addAll(interpolation.pieces);
+        message.messagePieces.addAll(interpolation.pieces as List<Message>);
       } on IntlMessageExtractionException catch (e) {
         message = null;
         var err = new StringBuffer()

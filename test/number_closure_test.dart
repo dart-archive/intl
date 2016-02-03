@@ -379,9 +379,11 @@ testLocaleSwitch() {
   Intl.withLocale("fr", verifyFrenchLocale);
 }
 
+typedef void TimerArgument();
 testLocaleSwitchAsync() {
   Intl.withLocale("fr", () {
-    new Timer(new Duration(milliseconds: 10), expectAsync(verifyFrenchLocale));
+    new Timer(new Duration(milliseconds: 10),
+        expectAsync(verifyFrenchLocale) as TimerArgument);
   });
   // Verify that things running outside the zone still get en_US.
   testStandardFormat();

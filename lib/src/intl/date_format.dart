@@ -604,13 +604,13 @@ class DateFormat {
   ];
 
   /// Parse the template pattern and return a list of field objects.
-  List parsePattern(String pattern) {
+  List<_DateFormatField> parsePattern(String pattern) {
     if (pattern == null) return null;
     return _parsePatternHelper(pattern).reversed.toList();
   }
 
   /// Recursive helper for parsing the template pattern.
-  List _parsePatternHelper(String pattern) {
+  List<_DateFormatField> _parsePatternHelper(String pattern) {
     if (pattern.isEmpty) return [];
 
     var matched = _match(pattern);
