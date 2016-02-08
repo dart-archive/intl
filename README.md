@@ -56,7 +56,7 @@ print(myMessage(dateString, locale: 'ar');
 or
 
 ```dart
-Intl.defaultLocale = "es"'
+Intl.defaultLocale = "es";
 new DateFormat.jm().format(new DateTime.now());
 ```
 

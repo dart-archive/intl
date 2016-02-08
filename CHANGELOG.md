@@ -2,6 +2,7 @@
  * Update SDK dependency to 1.12.0, to reflect use of null-aware operators.
  * Add a transformer to automatically add the "name" and "args" parameters to
    Intl.message and related calls. This removes a lot of tedious repetition.
+ * Fix typo in README.
 
 ## 0.12.6
   * Update links in README.md to point to current dartdocs.
