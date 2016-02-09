@@ -32,4 +32,4 @@ transformers:
     - test/intl_message_basic_example_test.dart # invalid import under pub's package-layout
 - intl:
     $include:
-    - test/messages_with_transformer/main.dart
+    - test/messages_with_transformer/transformer_test.dart
