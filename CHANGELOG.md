@@ -1,3 +1,7 @@
+## 0.12.7+1
+ * Change the signature for examples in Intl.plural/gender/select to match
+   message, allowing dynamic values.
+
 ## 0.12.7
  * Update SDK dependency to 1.12.0, to reflect use of null-aware operators.
  * Add a transformer to automatically add the "name" and "args" parameters to
