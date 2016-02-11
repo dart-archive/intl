@@ -51,10 +51,18 @@ abstract class _DateFormatField {
   /// Parse a literal field. We accept either an exact match, or an arbitrary
   /// amount of whitespace.
   void parseLiteralLoose(_Stream input) {
-    var found = input.peek(width);
-    if (found == pattern) {
-      input.read(width);
+    _parseWhitespace(input);
+
+    var trimmedPattern = pattern.trim();
+    var found = input.peek(trimmedPattern.length);
+    if (found == trimmedPattern) {
+      input.read(trimmedPattern.length);
     }
+
+    _parseWhitespace(input);
+  }
+
+  void _parseWhitespace(_Stream input) {
     while (!input.atEnd() && input.peek().trim().isEmpty) {
       input.read();
     }
@@ -132,7 +140,7 @@ class _LoosePatternField extends _DateFormatPatternField {
 
   /// Parse a month name, case-insensitively, and set it in [dateFields].
   /// Assumes that [input] is lower case.
-  void parseMonth(input, dateFields) {
+  void parseMonth(_Stream input, dateFields) {
     if (width <= 2) {
       handleNumericField(input, dateFields.setMonth);
       return;
@@ -145,6 +153,7 @@ class _LoosePatternField extends _DateFormatPatternField {
         return;
       }
     }
+    throwFormatException(input);
   }
 
   /// Parse a standalone day name, case-insensitively.
@@ -167,11 +176,11 @@ class _LoosePatternField extends _DateFormatPatternField {
     }
   }
 
-  /// Parse a standalone month name, case-insensitively.
-  /// Assumes that input is lower case. Doesn't do anything
+  /// Parse a standalone month name, case-insensitively, and set it in
+  /// [dateFields]. Assumes that input is lower case.
   void parseStandaloneMonth(input, dateFields) {
     if (width <= 2) {
-      handleNumericField(input, (x) => x);
+      handleNumericField(input, dateFields.setMonth);
       return;
     }
     var possibilities = [
@@ -185,6 +194,7 @@ class _LoosePatternField extends _DateFormatPatternField {
         return;
       }
     }
+    throwFormatException(input);
   }
 
   /// Parse a day of the week name, case-insensitively.
