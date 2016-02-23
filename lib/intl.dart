@@ -249,7 +249,7 @@ class Intl {
   /// the provided alternatives. The [other] named argument is mandatory.
   static String plural(int howMany, {zero, one, two, few, many, other,
       String desc, Map<String, dynamic> examples, String locale, String name,
-      List<String> args, String meaning}) {
+      List args, String meaning}) {
     // If we are passed a name and arguments, then we are operating as a
     // top-level message, so look up our translation by calling Intl.message
     // with ourselves as an argument.
@@ -286,7 +286,7 @@ class Intl {
   /// part of an Intl.message message that is to be translated.
   static String gender(String targetGender, {String male, String female,
       String other, String desc, Map<String, dynamic> examples, String locale,
-      String name, List<String> args, String meaning}) {
+      String name, List args, String meaning}) {
     // If we are passed a name and arguments, then we are operating as a
     // top-level message, so look up our translation by calling Intl.message
     // with ourselves as an argument.
@@ -315,7 +315,7 @@ class Intl {
   /// of an Intl.message message that is to be translated.
   static String select(String choice, Map<String, String> cases, {String desc,
       Map<String, dynamic> examples, String locale, String name,
-      List<String> args, String meaning}) {
+      List args, String meaning}) {
     // If we are passed a name and arguments, then we are operating as a
     // top-level message, so look up our translation by calling Intl.message
     // with ourselves as an argument.
