@@ -26,7 +26,7 @@ import "dart:async";
 /// formatting methods are called. It sets up the lookup for date
 /// symbols. Both the [locale] and [ignored] parameter are ignored, as
 /// the data for all locales is directly available.
-Future initializeDateFormatting(String locale, String ignored) {
+Future initializeDateFormatting([String locale, String ignored]) {
   initializeDateSymbols(dateTimeSymbolMap);
   initializeDatePatterns(dateTimePatternMap);
   return new Future.value(null);
