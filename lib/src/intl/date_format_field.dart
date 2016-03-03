@@ -10,12 +10,17 @@ part of intl;
 /// how to format that portion of a date.
 abstract class _DateFormatField {
   /// The format string that defines us, e.g. "hh"
-  String pattern;
+  final String pattern;
 
   /// The DateFormat that we are part of.
   DateFormat parent;
 
-  _DateFormatField(this.pattern, this.parent);
+  /// Trimmed version of [pattern].
+  String _trimmedPattern;
+
+  _DateFormatField(this.pattern, this.parent) {
+    _trimmedPattern = pattern.trim();
+  }
 
   /// Return the width of [pattern]. Different widths represent different
   /// formatting options. See the comment for DateFormat for details.
@@ -50,11 +55,24 @@ abstract class _DateFormatField {
 
   /// Parse a literal field. We accept either an exact match, or an arbitrary
   /// amount of whitespace.
+  ///
+  /// Any whitespace which occurs before or after the literal field is trimmed
+  /// from the input stream. Any leading or trailing whitespace in the literal
+  /// field's format specification is also trimmed before matching is
+  /// attempted. Therefore, leading and trailing whitespace is optional, and
+  /// arbitrary additional whitespace may be added before/after the literal.
   void parseLiteralLoose(_Stream input) {
-    var found = input.peek(width);
-    if (found == pattern) {
-      input.read(width);
+    _trimWhitespace(input);
+
+    var found = input.peek(_trimmedPattern.length);
+    if (found == _trimmedPattern) {
+      input.read(_trimmedPattern.length);
     }
+
+    _trimWhitespace(input);
+  }
+
+  void _trimWhitespace(_Stream input) {
     while (!input.atEnd() && input.peek().trim().isEmpty) {
       input.read();
     }
@@ -88,9 +106,9 @@ class _DateFormatQuotedField extends _DateFormatField {
 
   String fullPattern() => _fullPattern;
 
-  _DateFormatQuotedField(pattern, parent) : super(pattern, parent) {
+  _DateFormatQuotedField(pattern, parent)
+      : super(_patchQuotes(pattern), parent) {
     _fullPattern = pattern;
-    patchQuotes();
   }
 
   parse(_Stream input, _DateBuilder dateFields) {
@@ -100,13 +118,15 @@ class _DateFormatQuotedField extends _DateFormatField {
   parseLoose(_Stream input, _DateBuilder dateFields) =>
       parseLiteralLoose(input);
 
-  void patchQuotes() {
+  static final _twoEscapedQuotes = new RegExp(r"''");
+
+  static String _patchQuotes(String pattern) {
     if (pattern == "''") {
-      pattern = "'";
+      return "'";
     } else {
-      pattern = pattern.substring(1, pattern.length - 1);
-      var twoEscapedQuotes = new RegExp(r"''");
-      pattern = pattern.replaceAll(twoEscapedQuotes, "'");
+      return pattern
+          .substring(1, pattern.length - 1)
+          .replaceAll(_twoEscapedQuotes, "'");
     }
   }
 }
@@ -132,7 +152,7 @@ class _LoosePatternField extends _DateFormatPatternField {
 
   /// Parse a month name, case-insensitively, and set it in [dateFields].
   /// Assumes that [input] is lower case.
-  void parseMonth(input, dateFields) {
+  void parseMonth(_Stream input, dateFields) {
     if (width <= 2) {
       handleNumericField(input, dateFields.setMonth);
       return;
@@ -145,6 +165,7 @@ class _LoosePatternField extends _DateFormatPatternField {
         return;
       }
     }
+    throwFormatException(input);
   }
 
   /// Parse a standalone day name, case-insensitively.
@@ -167,11 +188,11 @@ class _LoosePatternField extends _DateFormatPatternField {
     }
   }
 
-  /// Parse a standalone month name, case-insensitively.
-  /// Assumes that input is lower case. Doesn't do anything
+  /// Parse a standalone month name, case-insensitively, and set it in
+  /// [dateFields]. Assumes that input is lower case.
   void parseStandaloneMonth(input, dateFields) {
     if (width <= 2) {
-      handleNumericField(input, (x) => x);
+      handleNumericField(input, dateFields.setMonth);
       return;
     }
     var possibilities = [
@@ -185,6 +206,7 @@ class _LoosePatternField extends _DateFormatPatternField {
         return;
       }
     }
+    throwFormatException(input);
   }
 
   /// Parse a day of the week name, case-insensitively.

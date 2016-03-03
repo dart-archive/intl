@@ -271,8 +271,8 @@ class DateFormat {
   /// supplemented with whitespace,
   /// and allowing arbitrary amounts of whitespace wherever whitespace is
   /// permitted. Note that this does not allow trailing characters, the way
-  /// [parse] does. It also does not allow leading whitespace on delimiters,
-  /// and does not allow alternative names for months or weekdays other than
+  /// [parse] does.
+  /// It also does not allow alternative names for months or weekdays other than
   /// those the format knows about. The restrictions are quite arbitrary and
   /// it's not known how well they'll work for locales that aren't English-like.
   ///
@@ -283,13 +283,12 @@ class DateFormat {
   ///
   ///       new DateFormat.yMMMd("en_US").parseLoose("SEp   3 2014");
   ///       new DateFormat.yMd("en_US").parseLoose("09    03/2014");
+  ///       new DateFormat.yMd("en_US").parseLoose("09 / 03 / 2014");
   ///
   /// It will NOT accept
   ///
   ///      // "Sept" is not a valid month name.
   ///      new DateFormat.yMMMd("en_US").parseLoose("Sept 3, 2014");
-  ///      // Delimiters can't have leading whitespace.
-  ///      new DateFormat.yMd("en_US").parseLoose("09 / 03 / 2014");
   DateTime parseLoose(String inputString, [utc = false]) {
     try {
       return _parse(inputString, utc: utc, strict: true);

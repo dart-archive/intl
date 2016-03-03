@@ -2,6 +2,14 @@
  * Change the signature for args and examples in Intl.plural/gender/select to
    match Intl.message, allowing dynamic values.
  * Parameters to initializeDateFormatting are optional.
+ * Extend DateFormat.parseLoose() to allow arbitrary amounts of whitespace
+   before literal fields (as well as after), and treat all whitespace around
+   literal fields as optional even if the literal field's pattern has leading
+   or trailing whitespace.
+ * Fix DateFormat.parseLoose() returning unexpected values in certain cases
+   where a pattern was missing from the input string.
+ * Fix DateFormat.parseLoose() ignoring the value of numeric standalone months
+   ('LL' pattern).
 
 ## 0.12.7
  * Update SDK dependency to 1.12.0, to reflect use of null-aware operators.
