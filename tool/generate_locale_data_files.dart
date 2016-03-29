@@ -10,9 +10,9 @@
 /// and "patterns". In "data/dates" it will also generate "locale_list.dart",
 /// which is sourced by the date_symbol_data... files.
 
-import '../lib/date_symbol_data_local.dart';
-import '../lib/date_time_patterns.dart';
-import '../lib/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/date_time_patterns.dart';
+import 'package:intl/intl.dart';
 import 'dart:convert';
 import 'dart:io';
 import '../test/data_directory.dart';

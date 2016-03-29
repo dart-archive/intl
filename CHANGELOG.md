@@ -10,6 +10,7 @@
    where a pattern was missing from the input string.
  * Fix DateFormat.parseLoose() ignoring the value of numeric standalone months
    ('LL' pattern).
+ * Remove relative imports on `generate_locale_data_files.dart`
 
 ## 0.12.7
  * Update SDK dependency to 1.12.0, to reflect use of null-aware operators.
