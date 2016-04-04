@@ -494,8 +494,8 @@ class NumberFormat {
     for (var i = 0; i < numberOfDigits - basic.length; i++) {
       _add(symbols.ZERO_DIGIT);
     }
-    for (var x in basic.codeUnits) {
-      _addDigit(x);
+    for (int i = 0; i < basic.codeUnits.length; i++) {
+      _addDigit(basic.codeUnits[i]);
     }
   }
 
