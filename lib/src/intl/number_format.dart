@@ -4,6 +4,10 @@
 
 part of intl;
 
+/// The function that we pass internally to NumberFormat to get
+/// the appropriate pattern (e.g. currency)
+typedef String _PatternGetter(NumberSymbols);
+
 /// Provides the ability to format a number in a locale-specific way. The
 /// format is specified as a pattern using a subset of the ICU formatting
 /// patterns.
@@ -68,6 +72,19 @@ class NumberFormat {
   int maximumFractionDigits = 3;
   int minimumFractionDigits = 0;
   int minimumExponentDigits = 0;
+  int _significantDigits = 0;
+
+  ///  How many significant digits should we print.
+  ///
+  ///  Note that if significantDigitsInUse is the default false, this
+  ///  will be ignored.
+  int get significantDigits => _significantDigits;
+  set significantDigits(int x) {
+    _significantDigits = x;
+    significantDigitsInUse = true;
+  }
+
+  bool significantDigitsInUse = false;
 
   /// For percent and permille, what are we multiplying by in order to
   /// get the printed value, e.g. 100 for percent.
@@ -129,7 +146,7 @@ class NumberFormat {
   /// not specified.
   int get _defaultDecimalDigits =>
       currencyFractionDigits[currencyName.toUpperCase()] ??
-          currencyFractionDigits['DEFAULT'];
+      currencyFractionDigits['DEFAULT'];
 
   /// If we have a currencyName, use that currencies decimal digits, unless
   /// we've explicitly specified some other number.
@@ -224,7 +241,7 @@ class NumberFormat {
 
   /// Create a number format that prints in a pattern we get from
   /// the [getPattern] function using the locale [locale].
-  NumberFormat._forPattern(String locale, Function getPattern,
+  NumberFormat._forPattern(String locale, _PatternGetter getPattern,
       {name, currencySymbol, decimalDigits})
       : _locale = Intl.verifiedLocale(locale, localeExists) {
     this._currencySymbol = currencySymbol;
@@ -233,6 +250,18 @@ class NumberFormat {
     currencyName = name ?? _symbols.DEF_CURRENCY_CODE;
 
     _setPattern(getPattern(_symbols));
+  }
+
+  /// A number format for compact representations, e.g. "1.2M" instead
+  /// of "1,200,000".
+  factory NumberFormat.compact({String locale}) {
+    return new _CompactNumberFormat(locale: locale, longFormat: false);
+  }
+
+  /// A number format for "long" compact representations, e.g. "1.2 million"
+  /// instead of of "1,200,000".
+  factory NumberFormat.compactLong({String locale}) {
+    return new _CompactNumberFormat(locale: locale, longFormat: true);
   }
 
   /// Return the locale code in which we operate, e.g. 'en_US' or 'pt'.
@@ -284,7 +313,7 @@ class NumberFormat {
       return;
     }
 
-    var exponent = (log(number) / log(10)).floor();
+    var exponent = (log(number) / LN10).floor();
     var mantissa = number / pow(10.0, exponent);
 
     if (maximumIntegerDigits > 1 &&
@@ -360,14 +389,41 @@ class NumberFormat {
     }
   }
 
+  // Return the number of digits left of the decimal place in [number].
+  static int numberOfIntegerDigits(number) {
+    var simpleNumber = number.toDouble().abs();
+    // It's unfortunate that we have to do this, but we get precision errors
+    // that affect the result if we use logs, e.g. 1000000
+    if (simpleNumber < 10) return 1;
+    if (simpleNumber < 100) return 2;
+    if (simpleNumber < 1000) return 3;
+    if (simpleNumber < 10000) return 4;
+    if (simpleNumber < 100000) return 5;
+    if (simpleNumber < 1000000) return 6;
+    if (simpleNumber < 10000000) return 7;
+    if (simpleNumber < 100000000) return 8;
+    if (simpleNumber < 1000000000) return 9;
+    if (simpleNumber < 10000000000) return 10;
+    if (simpleNumber < 100000000000) return 11;
+    if (simpleNumber < 1000000000000) return 12;
+    if (simpleNumber < 10000000000000) return 13;
+    if (simpleNumber < 100000000000000) return 14;
+    if (simpleNumber < 1000000000000000) return 15;
+    if (simpleNumber < 10000000000000000) return 16;
+    // We're past the point where being off by one on the number of digits
+    // will affect the pattern, so now we can use logs.
+    return max(1, (log(simpleNumber) / LN10).ceil());
+  }
+
   /// Format the basic number portion, including the fractional digits.
   void _formatFixed(number) {
     var integerPart;
     int fractionPart;
     int extraIntegerDigits;
+    var fractionDigits = maximumFractionDigits;
 
-    final power = pow(10, maximumFractionDigits);
-    final digitMultiplier = power * _multiplier;
+    var power = 0;
+    var digitMultiplier;
 
     if (_isInfinite(number)) {
       integerPart = number.toInt();
@@ -382,6 +438,23 @@ class NumberFormat {
       // integer pieces.
       integerPart = _floor(number);
       var fraction = number - integerPart;
+
+      /// If we have significant digits, recalculate the number of fraction
+      /// digits based on that.
+      if (significantDigitsInUse) {
+        var integerLength = numberOfIntegerDigits(integerPart);
+        var remainingSignificantDigits =
+            significantDigits - _multiplierDigits - integerLength;
+        fractionDigits = max(0, remainingSignificantDigits);
+        if (remainingSignificantDigits < 0) {
+          // We may have to round.
+          var divideBy = pow(10, integerLength - significantDigits);
+          integerPart = (integerPart / divideBy).round() * divideBy;
+        }
+      }
+      power = pow(10, fractionDigits);
+      digitMultiplier = power * _multiplier;
+
       // Multiply out to the number of decimal places and the percent, then
       // round. For fixed-size integer types this should always be zero, so
       // multiplying is OK.
@@ -395,10 +468,10 @@ class NumberFormat {
       extraIntegerDigits = remainingDigits ~/ power;
       fractionPart = remainingDigits % power;
     }
-    var fractionPresent = minimumFractionDigits > 0 || fractionPart > 0;
 
     var integerDigits = _integerDigits(integerPart, extraIntegerDigits);
     var digitLength = integerDigits.length;
+    var fractionPresent = minimumFractionDigits > 0 || fractionPart > 0;
 
     if (_hasIntegerDigits(integerDigits)) {
       _pad(minimumIntegerDigits - digitLength);
@@ -442,6 +515,10 @@ class NumberFormat {
   String _mainIntegerDigits(integer) {
     if (integer == 0) return '';
     var digits = integer.toString();
+    if (significantDigitsInUse && digits.length > significantDigits) {
+      digits = digits.substring(0, significantDigits) +
+          ''.padLeft(digits.length - significantDigits, '0');
+    }
     // If we have a fixed-length int representation, it can have a negative
     // number whose negation is also negative, e.g. 2^-63 in 64-bit.
     // Remove the minus sign.
@@ -546,6 +623,15 @@ class NumberFormat {
       minimumFractionDigits = digits;
       maximumFractionDigits = digits;
     }
+  }
+
+  /// Explicitly turn off any grouping (e.g. by thousands) in this format.
+  ///
+  /// This is used in compact number formatting, where we
+  /// omit the normal grouping. Best to know what you're doing if you call it.
+  void turnOffGrouping() {
+    _groupingSize = 0;
+    _finalGroupingSize = 0;
   }
 
   String toString() => "NumberFormat($_locale, $_pattern)";

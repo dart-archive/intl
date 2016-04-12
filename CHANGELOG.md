@@ -1,3 +1,7 @@
+## 0.13.0
+ * Add support for compact number formats ("1.2K") and for significant digits in
+   number formats.
+
 ## 0.12.7+1
  * Change the signature for args and examples in Intl.plural/gender/select to
    match Intl.message, allowing dynamic values.

@@ -25,11 +25,30 @@ class NumberSymbols {
       CURRENCY_PATTERN,
       DEF_CURRENCY_CODE;
 
-  const NumberSymbols({this.NAME, this.DECIMAL_SEP, this.GROUP_SEP,
-      this.PERCENT, this.ZERO_DIGIT, this.PLUS_SIGN, this.MINUS_SIGN,
-      this.EXP_SYMBOL, this.PERMILL, this.INFINITY, this.NAN,
-      this.DECIMAL_PATTERN, this.SCIENTIFIC_PATTERN, this.PERCENT_PATTERN,
-      this.CURRENCY_PATTERN, this.DEF_CURRENCY_CODE});
+  const NumberSymbols(
+      {this.NAME,
+      this.DECIMAL_SEP,
+      this.GROUP_SEP,
+      this.PERCENT,
+      this.ZERO_DIGIT,
+      this.PLUS_SIGN,
+      this.MINUS_SIGN,
+      this.EXP_SYMBOL,
+      this.PERMILL,
+      this.INFINITY,
+      this.NAN,
+      this.DECIMAL_PATTERN,
+      this.SCIENTIFIC_PATTERN,
+      this.PERCENT_PATTERN,
+      this.CURRENCY_PATTERN,
+      this.DEF_CURRENCY_CODE});
 
   toString() => NAME;
+}
+
+class CompactNumberSymbols {
+  final Map<int, String> COMPACT_DECIMAL_SHORT_PATTERN;
+  final Map<int, String> COMPACT_DECIMAL_LONG_PATTERN;
+  CompactNumberSymbols(
+      {this.COMPACT_DECIMAL_SHORT_PATTERN, this.COMPACT_DECIMAL_LONG_PATTERN});
 }
