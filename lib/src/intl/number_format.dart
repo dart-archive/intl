@@ -239,6 +239,228 @@ class NumberFormat {
       : this._forPattern(locale, (x) => x.CURRENCY_PATTERN,
             name: name, currencySymbol: symbol, decimalDigits: decimalDigits);
 
+  /// Creates a [NumberFormat] for currencies, using the simple symbol for the
+  /// currency if one is available (e.g. $, €), so it should only be used if the
+  /// short currency symbol will be unambiguous.
+  ///
+  /// If [locale] is not specified, it will use the current default locale.
+  ///
+  /// If [name] is specified, the currency with that ISO 4217 name will be used.
+  /// Otherwise we will use the default currency name for the current locale. We
+  /// will assume that the symbol for this is well known in the locale and
+  /// unambiguous. If you format CAD in an en_US locale using this format it
+  /// will display as "$", which may be confusing to the user.
+  ///
+  /// If [decimalDigits] is specified, numbers will format with that many digits
+  /// after the decimal place. If it's not, they will use the default for the
+  /// currency in [name], and the default currency for [locale] if the currency
+  /// name is not specified. e.g.
+  ///       new NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 7)
+  /// will format with 7 decimal digits, because that's what we asked for. But
+  ///       new NumberFormat.simpleCurrency(locale: 'en_US', name: 'JPY')
+  /// will format with zero, because that's the default for JPY, and the
+  /// currency's default takes priority over the locale's default.
+  ///       new NumberFormat.simpleCurrency(locale: 'en_US')
+  /// will format with two, which is the default for that locale.
+  factory NumberFormat.simpleCurrency(
+      {String locale, String name, int decimalDigits}) {
+    return new NumberFormat._forPattern(locale, (x) => x.CURRENCY_PATTERN,
+        name: name,
+        currencySymbol: _simpleCurrencySymbols[name] ?? name,
+        decimalDigits: decimalDigits);
+  }
+
+  /// Returns the simple currency symbol for given currency code, or
+  /// [currencyCode] if no simple symbol is listed.
+  ///
+  /// The simple currency symbol is generally short, and the same or related to
+  /// what is used in countries having the currency as an official symbol. It
+  /// may be a symbol character, or may have letters, or both. It may be
+  /// different according to the locale: for example, for an Arabic locale it
+  /// may consist of Arabic letters, but for a French locale consist of Latin
+  /// letters. It will not be unique: for example, "$" can appear for both USD
+  /// and CAD.
+  ///
+  /// (The current implementation is the same for all locales, but this is
+  /// temporary and callers shouldn't rely on it.)
+  String simpleCurrencySymbol(String currencyCode) =>
+      _simpleCurrencySymbols[currencyCode] ?? currencyCode;
+
+  /// A map from currency names to the simple name/symbol.
+  ///
+  /// The simple currency symbol is generally short, and the same or related to
+  /// what is used in countries having the currency as an official symbol. It
+  /// may be a symbol character, or may have letters, or both. It may be
+  /// different according to the locale: for example, for an Arabic locale it
+  /// may consist of Arabic letters, but for a French locale consist of Latin
+  /// letters. It will not be unique: for example, "$" can appear for both USD
+  /// and CAD.
+  ///
+  /// (The current implementation is the same for all locales, but this is
+  /// temporary and callers shouldn't rely on it.)
+  static Map<String, String> _simpleCurrencySymbols = {
+    "AFN": "Af.",
+    "TOP": r"T$",
+    "MGA": "Ar",
+    "THB": "\u0e3f",
+    "PAB": "B/.",
+    "ETB": "Birr",
+    "VEF": "Bs",
+    "BOB": "Bs",
+    "GHS": "GHS",
+    "CRC": "\u20a1",
+    "NIO": r"C$",
+    "GMD": "GMD",
+    "MKD": "din",
+    "BHD": "din",
+    "DZD": "din",
+    "IQD": "din",
+    "JOD": "din",
+    "KWD": "din",
+    "LYD": "din",
+    "RSD": "din",
+    "TND": "din",
+    "AED": "dh",
+    "MAD": "dh",
+    "STD": "Db",
+    "BSD": r"$",
+    "FJD": r"$",
+    "GYD": r"$",
+    "KYD": r"$",
+    "LRD": r"$",
+    "SBD": r"$",
+    "SRD": r"$",
+    "AUD": r"$",
+    "BBD": r"$",
+    "BMD": r"$",
+    "BND": r"$",
+    "BZD": r"$",
+    "CAD": r"$",
+    "HKD": r"$",
+    "JMD": r"$",
+    "NAD": r"$",
+    "NZD": r"$",
+    "SGD": r"$",
+    "TTD": r"$",
+    "TWD": r"NT$",
+    "USD": r"$",
+    "XCD": r"$",
+    "VND": "\u20ab",
+    "AMD": "Dram",
+    "CVE": "CVE",
+    "EUR": "\u20ac",
+    "AWG": "Afl.",
+    "HUF": "Ft",
+    "BIF": "FBu",
+    "CDF": "FrCD",
+    "CHF": "CHF",
+    "DJF": "Fdj",
+    "GNF": "FG",
+    "RWF": "RF",
+    "XOF": "CFA",
+    "XPF": "FCFP",
+    "KMF": "CF",
+    "XAF": "FCFA",
+    "HTG": "HTG",
+    "PYG": "Gs",
+    "UAH": "\u20b4",
+    "PGK": "PGK",
+    "LAK": "\u20ad",
+    "CZK": "K\u010d",
+    "SEK": "kr",
+    "ISK": "kr",
+    "DKK": "kr",
+    "NOK": "kr",
+    "HRK": "kn",
+    "MWK": "MWK",
+    "ZMK": "ZWK",
+    "AOA": "Kz",
+    "MMK": "K",
+    "GEL": "GEL",
+    "LVL": "Ls",
+    "ALL": "Lek",
+    "HNL": "L",
+    "SLL": "SLL",
+    "MDL": "MDL",
+    "RON": "RON",
+    "BGN": "lev",
+    "SZL": "SZL",
+    "TRY": "TL",
+    "LTL": "Lt",
+    "LSL": "LSL",
+    "AZN": "man.",
+    "BAM": "KM",
+    "MZN": "MTn",
+    "NGN": "\u20a6",
+    "ERN": "Nfk",
+    "BTN": "Nu.",
+    "MRO": "MRO",
+    "MOP": "MOP",
+    "CUP": r"$",
+    "CUC": r"$",
+    "ARS": r"$",
+    "CLF": "UF",
+    "CLP": r"$",
+    "COP": r"$",
+    "DOP": r"$",
+    "MXN": r"$",
+    "PHP": "\u20b1",
+    "UYU": r"$",
+    "FKP": "£",
+    "GIP": "£",
+    "SHP": "£",
+    "EGP": "E£",
+    "LBP": "L£",
+    "SDG": "SDG",
+    "SSP": "SSP",
+    "GBP": "£",
+    "SYP": "£",
+    "BWP": "P",
+    "GTQ": "Q",
+    "ZAR": "R",
+    "BRL": r"R$",
+    "OMR": "Rial",
+    "QAR": "Rial",
+    "YER": "Rial",
+    "IRR": "Rial",
+    "KHR": "Riel",
+    "MYR": "RM",
+    "SAR": "Rial",
+    "BYR": "BYR",
+    "RUB": "руб.",
+    "MUR": "Rs",
+    "SCR": "SCR",
+    "LKR": "Rs",
+    "NPR": "Rs",
+    "INR": "\u20b9",
+    "PKR": "Rs",
+    "IDR": "Rp",
+    "ILS": "\u20aa",
+    "KES": "Ksh",
+    "SOS": "SOS",
+    "TZS": "TSh",
+    "UGX": "UGX",
+    "PEN": "S/.",
+    "KGS": "KGS",
+    "UZS": "so\u02bcm",
+    "TJS": "Som",
+    "BDT": "\u09f3",
+    "WST": "WST",
+    "KZT": "\u20b8",
+    "MNT": "\u20ae",
+    "VUV": "VUV",
+    "KPW": "\u20a9",
+    "KRW": "\u20a9",
+    "JPY": "¥",
+    "CNY": "¥",
+    "PLN": "z\u0142",
+    "MVR": "Rf",
+    "NLG": "NAf",
+    "ZMW": "ZK",
+    "ANG": "ƒ",
+    "TMT": "TMT",
+  };
+
   /// Create a number format that prints in a pattern we get from
   /// the [getPattern] function using the locale [locale].
   NumberFormat._forPattern(String locale, _PatternGetter getPattern,
@@ -377,7 +599,11 @@ class NumberFormat {
   /// Helper to round a number which might not be num.
   _round(number) {
     if (number is num) {
-      return number.round();
+      if (number.isInfinite) {
+        return _maxInt;
+      } else {
+        return number.round();
+      }
     } else if (number.remainder(1) == 0) {
       // Not a normal number, but int-like, e.g. Int64
       return number;
@@ -697,6 +923,7 @@ class _NumberParser {
   _NumberParser(this.format, text)
       : this.text = text,
         this.input = new _Stream(text) {
+    scale = format._internalMultiplier;
     value = parse();
   }
 
@@ -797,6 +1024,16 @@ class _NumberParser {
   /// that's not a digit and doesn't have a replacement, then we're done
   /// and the number is probably invalid.
   void processNonDigit() {
+    // It might just be a prefix that we haven't skipped. We don't want to
+    // skip them initially because they might also be semantically meaningful,
+    // e.g. leading %. So we allow them through the loop, but only once.
+    var foundAnInterpretation = false;
+    if (input.index == 0 && !prefixesSkipped) {
+      prefixesSkipped = true;
+      checkPrefixes(skip: true);
+      foundAnInterpretation = true;
+    }
+
     for (var key in replacements.keys) {
       if (input.startsWith(key)) {
         _normalized.write(replacements[key]());
@@ -804,13 +1041,8 @@ class _NumberParser {
         return;
       }
     }
-    // It might just be a prefix that we haven't skipped. We don't want to
-    // skip them initially because they might also be semantically meaningful,
-    // e.g. leading %. So we allow them through the loop, but only once.
-    if (input.index == 0 && !prefixesSkipped) {
-      prefixesSkipped = true;
-      checkPrefixes(skip: true);
-    } else {
+    // We haven't found either of these things, this seems invalid.
+    if (!foundAnInterpretation) {
       done = true;
     }
   }
@@ -843,6 +1075,9 @@ class _NumberParser {
   /// Parse the number portion of the input, i.e. not any prefixes or suffixes,
   /// and assuming NaN and Infinity are already handled.
   num parseNumber(_Stream input) {
+    if (gotNegative) {
+      _normalized.write('-');
+    }
     while (!done && !input.atEnd()) {
       int digit = asDigit(input.peek());
       if (digit != null) {

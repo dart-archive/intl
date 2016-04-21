@@ -1,6 +1,9 @@
 ## 0.13.0
  * Add support for compact number formats ("1.2K") and for significant digits in
    number formats.
+ * Add a NumberFormat.simpleCurrency constructor which will attempt to
+   automatically determine the currency symbol. Very simple implementation but
+   can be expanded to be per-locale.
 
 ## 0.12.7+1
  * Change the signature for args and examples in Intl.plural/gender/select to

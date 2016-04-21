@@ -215,6 +215,8 @@ main() {
     formatted = tnd.format(amount);
     expect(formatted, digitsCheck[3]);
   });
+
+  testSimpleCurrencySymbols();
 }
 
 void testAgainstIcu(locale, List<NumberFormat> testFormats, list) {
@@ -243,5 +245,40 @@ void testAgainstIcu(locale, List<NumberFormat> testFormats, list) {
       var readBackLarge = format.parse(large);
       expect(readBackLarge, 1234567890);
     }
+  });
+}
+
+testSimpleCurrencySymbols() {
+  var currencies = ['USD', 'CAD', 'EUR', 'CRC'];
+  //  Note that these print using the simple symbol as if we were in a
+  // a locale where that currency symbol is well understood. So we
+  // expect Canadian dollars printed as $, even though our locale is
+  // en_US, and this would confuse users.
+  var simple = currencies.map((currency) =>
+      new NumberFormat.simpleCurrency(locale: 'en_US', name: currency));
+  var expectedSimple = [r'$', r'$', '\u20ac', '\u20a1'];
+  // These will always print as the global name, regardless of locale
+  var global = currencies.map(
+      (currency) => new NumberFormat.currency(locale: 'en_US', name: currency));
+  var expectedGlobal = currencies;
+
+  testCurrencySymbolsFor(expectedGlobal, global, "global");
+  testCurrencySymbolsFor(expectedSimple, simple, "simple");
+}
+
+testCurrencySymbolsFor(expected, formats, name) {
+  var amount = 1000000.32;
+  new Map.fromIterables(expected, formats)
+      .forEach((expected, NumberFormat format) {
+    test("Test $name ${format.currencyName}", () {
+      // We have to allow for currencies with different fraction digits, e.g. CRC.
+      var maxDigits = format.maximumFractionDigits;
+      var rounded = maxDigits == 0 ? amount.round() : amount;
+      var fractionDigits = (amount - rounded) < 0.00001 ? '.32' : '';
+      var formatted = format.format(rounded);
+      expect(formatted, "${expected}1,000,000$fractionDigits");
+      var parsed = format.parse(formatted);
+      expect(parsed, rounded);
+    });
   });
 }
