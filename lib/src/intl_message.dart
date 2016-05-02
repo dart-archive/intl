@@ -159,11 +159,7 @@ abstract class Message {
   /// code.
   String toCode();
 
-  /// Escape the string for use in generated Dart code and
-  /// optionally validate that it
-  /// doesn't  doesn't contain any illegal interpolations. We only allow
-  /// simple variables ("$foo", but not "${foo}") and Intl.gender/plural
-  /// calls.
+  /// Escape the string for use in generated Dart code.
   String escapeAndValidateString(String value) {
     const Map<String, String> escapes = const {
       r"\": r"\\",
@@ -175,30 +171,13 @@ abstract class Message {
       "\t": r"\t",
       "\v": r"\v",
       "'": r"\'",
+      r"$" : r"\$"
     };
 
-    String _escape(String s) => (escapes[s] == null) ? s : escapes[s];
+    String _escape(String s) => escapes[s] ?? s;
 
     var escaped = value.splitMapJoin("", onNonMatch: _escape);
-    return disallowInvalidInterpolations(escaped);
-  }
-
-  /// Disallow ${} expressions, only allow $variable so as to avoid malicious
-  /// code. Disallow any usage of "${". If that makes a false positive
-  /// on a translation that legitimately contains "\\${" or other variations,
-  /// we'll live with that rather than risk a false negative.
-  String disallowInvalidInterpolations(String input) {
-    var validInterpolations = new RegExp(r"(\$\w+)|(\${\w+})");
-    var validMatches = validInterpolations.allMatches(input);
-    String escapeInvalidMatches(Match m) {
-      var valid = validMatches.any((x) => x.start == m.start);
-      if (valid) {
-        return m.group(0);
-      } else {
-        return "\\${m.group(0)}";
-      }
-    }
-    return input.replaceAllMapped("\$", escapeInvalidMatches);
+    return escaped;
   }
 
   /// Expand this string out into a printed form. The function [f] will be

@@ -143,6 +143,9 @@ rentAsVerb() => Intl.message("rent",
     meaning: 'rent as a verb',
     desc: "The action of renting, as in rent a car");
 
+literalDollar() => Intl.message("Five cents is US\$0.05",
+    name: "literalDollar", desc: "Literal dollar sign with valid number");
+
 printStuff(Intl locale) {
   // Use a name that's not a literal so this will get skipped. Then we have
   // a name that's not in the original but we include it in the French
@@ -228,6 +231,7 @@ printStuff(Intl locale) {
     printOut(sameContentsDifferentName());
     printOut(rentAsVerb());
     printOut(rentToBePaid());
+    printOut(literalDollar());
   });
 }
 

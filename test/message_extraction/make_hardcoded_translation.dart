@@ -71,7 +71,8 @@ var french = {
       "=1{{amount} dollar Canadien}"
       "other{{amount} dollars Canadiens}}}"
       "other{N'importe quoi}"
-      "}}"
+  "}}",
+  "literalDollar": "Cinq sous est US\$0.05"
 };
 
 /// A list of the German translations that we will produce.
@@ -130,7 +131,8 @@ var german = {
       "=1{{amount} Kanadischer dollar}"
       "other{{amount} Kanadischen dollar}}}"
       "other{whatever}"
-      "}"
+      "}",
+  "literalDollar": "Fünf Cent US \$ 0.05"
 };
 
 /// The output directory for translated files.

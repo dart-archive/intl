@@ -73,6 +73,7 @@ actuallyVerifyResult() {
   verify('Hello World');
   verify('rent');
   verify('rent');
+  verify('Five cents is US\$0.05');
 
   var fr_lines =
       expanded.skip(1).skipWhile((line) => !line.contains('----')).toList();
@@ -137,6 +138,8 @@ actuallyVerifyResult() {
   verify('Bonjour tout le monde');
   verify('louer');
   verify('loyer');
+  // Using a non-French format for the currency to test interpolation.
+  verify('Cinq sous est US\$0.05');
 
   var de_lines =
       fr_lines.skip(1).skipWhile((line) => !line.contains('----')).toList();
@@ -202,4 +205,5 @@ actuallyVerifyResult() {
   verify('Hallo Welt');
   verify('mieten');
   verify('Miete');
+  verify('Fünf Cent US \$ 0.05');
 }

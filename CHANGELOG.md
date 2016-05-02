@@ -4,6 +4,8 @@
  * Add a NumberFormat.simpleCurrency constructor which will attempt to
    automatically determine the currency symbol. Very simple implementation but
    can be expanded to be per-locale.
+ * Fix a problem where, in a message, a literal dollar sign followed by a number
+   was seen as a valid identifier, resulting in invalid code being generated.
 
 ## 0.12.7+1
  * Change the signature for args and examples in Intl.plural/gender/select to
