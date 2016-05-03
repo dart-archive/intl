@@ -8,6 +8,7 @@
 library intl_helpers;
 
 import 'dart:async';
+import 'package:intl/intl.dart';
 
 /// This is used as a marker for a locale data map that hasn't been initialized,
 /// and will throw an exception on any usage that isn't the fallback
@@ -22,6 +23,10 @@ class UninitializedLocaleData<F> {
 
   String lookupMessage(String message_str, String locale,
       String name, List args) => message_str;
+
+  /// Given an initial locale or null, returns the locale that will be used
+  /// for messages.
+  String findLocale(String locale) => locale ?? Intl.getCurrentLocale();
 
   List<String> get keys => _throwException() as List<String>;
 

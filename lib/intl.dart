@@ -28,6 +28,7 @@ import 'number_symbols.dart';
 import 'number_symbols_data.dart';
 import 'src/date_format_internal.dart';
 import 'src/intl_helpers.dart';
+import 'package:intl/src/plural_rules.dart' as plural_rules;
 
 part 'src/intl/bidi_formatter.dart';
 part 'src/intl/bidi_utils.dart';
@@ -284,7 +285,8 @@ class Intl {
               two: two,
               few: few,
               many: many,
-              other: other),
+              other: other,
+              locale: locale),
           name: name,
           args: args,
           locale: locale,
@@ -293,20 +295,50 @@ class Intl {
     if (other == null) {
       throw new ArgumentError("The 'other' named argument must be provided");
     }
-    // TODO(alanknight): This algorithm needs to be locale-dependent.
-    switch (howMany) {
-      case 0:
-        return (zero == null) ? other : zero;
-      case 1:
-        return (one == null) ? other : one;
-      case 2:
-        return (two == null) ? ((few == null) ? other : few) : two;
-      default:
-        if ((howMany == 3 || howMany == 4) && few != null) return few;
-        if (howMany > 10 && howMany < 100 && many != null) return many;
+    // If there's an explicit case for the exact number, we use it. This is not
+    // strictly in accord with the CLDR rules, but it seems to be the
+    // expectation. At least I see e.g. Russian translations that have a zero
+    // case defined. The rule for that locale will never produce a zero, and
+    // treats it as other. But it seems reasonable that, even if the language
+    // rules treat zero as other, we might want a special message for zero.
+    if (howMany == 0 && zero != null) return zero;
+    if (howMany == 1 && one != null) return one;
+    if (howMany == 2 && two != null) return two;
+    var pluralRule = _pluralRule(locale, howMany);
+    var pluralCase = pluralRule();
+    switch (pluralCase) {
+      case plural_rules.PluralCase.ZERO:
+        return zero ?? other;
+      case plural_rules.PluralCase.ONE:
+        return one ?? other;
+      case plural_rules.PluralCase.TWO:
+        return two ?? few ?? other;
+      case plural_rules.PluralCase.FEW:
+        return few ?? other;
+      case plural_rules.PluralCase.MANY:
+        return many ?? other;
+      case plural_rules.PluralCase.OTHER:
         return other;
+      default:
+        throw new ArgumentError.value(
+            howMany, "howMany", "Invalid plural argument");
     }
-    throw new ArgumentError("Invalid plural usage for $howMany");
+  }
+
+  static var _cachedPluralRule;
+  static String _cachedPluralLocale;
+
+  static _pluralRule(String locale, int howMany) {
+    plural_rules.startRuleEvaluation(howMany);
+    var verifiedLocale = Intl.verifiedLocale(locale, plural_rules.localeHasPluralRules,
+        onFailure: (locale) => 'default');
+    if (_cachedPluralLocale == verifiedLocale) {
+      return _cachedPluralRule;
+    } else {
+      _cachedPluralRule = plural_rules.pluralRules[verifiedLocale];
+      _cachedPluralLocale = verifiedLocale;
+      return _cachedPluralRule;
+    }
   }
 
   /// Format a message differently depending on [targetGender]. Normally used as

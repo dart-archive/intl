@@ -29,15 +29,22 @@ class CompositeMessageLookup {
   /// parameters are ignored
   String lookupMessage(String message_str, String locale,
       String name, List args) {
-    var actualLocale = (locale == null) ? Intl.getCurrentLocale() : locale;
-    // For this usage, if the locale doesn't exist for messages, just return
-    // it and we'll fall back to the original version.
-    var verifiedLocale = Intl.verifiedLocale(actualLocale, localeExists,
-        onFailure: (locale) => locale);
+    var verifiedLocale = findLocale(locale);
     var messages = availableMessages[verifiedLocale];
     if (messages == null) return message_str;
     return messages.
         lookupMessage(message_str, locale, name, args);
+  }
+
+  /// Given an initial locale or null, returns the locale that will be used
+  /// for messages.
+  String findLocale(String locale) {
+    var actualLocale = locale ?? Intl.getCurrentLocale();
+    // For this usage, if the locale doesn't exist for messages, just return
+    // it and we'll fall back to the original version.
+    var verifiedLocale = Intl.verifiedLocale(actualLocale, localeExists,
+        onFailure: (locale) => locale);
+    return verifiedLocale;
   }
 
   /// If we do not already have a locale for [localeName] then

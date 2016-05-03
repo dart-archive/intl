@@ -6,6 +6,9 @@
    can be expanded to be per-locale.
  * Fix a problem where, in a message, a literal dollar sign followed by a number
    was seen as a valid identifier, resulting in invalid code being generated.
+ * Add support for locale-specific plural rules. Note that this changes the
+   interpretation of plurals and so is potentially breaking. For example, in
+   English three will now be treated as "other" rather than as "few".
 
 ## 0.12.7+1
  * Change the signature for args and examples in Intl.plural/gender/select to
