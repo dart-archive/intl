@@ -37,8 +37,8 @@ List findMessages(String source, String sourceName) {
   try {
     root = parseCompilationUnit(source, name: sourceName);
   } on AnalyzerErrorGroup catch (e) {
-    print("Error in parsing $sourceName, no messages extracted.");
-    print("  $e");
+    onMessage("Error in parsing $sourceName, no messages extracted.");
+    onMessage("  $e");
     return [];
   }
   origin = sourceName;

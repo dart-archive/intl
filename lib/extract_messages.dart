@@ -31,6 +31,12 @@ bool suppressWarnings = false;
 /// If this is true, then treat all warnings as errors.
 bool warningsAreErrors = false;
 
+/// A function that takes a message and does something useful with it.
+typedef void OnMessage(String message);
+
+/// What to do when a message is encountered, defaults to [print].
+OnMessage onMessage = print;
+
 /// This accumulates a list of all warnings/errors we have found. These are
 /// saved as strings right now, so all that can really be done is print and
 /// count them.
@@ -57,8 +63,8 @@ Map<String, MainMessage> parseFile(File file, [transformer = false]) {
   try {
     root = parseDartFile(file.path);
   } on AnalyzerErrorGroup catch (e) {
-    print("Error in parsing ${file.path}, no messages extracted.");
-    print("  $e");
+    onMessage("Error in parsing ${file.path}, no messages extracted.");
+    onMessage("  $e");
     return {};
   }
   origin = file.path;
@@ -191,7 +197,7 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
           ..write("Skipping invalid Intl.message invocation\n    <$node>\n")
           ..writeAll(["    reason: $reason\n", _reportErrorLocation(node)]);
         warnings.add(err.toString());
-        print(err);
+        onMessage(err);
       }
       // We found one, but it's not valid. Stop recursing.
       return true;
@@ -266,7 +272,7 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
         var err = new StringBuffer()
           ..writeAll(["Error ", e, "\nProcessing <", node, ">\n"])
           ..write(_reportErrorLocation(node));
-        print(err);
+        onMessage(err);
         warnings.add(err.toString());
       }
       return message; // Because we may have set it to null on an error.
@@ -448,7 +454,7 @@ class PluralAndGenderVisitor extends SimpleAstVisitor {
         var err = new StringBuffer()
           ..writeAll(["Error ", e, "\nProcessing <", node, ">"])
           ..write(_reportErrorLocation(node));
-        print(err);
+        onMessage(err);
         warnings.add(err.toString());
       }
     });
@@ -464,7 +470,7 @@ class PluralAndGenderVisitor extends SimpleAstVisitor {
             "must be simple variable reference) "
             "\nProcessing <$node>")
         ..write(_reportErrorLocation(node));
-      print(err);
+      onMessage(err);
       warnings.add(err.toString());
     }
     return message;

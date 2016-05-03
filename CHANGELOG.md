@@ -1,3 +1,8 @@
+## 0.12.8
+ * Add `onMessage` top level variable, which defaults to `print`. Warning and
+   error messages will all now go through this function instead of calling
+   `print` directly.
+
 ## 0.12.7+1
  * Change the signature for args and examples in Intl.plural/gender/select to
    match Intl.message, allowing dynamic values.
