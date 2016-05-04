@@ -9,6 +9,9 @@
  * Add support for locale-specific plural rules. Note that this changes the
    interpretation of plurals and so is potentially breaking. For example, in
    English three will now be treated as "other" rather than as "few".
+ * Add `onMessage` top level variable, which defaults to `print`. Warning and
+   error messages will all now go through this function instead of calling
+   `print` directly.
 
 ## 0.12.7+1
  * Change the signature for args and examples in Intl.plural/gender/select to
