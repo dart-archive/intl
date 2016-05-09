@@ -356,7 +356,7 @@ class DateFormat {
 
   /// Returns a list of all locales for which we have date formatting
   /// information.
-  static List<String> allLocalesWithSymbols() => dateTimeSymbols.keys.toList();
+  static List<String> allLocalesWithSymbols() => new List<String>.from(dateTimeSymbols.keys);
 
   /// The named constructors for this class are all conveniences for creating
   /// instances using one of the known "skeleton" formats, and having code

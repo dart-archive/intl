@@ -21,7 +21,9 @@ import '../date_symbols.dart';
 /// depending on what implementation we are using. By default, it is initialized
 /// to an instance of UninitializedLocaleData, so any attempt to use it will
 /// result in an informative error message.
-var dateTimeSymbols = new UninitializedLocaleData(
+// TODO(alanknight): Have a valid type for this. Currently it can be an
+// UninitializedLocaleData, Map, or LazyLocaleData.
+dynamic dateTimeSymbols = new UninitializedLocaleData(
     'initializeDateFormatting(<locale>)', en_USSymbols);
 
 /// This holds the patterns used for date/time formatting, indexed
@@ -29,7 +31,9 @@ var dateTimeSymbols = new UninitializedLocaleData(
 /// depending on what implementation we are using. By default, it is initialized
 /// to an instance of UninitializedLocaleData, so any attempt to use it will
 /// result in an informative error message.
-var dateTimePatterns = new UninitializedLocaleData(
+// TODO(alanknight): Have a valid type for this. Currently it can be an
+// UninitializedLocaleData, Map, or LazyLocaleData.
+dynamic dateTimePatterns = new UninitializedLocaleData(
     'initializeDateFormatting(<locale>)', en_USPatterns);
 
 /// Initialize the symbols dictionary. This should be passed a function that
