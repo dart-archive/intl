@@ -60,18 +60,29 @@ bool allowEmbeddedPluralsAndGenders = true;
 /// If [transformer] is true, assume the transformer will supply any "name"
 /// and "args" parameters required in Intl.message calls.
 Map<String, MainMessage> parseFile(File file, [transformer = false]) {
-  try {
-    root = parseDartFile(file.path);
-  } on AnalyzerErrorGroup catch (e) {
-    onMessage("Error in parsing ${file.path}, no messages extracted.");
-    onMessage("  $e");
+// Optimization to avoid parsing files we're sure don't contain any messages.
+  String contents = file.readAsStringSync();
+  origin = file.path;
+  if (contents.contains("Intl.")) {
+    root = _parseCompilationUnit(contents, origin);
+  } else {
     return {};
   }
-  origin = file.path;
   var visitor = new MessageFindingVisitor();
   visitor.generateNameAndArgs = transformer;
   root.accept(visitor);
   return visitor.messages;
+}
+
+CompilationUnit _parseCompilationUnit(String contents, String origin) {
+  var parsed;
+  try {
+    parsed = parseCompilationUnit(contents);
+  } on AnalyzerErrorGroup catch (e) {
+    print("Error in parsing $origin, no messages extracted.");
+    print("  $e");
+  }
+  return parsed;
 }
 
 /// The root of the compilation unit, and the first node we visit. We hold
