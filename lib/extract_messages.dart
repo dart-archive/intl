@@ -27,83 +27,90 @@ import 'package:intl/src/intl_message.dart';
 /// A function that takes a message and does something useful with it.
 typedef void OnMessage(String message);
 
-/// What to do when a message is encountered, defaults to [print].
-OnMessage onMessage = print;
-
-/// If this is true, print warnings for skipped messages. Otherwise, warnings
-/// are suppressed.
-bool suppressWarnings = false;
-
-/// If this is true, then treat all warnings as errors.
-bool warningsAreErrors = false;
-
-/// This accumulates a list of all warnings/errors we have found. These are
-/// saved as strings right now, so all that can really be done is print and
-/// count them.
-List<String> warnings = [];
-
-/// Were there any warnings or errors in extracting messages.
-bool get hasWarnings => warnings.isNotEmpty;
-
-/// Are plural and gender expressions required to be at the top level
-/// of an expression, or are they allowed to be embedded in string literals.
+/// A particular message extraction run.
 ///
-/// For example, the following expression
-///     'There are ${Intl.plural(...)} items'.
-/// is legal if [allowEmbeddedPluralsAndGenders] is true, but illegal
-/// if [allowEmbeddedPluralsAndGenders] is false.
-bool allowEmbeddedPluralsAndGenders = true;
+///  This encapsulates all the state required for message extraction so that
+///  it can be run inside a persistent process.
+class MessageExtraction {
+  /// What to do when a message is encountered, defaults to [print].
+  OnMessage onMessage = print;
 
-/// Parse the source of the Dart program file [file] and return a Map from
-/// message names to [IntlMessage] instances.
-///
-/// If [transformer] is true, assume the transformer will supply any "name"
-/// and "args" parameters required in Intl.message calls.
-Map<String, MainMessage> parseFile(File file, [transformer = false]) {
-// Optimization to avoid parsing files we're sure don't contain any messages.
-  String contents = file.readAsStringSync();
-  origin = file.path;
-  if (contents.contains("Intl.")) {
-    root = _parseCompilationUnit(contents, origin);
-  } else {
-    return {};
+  /// If this is true, print warnings for skipped messages. Otherwise, warnings
+  /// are suppressed.
+  bool suppressWarnings = false;
+
+  /// If this is true, then treat all warnings as errors.
+  bool warningsAreErrors = false;
+
+  /// This accumulates a list of all warnings/errors we have found. These are
+  /// saved as strings right now, so all that can really be done is print and
+  /// count them.
+  List<String> warnings = [];
+
+  /// Were there any warnings or errors in extracting messages.
+  bool get hasWarnings => warnings.isNotEmpty;
+
+  /// Are plural and gender expressions required to be at the top level
+  /// of an expression, or are they allowed to be embedded in string literals.
+  ///
+  /// For example, the following expression
+  ///     'There are ${Intl.plural(...)} items'.
+  /// is legal if [allowEmbeddedPluralsAndGenders] is true, but illegal
+  /// if [allowEmbeddedPluralsAndGenders] is false.
+  bool allowEmbeddedPluralsAndGenders = true;
+
+  /// Parse the source of the Dart program file [file] and return a Map from
+  /// message names to [IntlMessage] instances.
+  ///
+  /// If [transformer] is true, assume the transformer will supply any "name"
+  /// and "args" parameters required in Intl.message calls.
+  Map<String, MainMessage> parseFile(File file, [transformer = false]) {
+    // Optimization to avoid parsing files we're sure don't contain any messages.
+    String contents = file.readAsStringSync();
+    origin = file.path;
+    if (contents.contains("Intl.")) {
+      root = _parseCompilationUnit(contents, origin);
+    } else {
+      return {};
+    }
+    var visitor = new MessageFindingVisitor(this);
+    visitor.generateNameAndArgs = transformer;
+    root.accept(visitor);
+    return visitor.messages;
   }
-  var visitor = new MessageFindingVisitor();
-  visitor.generateNameAndArgs = transformer;
-  root.accept(visitor);
-  return visitor.messages;
-}
 
-CompilationUnit _parseCompilationUnit(String contents, String origin) {
-  var parsed;
-  try {
-    parsed = parseCompilationUnit(contents);
-  } on AnalyzerErrorGroup catch (e) {
-    print("Error in parsing $origin, no messages extracted.");
-    print("  $e");
+  CompilationUnit _parseCompilationUnit(String contents, String origin) {
+    var parsed;
+    try {
+      parsed = parseCompilationUnit(contents);
+    } on AnalyzerErrorGroup catch (e) {
+      print("Error in parsing $origin, no messages extracted.");
+      print("  $e");
+    }
+    return parsed;
   }
-  return parsed;
-}
 
-/// The root of the compilation unit, and the first node we visit. We hold
-/// on to this for error reporting, as it can give us line numbers of other
-/// nodes.
-CompilationUnit root;
+  /// The root of the compilation unit, and the first node we visit. We hold
+  /// on to this for error reporting, as it can give us line numbers of other
+  /// nodes.
+  CompilationUnit root;
 
-/// An arbitrary string describing where the source code came from. Most
-/// obviously, this could be a file path. We use this when reporting
-/// invalid messages.
-String origin;
+  /// An arbitrary string describing where the source code came from. Most
+  /// obviously, this could be a file path. We use this when reporting
+  /// invalid messages.
+  String origin;
 
-String _reportErrorLocation(AstNode node) {
-  var result = new StringBuffer();
-  if (origin != null) result.write("    from $origin");
-  var info = root.lineInfo;
-  if (info != null) {
-    var line = info.getLocation(node.offset);
-    result.write("    line: ${line.lineNumber}, column: ${line.columnNumber}");
+  String _reportErrorLocation(AstNode node) {
+    var result = new StringBuffer();
+    if (origin != null) result.write("    from $origin");
+    var info = root.lineInfo;
+    if (info != null) {
+      var line = info.getLocation(node.offset);
+      result
+          .write("    line: ${line.lineNumber}, column: ${line.columnNumber}");
+    }
+    return result.toString();
   }
-  return result.toString();
 }
 
 /// This visits the program source nodes looking for Intl.message uses
@@ -111,7 +118,10 @@ String _reportErrorLocation(AstNode node) {
 /// IntlMessage objects. We have to find both the enclosing function, and
 /// the Intl.message invocation.
 class MessageFindingVisitor extends GeneralizingAstVisitor {
-  MessageFindingVisitor();
+  MessageFindingVisitor(this.extraction);
+
+  /// The message extraction in which we are running.
+  final MessageExtraction extraction;
 
   /// Accumulates the messages we have found, keyed by name.
   final Map<String, MainMessage> messages = new Map<String, MainMessage>();
@@ -203,13 +213,14 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
     if (!looksLikeIntlMessage(node)) return false;
     var reason = checkValidity(node);
     if (reason != null) {
-      if (!suppressWarnings) {
+      if (!extraction.suppressWarnings) {
         var err = new StringBuffer()
           ..write("Skipping invalid Intl.message invocation\n    <$node>\n")
-          ..writeAll(["    reason: $reason\n", _reportErrorLocation(node)]);
+          ..writeAll(
+              ["    reason: $reason\n", extraction._reportErrorLocation(node)]);
         var errString = err.toString();
-        warnings.add(errString);
-        onMessage(errString);
+        extraction.warnings.add(errString);
+        extraction.onMessage(errString);
       }
       // We found one, but it's not valid. Stop recursing.
       return true;
@@ -267,10 +278,10 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
   MainMessage messageFromIntlMessageCall(MethodInvocation node) {
     MainMessage extractFromIntlCall(MainMessage message, List arguments) {
       try {
-        var interpolation = new InterpolationVisitor(message);
+        var interpolation = new InterpolationVisitor(message, extraction);
         arguments.first.accept(interpolation);
         if (interpolation.pieces.any((x) => x is Plural || x is Gender) &&
-            !allowEmbeddedPluralsAndGenders) {
+            !extraction.allowEmbeddedPluralsAndGenders) {
           if (interpolation.pieces.any((x) => x is String && x.isNotEmpty)) {
             throw new IntlMessageExtractionException(
                 "Plural and gender expressions must be at the top level, "
@@ -283,10 +294,10 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
         message = null;
         var err = new StringBuffer()
           ..writeAll(["Error ", e, "\nProcessing <", node, ">\n"])
-          ..write(_reportErrorLocation(node));
+          ..write(extraction._reportErrorLocation(node));
         var errString = err.toString();
-        onMessage(errString);
-        warnings.add(errString);
+        extraction.onMessage(errString);
+        extraction.warnings.add(errString);
       }
       return message; // Because we may have set it to null on an error.
     }
@@ -303,7 +314,8 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
   /// and the parameters to the Intl.plural or Intl.gender call.
   MainMessage messageFromDirectPluralOrGenderCall(MethodInvocation node) {
     MainMessage extractFromPluralOrGender(MainMessage message, _) {
-      var visitor = new PluralAndGenderVisitor(message.messagePieces, message);
+      var visitor = new PluralAndGenderVisitor(
+          message.messagePieces, message, extraction);
       node.accept(visitor);
       return message;
     }
@@ -328,7 +340,10 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
 class InterpolationVisitor extends SimpleAstVisitor {
   final Message message;
 
-  InterpolationVisitor(this.message);
+  /// The message extraction in which we are running.
+  final MessageExtraction extraction;
+
+  InterpolationVisitor(this.message, this.extraction);
 
   List pieces = [];
   String get extractedMessage => pieces.join();
@@ -363,7 +378,7 @@ class InterpolationVisitor extends SimpleAstVisitor {
   }
 
   lookForPluralOrGender(InterpolationExpression node) {
-    var visitor = new PluralAndGenderVisitor(pieces, message);
+    var visitor = new PluralAndGenderVisitor(pieces, message, extraction);
     node.accept(visitor);
     if (!visitor.foundPluralOrGender) {
       throw new IntlMessageExtractionException(
@@ -389,6 +404,9 @@ class InterpolationVisitor extends SimpleAstVisitor {
 /// this is a SimpleAstVisitor, so it doesn't automatically recurse. So this
 /// needs to be called where we expect a plural or gender immediately below.
 class PluralAndGenderVisitor extends SimpleAstVisitor {
+  /// The message extraction in which we are running.
+  final MessageExtraction extraction;
+
   /// A plural or gender always exists in the context of a parent message,
   /// which could in turn also be a plural or gender.
   final ComplexMessage parent;
@@ -400,7 +418,7 @@ class PluralAndGenderVisitor extends SimpleAstVisitor {
   /// This will be set to true if we find a plural or gender.
   bool foundPluralOrGender = false;
 
-  PluralAndGenderVisitor(this.pieces, this.parent) : super();
+  PluralAndGenderVisitor(this.pieces, this.parent, this.extraction) : super();
 
   visitInterpolationExpression(InterpolationExpression node) {
     // TODO(alanknight): Provide better errors for malformed expressions.
@@ -459,17 +477,17 @@ class PluralAndGenderVisitor extends SimpleAstVisitor {
     var arguments = message.argumentsOfInterestFor(node);
     arguments.forEach((key, value) {
       try {
-        var interpolation = new InterpolationVisitor(message);
+        var interpolation = new InterpolationVisitor(message, extraction);
         value.accept(interpolation);
         message[key] = interpolation.pieces;
       } on IntlMessageExtractionException catch (e) {
         message = null;
         var err = new StringBuffer()
           ..writeAll(["Error ", e, "\nProcessing <", node, ">"])
-          ..write(_reportErrorLocation(node));
+          ..write(extraction._reportErrorLocation(node));
         var errString = err.toString();
-        onMessage(errString);
-        warnings.add(errString);
+        extraction.onMessage(errString);
+        extraction.warnings.add(errString);
       }
     });
     var mainArg = node.argumentList.arguments
@@ -483,10 +501,10 @@ class PluralAndGenderVisitor extends SimpleAstVisitor {
         ..write("Error (Invalid argument to plural/gender/select, "
             "must be simple variable reference) "
             "\nProcessing <$node>")
-        ..write(_reportErrorLocation(node));
+        ..write(extraction._reportErrorLocation(node));
       var errString = err.toString();
-      onMessage(errString);
-      warnings.add(errString);
+      extraction.onMessage(errString);
+      extraction.warnings.add(errString);
     }
     return message;
   }

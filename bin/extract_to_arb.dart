@@ -21,17 +21,18 @@ main(List<String> args) {
   var targetDir;
   bool transformer;
   var parser = new ArgParser();
+  var extraction = new MessageExtraction();
   parser.addFlag("suppress-warnings",
       defaultsTo: false,
-      callback: (x) => suppressWarnings = x,
+      callback: (x) => extraction.suppressWarnings = x,
       help: 'Suppress printing of warnings.');
   parser.addFlag("warnings-are-errors",
       defaultsTo: false,
-      callback: (x) => warningsAreErrors = x,
+      callback: (x) => extraction.warningsAreErrors = x,
       help: 'Treat all warnings as errors, stop processing ');
   parser.addFlag("embedded-plurals",
       defaultsTo: true,
-      callback: (x) => allowEmbeddedPluralsAndGenders = x,
+      callback: (x) => extraction.allowEmbeddedPluralsAndGenders = x,
       help: 'Allow plurals and genders to be embedded as part of a larger '
           'string, otherwise they must be at the top level.');
   parser.addFlag("transformer",
@@ -53,12 +54,12 @@ main(List<String> args) {
   }
   var allMessages = {};
   for (var arg in args.where((x) => x.contains(".dart"))) {
-    var messages = parseFile(new File(arg), transformer);
+    var messages = extraction.parseFile(new File(arg), transformer);
     messages.forEach((k, v) => allMessages.addAll(toARB(v)));
   }
   var file = new File(path.join(targetDir, 'intl_messages.arb'));
   file.writeAsStringSync(JSON.encode(allMessages));
-  if (hasWarnings && warningsAreErrors) {
+  if (extraction.hasWarnings && extraction.warningsAreErrors) {
     exit(1);
   }
 }

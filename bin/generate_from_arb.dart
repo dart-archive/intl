@@ -36,9 +36,11 @@ Map<String, List<MainMessage>> messages;
 main(List<String> args) {
   var targetDir;
   var parser = new ArgParser();
+  var extraction = new MessageExtraction();
+  var generation = new MessageGeneration();
   parser.addFlag("suppress-warnings",
       defaultsTo: false,
-      callback: (x) => suppressWarnings = x,
+      callback: (x) => extraction.suppressWarnings = x,
       help: 'Suppress printing of warnings.');
   parser.addOption("output-dir",
       defaultsTo: '.',
@@ -46,11 +48,11 @@ main(List<String> args) {
       help: 'Specify the output directory.');
   parser.addOption("generated-file-prefix",
       defaultsTo: '',
-      callback: (x) => generatedFilePrefix = x,
+      callback: (x) => generation.generatedFilePrefix = x,
       help: 'Specify a prefix to be used for the generated file names.');
   parser.addFlag("use-deferred-loading",
       defaultsTo: true,
-      callback: (x) => useDeferredLoading = x,
+      callback: (x) => generation.useDeferredLoading = x,
       help: 'Generate message code that must be loaded with deferred loading. '
           'Otherwise, all messages are eagerly loaded.');
   parser.parse(args);
@@ -68,8 +70,9 @@ main(List<String> args) {
   // so if there are warnings extracting the messages, suppress them, and
   // always pretend the transformer was in use so we don't fail for missing
   // names/args.
-  suppressWarnings = true;
-  var allMessages = dartFiles.map((each) => parseFile(new File(each), true));
+  extraction.suppressWarnings = true;
+  var allMessages =
+      dartFiles.map((each) => extraction.parseFile(new File(each), true));
 
   messages = new Map();
   for (var eachMap in allMessages) {
@@ -78,12 +81,12 @@ main(List<String> args) {
   }
   for (var arg in jsonFiles) {
     var file = new File(arg);
-    generateLocaleFile(file, targetDir);
+    generateLocaleFile(file, targetDir, generation);
   }
 
-  var mainImportFile =
-      new File(path.join(targetDir, '${generatedFilePrefix}messages_all.dart'));
-  mainImportFile.writeAsStringSync(generateMainImportFile());
+  var mainImportFile = new File(path.join(
+      targetDir, '${generation.generatedFilePrefix}messages_all.dart'));
+  mainImportFile.writeAsStringSync(generation.generateMainImportFile());
 }
 
 /// Create the file of generated code for a particular locale. We read the ARB
@@ -91,7 +94,8 @@ main(List<String> args) {
 /// excluding only the special _locale attribute that we use to indicate the
 /// locale. If that attribute is missing, we try to get the locale from the last
 /// section of the file name.
-void generateLocaleFile(File file, String targetDir) {
+void generateLocaleFile(
+    File file, String targetDir, MessageGeneration generation) {
   var src = file.readAsStringSync();
   var data = JSON.decode(src);
   data.forEach((k, v) => data[k] = recreateIntlObjects(k, v));
@@ -108,7 +112,7 @@ void generateLocaleFile(File file, String targetDir) {
     print("No @@locale or _locale field found in $name, "
         "assuming '$locale' based on the file name.");
   }
-  allLocales.add(locale);
+  generation.allLocales.add(locale);
 
   List<TranslatedMessage> translations = [];
   data.forEach((key, value) {
@@ -116,7 +120,7 @@ void generateLocaleFile(File file, String targetDir) {
       translations.add(value);
     }
   });
-  generateIndividualMessageFile(locale, translations, targetDir);
+  generation.generateIndividualMessageFile(locale, translations, targetDir);
 }
 
 /// Regenerate the original IntlMessage objects from the given [data]. For

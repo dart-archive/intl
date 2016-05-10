@@ -34,16 +34,17 @@ String rewriteMessages(String source, String sourceName) {
 ///
 /// Report errors as coming from [sourceName]
 List findMessages(String source, String sourceName) {
+  var extraction = new MessageExtraction();
   try {
-    root = parseCompilationUnit(source, name: sourceName);
+    extraction.root = parseCompilationUnit(source, name: sourceName);
   } on AnalyzerErrorGroup catch (e) {
-    onMessage("Error in parsing $sourceName, no messages extracted.");
-    onMessage("  $e");
+    extraction.onMessage("Error in parsing $sourceName, no messages extracted.");
+    extraction.onMessage("  $e");
     return [];
   }
-  origin = sourceName;
-  var visitor = new MessageFindingVisitor();
+  extraction.origin = sourceName;
+  var visitor = new MessageFindingVisitor(extraction);
   visitor.generateNameAndArgs = true;
-  root.accept(visitor);
+  extraction.root.accept(visitor);
   return visitor.messages.values.toList();
 }

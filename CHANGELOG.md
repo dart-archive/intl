@@ -12,6 +12,10 @@
  * Add `onMessage` top level variable, which defaults to `print`. Warning and
    error messages will all now go through this function instead of calling
    `print` directly.
+ * Move top-level variables in `extract_messages.dart` into a MessageExtraction
+   object. This is a breaking change for code that imports
+   `extract_messages.dart`, which probably only means message format
+   readers/extractors like `extract_to_arb.dart` and `generate_from_arb.dart`.
 
 ## 0.12.7+1
  * Change the signature for args and examples in Intl.plural/gender/select to
