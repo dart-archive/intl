@@ -195,13 +195,13 @@ abstract class ComplexMessage extends Message {
   /// and set their attributes by string names, so we override the indexing
   /// operators so that they behave like maps with respect to those attribute
   /// names.
-  operator [](x);
+  operator [](String x);
 
   /// When we create these from strings or from AST nodes, we want to look up
   /// and set their attributes by string names, so we override the indexing
   /// operators so that they behave like maps with respect to those attribute
   /// names.
-  operator []=(x, y);
+  operator []=(String x, y);
 
   List<String> get attributeNames;
 
@@ -410,7 +410,7 @@ class MainMessage extends ComplexMessage {
 
   /// The AST node will have the attribute names as strings, so we translate
   /// between those and the fields of the class.
-  void operator []=(attributeName, value) {
+  void operator []=(String attributeName, value) {
     switch (attributeName) {
       case "desc":
         description = value;
@@ -438,7 +438,7 @@ class MainMessage extends ComplexMessage {
 
   /// The AST node will have the attribute names as strings, so we translate
   /// between those and the fields of the class.
-  operator [](attributeName) {
+  operator [](String attributeName) {
     switch (attributeName) {
       case "desc":
         return description;
@@ -553,7 +553,7 @@ class Gender extends SubMessage {
 
   /// The node will have the attribute names as strings, so we translate
   /// between those and the fields of the class.
-  void operator []=(attributeName, rawValue) {
+  void operator []=(String attributeName, rawValue) {
     var value = Message.from(rawValue, this);
     switch (attributeName) {
       case "female":
@@ -686,7 +686,7 @@ class Select extends SubMessage {
   get attributeNames => cases.keys;
   get codeAttributeNames => attributeNames;
 
-  void operator []=(attributeName, rawValue) {
+  void operator []=(String attributeName, rawValue) {
     var value = Message.from(rawValue, this);
     cases[attributeName] = value;
   }

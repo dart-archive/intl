@@ -152,7 +152,7 @@ class _LoosePatternField extends _DateFormatPatternField {
 
   /// Parse a month name, case-insensitively, and set it in [dateFields].
   /// Assumes that [input] is lower case.
-  void parseMonth(_Stream input, dateFields) {
+  void parseMonth(input, dateFields) {
     if (width <= 2) {
       handleNumericField(input, dateFields.setMonth);
       return;
