@@ -172,11 +172,12 @@ import 'package:$intlImportPath/src/intl_helpers.dart';
 
 /// User programs should call this before using [localeName] for messages.
 Future initializeMessages(String localeName) {
-  initializeInternalMessageLookup(() => new CompositeMessageLookup());
   var lib = _deferredLibraries[Intl.canonicalizedLocale(localeName)];
   var load = lib == null ? new Future.value(false) : lib();
-  return load.then((_) =>
-      messageLookup.addLocale(localeName, _findGeneratedMessagesFor));
+  return load.then((_) {
+    initializeInternalMessageLookup(() => new CompositeMessageLookup());
+    messageLookup.addLocale(localeName, _findGeneratedMessagesFor);
+  });
 }
 
 MessageLookupByLibrary _findGeneratedMessagesFor(locale) {
