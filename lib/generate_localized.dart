@@ -176,16 +176,10 @@ Future initializeMessages(String localeName) {
   var load = lib == null ? new Future.value(false) : lib();
   return load.then((_) {
     initializeInternalMessageLookup(() => new CompositeMessageLookup());
-    messageLookup.addLocale(localeName, _findGeneratedMessagesFor);
+    messageLookup.addLocale(localeName, _findExact);
   });
 }
 
-MessageLookupByLibrary _findGeneratedMessagesFor(locale) {
-  var actualLocale = Intl.verifiedLocale(locale, (x) => _findExact(x) != null,
-      onFailure: (_) => null);
-  if (actualLocale == null) return null;
-  return _findExact(actualLocale);
-}
 """;
 }
 

@@ -196,7 +196,7 @@ class Intl {
   /// source code, but wish to have a universal fallback translation.
   ///
   /// Note that null is interpreted as meaning the default locale, so if
-  /// [newLocale] is null it will be returned.
+  /// [newLocale] is null the default locale will be returned.
   static String verifiedLocale(String newLocale, Function localeExists,
       {Function onFailure: _throwLocaleError}) {
     // TODO(alanknight): Previously we kept a single verified locale on the Intl
@@ -330,7 +330,8 @@ class Intl {
 
   static _pluralRule(String locale, int howMany) {
     plural_rules.startRuleEvaluation(howMany);
-    var verifiedLocale = Intl.verifiedLocale(locale, plural_rules.localeHasPluralRules,
+    var verifiedLocale = Intl.verifiedLocale(
+        locale, plural_rules.localeHasPluralRules,
         onFailure: (locale) => 'default');
     if (_cachedPluralLocale == verifiedLocale) {
       return _cachedPluralRule;
