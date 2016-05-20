@@ -16,6 +16,8 @@
    object. This is a breaking change for code that imports
    `extract_messages.dart`, which probably only means message format
    readers/extractors like `extract_to_arb.dart` and `generate_from_arb.dart`.
+ * Cache the message lookup for a locale, reducing unnecessary locale validation
+   and lookup.
 
 ## 0.12.7+1
  * Change the signature for args and examples in Intl.plural/gender/select to
