@@ -517,7 +517,7 @@ class DateFormat {
   List<_DateFormatField> _formatFieldsPrivate;
 
   /// Getter for [_formatFieldsPrivate] that lazily initializes it.
-  get _formatFields {
+  List<_DateFormatField> get _formatFields {
     if (_formatFieldsPrivate == null) {
       if (_pattern == null) _useDefaultPattern();
       _formatFieldsPrivate = parsePattern(_pattern);
