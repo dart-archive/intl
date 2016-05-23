@@ -180,8 +180,16 @@ Future initializeMessages(String localeName) {
   });
 }
 
+bool _messagesExistFor(String locale) {
+  var messages;
+  try {
+    messages = _findExact(locale);
+  } catch (e) {}
+  return messages != null;
+}
+
 MessageLookupByLibrary _findGeneratedMessagesFor(locale) {
-  var actualLocale = Intl.verifiedLocale(locale, (x) => _findExact(x) != null,
+  var actualLocale = Intl.verifiedLocale(locale, _messagesExistFor,
       onFailure: (_) => null);
   if (actualLocale == null) return null;
   return _findExact(actualLocale);
