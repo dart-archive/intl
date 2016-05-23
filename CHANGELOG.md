@@ -1,3 +1,5 @@
+## 0.13.1
+
 ## 0.13.0
  * Add support for compact number formats ("1.2K") and for significant digits in
    number formats.
