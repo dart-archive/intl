@@ -13,7 +13,7 @@ import 'package:intl/intl.dart';
 /// This is used as a marker for a locale data map that hasn't been initialized,
 /// and will throw an exception on any usage that isn't the fallback
 /// patterns/symbols provided.
-class UninitializedLocaleData<F> {
+class UninitializedLocaleData<F> implements MessageLookup {
   final String message;
   final F fallbackData;
   const UninitializedLocaleData(this.message, this.fallbackData);
@@ -21,8 +21,9 @@ class UninitializedLocaleData<F> {
   operator [](String key) =>
       (key == 'en_US') ? fallbackData : _throwException();
 
-  String lookupMessage(String message_str, String locale,
-      String name, List args) => message_str;
+  String lookupMessage(
+          String message_str, String locale, String name, List args) =>
+      message_str;
 
   /// Given an initial locale or null, returns the locale that will be used
   /// for messages.
@@ -36,6 +37,14 @@ class UninitializedLocaleData<F> {
     throw new LocaleDataException("Locale data has not been initialized"
         ", call $message.");
   }
+
+  void addLocale(String localeName, Function findLocale) => _throwException();
+}
+
+abstract class MessageLookup {
+  String lookupMessage(
+      String message_str, String locale, String name, List args);
+  void addLocale(String localeName, Function findLocale);
 }
 
 class LocaleDataException implements Exception {
@@ -52,7 +61,7 @@ abstract class LocaleDataReader {
 /// The internal mechanism for looking up messages. We expect this to be set
 /// by the implementing package so that we're not dependent on its
 /// implementation.
-dynamic messageLookup =
+MessageLookup messageLookup =
     const UninitializedLocaleData('initializeMessages(<locale>)', null);
 
 /// Initialize the message lookup mechanism. This is for internal use only.

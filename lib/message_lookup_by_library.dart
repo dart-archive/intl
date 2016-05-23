@@ -12,11 +12,12 @@
 /// examples.
 library message_lookup_by_library;
 
-import 'intl.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/src/intl_helpers.dart';
 
 /// This is a message lookup mechanism that delegates to one of a collection
 /// of individual [MessageLookupByLibrary] instances.
-class CompositeMessageLookup {
+class CompositeMessageLookup implements MessageLookup {
   /// A map from locale names to the corresponding lookups.
   Map<String, MessageLookupByLibrary> availableMessages = new Map();
 
@@ -60,7 +61,7 @@ class CompositeMessageLookup {
   /// If we do not already have a locale for [localeName] then
   /// [findLocale] will be called and the result stored as the lookup
   /// mechanism for that locale.
-  addLocale(String localeName, Function findLocale) {
+  void addLocale(String localeName, Function findLocale) {
     if (localeExists(localeName)) return;
     var canonical = Intl.canonicalizedLocale(localeName);
     var newLocale = findLocale(canonical);
