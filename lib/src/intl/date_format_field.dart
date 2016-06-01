@@ -372,7 +372,7 @@ class _DateFormatPatternField extends _DateFormatField {
   }
 
   /// Return the symbols for our current locale.
-  DateSymbols get symbols => dateTimeSymbols[parent.locale];
+  DateSymbols get symbols => parent.dateSymbols;
 
   formatEra(DateTime date) {
     var era = date.year > 0 ? 1 : 0;

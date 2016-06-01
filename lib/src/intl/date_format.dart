@@ -199,7 +199,6 @@ part of intl;
 /// pattern "MM/dd/yyyy", "01/11/12" parses to Jan 11, 12 A.D.
 
 class DateFormat {
-
   /// Creates a new DateFormat, using the format specified by [newPattern]. For
   /// forms that match one of our predefined skeletons, we look up the
   /// corresponding pattern in [locale] (or in the default locale if none is
@@ -356,7 +355,8 @@ class DateFormat {
 
   /// Returns a list of all locales for which we have date formatting
   /// information.
-  static List<String> allLocalesWithSymbols() => new List<String>.from(dateTimeSymbols.keys);
+  static List<String> allLocalesWithSymbols() =>
+      new List<String>.from(dateTimeSymbols.keys);
 
   /// The named constructors for this class are all conveniences for creating
   /// instances using one of the known "skeleton" formats, and having code
@@ -587,7 +587,13 @@ class DateFormat {
   /// the structure of this data may change, and it's generally better to go
   /// through the [format] and [parse] APIs. If the locale isn't present, or
   /// is uninitialized, returns null;
-  DateSymbols get dateSymbols => dateTimeSymbols[_locale];
+  DateSymbols get dateSymbols {
+    if (_locale != lastDateSymbolLocale) {
+      lastDateSymbolLocale = _locale;
+      cachedDateSymbols = dateTimeSymbols[_locale];
+    }
+    return cachedDateSymbols;
+  }
 
   /// Return true if the locale exists, or if it is null. The null case
   /// is interpreted to mean that we use the default locale.
@@ -597,10 +603,10 @@ class DateFormat {
   }
 
   static List get _fieldConstructors => [
-    (pattern, parent) => new _DateFormatQuotedField(pattern, parent),
-    (pattern, parent) => new _DateFormatPatternField(pattern, parent),
-    (pattern, parent) => new _DateFormatLiteralField(pattern, parent)
-  ];
+        (pattern, parent) => new _DateFormatQuotedField(pattern, parent),
+        (pattern, parent) => new _DateFormatPatternField(pattern, parent),
+        (pattern, parent) => new _DateFormatLiteralField(pattern, parent)
+      ];
 
   /// Parse the template pattern and return a list of field objects.
   List<_DateFormatField> parsePattern(String pattern) {

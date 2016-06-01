@@ -23,8 +23,28 @@ import '../date_symbols.dart';
 /// result in an informative error message.
 // TODO(alanknight): Have a valid type for this. Currently it can be an
 // UninitializedLocaleData, Map, or LazyLocaleData.
-dynamic dateTimeSymbols = new UninitializedLocaleData(
+dynamic get dateTimeSymbols => _dateTimeSymbols;
+
+/// Set the dateTimeSymbols and invalidate cache.
+set dateTimeSymbols(dynamic symbols) {
+  // With all the mechanisms we have now this should be sufficient. We can
+  // have an UninitializedLocaleData which gives us the fallback locale, but
+  // when we replace it we invalidate. With a LazyLocaleData we won't change
+  // the results for a particular locale, it will just go from throwing to
+  // being available. With a Map everything is available.
+  _dateTimeSymbols = symbols;
+  cachedDateSymbols = null;
+  lastDateSymbolLocale = null;
+}
+
+dynamic _dateTimeSymbols = new UninitializedLocaleData(
     'initializeDateFormatting(<locale>)', en_USSymbols);
+
+/// Cache the last used symbols to reduce repeated lookups.
+DateSymbols cachedDateSymbols;
+
+/// Which locale was last used for symbol lookup.
+String lastDateSymbolLocale;
 
 /// This holds the patterns used for date/time formatting, indexed
 /// by locale. Note that it will be set differently during initialization,
