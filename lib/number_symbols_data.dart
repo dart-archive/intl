@@ -755,7 +755,7 @@ Map numberFormatSymbols = {
       DECIMAL_PATTERN: '#,##0.###',
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
-      CURRENCY_PATTERN: '\u00A4#,##0.00',
+      CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'EUR'),
   // Number formatting symbols for locale gsw.
   "gsw": new NumberSymbols(
