@@ -443,3 +443,34 @@ class Intl {
 
   toString() => "Intl($locale)";
 }
+
+/// Convert a string to beginning of sentence case, in a way appropriate to the
+/// locale.
+///
+/// Currently this just converts the first letter to uppercase, which works for
+/// many locales, and we have the option to extend this to handle more cases
+/// without changing the API for clients. It also hard-codes the case of
+/// dotted i in Turkish and Azeri.
+String toBeginningOfSentenceCase(String input, [String locale]) {
+  if (input == null || input.isEmpty) return input;
+  return "${_upperCaseLetter(input[0], locale)}${input.substring(1)}";
+}
+
+/// Convert the input single-letter string to upper case. A trivial
+/// hard-coded implementation that only handles simple upper case
+/// and the dotted i in Turkish/Azeri.
+///
+/// Private to the implementation of [toBeginningOfSentenceCase].
+// TODO(alanknight): Consider hard-coding other important cases.
+// See http://www.unicode.org/Public/UNIDATA/SpecialCasing.txt
+// TODO(alanknight): Alternatively, consider toLocaleUpperCase in browsers.
+// See also https://github.com/dart-lang/sdk/issues/6706
+String _upperCaseLetter(String input, String locale) {
+  // Hard-code the important edge case of i->İ
+  if (locale != null) {
+    if (input == "i" && locale.startsWith("tr") || locale.startsWith("az")) {
+      return "\u0130";
+    }
+  }
+  return input.toUpperCase();
+}

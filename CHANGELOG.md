@@ -1,5 +1,8 @@
 ## 0.13.1
  * Update CLDR data to version 29.
+ * Add a toBeginningOfSentenceCase() method which converts the first character
+   of a string to uppercase. It may become more clever about that for locales
+   with different conventions over time.
 
 ## 0.13.0
  * Add support for compact number formats ("1.2K") and for significant digits in

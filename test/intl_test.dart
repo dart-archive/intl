@@ -78,4 +78,17 @@ main() {
     checkAsDateDefault('en-ZZ', 'en');
     checkAsDateDefault('es-999', 'es');
   });
+
+  test("toBeginningOfSentenceCase", () {
+    expect(toBeginningOfSentenceCase(null), null);
+    expect(toBeginningOfSentenceCase(""), "");
+    expect(toBeginningOfSentenceCase("A"), "A");
+    expect(toBeginningOfSentenceCase("a"), "A");
+    expect(toBeginningOfSentenceCase("abc"), "Abc");
+    expect(toBeginningOfSentenceCase("[a]"), "[a]");
+    expect(toBeginningOfSentenceCase("ABc"), "ABc");
+    expect(toBeginningOfSentenceCase("ı"), "I");
+    expect(toBeginningOfSentenceCase("i"), "I");
+    expect(toBeginningOfSentenceCase("i", "tr"), "\u0130");
+  });
 }
