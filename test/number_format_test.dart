@@ -201,10 +201,19 @@ main() {
     var formatted = defaultFormat.format(amount);
     expect(formatted, digitsCheck[2]);
 
-    var jpy =
+    var jpyUs =
         new NumberFormat.currency(locale: 'en_US', name: 'JPY', symbol: '@');
-    formatted = jpy.format(amount);
+    formatted = jpyUs.format(amount);
     expect(formatted, digitsCheck[0]);
+
+    var jpyJa =
+        new NumberFormat.currency(locale: 'ja', name: 'JPY', symbol: '@');
+    formatted = jpyJa.format(amount);
+    expect(formatted, digitsCheck[0]);
+
+    var jpySimple = new NumberFormat.simpleCurrency(locale: 'ja', name: 'JPY');
+    formatted = jpySimple.format(amount);
+    expect(formatted, "¥4");
 
     var jpyLower =
         new NumberFormat.currency(locale: 'en_US', name: 'jpy', symbol: '@');

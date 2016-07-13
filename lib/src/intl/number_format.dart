@@ -67,6 +67,12 @@ class NumberFormat {
   bool _useSignForPositiveExponent = false;
   bool _useExponentialNotation = false;
 
+  /// Explicitly store if we are a currency format, and so should use the
+  /// appropriate number of decimal digits for a currency.
+  // TODO(alanknight): Handle currency formats which are specified in a raw
+  /// pattern, not using one of the currency constructors.
+  bool _isForCurrency = false;
+
   int maximumIntegerDigits = 40;
   int minimumIntegerDigits = 1;
   int maximumFractionDigits = 3;
@@ -148,10 +154,9 @@ class NumberFormat {
       currencyFractionDigits[currencyName.toUpperCase()] ??
       currencyFractionDigits['DEFAULT'];
 
-  /// If we have a currencyName, use that currencies decimal digits, unless
-  /// we've explicitly specified some other number.
-  bool get _overridesDecimalDigits =>
-      decimalDigits != null || currencyName != symbols.DEF_CURRENCY_CODE;
+  /// If we have a currencyName, use the decimal digits for that currency,
+  /// unless we've explicitly specified some other number.
+  bool get _overridesDecimalDigits => decimalDigits != null || _isForCurrency;
 
   /// Transient internal state in which to build up the result of the format
   /// operation. We can have this be just an instance variable because Dart is
@@ -237,7 +242,10 @@ class NumberFormat {
   NumberFormat.currency(
       {String locale, String name, String symbol, int decimalDigits})
       : this._forPattern(locale, (x) => x.CURRENCY_PATTERN,
-            name: name, currencySymbol: symbol, decimalDigits: decimalDigits);
+            name: name,
+            currencySymbol: symbol,
+            decimalDigits: decimalDigits,
+            isForCurrency: true);
 
   /// Creates a [NumberFormat] for currencies, using the simple symbol for the
   /// currency if one is available (e.g. $, €), so it should only be used if the
@@ -267,7 +275,8 @@ class NumberFormat {
     return new NumberFormat._forPattern(locale, (x) => x.CURRENCY_PATTERN,
         name: name,
         currencySymbol: _simpleCurrencySymbols[name] ?? name,
-        decimalDigits: decimalDigits);
+        decimalDigits: decimalDigits,
+        isForCurrency: true);
   }
 
   /// Returns the simple currency symbol for given currency code, or
@@ -464,8 +473,9 @@ class NumberFormat {
   /// Create a number format that prints in a pattern we get from
   /// the [getPattern] function using the locale [locale].
   NumberFormat._forPattern(String locale, _PatternGetter getPattern,
-      {name, currencySymbol, decimalDigits})
-      : _locale = Intl.verifiedLocale(locale, localeExists) {
+      {name, currencySymbol, decimalDigits, isForCurrency: false})
+      : _locale = Intl.verifiedLocale(locale, localeExists),
+        _isForCurrency = isForCurrency {
     this._currencySymbol = currencySymbol;
     this._decimalDigits = decimalDigits;
     _symbols = numberFormatSymbols[_locale];
