@@ -73,9 +73,36 @@ abstract class Message {
     }
   }
 
+  Map _evaluateAsMap(expression) {
+    var result = expression.accept(_evaluator);
+    if (result == ConstantEvaluator.NOT_A_CONSTANT || result is! Map) {
+      return null;
+    } else {
+      return result;
+    }
+  }
+
+  /// Verify that this looks like a correct
+  /// Intl.message/plural/gender/... invocation.
+  ///
+  /// We expect an invocation like
+  ///
+  ///       outerName(x) => Intl.message("foo \$x", ...)
+  ///
+  /// The [node] parameter is the Intl.message invocation node in the AST,
+  /// [arguments] is the list of arguments to that node (also reachable as
+  /// node.argumentList.arguments), [outerName] is the name of the containing
+  /// function, e.g. "outerName" in this case and [outerArgs] is the list of
+  /// arguments to that function. Of the optional parameters
+  /// [nameAndArgsGenerated] indicates if we are generating names and arguments
+  /// while rewriting the code in the transformer or a development-time rewrite,
+  /// so we should not expect them to be present. The [examplesRequired]
+  /// parameter indicates if we will fail if parameter examples are not provided
+  /// for messages with parameters.
   String checkValidity(MethodInvocation node, List arguments, String outerName,
       FormalParameterList outerArgs,
-      {bool nameAndArgsGenerated: false}) {
+      {bool nameAndArgsGenerated: false, bool examplesRequired: false}) {
+    // If we have parameters, we must specify args and name.
     var hasArgs = arguments.any(
         (each) => each is NamedExpression && each.name.label.name == 'args');
     var hasParameters = !outerArgs.parameters.isEmpty;
@@ -83,26 +110,42 @@ abstract class Message {
       return "The 'args' argument for Intl.message must be specified";
     }
 
-    bool useMessageAsName = false;
-    var messageName = arguments.firstWhere(
+    var messageNameArgument = arguments.firstWhere(
         (eachArg) =>
             eachArg is NamedExpression && eachArg.name.label.name == 'name',
         orElse: () => null);
-    messageName = messageName?.expression;
+    var nameExpression = messageNameArgument?.expression;
+    String messageName;
+    String givenName;
+
     //TODO(alanknight): If we generalize this to messages with parameters
     // this check will need to change.
-    if (!nameAndArgsGenerated && messageName == null && !hasParameters) {
-      messageName = arguments[0];
-      useMessageAsName = true;
+    if (nameExpression == null) {
+      if (!hasParameters) {
+        // No name supplied, no parameters. Use the message as the name.
+        messageName = _evaluateAsString(arguments[0]);
+        outerName = messageName;
+      } else {
+        // We have no name and parameters, but the transformer generates the
+        // name.
+        if (nameAndArgsGenerated) {
+          givenName = outerName;
+          messageName = givenName;
+        } else {
+          return "The 'name' argument for Intl.message must be supplied for "
+              "messages with parameters";
+        }
+      }
+    } else {
+      // Name argument is supplied, use it.
+      givenName = _evaluateAsString(nameExpression);
+      messageName = givenName;
     }
 
-    var givenName = messageName == null ? null : _evaluateAsString(messageName);
-    if (messageName != null && givenName == null) {
+    if (messageName == null) {
       return "The 'name' argument for Intl.message must be a string literal";
     }
-    if (useMessageAsName) {
-      outerName = givenName;
-    }
+
     var hasOuterName = outerName != null;
     var simpleMatch = outerName == givenName || givenName == null;
 
@@ -123,6 +166,20 @@ abstract class Message {
         return ("Intl.message arguments must be string literals: $arg");
       }
     }
+
+    if (hasParameters && examplesRequired) {
+      var exampleArg = arguments.where((each) =>
+          each is NamedExpression && each.name.label.name == "examples");
+      var examples = exampleArg.map((each) => each.expression).toList();
+      if (examples.isEmpty) {
+        return "Examples must be provided for messages with parameters";
+      }
+      var map = _evaluateAsMap(examples.first);
+      if (map == null) {
+        return "Examples must be a Map literal, preferably const";
+      }
+    }
+
     return null;
   }
 
@@ -316,13 +373,14 @@ class MainMessage extends ComplexMessage {
   /// Verify that this looks like a correct Intl.message invocation.
   String checkValidity(MethodInvocation node, List arguments, String outerName,
       FormalParameterList outerArgs,
-      {nameAndArgsGenerated: false}) {
+      {bool nameAndArgsGenerated: false, bool examplesRequired: false}) {
     if (arguments.first is! StringLiteral) {
       return "Intl.message messages must be string literals";
     }
 
     return super.checkValidity(node, arguments, outerName, outerArgs,
-        nameAndArgsGenerated: nameAndArgsGenerated);
+        nameAndArgsGenerated: nameAndArgsGenerated,
+        examplesRequired: examplesRequired);
   }
 
   void addPieces(List<Object> messages) {
@@ -413,11 +471,15 @@ class MainMessage extends ComplexMessage {
     out.write("', ");
     out.write("name: '$name', ");
     out.write(locale == null ? "" : "locale: '$locale', ");
-    out.write(description == null ? "" : "desc: '${escapeAndValidateString(description)}', ");
+    out.write(description == null
+        ? ""
+        : "desc: '${escapeAndValidateString(description)}', ");
     // json is already mostly-escaped, but we need to handle interpolations.
     var json = JSON.encode(examples).replaceAll(r"$", r"\$");
     out.write(examples == null ? "" : "examples: const ${json}, ");
-    out.write(meaning == null ? "" : "meaning: '${escapeAndValidateString(meaning)}', ");
+    out.write(meaning == null
+        ? ""
+        : "meaning: '${escapeAndValidateString(meaning)}', ");
     out.write("args: [${arguments.join(', ')}]");
     out.write(")");
     return out.toString();

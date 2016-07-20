@@ -60,6 +60,9 @@ class MessageExtraction {
   /// if [allowEmbeddedPluralsAndGenders] is false.
   bool allowEmbeddedPluralsAndGenders = true;
 
+  /// Are examples required on all messages.
+  bool examplesRequired = false;
+
   /// Parse the source of the Dart program file [file] and return a Map from
   /// message names to [IntlMessage] instances.
   ///
@@ -171,7 +174,8 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
     var arguments = node.argumentList.arguments;
     var instance = _expectedInstance(node.methodName.name);
     return instance.checkValidity(node, arguments, name, parameters,
-        nameAndArgsGenerated: generateNameAndArgs);
+        nameAndArgsGenerated: generateNameAndArgs,
+        examplesRequired: extraction.examplesRequired);
   }
 
   /// Record the parameters of the function or method declaration we last
@@ -278,7 +282,8 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
         // If there's no name, and the message text is a simple string, compute
         // a name based on that plus meaning, if present.
         var simpleName = (arguments.first as StringLiteral).stringValue;
-        message.name = computeMessageName(message.name, simpleName, message.meaning);
+        message.name =
+            computeMessageName(message.name, simpleName, message.meaning);
       }
     }
     return message;
