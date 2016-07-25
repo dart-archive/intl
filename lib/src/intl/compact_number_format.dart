@@ -180,7 +180,7 @@ class _CompactNumberFormat extends NumberFormat {
     // compact, always use the number of significant digits and ignore
     // decimalDigits. That is, $1.23K but also ¥12.3\u4E07, even though yen
     // don't normally print decimal places.
-    if (!_isForCurrency || !style.isFallback) return newFractionDigits;
+    if (!_isForCurrency || !_style.isFallback) return newFractionDigits;
     // If we are printing a currency and it's too small to compact, but
     // significant digits would have us only print some of the decimal digits,
     // use all of them. So $12.30, not $12.3
