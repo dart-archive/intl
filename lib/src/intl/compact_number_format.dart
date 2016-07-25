@@ -120,7 +120,7 @@ class _CompactNumberFormat extends NumberFormat {
         _patterns = compactSymbols.COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN;
         break;
       default:
-        throw new ArgumentError.notNull("formatTyp");
+        throw new ArgumentError.notNull("formatType");
     }
     var regex = new RegExp('([^0]*)(0+)(.*)');
     _patterns.forEach((int impliedDigits, String pattern) {
