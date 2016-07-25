@@ -258,18 +258,18 @@ void testAgainstIcu(locale, List<NumberFormat> testFormats, list) {
 }
 
 testSimpleCurrencySymbols() {
-  var currencies = ['USD', 'CAD', 'EUR', 'CRC'];
+  var currencies = ['USD', 'CAD', 'EUR', 'CRC', null];
   //  Note that these print using the simple symbol as if we were in a
   // a locale where that currency symbol is well understood. So we
   // expect Canadian dollars printed as $, even though our locale is
   // en_US, and this would confuse users.
   var simple = currencies.map((currency) =>
       new NumberFormat.simpleCurrency(locale: 'en_US', name: currency));
-  var expectedSimple = [r'$', r'$', '\u20ac', '\u20a1'];
+  var expectedSimple = [r'$', r'$', '\u20ac', '\u20a1', r'$'];
   // These will always print as the global name, regardless of locale
   var global = currencies.map(
       (currency) => new NumberFormat.currency(locale: 'en_US', name: currency));
-  var expectedGlobal = currencies;
+  var expectedGlobal = currencies.map((curr) => curr ?? 'USD').toList();
 
   testCurrencySymbolsFor(expectedGlobal, global, "global");
   testCurrencySymbolsFor(expectedSimple, simple, "simple");

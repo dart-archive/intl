@@ -1978,6 +1978,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 biljoen',
     13: '00 biljoen',
     14: '000 biljoen',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40K',
+    4: '\u00A400K',
+    5: '\u00A4\u00A0000K',
+    6: '\u00A40\u00A0m',
+    7: '\u00A400\u00A0m',
+    8: '\u00A4000\u00A0m',
+    9: '\u00A40\u00A0mjd',
+    10: '\u00A400\u00A0mjd',
+    11: '\u00A4000\u00A0mjd',
+    12: '\u00A40\u00A0bn',
+    13: '\u00A400\u00A0bn',
+    14: '\u00A4000\u00A0bn',
   }),
   // Compact number symbols for locale am.
   "am": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2006,6 +2019,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 \u1275\u122A\u120A\u12EE\u1295',
     13: '00 \u1275\u122A\u120A\u12EE\u1295',
     14: '000 \u1275\u122A\u120A\u12EE\u1295',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40\u00A0\u123A',
+    4: '\u00A400\u00A0\u123A',
+    5: '\u00A4000\u00A0\u123A',
+    6: '\u00A40\u00A0\u121C\u1275\u122D',
+    7: '\u00A400\u00A0\u121C\u1275\u122D',
+    8: '\u00A4000\u00A0\u121C\u1275\u122D',
+    9: '\u00A40\u00A0\u1262',
+    10: '\u00A400\u00A0\u1262',
+    11: '\u00A4000\u00A0\u1262',
+    12: '\u00A40\u00A0\u1275',
+    13: '\u00A400\u00A0\u1275',
+    14: '\u00A4000\u00A0\u1275',
   }),
   // Compact number symbols for locale ar.
   "ar": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2034,6 +2060,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 \u062A\u0631\u064A\u0644\u064A\u0648\u0646',
     13: '00 \u062A\u0631\u064A\u0644\u064A\u0648\u0646',
     14: '000 \u062A\u0631\u064A\u0644\u064A\u0648\u0646',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A4\u00A00\u00A0\u0623\u0644\u0641',
+    4: '\u00A4\u00A000\u00A0\u0623\u0644\u0641',
+    5: '\u00A4\u00A0000\u00A0\u0623\u0644\u0641',
+    6: '\u00A4\u00A00\u00A0\u0645\u0644\u064A\u0648',
+    7: '\u00A4\u00A000\u00A0\u0645\u0644\u064A\u0648',
+    8: '\u00A4\u00A0000\u00A0\u0645\u0644\u064A\u0648',
+    9: '\u00A4\u00A00\u00A0\u0645\u0644\u064A\u0627',
+    10: '\u00A4\u00A000\u00A0\u0645\u0644\u064A\u0627',
+    11: '\u00A4\u00A0000\u00A0\u0645\u0644\u064A\u0627',
+    12: '\u00A4\u00A00\u00A0\u062A\u0631\u0644\u064A\u0648',
+    13: '\u00A4\u00A000\u00A0\u062A\u0631\u0644\u064A\u0648',
+    14: '\u00A4\u00A0000\u00A0\u062A\u0631\u0644\u064A\u0648',
   }),
   // Compact number symbols for locale az.
   "az": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2062,6 +2101,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0T',
     13: '00T',
     14: '000T',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A4\u00A00K',
+    4: '\u00A4\u00A000K',
+    5: '\u00A4\u00A0000K',
+    6: '\u00A4\u00A00M',
+    7: '\u00A4\u00A000M',
+    8: '\u00A4\u00A0000M',
+    9: '\u00A4\u00A00G',
+    10: '\u00A4\u00A000G',
+    11: '\u00A4\u00A0000G',
+    12: '\u00A4\u00A00T',
+    13: '\u00A4\u00A000T',
+    14: '\u00A4\u00A0000T',
   }),
   // Compact number symbols for locale be.
   "be": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2090,6 +2142,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 \u0442\u0440\u044B\u043B\u044C\u0451\u043D\u0430',
     13: '00 \u0442\u0440\u044B\u043B\u044C\u0451\u043D\u0430',
     14: '000 \u0442\u0440\u044B\u043B\u044C\u0451\u043D\u0430',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0\u0442\u044B\u0441.\u00A0\u00A4',
+    4: '00\u00A0\u0442\u044B\u0441.\u00A0\u00A4',
+    5: '000\u00A0\u0442\u044B\u0441.\u00A0\u00A4',
+    6: '0\u00A0\u043C\u043B\u043D\u00A0\u00A4',
+    7: '00\u00A0\u043C\u043B\u043D\u00A0\u00A4',
+    8: '000\u00A0\u043C\u043B\u043D\u00A0\u00A4',
+    9: '0\u00A0\u043C\u043B\u0440\u0434\u00A0\u00A4\u00A0',
+    10: '00\u00A0\u043C\u043B\u0440\u0434\u00A0\u00A4',
+    11: '000\u00A0\u043C\u043B\u0440\u0434\u00A0\u00A4',
+    12: '0\u00A0\u0442\u0440\u043B\u043D\u00A0\u00A4',
+    13: '00\u00A0\u0442\u0440\u043B\u043D\u00A0\u00A4',
+    14: '000\u00A0\u0442\u0440\u043B\u043D\u00A0\u00A4',
   }),
   // Compact number symbols for locale bg.
   "bg": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2118,6 +2183,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 \u0442\u0440\u0438\u043B\u0438\u043E\u043D\u0430',
     13: '00 \u0442\u0440\u0438\u043B\u0438\u043E\u043D\u0430',
     14: '000 \u0442\u0440\u0438\u043B\u0438\u043E\u043D\u0430',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0\u0445\u0438\u043B.\u00A0\u00A4',
+    4: '00\u00A0\u0445\u0438\u043B.\u00A0\u00A4',
+    5: '000\u00A0\u0445\u0438\u043B.\u00A0\u00A4',
+    6: '0\u00A0\u043C\u043B\u043D.\u00A0\u00A4',
+    7: '00\u00A0\u043C\u043B\u043D.\u00A0\u00A4',
+    8: '000\u00A0\u043C\u043B\u043D.\u00A0\u00A4',
+    9: '0\u00A0\u043C\u043B\u0440\u0434.\u00A0\u00A4',
+    10: '00\u00A0\u043C\u043B\u0440\u0434.\u00A0\u00A4',
+    11: '000\u00A0\u043C\u043B\u0440\u0434.\u00A0\u00A4',
+    12: '0\u00A0\u0442\u0440\u043B\u043D.\u00A0\u00A4',
+    13: '00\u00A0\u0442\u0440\u043B\u043D.\u00A0\u00A4',
+    14: '000\u00A0\u0442\u0440\u043B\u043D.\u00A0\u00A4',
   }),
   // Compact number symbols for locale bn.
   "bn": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2146,6 +2224,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 \u099F\u09CD\u09B0\u09BF\u09B2\u09BF\u09AF\u09BC\u09A8',
     13: '00 \u099F\u09CD\u09B0\u09BF\u09B2\u09BF\u09AF\u09BC\u09A8',
     14: '000 \u099F\u09CD\u09B0\u09BF\u09B2\u09BF\u09AF\u09BC\u09A8',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0\u09B9\u09BE\u099C\u09BE\u09B0\u00A4',
+    4: '00\u00A0\u09B9\u09BE\u099C\u09BE\u09B0\u00A4',
+    5: '0\u00A0\u09B2\u09BE\u0996\u00A4',
+    6: '0\u00A0\u09B2\u09BE\u0996\u00A4',
+    7: '00\u00A0\u0995\u09CB\u099F\u09BF\u00A4',
+    8: '000\u00A0\u0995\u09CB\u099F\u09BF\u00A4',
+    9: '0\u00A0\u098F\u0995\u09B6\u09CB\u00A0\u0995\u09CB\u099F\u09BF\u00A4',
+    10: '00\u00A0\u09B9\u09BE\u099C\u09BE\u09B0\u00A0\u0995\u09CB\u099F\u09BF\u00A4',
+    11: '000\u00A0\u09B8\u09B9\u09B8\u09CD\u09B0\u00A0\u0995\u09CB\u099F\u09BF\u00A4',
+    12: '0\u00A0\u09A6\u09B6\u00A0\u09B8\u09B9\u09B8\u09CD\u09B0\u09C7\u09B0\u00A0\u09A4\u09CD\u09B0\u09BF\u0998\u09BE\u09A4\u00A4',
+    13: '00\u00A0\u098F\u0995\u09B6\u09CB\u00A0\u09B8\u09B9\u09B8\u09CD\u09B0\u09C7\u09B0\u00A0\u09A4\u09CD\u09B0\u09BF\u0998\u09BE\u09A4\u00A4',
+    14: '000\u00A0\u09B8\u09B9\u09B8\u09CD\u09B0\u00A0\u09B8\u09B9\u09B8\u09CD\u09B0\u09C7\u09B0\u00A0\u09A4\u09CD\u09B0\u09BF\u0998\u09BE\u09A4\u00A4',
   }),
   // Compact number symbols for locale br.
   "br": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2161,6 +2252,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0T',
     13: '00T',
     14: '000T',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0K\u00A0\u00A4',
+    4: '00K\u00A0\u00A4',
+    5: '000K\u00A0\u00A4',
+    6: '0M\u00A0\u00A4',
+    7: '00M\u00A0\u00A4',
+    8: '000M\u00A0\u00A4',
+    9: '0G\u00A0\u00A4',
+    10: '00G\u00A0\u00A4',
+    11: '000G\u00A0\u00A4',
+    12: '0T\u00A0\u00A4',
+    13: '00T\u00A0\u00A4',
+    14: '000T\u00A0\u00A4',
   }),
   // Compact number symbols for locale bs.
   "bs": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2189,6 +2293,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 biliona',
     13: '00 biliona',
     14: '000 biliona',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0hilj.\u00A0\u00A4',
+    4: '00\u00A0hilj.\u00A0\u00A4',
+    5: '000\u00A0hilj.\u00A0\u00A4',
+    6: '0\u00A0mil.\u00A0\u00A4',
+    7: '00\u00A0mil.\u00A0\u00A4',
+    8: '000\u00A0mil.\u00A0\u00A4',
+    9: '0\u00A0mlr.\u00A0\u00A4',
+    10: '00\u00A0mlr.\u00A0\u00A4',
+    11: '000\u00A0mlr.\u00A0\u00A4',
+    12: '0\u00A0bil.\u00A0\u00A4',
+    13: '00\u00A0bil.\u00A0\u00A4',
+    14: '000\u00A0bil.\u00A0\u00A4',
   }),
   // Compact number symbols for locale ca.
   "ca": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2217,6 +2334,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 bilions',
     13: '00 bilions',
     14: '000 bilions',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0m\u00A0\u00A4',
+    4: '00m\u00A0\u00A4',
+    5: '000m\u00A0\u00A4',
+    6: '0M\u00A0\u00A4',
+    7: '00\u00A0M\u00A0\u00A4',
+    8: '000\u00A0M\u00A0\u00A4',
+    9: '0000\u00A0M\u00A0\u00A4',
+    10: '00mM\u00A0\u00A4',
+    11: '000mM\u00A0\u00A4',
+    12: '0B\u00A0\u00A4',
+    13: '00\u00A0B\u00A0\u00A4',
+    14: '000\u00A0B\u00A0\u00A4',
   }),
   // Compact number symbols for locale chr.
   "chr": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2232,6 +2362,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0T',
     13: '00T',
     14: '000T',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40K',
+    4: '\u00A400K',
+    5: '\u00A4000K',
+    6: '\u00A40M',
+    7: '\u00A400M',
+    8: '\u00A4000M',
+    9: '\u00A40G',
+    10: '\u00A400G',
+    11: '\u00A4000G',
+    12: '\u00A40T',
+    13: '\u00A400T',
+    14: '\u00A4000T',
   }),
   // Compact number symbols for locale cs.
   "cs": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2260,6 +2403,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 bilion\u016F',
     13: '00 bilion\u016F',
     14: '000 bilion\u016F',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0tis.\u00A0\u00A4',
+    4: '00\u00A0tis.\u00A0\u00A4',
+    5: '000\u00A0tis.\u00A0\u00A4',
+    6: '0\u00A0mil.\u00A0\u00A4',
+    7: '00\u00A0mil.\u00A0\u00A4',
+    8: '000\u00A0mil.\u00A0\u00A4',
+    9: '0\u00A0mld.\u00A0\u00A4',
+    10: '00\u00A0mld.\u00A0\u00A4',
+    11: '000\u00A0mld.\u00A0\u00A4',
+    12: '0\u00A0bil.\u00A0\u00A4',
+    13: '00\u00A0bil.\u00A0\u00A4',
+    14: '000\u00A0bil.\u00A0\u00A4',
   }),
   // Compact number symbols for locale cy.
   "cy": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2288,6 +2444,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 triliwn',
     13: '00 triliwn',
     14: '000 triliwn',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40K',
+    4: '\u00A400K',
+    5: '\u00A4000K',
+    6: '\u00A40M',
+    7: '\u00A400M',
+    8: '\u00A4000M',
+    9: '\u00A40B',
+    10: '\u00A400B',
+    11: '\u00A4000B',
+    12: '\u00A40T',
+    13: '\u00A400T',
+    14: '\u00A4000T',
   }),
   // Compact number symbols for locale da.
   "da": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2316,6 +2485,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 billioner',
     13: '00 billioner',
     14: '000 billioner',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0td\u00A0\u00A4',
+    4: '00\u00A0td\u00A0\u00A4',
+    5: '000\u00A0td\u00A0\u00A4',
+    6: '0\u00A0mio\u00A0\u00A4',
+    7: '00\u00A0mio\u00A0\u00A4',
+    8: '000\u00A0mio\u00A0\u00A4',
+    9: '0\u00A0mia\u00A0\u00A4',
+    10: '00\u00A0mia\u00A0\u00A4',
+    11: '000\u00A0mia\u00A0\u00A4',
+    12: '0\u00A0bio\u00A0\u00A4',
+    13: '00\u00A0bio\u00A0\u00A4',
+    14: '000\u00A0bio\u00A0\u00A4',
   }),
   // Compact number symbols for locale de.
   "de": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2344,6 +2526,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 Billionen',
     13: '00 Billionen',
     14: '000 Billionen',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0Tsd.\u00A0\u00A4',
+    4: '00\u00A0Tsd.\u00A0\u00A4',
+    5: '000\u00A0Tsd.\u00A0\u00A4',
+    6: '0\u00A0Mio.\u00A0\u00A4',
+    7: '00\u00A0Mio.\u00A0\u00A4',
+    8: '000\u00A0Mio.\u00A0\u00A4',
+    9: '0\u00A0Mrd.\u00A0\u00A4',
+    10: '00\u00A0Mrd.\u00A0\u00A4',
+    11: '000\u00A0Mrd.\u00A0\u00A4',
+    12: '0\u00A0Bio.\u00A0\u00A4',
+    13: '00\u00A0Bio.\u00A0\u00A4',
+    14: '000\u00A0Bio.\u00A0\u00A4',
   }),
   // Compact number symbols for locale de_AT.
   "de_AT": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2372,6 +2567,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 Billionen',
     13: '00 Billionen',
     14: '000 Billionen',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0Tsd.\u00A0\u00A4',
+    4: '00\u00A0Tsd.\u00A0\u00A4',
+    5: '000\u00A0Tsd.\u00A0\u00A4',
+    6: '0\u00A0Mio.\u00A0\u00A4',
+    7: '00\u00A0Mio.\u00A0\u00A4',
+    8: '000\u00A0Mio.\u00A0\u00A4',
+    9: '0\u00A0Mrd.\u00A0\u00A4',
+    10: '00\u00A0Mrd.\u00A0\u00A4',
+    11: '000\u00A0Mrd.\u00A0\u00A4',
+    12: '0\u00A0Bio.\u00A0\u00A4',
+    13: '00\u00A0Bio.\u00A0\u00A4',
+    14: '000\u00A0Bio.\u00A0\u00A4',
   }),
   // Compact number symbols for locale de_CH.
   "de_CH": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2400,6 +2608,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 Billionen',
     13: '00 Billionen',
     14: '000 Billionen',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0Tsd.\u00A0\u00A4',
+    4: '00\u00A0Tsd.\u00A0\u00A4',
+    5: '000\u00A0Tsd.\u00A0\u00A4',
+    6: '0\u00A0Mio.\u00A0\u00A4',
+    7: '00\u00A0Mio.\u00A0\u00A4',
+    8: '000\u00A0Mio.\u00A0\u00A4',
+    9: '0\u00A0Mrd.\u00A0\u00A4',
+    10: '00\u00A0Mrd.\u00A0\u00A4',
+    11: '000\u00A0Mrd.\u00A0\u00A4',
+    12: '0\u00A0Bio.\u00A0\u00A4',
+    13: '00\u00A0Bio.\u00A0\u00A4',
+    14: '000\u00A0Bio.\u00A0\u00A4',
   }),
   // Compact number symbols for locale el.
   "el": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2428,6 +2649,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 \u03C4\u03C1\u03B9\u03C3\u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03B1',
     13: '00 \u03C4\u03C1\u03B9\u03C3\u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03B1',
     14: '000 \u03C4\u03C1\u03B9\u03C3\u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03B1',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0\u03C7\u03B9\u03BB.\u00A0\u00A4',
+    4: '00\u00A0\u03C7\u03B9\u03BB.\u00A0\u00A4',
+    5: '000\u00A0\u03C7\u03B9\u03BB.\u00A0\u00A4',
+    6: '0\u00A0\u03B5\u03BA.\u00A0\u00A4',
+    7: '00\u00A0\u03B5\u03BA.\u00A0\u00A4',
+    8: '000\u00A0\u03B5\u03BA.\u00A0\u00A4',
+    9: '0\u00A0\u03B4\u03B9\u03C3.\u00A0\u00A4',
+    10: '00\u00A0\u03B4\u03B9\u03C3.\u00A0\u00A4',
+    11: '000\u00A0\u03B4\u03B9\u03C3.\u00A0\u00A4',
+    12: '0\u00A0\u03C4\u03C1\u03B9\u03C3.\u00A0\u00A4',
+    13: '00\u00A0\u03C4\u03C1\u03B9\u03C3.\u00A0\u00A4',
+    14: '000\u00A0\u03C4\u03C1\u03B9\u03C3.\u00A0\u00A4',
   }),
   // Compact number symbols for locale en.
   "en": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2456,6 +2690,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 trillion',
     13: '00 trillion',
     14: '000 trillion',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40K',
+    4: '\u00A400K',
+    5: '\u00A4000K',
+    6: '\u00A40M',
+    7: '\u00A400M',
+    8: '\u00A4000M',
+    9: '\u00A40B',
+    10: '\u00A400B',
+    11: '\u00A4000B',
+    12: '\u00A40T',
+    13: '\u00A400T',
+    14: '\u00A4000T',
   }),
   // Compact number symbols for locale en_AU.
   "en_AU": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2484,6 +2731,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 trillion',
     13: '00 trillion',
     14: '000 trillion',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40K',
+    4: '\u00A400K',
+    5: '\u00A4000K',
+    6: '\u00A40M',
+    7: '\u00A400M',
+    8: '\u00A4000M',
+    9: '\u00A40B',
+    10: '\u00A400B',
+    11: '\u00A4000B',
+    12: '\u00A40T',
+    13: '\u00A400T',
+    14: '\u00A4000T',
   }),
   // Compact number symbols for locale en_CA.
   "en_CA": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2512,6 +2772,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 trillion',
     13: '00 trillion',
     14: '000 trillion',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40K',
+    4: '\u00A400K',
+    5: '\u00A4000K',
+    6: '\u00A40M',
+    7: '\u00A400M',
+    8: '\u00A4000M',
+    9: '\u00A40B',
+    10: '\u00A400B',
+    11: '\u00A4000B',
+    12: '\u00A40T',
+    13: '\u00A400T',
+    14: '\u00A4000T',
   }),
   // Compact number symbols for locale en_GB.
   "en_GB": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2540,6 +2813,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 trillion',
     13: '00 trillion',
     14: '000 trillion',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40K',
+    4: '\u00A400K',
+    5: '\u00A4000K',
+    6: '\u00A40M',
+    7: '\u00A400M',
+    8: '\u00A4000M',
+    9: '\u00A40B',
+    10: '\u00A400B',
+    11: '\u00A4000B',
+    12: '\u00A40T',
+    13: '\u00A400T',
+    14: '\u00A4000T',
   }),
   // Compact number symbols for locale en_IE.
   "en_IE": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2568,6 +2854,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 trillion',
     13: '00 trillion',
     14: '000 trillion',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40K',
+    4: '\u00A400K',
+    5: '\u00A4000K',
+    6: '\u00A40M',
+    7: '\u00A400M',
+    8: '\u00A4000M',
+    9: '\u00A40B',
+    10: '\u00A400B',
+    11: '\u00A4000B',
+    12: '\u00A40T',
+    13: '\u00A400T',
+    14: '\u00A4000T',
   }),
   // Compact number symbols for locale en_IN.
   "en_IN": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2596,6 +2895,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 trillion',
     13: '00 trillion',
     14: '000 trillion',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40K',
+    4: '\u00A400K',
+    5: '\u00A4000K',
+    6: '\u00A40M',
+    7: '\u00A400M',
+    8: '\u00A4000M',
+    9: '\u00A40B',
+    10: '\u00A400B',
+    11: '\u00A4000B',
+    12: '\u00A40T',
+    13: '\u00A400T',
+    14: '\u00A4000T',
   }),
   // Compact number symbols for locale en_SG.
   "en_SG": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2624,6 +2936,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 trillion',
     13: '00 trillion',
     14: '000 trillion',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40K',
+    4: '\u00A400K',
+    5: '\u00A4000K',
+    6: '\u00A40M',
+    7: '\u00A400M',
+    8: '\u00A4000M',
+    9: '\u00A40B',
+    10: '\u00A400B',
+    11: '\u00A4000B',
+    12: '\u00A40T',
+    13: '\u00A400T',
+    14: '\u00A4000T',
   }),
   // Compact number symbols for locale en_US.
   "en_US": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2652,6 +2977,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 trillion',
     13: '00 trillion',
     14: '000 trillion',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40K',
+    4: '\u00A400K',
+    5: '\u00A4000K',
+    6: '\u00A40M',
+    7: '\u00A400M',
+    8: '\u00A4000M',
+    9: '\u00A40B',
+    10: '\u00A400B',
+    11: '\u00A4000B',
+    12: '\u00A40T',
+    13: '\u00A400T',
+    14: '\u00A4000T',
   }),
   // Compact number symbols for locale en_ZA.
   "en_ZA": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2680,6 +3018,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 trillion',
     13: '00 trillion',
     14: '000 trillion',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40K',
+    4: '\u00A400K',
+    5: '\u00A4000K',
+    6: '\u00A40M',
+    7: '\u00A400M',
+    8: '\u00A4000M',
+    9: '\u00A40B',
+    10: '\u00A400B',
+    11: '\u00A4000B',
+    12: '\u00A40T',
+    13: '\u00A400T',
+    14: '\u00A4000T',
   }),
   // Compact number symbols for locale es.
   "es": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2708,6 +3059,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 billones',
     13: '00 billones',
     14: '000 billones',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0K\u00A0\u00A4',
+    4: '00\u00A0K\u00A0\u00A4',
+    5: '000\u00A0K\u00A0\u00A4',
+    6: '0\u00A0M\u00A0\u00A4',
+    7: '00\u00A0M\u00A0\u00A4',
+    8: '000\u00A0M\u00A0\u00A4',
+    9: '0000\u00A0M\u00A0\u00A4',
+    10: '00\u00A0MRD\u00A0\u00A4',
+    11: '000\u00A0MRD\u00A0\u00A4',
+    12: '0\u00A0B\u00A0\u00A4',
+    13: '00\u00A0B\u00A0\u00A4',
+    14: '000\u00A0B\u00A0\u00A4',
   }),
   // Compact number symbols for locale es_419.
   "es_419": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2736,6 +3100,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 billones',
     13: '00 billones',
     14: '000 billones',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0K\u00A0\u00A4',
+    4: '00\u00A0K\u00A0\u00A4',
+    5: '000\u00A0K\u00A0\u00A4',
+    6: '0\u00A0M\u00A0\u00A4',
+    7: '00\u00A0M\u00A0\u00A4',
+    8: '000\u00A0M\u00A0\u00A4',
+    9: '0000\u00A0M\u00A0\u00A4',
+    10: '00\u00A0MRD\u00A0\u00A4',
+    11: '000\u00A0MRD\u00A0\u00A4',
+    12: '0\u00A0B\u00A0\u00A4',
+    13: '00\u00A0B\u00A0\u00A4',
+    14: '000\u00A0B\u00A0\u00A4',
   }),
   // Compact number symbols for locale es_ES.
   "es_ES": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2764,6 +3141,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 billones',
     13: '00 billones',
     14: '000 billones',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0K\u00A0\u00A4',
+    4: '00\u00A0K\u00A0\u00A4',
+    5: '000\u00A0K\u00A0\u00A4',
+    6: '0\u00A0M\u00A0\u00A4',
+    7: '00\u00A0M\u00A0\u00A4',
+    8: '000\u00A0M\u00A0\u00A4',
+    9: '0000\u00A0M\u00A0\u00A4',
+    10: '00\u00A0MRD\u00A0\u00A4',
+    11: '000\u00A0MRD\u00A0\u00A4',
+    12: '0\u00A0B\u00A0\u00A4',
+    13: '00\u00A0B\u00A0\u00A4',
+    14: '000\u00A0B\u00A0\u00A4',
   }),
   // Compact number symbols for locale es_MX.
   "es_MX": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2792,6 +3182,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 billones',
     13: '00 billones',
     14: '000 billones',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0K\u00A0\u00A4',
+    4: '00\u00A0K\u00A0\u00A4',
+    5: '000\u00A0K\u00A0\u00A4',
+    6: '0\u00A0M\u00A0\u00A4',
+    7: '00\u00A0M\u00A0\u00A4',
+    8: '000\u00A0M\u00A0\u00A4',
+    9: '0000\u00A0M\u00A0\u00A4',
+    10: '00\u00A0MRD\u00A0\u00A4',
+    11: '000\u00A0MRD\u00A0\u00A4',
+    12: '0\u00A0B\u00A0\u00A4',
+    13: '00\u00A0B\u00A0\u00A4',
+    14: '000\u00A0B\u00A0\u00A4',
   }),
   // Compact number symbols for locale es_US.
   "es_US": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2820,6 +3223,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 billones',
     13: '00 billones',
     14: '000 billones',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0K\u00A0\u00A4',
+    4: '00\u00A0K\u00A0\u00A4',
+    5: '000\u00A0K\u00A0\u00A4',
+    6: '0\u00A0M\u00A0\u00A4',
+    7: '00\u00A0M\u00A0\u00A4',
+    8: '000\u00A0M\u00A0\u00A4',
+    9: '0000\u00A0M\u00A0\u00A4',
+    10: '00\u00A0MRD\u00A0\u00A4',
+    11: '000\u00A0MRD\u00A0\u00A4',
+    12: '0\u00A0B\u00A0\u00A4',
+    13: '00\u00A0B\u00A0\u00A4',
+    14: '000\u00A0B\u00A0\u00A4',
   }),
   // Compact number symbols for locale et.
   "et": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2848,6 +3264,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 triljonit',
     13: '00 triljonit',
     14: '000 triljonit',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0tuh\u00A0\u00A4',
+    4: '00\u00A0tuh\u00A0\u00A4',
+    5: '000\u00A0tuh\u00A0\u00A4',
+    6: '0\u00A0mln\u00A0\u00A4',
+    7: '00\u00A0mln\u00A0\u00A4',
+    8: '000\u00A0mln\u00A0\u00A4',
+    9: '0\u00A0mld\u00A0\u00A4',
+    10: '00\u00A0mld\u00A0\u00A4',
+    11: '000\u00A0mld\u00A0\u00A4',
+    12: '0\u00A0trl\u00A0\u00A4',
+    13: '00\u00A0trl\u00A0\u00A4',
+    14: '000\u00A0trl\u00A0\u00A4',
   }),
   // Compact number symbols for locale eu.
   "eu": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2876,6 +3305,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 bilioi',
     13: '00 bilioi',
     14: '000 bilioi',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0000\u00A0\u00A4',
+    4: '00000\u00A0\u00A4',
+    5: '000000\u00A0\u00A4',
+    6: '0\u00A0M\u00A0\u00A4',
+    7: '00\u00A0M\u00A0\u00A4',
+    8: '000\u00A0M\u00A0\u00A4',
+    9: '0000\u00A0M\u00A0\u00A4',
+    10: '00000\u00A0M\u00A0\u00A4',
+    11: '000000\u00A0M\u00A0\u00A4',
+    12: '0\u00A0B\u00A0\u00A4',
+    13: '00\u00A0B\u00A0\u00A4',
+    14: '000\u00A0B\u00A0\u00A4',
   }),
   // Compact number symbols for locale fa.
   "fa": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2904,6 +3346,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 \u0647\u0632\u0627\u0631\u0645\u06CC\u0644\u06CC\u0627\u0631\u062F',
     13: '00 \u0647\u0632\u0627\u0631\u0645\u06CC\u0644\u06CC\u0627\u0631\u062F',
     14: '000 \u0647\u0632\u0627\u0631\u0645\u06CC\u0644\u06CC\u0627\u0631\u062F',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0\u0647\u0632\u0627\u0631\u00A0\u00A4',
+    4: '00\u00A0\u0647\u0632\u0627\u0631\u00A0\u00A4',
+    5: '000\u00A0\u0647\u0632\u0627\u0631\u00A0\u00A4',
+    6: '0\u00A0\u0645\u06CC\u0644\u06CC\u0648\u0646\u00A0\u00A4',
+    7: '00\u00A0\u0645\u06CC\u0644\u06CC\u0648\u0646\u00A0\u00A4',
+    8: '000\u00A0\u0645\u06CC\u0644\u06CC\u0648\u0646\u00A0\u00A4',
+    9: '0\u00A0\u0645\u06CC\u0644\u06CC\u0627\u0631\u062F\u00A0\u00A4',
+    10: '00\u00A0\u0645\u06CC\u0644\u06CC\u0627\u0631\u062F\u00A0\u00A4',
+    11: '000\u00A0\u0645\u06CC\u0644\u06CC\u0627\u0631\u062F\u00A0\u00A4',
+    12: '0\u00A0\u0647\u0632\u0627\u0631\u0645\u06CC\u0644\u06CC\u0627\u0631\u062F\u00A0\u00A4',
+    13: '00\u00A0\u0647\u0632\u0627\u0631\u0645\u06CC\u0644\u06CC\u0627\u0631\u062F\u00A0\u00A4',
+    14: '000\u00A0\u0647\u0632\u0627\u0631\u0645\u06CC\u0644\u06CC\u0627\u0631\u062F\u00A0\u00A4',
   }),
   // Compact number symbols for locale fi.
   "fi": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2932,6 +3387,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 biljoonaa',
     13: '00 biljoonaa',
     14: '000 biljoonaa',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0t.\u00A0\u00A4',
+    4: '00\u00A0t.\u00A0\u00A4',
+    5: '000\u00A0t.\u00A0\u00A4',
+    6: '0\u00A0milj.\u00A0\u00A4',
+    7: '00\u00A0milj.\u00A0\u00A4',
+    8: '000\u00A0milj.\u00A0\u00A4',
+    9: '0\u00A0mrd.\u00A0\u00A4',
+    10: '00\u00A0mrd.\u00A0\u00A4',
+    11: '000\u00A0mrd.\u00A0\u00A4',
+    12: '0\u00A0bilj.\u00A0\u00A4',
+    13: '00\u00A0bilj.\u00A0\u00A4',
+    14: '000\u00A0bilj.\u00A0\u00A4',
   }),
   // Compact number symbols for locale fil.
   "fil": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2960,6 +3428,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 na trilyon',
     13: '00 na trilyon',
     14: '000 na trilyon',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40K',
+    4: '\u00A400K',
+    5: '\u00A4000K',
+    6: '\u00A40M',
+    7: '\u00A400M',
+    8: '\u00A4000M',
+    9: '\u00A40B',
+    10: '\u00A400B',
+    11: '\u00A4000B',
+    12: '\u00A40T',
+    13: '\u00A400T',
+    14: '\u00A4000T',
   }),
   // Compact number symbols for locale fr.
   "fr": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2988,6 +3469,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 billions',
     13: '00 billions',
     14: '000 billions',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0k\u00A0\u00A4',
+    4: '00\u00A0k\u00A0\u00A4',
+    5: '000\u00A0k\u00A0\u00A4',
+    6: '0\u00A0M\u00A0\u00A4',
+    7: '00\u00A0M\u00A0\u00A4',
+    8: '000\u00A0M\u00A0\u00A4',
+    9: '0\u00A0Md\u00A0\u00A4',
+    10: '00\u00A0Md\u00A0\u00A4',
+    11: '000\u00A0Md\u00A0\u00A4',
+    12: '0\u00A0Bn\u00A0\u00A4',
+    13: '00\u00A0Bn\u00A0\u00A4',
+    14: '000\u00A0Bn\u00A0\u00A4',
   }),
   // Compact number symbols for locale fr_CA.
   "fr_CA": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3016,6 +3510,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 billions',
     13: '00 billions',
     14: '000 billions',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0k\u00A0\u00A4',
+    4: '00\u00A0k\u00A0\u00A4',
+    5: '000\u00A0k\u00A0\u00A4',
+    6: '0\u00A0mns\u00A0\u00A4',
+    7: '00\u00A0mns\u00A0\u00A4',
+    8: '000\u00A0mns\u00A0\u00A4',
+    9: '0\u00A0mds\u00A0\u00A4',
+    10: '00\u00A0mds\u00A0\u00A4',
+    11: '000\u00A0mds\u00A0\u00A4',
+    12: '0\u00A0bns\u00A0\u00A4',
+    13: '00\u00A0bns\u00A0\u00A4',
+    14: '000\u00A0bns\u00A0\u00A4',
   }),
   // Compact number symbols for locale ga.
   "ga": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3044,6 +3551,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 trilli\u00FAn',
     13: '00 trilli\u00FAn',
     14: '000 trilli\u00FAn',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40k',
+    4: '\u00A400k',
+    5: '\u00A4000k',
+    6: '\u00A40M',
+    7: '\u00A400M',
+    8: '\u00A4000M',
+    9: '\u00A40B',
+    10: '\u00A400B',
+    11: '\u00A4000B',
+    12: '\u00A40T',
+    13: '\u00A400T',
+    14: '\u00A4000T',
   }),
   // Compact number symbols for locale gl.
   "gl": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3072,6 +3592,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 bill\u00F3ns',
     13: '00 bill\u00F3ns',
     14: '000 bill\u00F3ns',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40K',
+    4: '\u00A400K',
+    5: '\u00A4000K',
+    6: '\u00A40M',
+    7: '\u00A400M',
+    8: '\u00A4000M',
+    9: '\u00A40k\u00A0M',
+    10: '\u00A400k\u00A0M',
+    11: '\u00A4000k\u00A0M',
+    12: '\u00A40\u00A0B',
+    13: '\u00A400\u00A0B',
+    14: '\u00A4000\u00A0B',
   }),
   // Compact number symbols for locale gsw.
   "gsw": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3100,6 +3633,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 Billionen',
     13: '00 Billionen',
     14: '000 Billionen',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0tsd\u00A0\u00A4',
+    4: '00\u00A0tsd\u00A0\u00A4',
+    5: '000\u00A0tsd\u00A0\u00A4',
+    6: '0\u00A0Mio\u00A0\u00A4',
+    7: '00\u00A0Mio\u00A0\u00A4',
+    8: '000\u00A0Mio\u00A0\u00A4',
+    9: '0\u00A0Mrd\u00A0\u00A4',
+    10: '00\u00A0Mrd\u00A0\u00A4',
+    11: '000\u00A0Mrd\u00A0\u00A4',
+    12: '0\u00A0Bio\u00A0\u00A4',
+    13: '00\u00A0Bio\u00A0\u00A4',
+    14: '000\u00A0Bio\u00A0\u00A4',
   }),
   // Compact number symbols for locale gu.
   "gu": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3128,6 +3674,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 \u0AAE\u0AB9\u0ABE\u0AAA\u0AA6\u0ACD\u0AAE',
     13: '0 \u0AB6\u0A82\u0A95\u0AC1',
     14: '0 \u0A9C\u0AB2\u0AA7\u0ABF',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40\u00A0\u0AB9\u0A9C\u0ABE\u0AB0',
+    4: '\u00A400\u00A0\u0AB9\u0A9C\u0ABE\u0AB0',
+    5: '\u00A40\u00A0\u0AB2\u0ABE\u0A96',
+    6: '\u00A400\u00A0\u0AB2\u0ABE\u0A96',
+    7: '\u00A40\u00A0\u0A95\u0AB0\u0ACB\u0AA1',
+    8: '\u00A400\u00A0\u0A95\u0AB0\u0ACB\u0AA1',
+    9: '\u00A40\u00A0\u0A85\u0AAC\u0A9C',
+    10: '\u00A400\u00A0\u0A85\u0AAC\u0A9C',
+    11: '\u00A40\u00A0\u0AA8\u0ABF\u0A96\u0AB0\u0ACD\u0AB5',
+    12: '\u00A40\u00A0\u0AAE\u0AB9\u0ABE\u0AAA\u0AA6\u0ACD\u0AAE',
+    13: '\u00A40\u00A0\u0AB6\u0A82\u0A95\u0AC1',
+    14: '\u00A40\u00A0\u0A9C\u0AB2\u0AA7\u0ABF',
   }),
   // Compact number symbols for locale haw.
   "haw": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3143,6 +3702,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0T',
     13: '00T',
     14: '000T',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40K',
+    4: '\u00A400K',
+    5: '\u00A4000K',
+    6: '\u00A40M',
+    7: '\u00A400M',
+    8: '\u00A4000M',
+    9: '\u00A40G',
+    10: '\u00A400G',
+    11: '\u00A4000G',
+    12: '\u00A40T',
+    13: '\u00A400T',
+    14: '\u00A4000T',
   }),
   // Compact number symbols for locale he.
   "he": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3171,6 +3743,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '\u200F0 \u05D8\u05E8\u05D9\u05DC\u05D9\u05D5\u05DF',
     13: '\u200F00 \u05D8\u05E8\u05D9\u05DC\u05D9\u05D5\u05DF',
     14: '\u200F000 \u05D8\u05E8\u05D9\u05DC\u05D9\u05D5\u05DF',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A4\u00A00K',
+    4: '\u00A4\u00A000K',
+    5: '\u00A4000K',
+    6: '\u00A40M',
+    7: '\u00A400M',
+    8: '\u00A4000M',
+    9: '\u00A40B',
+    10: '\u00A400B',
+    11: '\u00A4000B',
+    12: '\u00A40T',
+    13: '\u00A400T',
+    14: '\u00A4000T',
   }),
   // Compact number symbols for locale hi.
   "hi": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3199,6 +3784,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '00 \u0916\u0930\u092C',
     13: '000 \u0916\u0930\u092C',
     14: '0000 \u0916\u0930\u092C',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40\u00A0\u0939\u091C\u093C\u093E\u0930',
+    4: '\u00A400\u00A0\u0939\u091C\u093C\u093E\u0930',
+    5: '\u00A40\u00A0\u0932\u093E\u0916',
+    6: '\u00A400\u00A0\u0932\u093E\u0916',
+    7: '\u00A40\u00A0\u0915.',
+    8: '\u00A400\u00A0\u0915.',
+    9: '\u00A40\u00A0\u0905.',
+    10: '\u00A400\u00A0\u0905.',
+    11: '\u00A40\u00A0\u0916.',
+    12: '\u00A400\u00A0\u0916.',
+    13: '\u00A40\u00A0\u0928\u0940\u0932',
+    14: '\u00A400\u00A0\u0928\u0940\u0932',
   }),
   // Compact number symbols for locale hr.
   "hr": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3227,6 +3825,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 bilijuna',
     13: '00 bilijuna',
     14: '000 bilijuna',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0000\u00A4',
+    4: '00\u00A0tis.\u00A0\u00A4',
+    5: '000\u00A0tis.\u00A0\u00A4',
+    6: '0\u00A0mil.\u00A0\u00A4',
+    7: '00\u00A0mil.\u00A0\u00A4',
+    8: '000\u00A0mil.\u00A0\u00A4',
+    9: '0\u00A0mlr.\u00A0\u00A4',
+    10: '00\u00A0mlr.\u00A0\u00A4',
+    11: '000\u00A0mlr.\u00A0\u00A4',
+    12: '0\u00A0bil.\u00A0\u00A4',
+    13: '00\u00A0bil.\u00A0\u00A4',
+    14: '000\u00A0bil.\u00A0\u00A4',
   }),
   // Compact number symbols for locale hu.
   "hu": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3255,6 +3866,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 billi\u00F3',
     13: '00 billi\u00F3',
     14: '000 billi\u00F3',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0E\u00A0\u00A4',
+    4: '00\u00A0E\u00A0\u00A4',
+    5: '000\u00A0E\u00A0\u00A4',
+    6: '0\u00A0M\u00A0\u00A4',
+    7: '00\u00A0M\u00A0\u00A4',
+    8: '000\u00A0M\u00A0\u00A4',
+    9: '0\u00A0Mrd\u00A0\u00A4',
+    10: '00\u00A0Mrd\u00A0\u00A4',
+    11: '000\u00A0Mrd\u00A0\u00A4',
+    12: '0\u00A0B\u00A0\u00A4',
+    13: '00\u00A0B\u00A0\u00A4',
+    14: '000\u00A0B\u00A0\u00A4',
   }),
   // Compact number symbols for locale hy.
   "hy": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3283,6 +3907,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 \u057F\u0580\u056B\u056C\u056B\u0578\u0576',
     13: '00 \u057F\u0580\u056B\u056C\u056B\u0578\u0576',
     14: '000 \u057F\u0580\u056B\u056C\u056B\u0578\u0576',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0\u0570\u0566\u0580\u00A0\u00A4',
+    4: '00\u00A0\u0570\u0566\u0580\u00A0\u00A4',
+    5: '000\u00A0\u0570\u0566\u0580\u00A0\u00A4',
+    6: '0\u00A0\u0574\u056C\u0576\u00A0\u00A4',
+    7: '00\u00A0\u0574\u056C\u0576\u00A0\u00A4',
+    8: '000\u00A0\u0574\u056C\u0576\u00A0\u00A4',
+    9: '0\u00A0\u0574\u056C\u0580\u0564\u00A0\u00A4',
+    10: '00\u00A0\u0574\u056C\u0580\u0564\u00A0\u00A4',
+    11: '000\u00A0\u0574\u056C\u0580\u0564\u00A0\u00A4',
+    12: '0\u00A0\u057F\u0580\u056C\u0576\u00A0\u00A4',
+    13: '00\u00A0\u057F\u0580\u056C\u0576\u00A0\u00A4',
+    14: '000\u00A0\u057F\u0580\u056C\u0576\u00A0\u00A4',
   }),
   // Compact number symbols for locale id.
   "id": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3311,6 +3948,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 triliun',
     13: '00 triliun',
     14: '000 triliun',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40',
+    4: '\u00A400\u00A0rb',
+    5: '\u00A4000\u00A0rb',
+    6: '\u00A40\u00A0jt',
+    7: '\u00A400\u00A0jt',
+    8: '\u00A4000\u00A0jt',
+    9: '\u00A40\u00A0M',
+    10: '\u00A400\u00A0M',
+    11: '\u00A4000\u00A0M',
+    12: '\u00A40\u00A0T',
+    13: '\u00A400\u00A0T',
+    14: '\u00A4000\u00A0T',
   }),
   // Compact number symbols for locale in.
   "in": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3339,6 +3989,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 triliun',
     13: '00 triliun',
     14: '000 triliun',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40',
+    4: '\u00A400\u00A0rb',
+    5: '\u00A4000\u00A0rb',
+    6: '\u00A40\u00A0jt',
+    7: '\u00A400\u00A0jt',
+    8: '\u00A4000\u00A0jt',
+    9: '\u00A40\u00A0M',
+    10: '\u00A400\u00A0M',
+    11: '\u00A4000\u00A0M',
+    12: '\u00A40\u00A0T',
+    13: '\u00A400\u00A0T',
+    14: '\u00A4000\u00A0T',
   }),
   // Compact number symbols for locale is.
   "is": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3367,6 +4030,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 billj\u00F3nir',
     13: '00 billj\u00F3nir',
     14: '000 billj\u00F3nir',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0\u00FE.\u00A0\u00A4',
+    4: '00\u00A0\u00FE.\u00A0\u00A4',
+    5: '000\u00A0\u00FE.\u00A0\u00A4',
+    6: '0\u00A0m.\u00A0\u00A4',
+    7: '00\u00A0m.\u00A0\u00A4',
+    8: '000\u00A0m.\u00A0\u00A4',
+    9: '0\u00A0ma.\u00A0\u00A4',
+    10: '00\u00A0ma.\u00A0\u00A4',
+    11: '000\u00A0ma.\u00A0\u00A4',
+    12: '0\u00A0bn\u00A0\u00A4',
+    13: '00\u00A0bn\u00A0\u00A4',
+    14: '000\u00A0bn\u00A0\u00A4',
   }),
   // Compact number symbols for locale it.
   "it": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3395,6 +4071,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 mila miliardi',
     13: '00 mila miliardi',
     14: '000 mila miliardi',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0\u00A4',
+    4: '00\u00A0\u00A4',
+    5: '000\u00A0\u00A4',
+    6: '0\u00A0Mio\u00A0\u00A4',
+    7: '00\u00A0Mio\u00A0\u00A4',
+    8: '000\u00A0Mio\u00A0\u00A4',
+    9: '0\u00A0Mrd\u00A0\u00A4',
+    10: '00\u00A0Mrd\u00A0\u00A4',
+    11: '000\u00A0Mrd\u00A0\u00A4',
+    12: '0\u00A0Bln\u00A0\u00A4',
+    13: '00\u00A0Bln\u00A0\u00A4',
+    14: '000\u00A0Bln\u00A0\u00A4',
   }),
   // Compact number symbols for locale iw.
   "iw": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3423,6 +4112,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '\u200F0 \u05D8\u05E8\u05D9\u05DC\u05D9\u05D5\u05DF',
     13: '\u200F00 \u05D8\u05E8\u05D9\u05DC\u05D9\u05D5\u05DF',
     14: '\u200F000 \u05D8\u05E8\u05D9\u05DC\u05D9\u05D5\u05DF',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A4\u00A00K',
+    4: '\u00A4\u00A000K',
+    5: '\u00A4000K',
+    6: '\u00A40M',
+    7: '\u00A400M',
+    8: '\u00A4000M',
+    9: '\u00A40B',
+    10: '\u00A400B',
+    11: '\u00A4000B',
+    12: '\u00A40T',
+    13: '\u00A400T',
+    14: '\u00A4000T',
   }),
   // Compact number symbols for locale ja.
   "ja": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3451,6 +4153,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0\u5146',
     13: '00\u5146',
     14: '000\u5146',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0',
+    4: '\u00A40\u4E07',
+    5: '\u00A400\u4E07',
+    6: '\u00A4000\u4E07',
+    7: '\u00A40000\u4E07',
+    8: '\u00A40\u5104',
+    9: '\u00A400\u5104',
+    10: '\u00A4000\u5104',
+    11: '\u00A40000\u5104',
+    12: '\u00A40\u5146',
+    13: '\u00A400\u5146',
+    14: '\u00A4000\u5146',
   }),
   // Compact number symbols for locale ka.
   "ka": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3479,6 +4194,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 \u10E2\u10E0\u10D8\u10DA\u10D8\u10DD\u10DC\u10D8',
     13: '00 \u10E2\u10E0\u10D8\u10DA\u10D8\u10DD\u10DC\u10D8',
     14: '000 \u10E2\u10E0\u10D8\u10DA\u10D8\u10DD\u10DC\u10D8',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0\u10D0\u10D7.\u00A0\u00A4',
+    4: '00\u00A0\u10D0\u10D7.\u00A0\u00A4',
+    5: '000\u00A0\u10D0\u10D7.\u00A0\u00A4',
+    6: '0\u00A0\u10DB\u10DA\u10DC.\u00A0\u00A4',
+    7: '00\u00A0\u10DB\u10DA\u10DC.\u00A0\u00A4',
+    8: '000\u00A0\u10DB\u10DA\u10DC.\u00A0\u00A4',
+    9: '0\u00A0\u10DB\u10DA\u10E0\u10D3.\u00A0\u00A4',
+    10: '00\u00A0\u10DB\u10DA\u10E0\u10D3.\u00A0\u00A4',
+    11: '000\u00A0\u10DB\u10DA\u10E0.\u00A0\u00A4',
+    12: '0\u00A0\u10E2\u10E0\u10DA.\u00A0\u00A4',
+    13: '00\u00A0\u10E2\u10E0\u10DA.\u00A0\u00A4',
+    14: '000\u00A0\u10E2\u10E0\u10DA.\u00A0\u00A4',
   }),
   // Compact number symbols for locale kk.
   "kk": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3507,6 +4235,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 \u0442\u0440\u0438\u043B\u043B\u0438\u043E\u043D',
     13: '00 \u0442\u0440\u0438\u043B\u043B\u0438\u043E\u043D',
     14: '000 \u0442\u0440\u0438\u043B\u043B\u0438\u043E\u043D',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0\u043C\u044B\u04A3\u00A0\u00A4',
+    4: '00\u00A0\u043C\u044B\u04A3\u00A0\u00A4',
+    5: '000\u00A0\u043C\u044B\u04A3\u00A0\u00A4',
+    6: '0\u00A0\u043C\u043B\u043D\u00A0\u00A4',
+    7: '00\u00A0\u043C\u043B\u043D\u00A0\u00A4',
+    8: '000\u00A0\u043C\u043B\u043D\u00A0\u00A4',
+    9: '0\u00A0\u043C\u043B\u0440\u0434\u00A0\u00A4',
+    10: '00\u00A0\u043C\u043B\u0440\u0434\u00A0\u00A4',
+    11: '000\u00A0\u043C\u043B\u0440\u0434\u00A0\u00A4',
+    12: '0\u00A0\u0442\u0440\u043B\u043D\u00A0\u00A4',
+    13: '00\u00A0\u0442\u0440\u043B\u043D\u00A0\u00A4',
+    14: '000\u00A0\u0442\u0440\u043B\u043D\u00A0\u00A4',
   }),
   // Compact number symbols for locale km.
   "km": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3535,6 +4276,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0\u200B\u1796\u17B6\u1793\u17CB\u200B\u1780\u17C4\u178A\u17B7',
     13: '0\u200B\u1798\u17BA\u17BB\u1793\u200B\u1780\u17C4\u178A\u17B7',
     14: '0\u200B\u179F\u17C2\u1793\u200B\u1780\u17C4\u178A\u17B7',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40\u1796\u17B6\u1793\u17CB',
+    4: '\u00A40\u200B\u1798\u17BA\u17BB\u1793',
+    5: '\u00A40\u179F\u17C2\u1793',
+    6: '\u00A40\u179B\u17B6\u1793',
+    7: '\u00A40\u200B\u178A\u1794\u17CB\u200B\u179B\u17B6\u1793',
+    8: '\u00A40\u200B\u179A\u1799\u179B\u17B6\u1793',
+    9: '\u00A40\u200B\u1780\u17C4\u178A\u17B7',
+    10: '\u00A40\u200B\u178A\u1794\u17CB\u200B\u1780\u17C4\u178A\u17B7',
+    11: '\u00A40\u200B\u179A\u1799\u200B\u1780\u17C4\u178A\u17B7',
+    12: '\u00A40\u200B\u1796\u17B6\u1793\u17CB\u200B\u1780\u17C4\u178A\u17B7',
+    13: '\u00A40\u200B\u1798\u17BA\u17BB\u1793\u200B\u1780\u17C4\u178A\u17B7',
+    14: '\u00A40\u200B\u179F\u17C2\u1793\u200B\u1780\u17C4\u178A\u17B7',
   }),
   // Compact number symbols for locale kn.
   "kn": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3563,6 +4317,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 \u0C9F\u0CCD\u0CB0\u0CBF\u0CB2\u0CBF\u0CAF\u0CA8\u0CCD\u200C',
     13: '00 \u0C9F\u0CCD\u0CB0\u0CBF\u0CB2\u0CBF\u0CAF\u0CA8\u0CCD\u200C',
     14: '000 \u0C9F\u0CCD\u0CB0\u0CBF\u0CB2\u0CBF\u0CAF\u0CA8\u0CCD\u200C',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40\u0CB8\u0CBE',
+    4: '\u00A400\u0CB8\u0CBE',
+    5: '\u00A4000\u0CB8\u0CBE',
+    6: '\u00A40\u0CAE\u0CBF',
+    7: '\u00A400\u0CAE\u0CBF',
+    8: '\u00A4000\u0CAE\u0CBF',
+    9: '\u00A40\u0CAC\u0CBF',
+    10: '\u00A400\u0CAC\u0CBF',
+    11: '\u00A4000\u0CAC\u0CBF',
+    12: '\u00A40\u0C9F\u0CCD\u0CB0\u0CBF',
+    13: '\u00A400\u0C9F\u0CCD\u0CB0\u0CBF',
+    14: '\u00A4000\u0C9F\u0CCD\u0CB0\u0CBF',
   }),
   // Compact number symbols for locale ko.
   "ko": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3591,6 +4358,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0\uC870',
     13: '00\uC870',
     14: '000\uC870',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0',
+    4: '\u00A40\uB9CC',
+    5: '\u00A400\uB9CC',
+    6: '\u00A4000\uB9CC',
+    7: '\u00A40000\uB9CC',
+    8: '\u00A40\uC5B5',
+    9: '\u00A400\uC5B5',
+    10: '\u00A4000\uC5B5',
+    11: '\u00A40000\uC5B5',
+    12: '\u00A40\uC870',
+    13: '\u00A400\uC870',
+    14: '\u00A4000\uC870',
   }),
   // Compact number symbols for locale ky.
   "ky": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3619,6 +4399,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 \u0442\u0440\u0438\u043B\u043B\u0438\u043E\u043D',
     13: '00 \u0442\u0440\u0438\u043B\u043B\u0438\u043E\u043D',
     14: '000 \u0442\u0440\u0438\u043B\u043B\u0438\u043E\u043D',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0\u043C\u0438\u04CA\u00A0\u00A4',
+    4: '00\u00A0\u043C\u0438\u04CA\u00A0\u00A4',
+    5: '000\u00A0\u043C\u0438\u04CA\u00A0\u00A4',
+    6: '0\u00A0\u043C\u043B\u043D\u00A0\u00A4',
+    7: '00\u00A0\u043C\u043B\u043D\u00A0\u00A4',
+    8: '000\u00A0\u043C\u043B\u043D\u00A0\u00A4',
+    9: '0\u00A0\u043C\u043B\u0434\u00A0\u00A4',
+    10: '00\u00A0\u043C\u043B\u0434\u00A0\u00A4',
+    11: '000\u00A0\u043C\u043B\u0434\u00A0\u00A4',
+    12: '0\u00A0\u0442\u0440\u043D\u00A0\u00A4',
+    13: '00\u00A0\u0442\u0440\u043D\u00A0\u00A4',
+    14: '000\u00A0\u0442\u0440\u043D\u00A0\u00A4',
   }),
   // Compact number symbols for locale ln.
   "ln": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3634,6 +4427,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0T',
     13: '00T',
     14: '000T',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0K\u00A0\u00A4',
+    4: '00K\u00A0\u00A4',
+    5: '000K\u00A0\u00A4',
+    6: '0M\u00A0\u00A4',
+    7: '00M\u00A0\u00A4',
+    8: '000M\u00A0\u00A4',
+    9: '0G\u00A0\u00A4',
+    10: '00G\u00A0\u00A4',
+    11: '000G\u00A0\u00A4',
+    12: '0T\u00A0\u00A4',
+    13: '00T\u00A0\u00A4',
+    14: '000T\u00A0\u00A4',
   }),
   // Compact number symbols for locale lo.
   "lo": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3662,6 +4468,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0000\u0E9E\u0EB1\u0E99\u0EA5\u0EC9\u0EB2\u0E99',
     13: '00\u0EA5\u0EC9\u0EB2\u0E99\u0EA5\u0EC9\u0EB2\u0E99',
     14: '000\u0EA5\u0EC9\u0EB2\u0E99\u0EA5\u0EC9\u0EB2\u0E99',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40\u00A0\u0E9E\u0EB1\u0E99',
+    4: '\u00A400\u00A0\u0E9E\u0EB1\u0E99',
+    5: '\u00A4000\u00A0\u0E81\u0EB5\u0E9A',
+    6: '\u00A40\u00A0\u0EA5\u0EC9\u0EB2\u0E99',
+    7: '\u00A400\u00A0\u0EA5\u0EC9\u0EB2\u0E99',
+    8: '\u00A4000\u00A0\u0EA5\u0EC9\u0EB2\u0E99',
+    9: '\u00A40\u00A0\u0E95\u0EB7\u0EC9',
+    10: '\u00A400\u00A0\u0E95\u0EB7\u0EC9',
+    11: '\u00A4000\u00A0\u0E95\u0EB7\u0EC9',
+    12: '\u00A40\u00A0\u0EA5\u0EC9\u0EB2\u0E99\u0EA5\u0EC9\u0EB2\u0E99',
+    13: '\u00A400\u00A0\u0EA5\u0EC9\u0EB2\u0E99\u0EA5\u0EC9\u0EB2\u0E99',
+    14: '\u00A4000\u00A0\u0EA5\u0EC9\u0EB2\u0E99\u0EA5\u0EC9\u0EB2\u0E99',
   }),
   // Compact number symbols for locale lt.
   "lt": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3690,6 +4509,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 trilijon\u0173',
     13: '00 trilijon\u0173',
     14: '000 trilijon\u0173',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0t\u016Bkst.\u00A0\u00A4',
+    4: '00\u00A0t\u016Bkst.\u00A0\u00A4',
+    5: '000\u00A0t\u016Bkst.\u00A0\u00A4',
+    6: '0\u00A0mln.\u00A0\u00A4',
+    7: '00\u00A0mln.\u00A0\u00A4',
+    8: '000\u00A0mln.\u00A0\u00A4',
+    9: '0\u00A0mlrd.\u00A0\u00A4',
+    10: '00\u00A0mlrd.\u00A0\u00A4',
+    11: '000\u00A0mlrd.\u00A0\u00A4',
+    12: '0\u00A0trln.\u00A0\u00A4',
+    13: '00\u00A0trln.\u00A0\u00A4',
+    14: '000\u00A0trln.\u00A0\u00A4',
   }),
   // Compact number symbols for locale lv.
   "lv": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3718,6 +4550,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 triljoni',
     13: '00 triljoni',
     14: '000 triljoni',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40\u00A0t\u016Bkst.',
+    4: '\u00A400\u00A0t\u016Bkst.',
+    5: '\u00A4000\u00A0t\u016Bkst.',
+    6: '\u00A40\u00A0milj.',
+    7: '\u00A400\u00A0milj.',
+    8: '\u00A4000\u00A0milj.',
+    9: '\u00A40\u00A0mljrd.',
+    10: '\u00A400\u00A0mljrd.',
+    11: '\u00A4000\u00A0mljrd.',
+    12: '\u00A40\u00A0trilj.',
+    13: '\u00A400\u00A0trilj.',
+    14: '\u00A4000\u00A0trilj.',
   }),
   // Compact number symbols for locale mk.
   "mk": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3746,6 +4591,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 \u0442\u0440\u0438\u043B\u0438\u043E\u043D\u0438',
     13: '00 \u0442\u0440\u0438\u043B\u0438\u043E\u043D\u0438',
     14: '000 \u0442\u0440\u0438\u043B\u0438\u043E\u043D\u0438',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A4\u00A00\u00A0\u0438\u043B\u0458.',
+    4: '\u00A4\u00A000\u00A0\u0438\u043B\u0458.',
+    5: '\u00A4\u00A0000\u00A0\u0438\u043B\u0458.',
+    6: '\u00A4\u00A00\u00A0\u043C\u0438\u043B.',
+    7: '\u00A4\u00A000\u00A0\u043C\u0438\u043B.',
+    8: '\u00A4\u00A0000\u00A0\u041C',
+    9: '\u00A4\u00A00\u00A0\u043C\u0438\u043B\u0458.',
+    10: '\u00A4\u00A000\u00A0\u043C\u0438\u043B\u0458.',
+    11: '\u00A4\u00A0000\u00A0\u043C\u0438\u043B\u0458.',
+    12: '\u00A4\u00A00\u00A0\u0442\u0440\u0438\u043B.',
+    13: '\u00A4\u00A000\u00A0\u0442\u0440\u0438\u043B.',
+    14: '\u00A4\u00A0000\u00A0\u0442\u0440\u0438\u043B.',
   }),
   // Compact number symbols for locale ml.
   "ml": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3774,6 +4632,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 \u0D1F\u0D4D\u0D30\u0D3F\u0D32\u0D4D\u0D2F\u0D7A',
     13: '00 \u0D1F\u0D4D\u0D30\u0D3F\u0D32\u0D4D\u0D2F\u0D7A',
     14: '000 \u0D1F\u0D4D\u0D30\u0D3F\u0D32\u0D4D\u0D2F\u0D7A',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40K',
+    4: '\u00A400K',
+    5: '\u00A4000K',
+    6: '\u00A40M',
+    7: '\u00A400M',
+    8: '\u00A4000M',
+    9: '\u00A40B',
+    10: '\u00A400B',
+    11: '\u00A4000B',
+    12: '\u00A40T',
+    13: '\u00A400T',
+    14: '\u00A4000T',
   }),
   // Compact number symbols for locale mn.
   "mn": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3802,6 +4673,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 \u0438\u0445 \u043D\u0430\u044F\u0434',
     13: '00 \u0438\u0445 \u043D\u0430\u044F\u0434',
     14: '000 \u0438\u0445 \u043D\u0430\u044F\u0434',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A4\u00A00\u041C',
+    4: '\u00A4\u00A000\u041C',
+    5: '\u00A4\u00A0000\u041C',
+    6: '\u00A4\u00A00\u0421',
+    7: '\u00A4\u00A000\u0421',
+    8: '\u00A4\u00A0000\u0421',
+    9: '\u00A4\u00A00\u0422',
+    10: '\u00A4\u00A000\u0422',
+    11: '\u00A4\u00A0000\u0422',
+    12: '\u00A4\u00A00\u0418\u041D',
+    13: '\u00A4\u00A000\u0418\u041D',
+    14: '\u00A4\u00A0000\u0418\u041D',
   }),
   // Compact number symbols for locale mr.
   "mr": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3830,6 +4714,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 \u0916\u0930\u092C',
     13: '00 \u0916\u0930\u092C',
     14: '000 \u0916\u0930\u092C',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40\u00A0\u0939',
+    4: '\u00A400\u00A0\u0939',
+    5: '\u00A40\u00A0\u0932\u093E\u0916',
+    6: '\u00A400\u00A0\u0932\u093E\u0916',
+    7: '\u00A40\u00A0\u0915\u094B\u091F\u0940',
+    8: '\u00A400\u00A0\u0915\u094B\u091F\u0940',
+    9: '\u00A40\u00A0\u0905\u092C\u094D\u091C',
+    10: '\u00A400\u00A0\u0905\u092C\u094D\u091C',
+    11: '\u00A40\u00A0\u0916\u0930\u094D\u0935',
+    12: '\u00A400\u00A0\u0916\u0930\u094D\u0935',
+    13: '\u00A40\u00A0\u092A\u0926\u094D\u092E',
+    14: '\u00A400\u00A0\u092A\u0926\u094D\u092E',
   }),
   // Compact number symbols for locale ms.
   "ms": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3858,6 +4755,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 trilion',
     13: '00 trilion',
     14: '000 trilion',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40K',
+    4: '\u00A400K',
+    5: '\u00A4000K',
+    6: '\u00A40J',
+    7: '\u00A400J',
+    8: '\u00A4000J',
+    9: '\u00A40B',
+    10: '\u00A400B',
+    11: '\u00A4000B',
+    12: '\u00A40T',
+    13: '\u00A400T',
+    14: '\u00A4000T',
   }),
   // Compact number symbols for locale mt.
   "mt": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3873,6 +4783,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0T',
     13: '00T',
     14: '000T',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40K',
+    4: '\u00A400K',
+    5: '\u00A4000K',
+    6: '\u00A40M',
+    7: '\u00A400M',
+    8: '\u00A4000M',
+    9: '\u00A40G',
+    10: '\u00A400G',
+    11: '\u00A4000G',
+    12: '\u00A40T',
+    13: '\u00A400T',
+    14: '\u00A4000T',
   }),
   // Compact number symbols for locale my.
   "my": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3901,6 +4824,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '000000\u1000\u102F\u100B\u1031',
     13: '0000000\u1000\u102F\u100B\u1031',
     14: '0\u1000\u1031\u102C\u100B\u102D',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A4\u00A00\u1011\u1031\u102C\u1004\u103A',
+    4: '\u00A4\u00A00\u101E\u1031\u102C\u1004\u103A\u1038',
+    5: '\u00A4\u00A00\u101E\u102D\u1014\u103A\u1038',
+    6: '\u00A4\u00A00\u101E\u1014\u103A\u1038',
+    7: '\u00A4\u00A00\u1000\u102F\u100B\u1031',
+    8: '\u00A4\u00A000\u1000\u102F\u100B\u1031',
+    9: '\u00A4\u00A0\u1000\u102F\u100B\u1031000',
+    10: '\u00A4\u00A0\u1000\u102F\u100B\u10310000',
+    11: '\u00A4\u00A00000\u1000\u102F\u100B\u1031',
+    12: '\u00A4\u00A0\u1000\u102F\u100B\u10310\u101E\u102D\u1014\u103A\u1038',
+    13: '\u00A4\u00A0\u1000\u102F\u100B\u10310\u101E\u1014\u103A\u1038',
+    14: '\u00A4\u00A00\u1000\u1031\u102C\u100B\u102D',
   }),
   // Compact number symbols for locale nb.
   "nb": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3929,6 +4865,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 billioner',
     13: '00 billioner',
     14: '000 billioner',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A4\u00A00k',
+    4: '\u00A4\u00A000k',
+    5: '\u00A4\u00A0000k',
+    6: '\u00A4\u00A00\u00A0mill',
+    7: '\u00A4\u00A000\u00A0mill',
+    8: '\u00A4\u00A0000\u00A0mill',
+    9: '\u00A4\u00A00\u00A0mrd',
+    10: '\u00A4\u00A000\u00A0mrd',
+    11: '\u00A4\u00A0000\u00A0mrd',
+    12: '\u00A4\u00A00\u00A0bill',
+    13: '\u00A4\u00A000\u00A0bill',
+    14: '\u00A4\u00A0000\u00A0bill',
   }),
   // Compact number symbols for locale ne.
   "ne": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3957,6 +4906,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 \u0916\u0930\u094D\u092C',
     13: '0 \u0936\u0902\u0916',
     14: '00 \u0936\u0902\u0916',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A4\u00A00\u00A0\u0939\u091C\u093E\u0930',
+    4: '\u00A4\u00A000\u00A0\u0939\u091C\u093E\u0930',
+    5: '\u00A4\u00A00\u00A0\u0932\u093E\u0916',
+    6: '\u00A4\u00A000\u00A0\u0932\u093E\u0916',
+    7: '\u00A4\u00A00\u00A0\u0915\u0930\u094B\u0921',
+    8: '\u00A4\u00A000\u00A0\u0915\u0930\u094B\u0921',
+    9: '\u00A4\u00A00\u00A0\u0905\u0930\u092C',
+    10: '\u00A4\u00A000\u00A0\u0905\u0930\u092C',
+    11: '\u00A4\u00A00\u00A0\u0916\u0930\u092C',
+    12: '\u00A4\u00A000\u00A0\u0916\u0930\u092C',
+    13: '\u00A4\u00A00\u00A0\u0936\u0902\u0916',
+    14: '\u00A4\u00A000\u00A0\u0936\u0902\u0916',
   }),
   // Compact number symbols for locale nl.
   "nl": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3985,6 +4947,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 biljoen',
     13: '00 biljoen',
     14: '000 biljoen',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A4\u00A00K',
+    4: '\u00A4\u00A000K',
+    5: '\u00A4\u00A0000K',
+    6: '\u00A4\u00A00\u00A0mln.',
+    7: '\u00A4\u00A000\u00A0mln.',
+    8: '\u00A4\u00A0000\u00A0mln.',
+    9: '\u00A4\u00A00\u00A0mld.',
+    10: '\u00A4\u00A000\u00A0mld.',
+    11: '\u00A4\u00A0000\u00A0mld.',
+    12: '\u00A4\u00A00\u00A0bln.',
+    13: '\u00A4\u00A000\u00A0bln.',
+    14: '\u00A4\u00A0000\u00A0bln.',
   }),
   // Compact number symbols for locale no.
   "no": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4013,6 +4988,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 billioner',
     13: '00 billioner',
     14: '000 billioner',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A4\u00A00k',
+    4: '\u00A4\u00A000k',
+    5: '\u00A4\u00A0000k',
+    6: '\u00A4\u00A00\u00A0mill',
+    7: '\u00A4\u00A000\u00A0mill',
+    8: '\u00A4\u00A0000\u00A0mill',
+    9: '\u00A4\u00A00\u00A0mrd',
+    10: '\u00A4\u00A000\u00A0mrd',
+    11: '\u00A4\u00A0000\u00A0mrd',
+    12: '\u00A4\u00A00\u00A0bill',
+    13: '\u00A4\u00A000\u00A0bill',
+    14: '\u00A4\u00A0000\u00A0bill',
   }),
   // Compact number symbols for locale no_NO.
   "no_NO": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4041,6 +5029,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 billioner',
     13: '00 billioner',
     14: '000 billioner',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A4\u00A00k',
+    4: '\u00A4\u00A000k',
+    5: '\u00A4\u00A0000k',
+    6: '\u00A4\u00A00\u00A0mill',
+    7: '\u00A4\u00A000\u00A0mill',
+    8: '\u00A4\u00A0000\u00A0mill',
+    9: '\u00A4\u00A00\u00A0mrd',
+    10: '\u00A4\u00A000\u00A0mrd',
+    11: '\u00A4\u00A0000\u00A0mrd',
+    12: '\u00A4\u00A00\u00A0bill',
+    13: '\u00A4\u00A000\u00A0bill',
+    14: '\u00A4\u00A0000\u00A0bill',
   }),
   // Compact number symbols for locale or.
   "or": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4056,6 +5057,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0T',
     13: '00T',
     14: '000T',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A4\u00A00K',
+    4: '\u00A4\u00A000K',
+    5: '\u00A4\u00A0000K',
+    6: '\u00A4\u00A00M',
+    7: '\u00A4\u00A000M',
+    8: '\u00A4\u00A0000M',
+    9: '\u00A4\u00A00G',
+    10: '\u00A4\u00A000G',
+    11: '\u00A4\u00A0000G',
+    12: '\u00A4\u00A00T',
+    13: '\u00A4\u00A000T',
+    14: '\u00A4\u00A0000T',
   }),
   // Compact number symbols for locale pa.
   "pa": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4084,6 +5098,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '00 \u0A16\u0A30\u0A2C',
     13: '0 \u0A28\u0A40\u0A32',
     14: '00 \u0A28\u0A40\u0A32',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A4\u00A00\u00A0\u0A39\u0A1C\u0A3C\u0A3E\u0A30',
+    4: '\u00A4\u00A000\u00A0\u0A39\u0A1C\u0A3C\u0A3E\u0A30',
+    5: '\u00A4\u00A00\u00A0\u0A32\u0A71\u0A16',
+    6: '\u00A4\u00A000\u00A0\u0A32\u0A71\u0A16',
+    7: '\u00A4\u00A00\u00A0\u0A15\u0A30\u0A4B\u0A5C',
+    8: '\u00A4\u00A000\u00A0\u0A15\u0A30\u0A4B\u0A5C',
+    9: '\u00A4\u00A00\u00A0\u0A05\u0A30\u0A2C',
+    10: '\u00A4\u00A000\u00A0\u0A05\u0A30\u0A2C',
+    11: '\u00A4\u00A00\u00A0\u0A16\u0A30\u0A2C',
+    12: '\u00A4\u00A000\u00A0\u0A16\u0A30\u0A2C',
+    13: '\u00A4\u00A00\u00A0\u0A28\u0A40\u0A32',
+    14: '\u00A4\u00A000\u00A0\u0A28\u0A40\u0A32',
   }),
   // Compact number symbols for locale pl.
   "pl": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4112,6 +5139,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 biliona',
     13: '00 biliona',
     14: '000 biliona',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0tys.\u00A0\u00A4',
+    4: '00\u00A0tys.\u00A0\u00A4',
+    5: '000\u00A0tys.\u00A0\u00A4',
+    6: '0\u00A0mln\u00A0\u00A4',
+    7: '00\u00A0mln\u00A0\u00A4',
+    8: '000\u00A0mln\u00A0\u00A4',
+    9: '0\u00A0mld\u00A0\u00A4',
+    10: '00\u00A0mld\u00A0\u00A4',
+    11: '000\u00A0mld\u00A0\u00A4',
+    12: '0\u00A0bln\u00A0\u00A4',
+    13: '00\u00A0bln\u00A0\u00A4',
+    14: '000\u00A0bln\u00A0\u00A4',
   }),
   // Compact number symbols for locale pt.
   "pt": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4140,6 +5180,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 trilh\u00F5es',
     13: '00 trilh\u00F5es',
     14: '000 trilh\u00F5es',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40\u00A0mil',
+    4: '\u00A400\u00A0mil',
+    5: '\u00A4000\u00A0mil',
+    6: '\u00A40\u00A0mi',
+    7: '\u00A400\u00A0mi',
+    8: '\u00A4000\u00A0mi',
+    9: '\u00A40\u00A0bi',
+    10: '\u00A400\u00A0bi',
+    11: '\u00A4000\u00A0bi',
+    12: '\u00A40\u00A0tri',
+    13: '\u00A400\u00A0tri',
+    14: '\u00A4000\u00A0tri',
   }),
   // Compact number symbols for locale pt_BR.
   "pt_BR": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4168,6 +5221,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 trilh\u00F5es',
     13: '00 trilh\u00F5es',
     14: '000 trilh\u00F5es',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40\u00A0mil',
+    4: '\u00A400\u00A0mil',
+    5: '\u00A4000\u00A0mil',
+    6: '\u00A40\u00A0mi',
+    7: '\u00A400\u00A0mi',
+    8: '\u00A4000\u00A0mi',
+    9: '\u00A40\u00A0bi',
+    10: '\u00A400\u00A0bi',
+    11: '\u00A4000\u00A0bi',
+    12: '\u00A40\u00A0tri',
+    13: '\u00A400\u00A0tri',
+    14: '\u00A4000\u00A0tri',
   }),
   // Compact number symbols for locale pt_PT.
   "pt_PT": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4196,6 +5262,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 bili\u00F5es',
     13: '00 bili\u00F5es',
     14: '000 bili\u00F5es',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40\u00A0mil',
+    4: '\u00A400\u00A0mil',
+    5: '\u00A4000\u00A0mil',
+    6: '\u00A40\u00A0M',
+    7: '\u00A400\u00A0M',
+    8: '\u00A4000\u00A0M',
+    9: '\u00A40\u00A0mM',
+    10: '\u00A400\u00A0mM',
+    11: '\u00A4000\u00A0mM',
+    12: '\u00A40\u00A0B',
+    13: '\u00A400\u00A0B',
+    14: '\u00A4000\u00A0B',
   }),
   // Compact number symbols for locale ro.
   "ro": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4224,6 +5303,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 de trilioane',
     13: '00 de trilioane',
     14: '000 de trilioane',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0mii\u00A0\u00A4',
+    4: '00\u00A0mii\u00A0\u00A4',
+    5: '000\u00A0mii\u00A0\u00A4',
+    6: '0\u00A0mil.\u00A0\u00A4',
+    7: '00\u00A0mil.\u00A0\u00A4',
+    8: '000\u00A0mil.\u00A0\u00A4',
+    9: '0\u00A0mld.\u00A0\u00A4',
+    10: '00\u00A0mld.\u00A0\u00A4',
+    11: '000\u00A0mld.\u00A0\u00A4',
+    12: '0\u00A0tril.\u00A0\u00A4',
+    13: '00\u00A0tril.\u00A0\u00A4',
+    14: '000\u00A0tril.\u00A0\u00A4',
   }),
   // Compact number symbols for locale ru.
   "ru": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4252,6 +5344,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 \u0442\u0440\u0438\u043B\u043B\u0438\u043E\u043D\u0430',
     13: '00 \u0442\u0440\u0438\u043B\u043B\u0438\u043E\u043D\u0430',
     14: '000 \u0442\u0440\u0438\u043B\u043B\u0438\u043E\u043D\u0430',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0\u0442\u044B\u0441.\u00A0\u00A4',
+    4: '00\u00A0\u0442\u044B\u0441.\u00A0\u00A4',
+    5: '000\u00A0\u0442\u044B\u0441.\u00A0\u00A4',
+    6: '0\u00A0\u043C\u043B\u043D\u00A0\u00A4',
+    7: '00\u00A0\u043C\u043B\u043D\u00A0\u00A4',
+    8: '000\u00A0\u043C\u043B\u043D\u00A0\u00A4',
+    9: '0\u00A0\u043C\u043B\u0440\u0434\u00A0\u00A4',
+    10: '00\u00A0\u043C\u043B\u0440\u0434\u00A0\u00A4',
+    11: '000\u00A0\u043C\u043B\u0440\u0434\u00A0\u00A4',
+    12: '0\u00A0\u0442\u0440\u043B\u043D\u00A0\u00A4',
+    13: '00\u00A0\u0442\u0440\u043B\u043D\u00A0\u00A4',
+    14: '000\u00A0\u0442\u0440\u043B\u043D\u00A0\u00A4',
   }),
   // Compact number symbols for locale si.
   "si": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4280,6 +5385,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '\u0DA7\u0DCA\u200D\u0DBB\u0DD2\u0DBD\u0DD2\u0DBA\u0DB1 0',
     13: '\u0DA7\u0DCA\u200D\u0DBB\u0DD2\u0DBD\u0DD2\u0DBA\u0DB1 00',
     14: '\u0DA7\u0DCA\u200D\u0DBB\u0DD2\u0DBD\u0DD2\u0DBA\u0DB1 000',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A4\u0DAF0',
+    4: '\u00A4\u0DAF00',
+    5: '\u00A4\u0DAF000',
+    6: '\u00A4\u0DB8\u0DD20',
+    7: '\u00A4\u0DB8\u0DD200',
+    8: '\u00A4\u0DB8\u0DD2000',
+    9: '\u00A4\u0DB6\u0DD20',
+    10: '\u00A4\u0DB6\u0DD200',
+    11: '\u00A4\u0DB6\u0DD2000',
+    12: '\u00A4\u0DA7\u0DCA\u200D\u0DBB\u0DD20',
+    13: '\u00A4\u0DA7\u0DCA\u200D\u0DBB\u0DD200',
+    14: '\u00A4\u0DA7\u0DCA\u200D\u0DBB\u0DD2000',
   }),
   // Compact number symbols for locale sk.
   "sk": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4308,6 +5426,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 bili\u00F3nov',
     13: '00 bili\u00F3nov',
     14: '000 bili\u00F3nov',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0tis.\u00A0\u00A4',
+    4: '00\u00A0tis.\u00A0\u00A4',
+    5: '000\u00A0tis.\u00A0\u00A4',
+    6: '0\u00A0mil.\u00A0\u00A4',
+    7: '00\u00A0mil.\u00A0\u00A4',
+    8: '000\u00A0mil.\u00A0\u00A4',
+    9: '0\u00A0mld.\u00A0\u00A4',
+    10: '00\u00A0mld.\u00A0\u00A4',
+    11: '000\u00A0mld.\u00A0\u00A4',
+    12: '0\u00A0bil.\u00A0\u00A4',
+    13: '00\u00A0bil.\u00A0\u00A4',
+    14: '000\u00A0bil.\u00A0\u00A4',
   }),
   // Compact number symbols for locale sl.
   "sl": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4336,6 +5467,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 bilijonov',
     13: '00 bilijonov',
     14: '000 bilijonov',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0tis.\u00A0\u00A4',
+    4: '00\u00A0tis.\u00A0\u00A4',
+    5: '000\u00A0tis.\u00A0\u00A4',
+    6: '0\u00A0mio.\u00A0\u00A4',
+    7: '00\u00A0mio.\u00A0\u00A4',
+    8: '000\u00A0mio.\u00A0\u00A4',
+    9: '0\u00A0mrd.\u00A0\u00A4',
+    10: '00\u00A0mrd.\u00A0\u00A4',
+    11: '000\u00A0mrd.\u00A0\u00A4',
+    12: '0\u00A0bil.\u00A0\u00A4',
+    13: '00\u00A0bil.\u00A0\u00A4',
+    14: '000\u00A0bil.\u00A0\u00A4',
   }),
   // Compact number symbols for locale sq.
   "sq": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4364,6 +5508,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 bilion',
     13: '00 bilion',
     14: '000 bilion',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0mij\u00EB\u00A0\u00A4',
+    4: '00\u00A0mij\u00EB\u00A0\u00A4',
+    5: '000\u00A0mij\u00EB\u00A0\u00A4',
+    6: '0\u00A0Mln\u00A0\u00A4',
+    7: '00\u00A0Mln\u00A0\u00A4',
+    8: '000\u00A0Mln\u00A0\u00A4',
+    9: '0\u00A0Mld\u00A0\u00A4',
+    10: '00\u00A0Mld\u00A0\u00A4',
+    11: '000\u00A0Mld\u00A0\u00A4',
+    12: '0\u00A0Bln\u00A0\u00A4',
+    13: '00\u00A0Bln\u00A0\u00A4',
+    14: '000\u00A0Bln\u00A0\u00A4',
   }),
   // Compact number symbols for locale sr.
   "sr": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4392,6 +5549,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 \u0442\u0440\u0438\u043B\u0438\u043E\u043D\u0430',
     13: '00 \u0442\u0440\u0438\u043B\u0438\u043E\u043D\u0430',
     14: '000 \u0442\u0440\u0438\u043B\u0438\u043E\u043D\u0430',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0\u0445\u0438\u0459.\u00A0\u00A4',
+    4: '00\u00A0\u0445\u0438\u0459.\u00A0\u00A4',
+    5: '000\u00A0\u0445\u0438\u0459.\u00A0\u00A4',
+    6: '0\u00A0\u043C\u0438\u043B.\u00A0\u00A4',
+    7: '00\u00A0\u043C\u0438\u043B.\u00A0\u00A4',
+    8: '000\u00A0\u043C\u0438\u043B.\u00A0\u00A4',
+    9: '0\u00A0\u043C\u043B\u0440\u0434.\u00A0\u00A4',
+    10: '00\u00A0\u043C\u043B\u0440\u0434.\u00A0\u00A4',
+    11: '000\u00A0\u043C\u043B\u0440\u0434.\u00A0\u00A4',
+    12: '0\u00A0\u0431\u0438\u043B.\u00A0\u00A4',
+    13: '00\u00A0\u0431\u0438\u043B.\u00A0\u00A4',
+    14: '000\u00A0\u0431\u0438\u043B.\u00A0\u00A4',
   }),
   // Compact number symbols for locale sr_Latn.
   "sr_Latn": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4420,6 +5590,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 triliona',
     13: '00 triliona',
     14: '000 triliona',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0hilj.\u00A0\u00A4',
+    4: '00\u00A0hilj.\u00A0\u00A4',
+    5: '000\u00A0hilj.\u00A0\u00A4',
+    6: '0\u00A0mil.\u00A0\u00A4',
+    7: '00\u00A0mil.\u00A0\u00A4',
+    8: '000\u00A0mil.\u00A0\u00A4',
+    9: '0\u00A0mlrd.\u00A0\u00A4',
+    10: '00\u00A0mlrd.\u00A0\u00A4',
+    11: '000\u00A0mlrd.\u00A0\u00A4',
+    12: '0\u00A0bil.\u00A0\u00A4',
+    13: '00\u00A0bil.\u00A0\u00A4',
+    14: '000\u00A0bil.\u00A0\u00A4',
   }),
   // Compact number symbols for locale sv.
   "sv": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4448,6 +5631,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 biljoner',
     13: '00 biljoner',
     14: '000 biljoner',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0tn\u00A0\u00A4',
+    4: '00\u00A0tn\u00A0\u00A4',
+    5: '000\u00A0tn\u00A0\u00A4',
+    6: '0\u00A0mn\u00A0\u00A4',
+    7: '00\u00A0mn\u00A0\u00A4',
+    8: '000\u00A0mn\u00A0\u00A4',
+    9: '0\u00A0md\u00A0\u00A4',
+    10: '00\u00A0md\u00A0\u00A4',
+    11: '000\u00A0md\u00A0\u00A4',
+    12: '0\u00A0bn\u00A0\u00A4',
+    13: '00\u00A0bn\u00A0\u00A4',
+    14: '000\u00A0bn\u00A0\u00A4',
   }),
   // Compact number symbols for locale sw.
   "sw": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4476,6 +5672,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: 'Trilioni 0',
     13: 'Trilioni 00',
     14: 'Trilioni 000',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A4elfu\u00A00',
+    4: '\u00A4elfu\u00A000',
+    5: '\u00A4elfu\u00A0000',
+    6: '\u00A4M0',
+    7: '\u00A4M00',
+    8: '\u00A4M000',
+    9: '\u00A4B0',
+    10: '\u00A4B00',
+    11: '\u00A4B000',
+    12: '\u00A4T0',
+    13: '\u00A4T00',
+    14: '\u00A4T000',
   }),
   // Compact number symbols for locale ta.
   "ta": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4504,6 +5713,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 \u0B9F\u0BBF\u0BB0\u0BBF\u0BB2\u0BCD\u0BB2\u0BBF\u0BAF\u0BA9\u0BCD',
     13: '00 \u0B9F\u0BBF\u0BB0\u0BBF\u0BB2\u0BCD\u0BB2\u0BBF\u0BAF\u0BA9\u0BCD',
     14: '000 \u0B9F\u0BBF\u0BB0\u0BBF\u0BB2\u0BCD\u0BB2\u0BBF\u0BAF\u0BA9\u0BCD',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A4\u00A00\u0B86',
+    4: '\u00A4\u00A000\u0B86',
+    5: '\u00A4\u00A0000\u0B86',
+    6: '\u00A4\u00A00\u0BAE\u0BBF',
+    7: '\u00A4\u00A000\u0BAE\u0BBF',
+    8: '\u00A4\u00A0000\u0BAE\u0BBF',
+    9: '\u00A40\u0BAA\u0BBF',
+    10: '\u00A4\u00A000\u0BAA\u0BBF',
+    11: '\u00A4000\u0BAA\u0BBF',
+    12: '\u00A4\u00A00\u0B9F\u0BBF',
+    13: '\u00A4\u00A000\u0B9F\u0BBF',
+    14: '\u00A4\u00A0000\u0B9F\u0BBF',
   }),
   // Compact number symbols for locale te.
   "te": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4532,6 +5754,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 \u0C1F\u0C4D\u0C30\u0C3F\u0C32\u0C3F\u0C2F\u0C28\u0C4D\u0C32\u0C41',
     13: '00 \u0C1F\u0C4D\u0C30\u0C3F\u0C32\u0C3F\u0C2F\u0C28\u0C4D\u0C32\u0C41',
     14: '000 \u0C1F\u0C4D\u0C30\u0C3F\u0C32\u0C3F\u0C2F\u0C28\u0C4D\u0C32\u0C41',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40\u0C35\u0C47',
+    4: '\u00A400\u0C35\u0C47',
+    5: '\u00A4000\u0C35\u0C47',
+    6: '\u00A40\u0C2E\u0C3F',
+    7: '\u00A400\u0C2E\u0C3F',
+    8: '\u00A4000\u0C2E\u0C3F',
+    9: '\u00A40\u0C2C\u0C3F',
+    10: '\u00A400\u0C2C\u0C3F',
+    11: '\u00A4000\u0C2C\u0C3F',
+    12: '\u00A40\u0C1F\u0C4D\u0C30\u0C3F',
+    13: '\u00A400\u0C1F\u0C4D\u0C30\u0C3F',
+    14: '\u00A4000\u0C1F\u0C4D\u0C30\u0C3F',
   }),
   // Compact number symbols for locale th.
   "th": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4560,6 +5795,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 \u0E25\u0E49\u0E32\u0E19\u0E25\u0E49\u0E32\u0E19',
     13: '00 \u0E25\u0E49\u0E32\u0E19\u0E25\u0E49\u0E32\u0E19',
     14: '000 \u0E25\u0E49\u0E32\u0E19\u0E25\u0E49\u0E32\u0E19',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40\u00A0\u0E1E.',
+    4: '\u00A40\u00A0\u0E21.',
+    5: '\u00A40\u00A0\u0E2A.',
+    6: '\u00A40\u00A0\u0E25.',
+    7: '\u00A400\u00A0\u0E25.',
+    8: '\u00A4000\u00A0\u0E25.',
+    9: '\u00A40\u00A0\u0E1E.\u0E25.',
+    10: '\u00A40\u00A0\u0E21.\u0E25.',
+    11: '\u00A40\u00A0\u0E2A.\u0E25.',
+    12: '\u00A40\u00A0\u0E25.\u0E25.',
+    13: '\u00A400\u00A0\u0E25.\u0E25.',
+    14: '\u00A4000\u00A0\u0E25.\u0E25.',
   }),
   // Compact number symbols for locale tl.
   "tl": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4588,6 +5836,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 na trilyon',
     13: '00 na trilyon',
     14: '000 na trilyon',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40K',
+    4: '\u00A400K',
+    5: '\u00A4000K',
+    6: '\u00A40M',
+    7: '\u00A400M',
+    8: '\u00A4000M',
+    9: '\u00A40B',
+    10: '\u00A400B',
+    11: '\u00A4000B',
+    12: '\u00A40T',
+    13: '\u00A400T',
+    14: '\u00A4000T',
   }),
   // Compact number symbols for locale tr.
   "tr": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4616,6 +5877,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 trilyon',
     13: '00 trilyon',
     14: '000 trilyon',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0B\u00A0\u00A4',
+    4: '00\u00A0B\u00A0\u00A4',
+    5: '000\u00A0B\u00A0\u00A4',
+    6: '0\u00A0Mn\u00A0\u00A4',
+    7: '00\u00A0Mn\u00A0\u00A4',
+    8: '000\u00A0Mn\u00A0\u00A4',
+    9: '0\u00A0Mr\u00A0\u00A4',
+    10: '00\u00A0Mr\u00A0\u00A4',
+    11: '000\u00A0Mr\u00A0\u00A4',
+    12: '0\u00A0Tn\u00A0\u00A4',
+    13: '00\u00A0Tn\u00A0\u00A4',
+    14: '000\u00A0Tn\u00A0\u00A4',
   }),
   // Compact number symbols for locale uk.
   "uk": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4644,6 +5918,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 \u0442\u0440\u0438\u043B\u044C\u0439\u043E\u043D\u0430',
     13: '00 \u0442\u0440\u0438\u043B\u044C\u0439\u043E\u043D\u0430',
     14: '000 \u0442\u0440\u0438\u043B\u044C\u0439\u043E\u043D\u0430',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0\u0442\u0438\u0441.\u00A0\u00A4',
+    4: '00\u00A0\u0442\u0438\u0441.\u00A0\u00A4',
+    5: '000\u00A0\u0442\u0438\u0441.\u00A0\u00A4',
+    6: '0\u00A0\u043C\u043B\u043D\u00A0\u00A4',
+    7: '00\u00A0\u043C\u043B\u043D\u00A0\u00A4',
+    8: '000\u00A0\u043C\u043B\u043D\u00A0\u00A4',
+    9: '0\u00A0\u043C\u043B\u0440\u0434\u00A0\u00A4',
+    10: '00\u00A0\u043C\u043B\u0440\u0434\u00A0\u00A4',
+    11: '000\u00A0\u043C\u043B\u0440\u0434\u00A0\u00A4',
+    12: '0\u00A0\u0442\u0440\u043B\u043D\u00A0\u00A4',
+    13: '00\u00A0\u0442\u0440\u043B\u043D\u00A0\u00A4',
+    14: '000\u00A0\u0442\u0440\u043B\u043D\u00A0\u00A4',
   }),
   // Compact number symbols for locale ur.
   "ur": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4672,6 +5959,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '00 \u06A9\u06BE\u0631\u0628',
     13: '00 \u0679\u0631\u06CC\u0644\u06CC\u0646',
     14: '000 \u0679\u0631\u06CC\u0644\u06CC\u0646',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A4\u00A00\u00A0\u06C1\u0632\u0627\u0631',
+    4: '\u00A4\u00A000\u00A0\u06C1\u0632\u0627\u0631',
+    5: '\u00A4\u00A00\u00A0\u0644\u0627\u06A9\u06BE',
+    6: '\u00A4\u00A000\u00A0\u0644\u0627\u06A9\u06BE',
+    7: '\u00A4\u00A00\u00A0\u06A9\u0631\u0648\u0691',
+    8: '\u00A4\u00A000\u00A0\u06A9\u0631\u0648\u0691',
+    9: '\u00A4\u00A00\u00A0\u0627\u0631\u0628',
+    10: '\u00A4\u00A000\u00A0\u0627\u0631\u0628',
+    11: '\u00A4\u00A00\u00A0\u06A9\u06BE\u0631\u0628',
+    12: '\u00A40\u00A0\u0679\u0631\u06CC\u0644\u06CC\u0646',
+    13: '\u00A4\u00A000\u00A0\u0679\u0631\u06CC\u0644\u06CC\u0646',
+    14: '\u00A4\u00A0000\u00A0\u0679\u0631\u06CC\u0644\u06CC\u0646',
   }),
   // Compact number symbols for locale uz.
   "uz": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4700,6 +6000,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 trillion',
     13: '00 trillion',
     14: '000 trillion',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0ming\u00A0\u00A4',
+    4: '00\u00A0ming\u00A0\u00A4',
+    5: '000\u00A0ming\u00A0\u00A4',
+    6: '0\u00A0mln\u00A0\u00A4',
+    7: '00\u00A0mln\u00A0\u00A4',
+    8: '000\u00A0mln\u00A0\u00A4',
+    9: '0\u00A0mlrd\u00A0\u00A4',
+    10: '00\u00A0mlrd\u00A0\u00A4',
+    11: '000\u00A0mlrd\u00A0\u00A4',
+    12: '0\u00A0trln\u00A0\u00A4',
+    13: '00\u00A0trln\u00A0\u00A4',
+    14: '000\u00A0trln\u00A0\u00A4',
   }),
   // Compact number symbols for locale vi.
   "vi": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4728,6 +6041,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 ngh\u00ECn t\u1EF7',
     13: '00 ngh\u00ECn t\u1EF7',
     14: '000 ngh\u00ECn t\u1EF7',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0\u00A0N\u00A0\u00A4',
+    4: '00\u00A0N\u00A0\u00A4',
+    5: '000\u00A0N\u00A0\u00A4',
+    6: '0\u00A0Tr\u00A0\u00A4',
+    7: '00\u00A0Tr\u00A0\u00A4',
+    8: '000\u00A0Tr\u00A0\u00A4',
+    9: '0\u00A0T\u00A0\u00A4',
+    10: '00\u00A0T\u00A0\u00A4',
+    11: '000\u00A0T\u00A0\u00A4',
+    12: '0\u00A0NT\u00A0\u00A4',
+    13: '00\u00A0NT\u00A0\u00A4',
+    14: '000\u00A0NT\u00A0\u00A4',
   }),
   // Compact number symbols for locale zh.
   "zh": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4756,6 +6082,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0\u5146',
     13: '00\u5146',
     14: '000\u5146',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0',
+    4: '\u00A40\u4E07',
+    5: '\u00A400\u4E07',
+    6: '\u00A4000\u4E07',
+    7: '\u00A40000\u4E07',
+    8: '\u00A40\u4EBF',
+    9: '\u00A400\u4EBF',
+    10: '\u00A4000\u4EBF',
+    11: '\u00A40000\u4EBF',
+    12: '\u00A40\u5146',
+    13: '\u00A400\u5146',
+    14: '\u00A4000\u5146',
   }),
   // Compact number symbols for locale zh_CN.
   "zh_CN": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4784,6 +6123,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0\u5146',
     13: '00\u5146',
     14: '000\u5146',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0',
+    4: '\u00A40\u4E07',
+    5: '\u00A400\u4E07',
+    6: '\u00A4000\u4E07',
+    7: '\u00A40000\u4E07',
+    8: '\u00A40\u4EBF',
+    9: '\u00A400\u4EBF',
+    10: '\u00A4000\u4EBF',
+    11: '\u00A40000\u4EBF',
+    12: '\u00A40\u5146',
+    13: '\u00A400\u5146',
+    14: '\u00A4000\u5146',
   }),
   // Compact number symbols for locale zh_HK.
   "zh_HK": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4812,6 +6164,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0\u5146',
     13: '00\u5146',
     14: '000\u5146',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40K',
+    4: '\u00A400K',
+    5: '\u00A4000K',
+    6: '\u00A40M',
+    7: '\u00A400M',
+    8: '\u00A4000M',
+    9: '\u00A40B',
+    10: '\u00A400B',
+    11: '\u00A4000B',
+    12: '\u00A40T',
+    13: '\u00A400T',
+    14: '\u00A4000T',
   }),
   // Compact number symbols for locale zh_TW.
   "zh_TW": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4840,6 +6205,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0\u5146',
     13: '00\u5146',
     14: '000\u5146',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '0',
+    4: '\u00A40\u842C',
+    5: '\u00A400\u842C',
+    6: '\u00A4000\u842C',
+    7: '\u00A40000\u842C',
+    8: '\u00A40\u5104',
+    9: '\u00A400\u5104',
+    10: '\u00A4000\u5104',
+    11: '\u00A40000\u5104',
+    12: '\u00A40\u5146',
+    13: '\u00A400\u5146',
+    14: '\u00A4000\u5146',
   }),
   // Compact number symbols for locale zu.
   "zu": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4868,6 +6246,19 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     12: '0 isigidintathu',
     13: '00 isigidintathu',
     14: '000 isigidintathu',
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: '\u00A40K',
+    4: '\u00A400K',
+    5: '\u00A4000K',
+    6: '\u00A4\u00A00M',
+    7: '\u00A4\u00A000M',
+    8: '\u00A4000M',
+    9: '\u00A40B',
+    10: '\u00A400B',
+    11: '\u00A4000B',
+    12: '\u00A40T',
+    13: '\u00A400T',
+    14: '\u00A4000T',
   })
 };
 

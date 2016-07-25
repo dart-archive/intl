@@ -18,6 +18,55 @@ var interestingCases = {
 main() {
   interestingCases.forEach(validate);
   testdata.compactNumberTestData.forEach(validate);
+
+  // ICU doesn't support compact currencies yet, so we don't have a way to
+  // generate automatic data for comparison. Hard-coded a couple of cases as a
+  // smoke test. JPY is a useful test because it has no decimalDigits and
+  // different grouping than USD, as well as a different currency symbol and
+  // suffixes.
+  testCurrency("ja", 1.2345, "¥1", "¥1");
+  testCurrency("ja", 1, "¥1", "¥1");
+  testCurrency("ja", 12, "¥12", "¥10");
+  testCurrency("ja", 123, "¥123", "¥100");
+  testCurrency("ja", 1234, "¥1230", "¥1000");
+  testCurrency("ja", 12345, "¥1.23\u4E07", "¥1\u4E07");
+  testCurrency("ja", 123456, "¥12.3\u4E07", "¥10\u4E07");
+  testCurrency("ja", 1234567, "¥123\u4e07", "¥100\u4e07");
+  testCurrency("ja", 12345678, "¥1230\u4e07", "¥1000\u4e07");
+  testCurrency("ja", 123456789, "¥1.23\u5104", "¥1\u5104");
+
+  testCurrency("ja", 0.9876, "¥1", "¥1");
+  testCurrency("ja", 9, "¥9", "¥9");
+  testCurrency("ja", 98, "¥98", "¥100");
+  testCurrency("ja", 987, "¥987", "¥1000");
+  testCurrency("ja", 9876, "¥9880", "¥1\u4E07");
+  testCurrency("ja", 98765, "¥9.88\u4E07", "¥10\u4E07");
+  testCurrency("ja", 987656, "¥98.8\u4E07", "¥100\u4E07");
+  testCurrency("ja", 9876567, "¥988\u4e07", "¥1000\u4e07");
+  testCurrency("ja", 98765678, "¥9880\u4e07", "¥1\u5104");
+  testCurrency("ja", 987656789, "¥9.88\u5104", "¥10\u5104");
+
+  testCurrency("en_US", 1.2345, r"$1.23", r"$1");
+  testCurrency("en_US", 1, r"$1.00", r"$1");
+  testCurrency("en_US", 12, r"$12.00", r"$10");
+  testCurrency("en_US", 12.3, r"$12.30", r"$10");
+  testCurrency("en_US", 123, r"$123", r"$100");
+  testCurrency("en_US", 1234, r"$1.23K", r"$1K");
+  testCurrency("en_US", 12345, r"$12.3K", r"$10K");
+  testCurrency("en_US", 123456, r"$123K", r"$100K");
+  testCurrency("en_US", 1234567, r"$1.23M", r"$1M");
+}
+
+testCurrency(String locale, num number, String expected, String expectedShort) {
+  test("Compact currency for $locale, $number", () {
+    var format = new NumberFormat.compactSimpleCurrency(locale: locale);
+    var result = format.format(number);
+    expect(result, expected);
+    var shortFormat = new NumberFormat.compactSimpleCurrency(locale: locale);
+    shortFormat.significantDigits = 1;
+    var shortResult = shortFormat.format(number);
+    expect(shortResult, expectedShort);
+  });
 }
 
 // TODO(alanknight): Don't just skip the whole locale if there's one problem
@@ -80,7 +129,7 @@ var problemLocalesLong = [
 
 void validate(String locale, List<List<String>> expected) {
   validateShort(locale, expected);
-   validateLong(locale, expected);
+  validateLong(locale, expected);
 }
 
 /// Check each bit of test data against the short compact format, both
@@ -105,17 +154,17 @@ void validateShort(String locale, List<List<String>> expected) {
 }
 
 void validateLong(String locale, List<List<String>> expected) {
- if (problemLocalesLong.contains(locale)) {
-   print("Skipping problem locale '$locale' for LONG compact number tests");
-   return;
- }
- var longFormat = new NumberFormat.compactLong(locale: locale);
- for (var data in expected) {
-   var number = num.parse(data.first);
-   test("Validate $locale LONG for ${data.first}", () {
-     validateNumber(number, longFormat, data[2]);
-   });
- }
+  if (problemLocalesLong.contains(locale)) {
+    print("Skipping problem locale '$locale' for LONG compact number tests");
+    return;
+  }
+  var longFormat = new NumberFormat.compactLong(locale: locale);
+  for (var data in expected) {
+    var number = num.parse(data.first);
+    test("Validate $locale LONG for ${data.first}", () {
+      validateNumber(number, longFormat, data[2]);
+    });
+  }
 }
 
 void validateNumber(number, NumberFormat format, String expected) {

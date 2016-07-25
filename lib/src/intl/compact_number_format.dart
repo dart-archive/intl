@@ -65,23 +65,63 @@ class _CompactStyle {
   /// get something like '12K'. This is used to find the closest pattern for a
   /// number.
   get totalDigits => requiredDigits + expectedDigits - 1;
+
+  /// Return true if this is the fallback compact pattern, printing the number
+  /// un-compacted. e.g. 1200 might print as "1.2K", but 12 just prints as "12".
+  ///
+  /// For currencies, with the fallback pattern we use the super implementation
+  /// so that we will respect things like the default number of decimal digits
+  /// for a particular currency (e.g. two for USD, zero for JPY)
+  bool get isFallback => pattern == null;
+}
+
+enum _CompactFormatType {
+  COMPACT_DECIMAL_SHORT_PATTERN,
+  COMPACT_DECIMAL_LONG_PATTERN,
+  COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN
 }
 
 class _CompactNumberFormat extends NumberFormat {
-  Map<int, String>
-      _patterns; // Should be either the COMPACT_DECIMAL_SHORT_PATTERN
-  // or COMPACT_DECIMAL_LONG_PATTERN.
+  /// A default, using the decimal pattern, for the [getPattern] constructor parameter.
+  static String _forDecimal(NumberSymbols symbols) => symbols.DECIMAL_PATTERN;
+
+  // Will be either the COMPACT_DECIMAL_SHORT_PATTERN,
+  // COMPACT_DECIMAL_LONG_PATTERN, or COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN
+  Map<int, String> _patterns;
 
   List<_CompactStyle> _styles = [];
 
-  _CompactNumberFormat({String locale, bool longFormat})
-      : super._forPattern(locale, (x) => x.DECIMAL_PATTERN) {
+  _CompactNumberFormat(
+      {String locale,
+      _CompactFormatType formatType,
+      String name,
+      String currencySymbol,
+      String getPattern(NumberSymbols): _forDecimal,
+      String computeCurrencySymbol(NumberFormat),
+      int decimalDigits,
+      bool isForCurrency: false})
+      : super._forPattern(locale, getPattern,
+            name: name,
+            currencySymbol: currencySymbol,
+            computeCurrencySymbol: computeCurrencySymbol,
+            decimalDigits: decimalDigits,
+            isForCurrency: isForCurrency) {
     significantDigits = 3;
     turnOffGrouping();
-    _patterns = longFormat
-        ? compactSymbols.COMPACT_DECIMAL_LONG_PATTERN ??
-            compactSymbols.COMPACT_DECIMAL_SHORT_PATTERN
-        : compactSymbols.COMPACT_DECIMAL_SHORT_PATTERN;
+    switch (formatType) {
+      case _CompactFormatType.COMPACT_DECIMAL_SHORT_PATTERN:
+        _patterns = compactSymbols.COMPACT_DECIMAL_SHORT_PATTERN;
+        break;
+      case _CompactFormatType.COMPACT_DECIMAL_LONG_PATTERN:
+        _patterns = compactSymbols.COMPACT_DECIMAL_LONG_PATTERN ??
+            compactSymbols.COMPACT_DECIMAL_SHORT_PATTERN;
+        break;
+      case _CompactFormatType.COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN:
+        _patterns = compactSymbols.COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN;
+        break;
+      default:
+        throw new ArgumentError.notNull("formatTyp");
+    }
     var regex = new RegExp('([^0]*)(0+)(.*)');
     _patterns.forEach((int impliedDigits, String pattern) {
       var match = regex.firstMatch(pattern);
@@ -113,12 +153,42 @@ class _CompactNumberFormat extends NumberFormat {
     _styles.add(new _CompactStyle());
   }
 
+  /// The style in which we will format a particular number.
+  ///
+  /// This is a temporary variable that is only valid within a call to format.
+  _CompactStyle _style;
+
   String format(number) {
-    var style = _styleFor(number);
-    var divisor = style.divisor;
+    _style = _styleFor(number);
+    var divisor = _style.divisor;
     var numberToFormat = _divide(number, divisor);
     var formatted = super.format(numberToFormat);
-    return "${style.prefix}$formatted${style.suffix}";
+    var withExtras = "${_style.prefix}$formatted${_style.suffix}";
+    // We've already put the currency in what is presumably the right place
+    // using the normal currency format, so just suppress the placeholder
+    // that's in the style.
+    _style = null;
+    return _isForCurrency ? withExtras.replaceAll("\u00a4", '') : withExtras;
+  }
+
+  /// How many digits after the decimal place should we display, given that
+  /// there are [remainingSignificantDigits] left to show.
+  int _fractionDigitsAfter(int remainingSignificantDigits) {
+    var newFractionDigits =
+        super._fractionDigitsAfter(remainingSignificantDigits);
+    // For non-currencies, or for currencies if the numbers are large enough to
+    // compact, always use the number of significant digits and ignore
+    // decimalDigits. That is, $1.23K but also ¥12.3\u4E07, even though yen
+    // don't normally print decimal places.
+    if (!_isForCurrency || !style.isFallback) return newFractionDigits;
+    // If we are printing a currency and it's too small to compact, but
+    // significant digits would have us only print some of the decimal digits,
+    // use all of them. So $12.30, not $12.3
+    if (newFractionDigits > 0 && newFractionDigits < decimalDigits) {
+      return decimalDigits;
+    } else {
+      return min(newFractionDigits, decimalDigits);
+    }
   }
 
   /// Divide numbers that may not have a division operator (e.g. Int64).

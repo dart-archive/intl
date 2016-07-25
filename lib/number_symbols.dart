@@ -49,6 +49,9 @@ class NumberSymbols {
 class CompactNumberSymbols {
   final Map<int, String> COMPACT_DECIMAL_SHORT_PATTERN;
   final Map<int, String> COMPACT_DECIMAL_LONG_PATTERN;
+  final Map<int, String> COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN;
   CompactNumberSymbols(
-      {this.COMPACT_DECIMAL_SHORT_PATTERN, this.COMPACT_DECIMAL_LONG_PATTERN});
+      {this.COMPACT_DECIMAL_SHORT_PATTERN,
+      this.COMPACT_DECIMAL_LONG_PATTERN,
+      this.COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN});
 }

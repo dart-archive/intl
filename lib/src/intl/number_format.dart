@@ -274,7 +274,8 @@ class NumberFormat {
       {String locale, String name, int decimalDigits}) {
     return new NumberFormat._forPattern(locale, (x) => x.CURRENCY_PATTERN,
         name: name,
-        currencySymbol: _simpleCurrencySymbols[name] ?? name,
+        computeCurrencySymbol: (format) =>
+            _simpleCurrencySymbols[format.currencyName] ?? format.currencyName,
         decimalDigits: decimalDigits,
         isForCurrency: true);
   }
@@ -472,28 +473,69 @@ class NumberFormat {
 
   /// Create a number format that prints in a pattern we get from
   /// the [getPattern] function using the locale [locale].
+  ///
+  /// The [currencySymbol] can either be specified directly, or we can pass a
+  /// function [computeCurrencySymbol] that will compute it later, given other
+  /// information, typically the verified locale.
   NumberFormat._forPattern(String locale, _PatternGetter getPattern,
-      {name, currencySymbol, decimalDigits, isForCurrency: false})
+      {String name,
+      String currencySymbol,
+      String computeCurrencySymbol(NumberFormat),
+      int decimalDigits,
+      bool isForCurrency: false})
       : _locale = Intl.verifiedLocale(locale, localeExists),
         _isForCurrency = isForCurrency {
     this._currencySymbol = currencySymbol;
     this._decimalDigits = decimalDigits;
     _symbols = numberFormatSymbols[_locale];
     currencyName = name ?? _symbols.DEF_CURRENCY_CODE;
-
+    if (this._currencySymbol == null && computeCurrencySymbol != null) {
+      this._currencySymbol = computeCurrencySymbol(this);
+    }
     _setPattern(getPattern(_symbols));
   }
 
   /// A number format for compact representations, e.g. "1.2M" instead
   /// of "1,200,000".
   factory NumberFormat.compact({String locale}) {
-    return new _CompactNumberFormat(locale: locale, longFormat: false);
+    return new _CompactNumberFormat(
+        locale: locale,
+        formatType: _CompactFormatType.COMPACT_DECIMAL_SHORT_PATTERN);
   }
 
   /// A number format for "long" compact representations, e.g. "1.2 million"
   /// instead of of "1,200,000".
   factory NumberFormat.compactLong({String locale}) {
-    return new _CompactNumberFormat(locale: locale, longFormat: true);
+    return new _CompactNumberFormat(
+        locale: locale,
+        formatType: _CompactFormatType.COMPACT_DECIMAL_LONG_PATTERN);
+  }
+
+  /// A number format for compact currency representations, e.g. "$1.2M" instead
+  /// of "$1,200,000", and which will automatically determine a currency symbol
+  /// based on the currency name or the locale. See
+  /// [NumberFormat.simpleCurrency].
+  factory NumberFormat.compactSimpleCurrency({String locale, String name}) {
+    return new _CompactNumberFormat(
+        locale: locale,
+        formatType: _CompactFormatType.COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN,
+        name: name,
+        getPattern: (symbols) => symbols.CURRENCY_PATTERN,
+        computeCurrencySymbol: (format) =>
+            _simpleCurrencySymbols[format.currencyName] ?? format.currencyName,
+        isForCurrency: true);
+  }
+
+  /// A number format for compact currency representations, e.g. "$1.2M" instead
+  /// of "$1,200,000".
+  factory NumberFormat.compactCurrency(
+      {String locale, String name, String symbol, int decimalDigits}) {
+    return new _CompactNumberFormat(
+        locale: locale,
+        formatType: _CompactFormatType.COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN,
+        name: name,
+        decimalDigits: decimalDigits,
+        isForCurrency: true);
   }
 
   /// Return the locale code in which we operate, e.g. 'en_US' or 'pt'.
@@ -651,6 +693,9 @@ class NumberFormat {
     return max(1, (log(simpleNumber) / LN10).ceil());
   }
 
+  int _fractionDigitsAfter(int remainingSignificantDigits) =>
+      max(0, remainingSignificantDigits);
+
   /// Format the basic number portion, including the fractional digits.
   void _formatFixed(number) {
     var integerPart;
@@ -681,7 +726,7 @@ class NumberFormat {
         var integerLength = numberOfIntegerDigits(integerPart);
         var remainingSignificantDigits =
             significantDigits - _multiplierDigits - integerLength;
-        fractionDigits = max(0, remainingSignificantDigits);
+        fractionDigits = _fractionDigitsAfter(remainingSignificantDigits);
         if (remainingSignificantDigits < 0) {
           // We may have to round.
           var divideBy = pow(10, integerLength - significantDigits);
@@ -707,7 +752,8 @@ class NumberFormat {
 
     var integerDigits = _integerDigits(integerPart, extraIntegerDigits);
     var digitLength = integerDigits.length;
-    var fractionPresent = minimumFractionDigits > 0 || fractionPart > 0;
+    var fractionPresent =
+        fractionDigits > 0 && (minimumFractionDigits > 0 || fractionPart > 0);
 
     if (_hasIntegerDigits(integerDigits)) {
       _pad(minimumIntegerDigits - digitLength);
@@ -855,9 +901,9 @@ class NumberFormat {
         this, newPattern, currencySymbol, decimalDigits);
     parser.parse();
     if (_overridesDecimalDigits) {
-      var digits = decimalDigits ?? _defaultDecimalDigits;
-      minimumFractionDigits = digits;
-      maximumFractionDigits = digits;
+      _decimalDigits ??= _defaultDecimalDigits;
+      minimumFractionDigits = _decimalDigits;
+      maximumFractionDigits = _decimalDigits;
     }
   }
 
