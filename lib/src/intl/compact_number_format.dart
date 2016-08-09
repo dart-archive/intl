@@ -72,7 +72,17 @@ class _CompactStyle {
   /// For currencies, with the fallback pattern we use the super implementation
   /// so that we will respect things like the default number of decimal digits
   /// for a particular currency (e.g. two for USD, zero for JPY)
-  bool get isFallback => pattern == null;
+  bool get isFallback => pattern == null || pattern == '0';
+
+  /// Should we print the number as-is, without dividing.
+  ///
+  /// This happens if the pattern has no abbreviation for scaling (e.g. K, M).
+  /// So either the pattern is empty or it is of a form like '0 $'. This is a
+  /// workaround for locales like "it", which include patterns with no suffix
+  /// for numbers >= 1000 but < 1,000,000.
+  bool get printsAsIs =>
+      isFallback ||
+      pattern.replaceAll(new RegExp('[0\u00a0\u00a4]'), '').isEmpty;
 }
 
 enum _CompactFormatType {
@@ -160,15 +170,24 @@ class _CompactNumberFormat extends NumberFormat {
 
   String format(number) {
     _style = _styleFor(number);
-    var divisor = _style.divisor;
+    var divisor = _style.printsAsIs ? 1 : _style.divisor;
     var numberToFormat = _divide(number, divisor);
     var formatted = super.format(numberToFormat);
-    var withExtras = "${_style.prefix}$formatted${_style.suffix}";
-    // We've already put the currency in what is presumably the right place
-    // using the normal currency format, so just suppress the placeholder
-    // that's in the style.
+    var prefix = _style.prefix;
+    var suffix = _style.suffix;
+    // If this is for a currency, then the super call will have put the currency
+    // somewhere. We don't want it there, we want it where our style indicates,
+    // so remove it and replace. This has the remote possibility of a false
+    // positive, but it seems unlikely that e.g. USD would occur as a string in
+    // a regular number.
+    if (this._isForCurrency && !_style.isFallback) {
+      formatted = formatted.replaceFirst(currencySymbol, '').trim();
+      prefix = prefix.replaceFirst('\u00a4', currencySymbol);
+      suffix = suffix.replaceFirst('\u00a4', currencySymbol);
+    }
+    var withExtras = "${prefix}$formatted${suffix}";
     _style = null;
-    return _isForCurrency ? withExtras.replaceAll("\u00a4", '') : withExtras;
+    return withExtras;
   }
 
   /// How many digits after the decimal place should we display, given that

@@ -55,14 +55,26 @@ main() {
   testCurrency("en_US", 12345, r"$12.3K", r"$10K");
   testCurrency("en_US", 123456, r"$123K", r"$100K");
   testCurrency("en_US", 1234567, r"$1.23M", r"$1M");
+
+  // Check for order of currency symbol when currency is a suffix.
+  testCurrency("ru", 4420, "4,42\u00A0тыс.\u00A0руб.", "4\u00A0тыс.\u00A0руб.");
+
+  // Locales which don't have a suffix for thousands.
+  testCurrency("it", 442, "442\u00A0€", "400\u00A0€");
+  testCurrency("it", 4420, "4420\u00A0\$", "4000\u00A0\$", currency: 'CAD');
+  testCurrency("it", 4420000, "4,42\u00A0Mio\u00A0\$", "4\u00A0Mio\u00A0\$",
+      currency: 'USD');
 }
 
-testCurrency(String locale, num number, String expected, String expectedShort) {
+testCurrency(String locale, num number, String expected, String expectedShort,
+    {String currency}) {
   test("Compact currency for $locale, $number", () {
-    var format = new NumberFormat.compactSimpleCurrency(locale: locale);
+    var format =
+        new NumberFormat.compactSimpleCurrency(locale: locale, name: currency);
     var result = format.format(number);
     expect(result, expected);
-    var shortFormat = new NumberFormat.compactSimpleCurrency(locale: locale);
+    var shortFormat =
+        new NumberFormat.compactSimpleCurrency(locale: locale, name: currency);
     shortFormat.significantDigits = 1;
     var shortResult = shortFormat.format(number);
     expect(shortResult, expectedShort);

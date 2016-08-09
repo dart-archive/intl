@@ -5,6 +5,7 @@
    with different conventions over time.
  * Fixed the use of currency-specific decimal places, which weren't being used
    if the currency was the default for the locale.
+ * Add support for currency in compact number formats.
 
 ## 0.13.0
  * Add support for compact number formats ("1.2K") and for significant digits in
