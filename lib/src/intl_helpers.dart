@@ -10,6 +10,9 @@ library intl_helpers;
 import 'dart:async';
 import 'package:intl/intl.dart';
 
+/// Type for the callback action when a message translation is not found.
+typedef MessageIfAbsent(String message_str, List args);
+
 /// This is used as a marker for a locale data map that hasn't been initialized,
 /// and will throw an exception on any usage that isn't the fallback
 /// patterns/symbols provided.
@@ -22,7 +25,8 @@ class UninitializedLocaleData<F> implements MessageLookup {
       (key == 'en_US') ? fallbackData : _throwException();
 
   String lookupMessage(
-          String message_str, String locale, String name, List args) =>
+          String message_str, String locale, String name, List args,
+          {MessageIfAbsent ifAbsent}) =>
       message_str;
 
   /// Given an initial locale or null, returns the locale that will be used
@@ -43,7 +47,8 @@ class UninitializedLocaleData<F> implements MessageLookup {
 
 abstract class MessageLookup {
   String lookupMessage(
-      String message_str, String locale, String name, List args);
+      String message_str, String locale, String name, List args,
+      {MessageIfAbsent ifAbsent});
   void addLocale(String localeName, Function findLocale);
 }
 

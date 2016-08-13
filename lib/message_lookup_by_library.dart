@@ -38,15 +38,22 @@ class CompositeMessageLookup implements MessageLookup {
   /// If nothing is found, return [message_str]. The [desc] and [examples]
   /// parameters are ignored
   String lookupMessage(
-      String message_str, String locale, String name, List args) {
+      String message_str, String locale, String name, List args,
+      {MessageIfAbsent ifAbsent: _useOriginal}) {
     // If passed null, use the default.
     var knownLocale = locale ?? Intl.getCurrentLocale();
     var messages = (knownLocale == _lastLocale)
         ? _lastLookup
         : _lookupMessageCatalog(knownLocale);
-    // If we didn't find any messages for this locale, use the original string.
-    if (messages == null) return message_str;
-    return messages.lookupMessage(message_str, locale, name, args);
+    // If we didn't find any messages for this locale, use the original string,
+    // faking interpolations if necessary.
+    if (messages == null) {
+      return ifAbsent(message_str, args);
+    }
+    // If the name is blank, use the message as a key
+    return messages.lookupMessage(
+        message_str, locale, name ?? message_str, args,
+        ifAbsent: ifAbsent);
   }
 
   /// Find the right message lookup for [locale].
@@ -77,6 +84,9 @@ class CompositeMessageLookup implements MessageLookup {
   }
 }
 
+/// The default ifAbsent method, just returns the message string.
+String _useOriginal(String message_str, List args) => message_str;
+
 /// This provides an abstract class for messages looked up in generated code.
 /// Each locale will have a separate subclass of this class with its set of
 /// messages. See generate_localized.dart.
@@ -102,10 +112,17 @@ abstract class MessageLookupByLibrary {
   /// will be extracted automatically but for the time being it must be passed
   /// explicitly in the [name] and [args] arguments.
   String lookupMessage(
-      String message_str, String locale, String name, List args) {
-    if (name == null) return message_str;
+      String message_str, String locale, String name, List args,
+      {MessageIfAbsent ifAbsent}) {
+    var notFound = false;
+    if (name == null) notFound = true;
     var function = this[name];
-    return function == null ? message_str : Function.apply(function, args);
+    notFound = notFound || (function == null);
+    if (notFound) {
+      return ifAbsent == null ? message_str : ifAbsent(message_str, args);
+    } else {
+      return Function.apply(function, args);
+    }
   }
 
   /// Return our message with the given name
