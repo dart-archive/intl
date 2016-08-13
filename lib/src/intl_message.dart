@@ -82,25 +82,18 @@ abstract class Message {
       return "The 'args' argument for Intl.message must be specified";
     }
 
-    bool useMessageAsName = false;
     var messageName = arguments.firstWhere(
         (eachArg) =>
             eachArg is NamedExpression && eachArg.name.label.name == 'name',
         orElse: () => null);
-    messageName = messageName?.expression;
-    //TODO(alanknight): If we generalize this to messages with parameters
-    // this check will need to change.
-    if (!nameAndArgsGenerated && messageName == null && !hasParameters) {
-      messageName = arguments[0];
-      useMessageAsName = true;
+    if (!nameAndArgsGenerated && messageName == null) {
+      return "The 'name' argument for Intl.message must be specified";
     }
 
-    var givenName = messageName == null ? null : _evaluateAsString(messageName);
+    var givenName =
+        messageName == null ? null : _evaluateAsString(messageName.expression);
     if (messageName != null && givenName == null) {
       return "The 'name' argument for Intl.message must be a string literal";
-    }
-    if (useMessageAsName) {
-      outerName = givenName;
     }
     var hasOuterName = outerName != null;
     var simpleMatch = outerName == givenName || givenName == null;
@@ -113,8 +106,7 @@ abstract class Message {
           "was '$givenName' but must be '$outerName'  or '$classPlusMethod')";
     }
 
-    var simpleArguments = arguments.where((each) =>
-        each is NamedExpression &&
+    var simpleArguments = arguments.where((each) => each is NamedExpression &&
         ["desc", "name"].contains(each.name.label.name));
     var values = simpleArguments.map((each) => each.expression).toList();
     for (var arg in values) {
@@ -179,7 +171,7 @@ abstract class Message {
       "\t": r"\t",
       "\v": r"\v",
       "'": r"\'",
-      r"$": r"\$"
+      r"$" : r"\$"
     };
 
     String _escape(String s) => escapes[s] ?? s;
@@ -324,7 +316,7 @@ class MainMessage extends ComplexMessage {
         nameAndArgsGenerated: nameAndArgsGenerated);
   }
 
-  void addPieces(List<Object> messages) {
+  void addPieces(List<Message> messages) {
     for (var each in messages) {
       messagePieces.add(Message.from(each, this));
     }
@@ -350,7 +342,7 @@ class MainMessage extends ComplexMessage {
   String id;
 
   /// The arguments list from the Intl.message call.
-  List<String> arguments;
+  List arguments;
 
   /// The locale argument from the Intl.message call
   String locale;
@@ -388,7 +380,7 @@ class MainMessage extends ComplexMessage {
 
   /// Generate code for this message, expecting it to be part of a map
   /// keyed by name with values the function that calls Intl.message.
-  String toCodeForLocale(String locale, String name) {
+  String toCodeForLocale(String locale) {
     var out = new StringBuffer()
       ..write('static $name(')
       ..write(arguments.join(", "))

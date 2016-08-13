@@ -72,8 +72,7 @@ class MessageGeneration {
       for (var original in messagesThatNeedMethods) {
         result
           ..write("  ")
-          ..write(
-              original.toCodeForLocale(locale, _methodNameFor(original.name)))
+          ..write(original.toCodeForLocale(locale))
           ..write("\n\n");
       }
     }
@@ -86,12 +85,11 @@ class MessageGeneration {
     var entries = usableTranslations
         .expand((translation) => translation.originalMessages)
         .map((original) =>
-            '    "${original.escapeAndValidateString(original.name)}" '
-            ': ${_mapReference(original, locale)}');
+            '    "${original.name}" : ${_mapReference(original, locale)}');
     result..write(entries.join(",\n"))..write("\n  };\n}\n");
 
-    // To preserve compatibility, we don't use the canonical version of the
-    // locale in the file name.
+    // To preserve compatibility, we don't use the canonical version of the locale
+    // in the file name.
     var filename = path.join(
         targetDir, "${generatedFilePrefix}messages_$basicLocale.dart");
     new File(filename).writeAsStringSync(result.toString());
@@ -256,19 +254,6 @@ String _mapReference(MainMessage original, String locale) {
     return 'MessageLookupByLibrary.simpleMessage("'
         '${original.translations[locale]}")';
   } else {
-    return _methodNameFor(original.name);
+    return original.name;
   }
-}
-
-/// Generated method counter for use in [_methodNameFor].
-int _methodNameCounter = 0;
-
-/// A map from Intl message names to the generated method names
-/// for their translated versions.
-Map<String, String> _internalMethodNames = {};
-
-/// Generate a Dart method name of the form "m<number>".
-String _methodNameFor(String name) {
-  return _internalMethodNames.putIfAbsent(
-      name, () => "m${_methodNameCounter++}");
 }

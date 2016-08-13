@@ -241,14 +241,17 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
   /// by calling [setAttribute]. This is the common parts between
   /// [messageFromIntlMessageCall] and [messageFromDirectPluralOrGenderCall].
   MainMessage _messageFromNode(
-      MethodInvocation node,
-      MainMessage extract(MainMessage message, List<AstNode> arguments),
-      void setAttribute(
-          MainMessage message, String fieldName, Object fieldValue)) {
+      MethodInvocation node, Function extract, Function setAttribute) {
     var message = new MainMessage();
     message.sourcePosition = node.offset;
     message.endPosition = node.end;
-
+    if (generateNameAndArgs) {
+      // Always try for class_method if this is a class method and transforming.
+      // It will be overwritten below if the message specifies it explicitly.
+      message.name = Message.classPlusMethodName(node, name) ?? name;
+    } else {
+      message.name = name;
+    }
     message.arguments =
         parameters.parameters.map((x) => x.identifier.name).toList();
     var arguments = node.argumentList.arguments;
@@ -266,49 +269,27 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
           : basicValue;
       setAttribute(message, name, value);
     }
-    if (message.name == "") {
-      if (generateNameAndArgs) {
-        // Always try for class_method if this is a class method and
-        // transforming.
-        message.name = Message.classPlusMethodName(node, name) ?? name;
-      } else if (arguments.first is SimpleStringLiteral ||
-          arguments.first is AdjacentStrings) {
-        // If there's no name, and the message text is a single string, use it
-        // as the name
-        message.name = (arguments.first as StringLiteral).stringValue;
-      }
-    }
     return message;
-  }
-
-  /// Find the message pieces from a Dart interpolated string.
-  List _extractFromIntlCallWithInterpolation(
-      MainMessage message, List<AstNode> arguments) {
-    var interpolation = new InterpolationVisitor(message, extraction);
-    arguments.first.accept(interpolation);
-    if (interpolation.pieces.any((x) => x is Plural || x is Gender) &&
-        !extraction.allowEmbeddedPluralsAndGenders) {
-      if (interpolation.pieces.any((x) => x is String && x.isNotEmpty)) {
-        throw new IntlMessageExtractionException(
-            "Plural and gender expressions must be at the top level, "
-            "they cannot be embedded in larger string literals.\n");
-      }
-    }
-    return interpolation.pieces;
   }
 
   /// Create a MainMessage from [node] using the name and
   /// parameters of the last function/method declaration we encountered
   /// and the parameters to the Intl.message call.
   MainMessage messageFromIntlMessageCall(MethodInvocation node) {
-    MainMessage extractFromIntlCall(
-        MainMessage message, List<AstNode> arguments) {
+    MainMessage extractFromIntlCall(MainMessage message, List arguments) {
       try {
-        // The pieces of the message, either literal strings, or integers
-        // representing the index of the argument to be substituted.
-        List extracted;
-        extracted = _extractFromIntlCallWithInterpolation(message, arguments);
-        message.addPieces(extracted);
+        var interpolation = new InterpolationVisitor(message, extraction);
+        arguments.first.accept(interpolation);
+        if (interpolation.pieces.any((x) => x is Plural || x is Gender) &&
+            !extraction.allowEmbeddedPluralsAndGenders) {
+          if (interpolation.pieces.any((x) => x is String && x.isNotEmpty)) {
+            throw new IntlMessageExtractionException(
+                "Plural and gender expressions must be at the top level, "
+                "they cannot be embedded in larger string literals.\n"
+                "Error at $node");
+          }
+        }
+        message.messagePieces.addAll(interpolation.pieces as List<Message>);
       } on IntlMessageExtractionException catch (e) {
         message = null;
         var err = new StringBuffer()
@@ -318,7 +299,7 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
         extraction.onMessage(errString);
         extraction.warnings.add(errString);
       }
-      return message;
+      return message; // Because we may have set it to null on an error.
     }
 
     void setValue(MainMessage message, String fieldName, Object fieldValue) {
@@ -489,8 +470,7 @@ class PluralAndGenderVisitor extends SimpleAstVisitor {
         break;
       default:
         throw new IntlMessageExtractionException(
-            "Invalid plural/gender/select message ${node.methodName.name} "
-            "in $node");
+            "Invalid plural/gender/select message");
     }
     message.parent = parent;
 

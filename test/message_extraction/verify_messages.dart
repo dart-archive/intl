@@ -6,7 +6,6 @@ import "package:unittest/unittest.dart";
 verifyResult(ignored) {
   test("Verify message translation output", actuallyVerifyResult);
 }
-
 actuallyVerifyResult() {
   var lineIterator;
   verify(String s) {
@@ -75,7 +74,6 @@ actuallyVerifyResult() {
   verify('rent');
   verify('rent');
   verify('Five cents is US\$0.05');
-  verify(r"'<>{}= +-_$()&^%$#@!~`'");
 
   var fr_lines =
       expanded.skip(1).skipWhile((line) => !line.contains('----')).toList();
@@ -142,7 +140,6 @@ actuallyVerifyResult() {
   verify('loyer');
   // Using a non-French format for the currency to test interpolation.
   verify('Cinq sous est US\$0.05');
-  verify(r"interessant (fr): '<>{}= +-_$()&^%$#@!~`'");
 
   var de_lines =
       fr_lines.skip(1).skipWhile((line) => !line.contains('----')).toList();
@@ -209,5 +206,4 @@ actuallyVerifyResult() {
   verify('mieten');
   verify('Miete');
   verify('Fünf Cent US \$ 0.05');
-  verify(r"interessant (de): '<>{}= +-_$()&^%$#@!~`'");
 }

@@ -25,15 +25,14 @@ message2(x) => Intl.message("Another message with parameter $x",
 
 // A string with multiple adjacent strings concatenated together, verify
 // that the parser handles this properly.
-multiLine() => Intl.message("This "
+multiLine() => Intl.message(
+    "This "
     "string "
     "extends "
     "across "
     "multiple "
-    "lines.");
-
-get interestingCharactersNoName =>
-    Intl.message("'<>{}= +-_\$()&^%\$#@!~`'", desc: "interesting characters");
+    "lines.",
+    name: "multiLine");
 
 // Have types on the enclosing function's arguments.
 types(int a, String b, List c) =>
@@ -50,10 +49,11 @@ trickyInterpolation(s) =>
     Intl.message("Interpolation is tricky when it ends a sentence like ${s}.",
         name: 'trickyInterpolation', args: [s]);
 
-get leadingQuotes => Intl.message("\"So-called\"");
+get leadingQuotes => Intl.message("\"So-called\"", name: 'leadingQuotes');
 
 // A message with characters not in the basic multilingual plane.
-originalNotInBMP() => Intl.message("Ancient Greek hangman characters: 𐅆𐅇.");
+originalNotInBMP() => Intl.message("Ancient Greek hangman characters: 𐅆𐅇.",
+    name: "originalNotInBMP");
 
 // A string for which we don't provide all translations.
 notAlwaysTranslated() => Intl.message("This is missing some translations",
@@ -232,7 +232,6 @@ printStuff(Intl locale) {
     printOut(rentAsVerb());
     printOut(rentToBePaid());
     printOut(literalDollar());
-    printOut(interestingCharactersNoName);
   });
 }
 
