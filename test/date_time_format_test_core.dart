@@ -361,17 +361,40 @@ void runDateTests(SubsetFuncType subsetFunc) {
     }
   });
 
+  test('Quarter formatting', () {
+    var date = new DateTime(2012, 02, 27);
+    var formats = {
+      'Q': '1',
+      'QQ': '01',
+      'QQQ': 'Q1',
+      'QQQQ': '1st quarter',
+      'QQQQQ': '00001'
+    };
+    formats.forEach((pattern, result) {
+      expect(new DateFormat(pattern, 'en_US').format(date), result);
+    });
+
+    if (subset.contains('zh_CN')) {
+      // Especially test zh_CN formatting for `QQQ` and `yQQQ` because it
+      // contains a single `Q`.
+      expect(new DateFormat.QQQ('zh_CN').format(date), '1季度');
+      expect(new DateFormat.yQQQ('zh_CN').format(date), '2012年第1季度');
+    }
+  });
+
   /// Generate a map from day numbers in the given [year] (where Jan 1 == 1)
   /// to a Date object. If [year] is a leap year, then pass 1 for
   /// [leapDay], otherwise pass 0.
   Map<int, DateTime> generateDates(int year, int leapDay) =>
       new Iterable.generate(365 + leapDay, (n) => n + 1)
-          .map /*<DateTime>*/ ((day) {
-        var result = new DateTime(year, 1, day);
-        // TODO(alanknight): This is a workaround for dartbug.com/15560.
-        if (result.toUtc() == result) result = new DateTime(year, 1, day);
-        return result;
-      }).toList().asMap();
+          .map/*<DateTime>*/((day) {
+            var result = new DateTime(year, 1, day);
+            // TODO(alanknight): This is a workaround for dartbug.com/15560.
+            if (result.toUtc() == result) result = new DateTime(year, 1, day);
+            return result;
+          })
+          .toList()
+          .asMap();
 
   void verifyOrdinals(Map dates) {
     var f = new DateFormat("D");

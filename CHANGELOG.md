@@ -6,6 +6,8 @@
  * Fixed the use of currency-specific decimal places, which weren't being used
    if the currency was the default for the locale.
  * Add support for currency in compact number formats.
+ * Added support for "Q" and "QQ" numeric quarter formatting, which fixes "QQQ"
+   and "QQQQ" in the zh_CN locale.
 
 ## 0.13.0
  * Add support for compact number formats ("1.2K") and for significant digits in
