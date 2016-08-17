@@ -16,11 +16,12 @@ import 'package:args/args.dart';
 /// A list of the French translations that we will produce.
 var french = {
   "types": r"{a}, {b}, {c}",
-  "multiLine": "Cette message prend plusiers lignes.",
+  "This string extends across multiple lines.":
+      "Cette message prend plusiers lignes.",
   "message2": r"Un autre message avec un seul paramètre {x}",
   "alwaysTranslated": "Cette chaîne est toujours traduit",
   "message1": "Il s'agit d'un message",
-  "leadingQuotes": "\"Soi-disant\"",
+  "\"So-called\"": "\"Soi-disant\"",
   "trickyInterpolation": r"L'interpolation est délicate "
       r"quand elle se termine une phrase comme {s}.",
   "message3": "Caractères qui doivent être échapper, par exemple barres \\ "
@@ -32,7 +33,8 @@ var french = {
   "staticMessage": "Cela vient d'une méthode statique",
   "notAlwaysTranslated": "Ce manque certaines traductions",
   "thisNameIsNotInTheOriginal": "Could this lead to something malicious?",
-  "originalNotInBMP": "Anciens caractères grecs jeux du pendu: 𐅆𐅇.",
+  "Ancient Greek hangman characters: 𐅆𐅇.":
+      "Anciens caractères grecs jeux du pendu: 𐅆𐅇.",
   "escapable": "Escapes: \n\r\f\b\t\v.",
   "sameContentsDifferentName": "Bonjour tout le monde",
   "differentNameSameContents": "Bonjour tout le monde",
@@ -71,18 +73,20 @@ var french = {
       "=1{{amount} dollar Canadien}"
       "other{{amount} dollars Canadiens}}}"
       "other{N'importe quoi}"
-  "}}",
-  "literalDollar": "Cinq sous est US\$0.05"
+      "}}",
+  "literalDollar": "Cinq sous est US\$0.05",
+  r"'<>{}= +-_$()&^%$#@!~`'": r"interessant (fr): '<>{}= +-_$()&^%$#@!~`'"
 };
 
 /// A list of the German translations that we will produce.
 var german = {
   "types": r"{a}, {b}, {c}",
-  "multiLine": "Dieser String erstreckt sich über mehrere Zeilen erstrecken.",
+  "This string extends across multiple lines.":
+      "Dieser String erstreckt sich über mehrere Zeilen erstrecken.",
   "message2": r"Eine weitere Meldung mit dem Parameter {x}",
   "alwaysTranslated": "Diese Zeichenkette wird immer übersetzt",
   "message1": "Dies ist eine Nachricht",
-  "leadingQuotes": "\"Sogenannt\"",
+  "\"So-called\"": "\"Sogenannt\"",
   "trickyInterpolation": r"Interpolation ist schwierig, wenn es einen Satz "
       "wie dieser endet {s}.",
   "message3": "Zeichen, die Flucht benötigen, zB Schrägstriche \\ Dollar "
@@ -92,7 +96,8 @@ var german = {
   "nonLambda": "Diese Methode ist nicht eine Lambda",
   "staticMessage": "Dies ergibt sich aus einer statischen Methode",
   "thisNameIsNotInTheOriginal": "Could this lead to something malicious?",
-  "originalNotInBMP": "Antike griechische Galgenmännchen Zeichen: 𐅆𐅇",
+  "Ancient Greek hangman characters: 𐅆𐅇.":
+      "Antike griechische Galgenmännchen Zeichen: 𐅆𐅇",
   "escapable": "Escapes: \n\r\f\b\t\v.",
   "sameContentsDifferentName": "Hallo Welt",
   "differentNameSameContents": "Hallo Welt",
@@ -132,7 +137,8 @@ var german = {
       "other{{amount} Kanadischen dollar}}}"
       "other{whatever}"
       "}",
-  "literalDollar": "Fünf Cent US \$ 0.05"
+  "literalDollar": "Fünf Cent US \$ 0.05",
+  r"'<>{}= +-_$()&^%$#@!~`'": r"interessant (de): '<>{}= +-_$()&^%$#@!~`'"
 };
 
 /// The output directory for translated files.
