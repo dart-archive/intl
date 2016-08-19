@@ -8,6 +8,9 @@
  * Add support for currency in compact number formats.
  * Added support for "Q" and "QQ" numeric quarter formatting, which fixes "QQQ"
    and "QQQQ" in the zh_CN locale.
+ * As part of deprecating transformer usage, allow `rewrite_intl_messages.dart`
+   to add names and arguments to messages with parameters. Make the transformer
+   not generate names for zero-argument methods and just use the name+meaning instead.
 
 ## 0.13.0
  * Add support for compact number formats ("1.2K") and for significant digits in

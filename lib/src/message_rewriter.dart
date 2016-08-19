@@ -20,11 +20,13 @@ String rewriteMessages(String source, String sourceName) {
   var start = 0;
   var newSource = new StringBuffer();
   for (var message in messages) {
-    newSource.write(source.substring(start, message.sourcePosition));
+    if (message.arguments.isNotEmpty) {
+      newSource.write(source.substring(start, message.sourcePosition));
     // TODO(alanknight): We could generate more efficient code than the
     // original here, dispatching more directly to the MessageLookup.
     newSource.write(message.toOriginalCode());
     start = message.endPosition;
+    }
   }
   newSource.write(source.substring(start));
   return newSource.toString();

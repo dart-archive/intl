@@ -31,6 +31,7 @@
 /// used to generate the code representation above.
 library intl_message;
 
+import 'dart:convert';
 import 'package:analyzer/analyzer.dart';
 
 /// A default function for the [Message.expanded] method.
@@ -361,12 +362,13 @@ class MainMessage extends ComplexMessage {
 
   /// If the message was not given a name, we use the entire message string as
   /// the name.
-  String get name => _name == null ? computeName() : _name;
+  String get name => _name ?? "";
   set name(String newName) {
     _name = newName;
   }
 
-  String computeName() => name = expanded((msg, chunk) => "");
+  /// Does this message have an assigned name.
+  bool get hasName => _name != null;
 
   /// Return the full message, with any interpolation expressions transformed
   /// by [f] and all the results concatenated. The chunk argument to [f] may be
@@ -406,11 +408,16 @@ class MainMessage extends ComplexMessage {
   }
 
   String toOriginalCode() {
-    var out = new StringBuffer()..write('Intl.message("');
+    var out = new StringBuffer()..write("Intl.message('");
     out.write(expanded(turnInterpolationBackIntoStringForm));
-    out.write('", ');
-    out.write('name: "$name", ');
-    out.write(locale == null ? "" : 'locale: "$locale", ');
+    out.write("', ");
+    out.write("name: '$name', ");
+    out.write(locale == null ? "" : "locale: '$locale', ");
+    out.write(description == null ? "" : "desc: '${escapeAndValidateString(description)}', ");
+    // json is already mostly-escaped, but we need to handle interpolations.
+    var json = JSON.encode(examples).replaceAll(r"$", r"\$");
+    out.write(examples == null ? "" : "examples: const ${json}, ");
+    out.write(meaning == null ? "" : "meaning: '${escapeAndValidateString(meaning)}', ");
     out.write("args: [${arguments.join(', ')}]");
     out.write(")");
     return out.toString();

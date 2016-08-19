@@ -23,6 +23,7 @@ import 'dart:io';
 
 import 'package:analyzer/analyzer.dart';
 import 'package:intl/src/intl_message.dart';
+import 'package:intl/src/intl_helpers.dart';
 
 /// A function that takes a message and does something useful with it.
 typedef void OnMessage(String message);
@@ -248,7 +249,6 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
     var message = new MainMessage();
     message.sourcePosition = node.offset;
     message.endPosition = node.end;
-
     message.arguments =
         parameters.parameters.map((x) => x.identifier.name).toList();
     var arguments = node.argumentList.arguments;
@@ -266,16 +266,19 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
           : basicValue;
       setAttribute(message, name, value);
     }
-    if (message.name == "") {
-      if (generateNameAndArgs) {
+    // We only rewrite messages with parameters, otherwise we use the literal
+    // string as the name and no arguments are necessary.
+    if (!message.hasName) {
+      if (generateNameAndArgs && message.arguments.isNotEmpty) {
         // Always try for class_method if this is a class method and
-        // transforming.
+        // generating names/args.
         message.name = Message.classPlusMethodName(node, name) ?? name;
       } else if (arguments.first is SimpleStringLiteral ||
           arguments.first is AdjacentStrings) {
-        // If there's no name, and the message text is a single string, use it
-        // as the name
-        message.name = (arguments.first as StringLiteral).stringValue;
+        // If there's no name, and the message text is a simple string, compute
+        // a name based on that plus meaning, if present.
+        var simpleName = (arguments.first as StringLiteral).stringValue;
+        message.name = computeMessageName(message.name, simpleName, message.meaning);
       }
     }
     return message;

@@ -38,7 +38,7 @@ class CompositeMessageLookup implements MessageLookup {
   /// If nothing is found, return [message_str]. The [desc] and [examples]
   /// parameters are ignored
   String lookupMessage(
-      String message_str, String locale, String name, List args,
+      String message_str, String locale, String name, List args, String meaning,
       {MessageIfAbsent ifAbsent: _useOriginal}) {
     // If passed null, use the default.
     var knownLocale = locale ?? Intl.getCurrentLocale();
@@ -50,9 +50,8 @@ class CompositeMessageLookup implements MessageLookup {
     if (messages == null) {
       return ifAbsent(message_str, args);
     }
-    // If the name is blank, use the message as a key
     return messages.lookupMessage(
-        message_str, locale, name ?? message_str, args,
+        message_str, locale, name, args, meaning,
         ifAbsent: ifAbsent);
   }
 
@@ -112,11 +111,12 @@ abstract class MessageLookupByLibrary {
   /// will be extracted automatically but for the time being it must be passed
   /// explicitly in the [name] and [args] arguments.
   String lookupMessage(
-      String message_str, String locale, String name, List args,
+      String message_str, String locale, String name, List args, String meaning,
       {MessageIfAbsent ifAbsent}) {
     var notFound = false;
-    if (name == null) notFound = true;
-    var function = this[name];
+    var actualName = computeMessageName(name, message_str, meaning);
+    if (actualName == null) notFound = true;
+    var function = this[actualName];
     notFound = notFound || (function == null);
     if (notFound) {
       return ifAbsent == null ? message_str : ifAbsent(message_str, args);
