@@ -106,7 +106,7 @@ class _CompactNumberFormat extends NumberFormat {
       _CompactFormatType formatType,
       String name,
       String currencySymbol,
-      String getPattern(NumberSymbols): _forDecimal,
+      String getPattern(NumberSymbols symbols): _forDecimal,
       String computeCurrencySymbol(NumberFormat),
       int decimalDigits,
       bool isForCurrency: false})

@@ -6,7 +6,7 @@ part of intl;
 
 /// The function that we pass internally to NumberFormat to get
 /// the appropriate pattern (e.g. currency)
-typedef String _PatternGetter(NumberSymbols);
+typedef String _PatternGetter(NumberSymbols symbols);
 
 /// Provides the ability to format a number in a locale-specific way. The
 /// format is specified as a pattern using a subset of the ICU formatting
