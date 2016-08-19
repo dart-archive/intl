@@ -17,6 +17,8 @@ import 'package:path/path.dart' as path;
 import 'package:intl/extract_messages.dart';
 import 'package:intl/src/intl_message.dart';
 
+var outputFilename = 'intl_messages.arb';
+
 main(List<String> args) {
   var targetDir;
   bool transformer;
@@ -47,7 +49,7 @@ main(List<String> args) {
       help: 'Specify the output directory.');
   parser.parse(args);
   if (args.length == 0) {
-    print('Accepts Dart files and produces intl_messages.json');
+    print('Accepts Dart files and produces $outputFilename');
     print('Usage: extract_to_arb [options] [files.dart]');
     print(parser.usage);
     exit(0);
@@ -57,7 +59,7 @@ main(List<String> args) {
     var messages = extraction.parseFile(new File(arg), transformer);
     messages.forEach((k, v) => allMessages.addAll(toARB(v)));
   }
-  var file = new File(path.join(targetDir, 'intl_messages.arb'));
+  var file = new File(path.join(targetDir, outputFilename));
   file.writeAsStringSync(JSON.encode(allMessages));
   if (extraction.hasWarnings && extraction.warningsAreErrors) {
     exit(1);
