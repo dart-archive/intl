@@ -10,7 +10,10 @@
    and "QQQQ" in the zh_CN locale.
  * As part of deprecating transformer usage, allow `rewrite_intl_messages.dart`
    to add names and arguments to messages with parameters. Make the transformer
-   not generate names for zero-argument methods and just use the name+meaning instead.
+   not generate names for zero-argument methods and just use the name+meaning
+   instead.
+ * Move barback from dev dependencies into public (see
+   https://github.com/dart-lang/intl/issues/120 )
 
 ## 0.13.0
  * Add support for compact number formats ("1.2K") and for significant digits in
