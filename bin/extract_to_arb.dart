@@ -20,6 +20,7 @@ import 'package:intl/src/intl_message.dart';
 var outputFilename = 'intl_messages.arb';
 
 main(List<String> args) {
+  const outputFilename = 'intl_messages.arb';
   var targetDir;
   bool transformer;
   var parser = new ArgParser();
