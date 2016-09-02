@@ -186,12 +186,11 @@ the structure as simple as possible for the translators.
 
 When your program contains messages that need translation, these must
 be extracted from the program source, sent to human translators, and the
-results need to be incorporated. The code for this is in the
-[Intl_translation][Intl_translation] package.
+results need to be incorporated.
 
 To extract messages, run the `extract_to_arb.dart` program.
 
-      pub run intl_translation:extract_to_arb --output-dir=target/directory
+      pub run intl:extract_to_arb --output-dir=target/directory
           my_program.dart more_of_my_program.dart
 
 This will produce a file `intl_messages.arb` with the messages from
@@ -205,10 +204,8 @@ using the `generate_from_arb.dart` program.
 This expects to receive a series of files, one per
 locale.
 
-```
-pub run intl_translation:generate_from_arb --generated_file_prefix=<prefix>
-    <my_dart_files> <translated_ARB_files>
-```
+      pub run intl:generate_from_arb --generated_file_prefix=<prefix>
+          <my_dart_files> <translated_ARB_files>
 
 This will generate Dart libraries, one per locale, which contain the
 translated versions. Your Dart libraries can import the primary file,
