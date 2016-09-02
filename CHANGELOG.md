@@ -1,3 +1,8 @@
+## 0.14.0
+ * MAJOR BREAKING CHANGE! Remove message extraction and code generation into a separate
+   intl_translation package. This means packages with a runtime dependency on
+   intl don't also depend on analyzer, barback, and so forth.
+
 ## 0.13.1
  * Update CLDR data to version 29.
  * Add a toBeginningOfSentenceCase() method which converts the first character

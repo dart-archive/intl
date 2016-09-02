@@ -24,8 +24,8 @@ class UninitializedLocaleData<F> implements MessageLookup {
   operator [](String key) =>
       (key == 'en_US') ? fallbackData : _throwException();
 
-  String lookupMessage(
-      String message_str, String locale, String name, List args, String meaning,
+  String lookupMessage(String message_str, String locale, String name,
+          List args, String meaning,
           {MessageIfAbsent ifAbsent}) =>
       message_str;
 
@@ -78,10 +78,10 @@ void initializeInternalMessageLookup(Function lookupFunction) {
   }
 }
 
-  /// If a message is a string literal without interpolation, compute
-  /// a name based on that and the meaning, if present.
-  String computeMessageName(String name, String message_str, String meaning) {
-     if (name != null && name != "") return name;
-     var simpleName = message_str;
-     return meaning == null ? simpleName : "${simpleName}_${meaning}";
-  }
+/// If a message is a string literal without interpolation, compute
+/// a name based on that and the meaning, if present.
+// NOTE: THIS LOGIC IS DUPLICATED IN intl_translation AND THE TWO MUST MATCH.
+String computeMessageName(String name, String text, String meaning) {
+  if (name != null && name != "") return name;
+  return meaning == null ? text : "${text}_${meaning}";
+}

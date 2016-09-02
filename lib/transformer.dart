@@ -1,26 +1,12 @@
-// Copyright (c) 2016, the Dart project authors.  Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+/// This is a redirector so that people can continue, in google3, to depend on
+/// the transformer as -intl, not needing to change it to intl_translation.
+//
+// Note that this is not exported into the opensource version, and would not
+// work there, since it depends on a library not in ourpubspec. It is a complete
+// hack and google3 specific. Fortunately, transformers in general are
+// deprecated so it should go away soon.
 
-/// A transformer for Intl messages, supplying the name and arguments
-/// automatically.
-library intl_transformer;
+// TODO(alanknight): Remove this.
+library transformer_forwarder;
 
-import 'package:barback/barback.dart';
-
-import 'src/message_rewriter.dart';
-
-/// Rewrites Intl.message calls to automatically insert the name and args
-/// parameters.
-class IntlMessageTransformer extends Transformer {
-  IntlMessageTransformer.asPlugin();
-
-  String get allowedExtensions => ".dart";
-
-  apply(Transform transform) async {
-    var content = await transform.primaryInput.readAsString();
-    var id = transform.primaryInput.id;
-    var newContent = rewriteMessages(content, '$id');
-    transform.addOutput(new Asset.fromString(id, newContent));
-  }
-}
+export 'package:intl_translation/transformer.dart';
