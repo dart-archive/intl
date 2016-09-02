@@ -189,6 +189,12 @@ main() {
   verify(expectedEn, 'en', plural);
   verify(expectedRo, 'ro', pluralNoZero);
   verify(expectedSr, 'sr', pluralNoZero);
+
+  test("Check null howMany", () {
+    expect(plural(0, null), "0:Zero");
+    expect(() => plural(null, null), throwsArgumentError);
+    expect(() => plural(null, "ru"), throwsArgumentError);
+  });
 }
 
 verify(expectedValues, locale, pluralFunction) {

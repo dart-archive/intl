@@ -295,6 +295,9 @@ class Intl {
     if (other == null) {
       throw new ArgumentError("The 'other' named argument must be provided");
     }
+    if (howMany == null) {
+      throw new ArgumentError("The howMany argument to plural cannot be null");
+    }
     // If there's an explicit case for the exact number, we use it. This is not
     // strictly in accord with the CLDR rules, but it seems to be the
     // expectation. At least I see e.g. Russian translations that have a zero
