@@ -6,7 +6,6 @@
 */packages/*/*: Skip
 */*/packages/*/*: Skip
 */*/*/packages/*/*: Skip
-test/messages_with_transformer/transformer_test: Skip # Only the build version uses the transformer.
 
 build/test/intl_message_basic_example_test: Skip # invalid import under pub's package-layout
 
@@ -34,7 +33,6 @@ build/test/date_time_format_http_request_test: Fail # Issue 8983
 test/find_default_locale_browser_test: Skip
 test/date_time_format_http_request_test: Skip
 build/*: Skip
-build/test/messages_with_transformer/transformer_test: Pass # Build version uses the transformer.
 
 [ $runtime == vm && $system == windows ]
 test/find_default_locale_standalone_test: Fail # Issue 8110
@@ -51,21 +49,6 @@ build/test/date_time_format_http_request_test: Fail # TODO(kasperl): Please tria
 test/date_time_format_file_even_test: Skip # Uses dart:io.
 test/date_time_format_file_odd_test: Skip # Uses dart:io.
 test/find_default_locale_standalone_test: Skip # Uses dart:io.
-test/message_extraction/examples_parsing_test: Skip # Users dart:io
-test/message_extraction/failed_extraction_test: Skip # Users dart:io
-test/message_extraction/message_extraction_test: Skip # Uses dart:io.
-test/message_extraction/message_extraction_no_deferred_test: Skip # Uses dart:io.
-test/message_extraction/really_fail_extraction_test: Skip # Users dart:io
-test/message_extraction/embedded_plural_text_after_test: Skip # Uses dart:io.
-test/message_extraction/embedded_plural_text_before_test: Skip # Uses dart:io.
 build/test/date_time_format_file_even_test: Skip # Uses dart:io.
 build/test/date_time_format_file_odd_test: Skip # Uses dart:io.
 build/test/find_default_locale_standalone_test: Skip # Uses dart:io.
-build/test/message_extraction/examples_parsing_test: Skip # Users dart:io
-build/test/message_extraction/failed_extraction_test: Skip # Users dart:io
-build/test/message_extraction/message_extraction_test: Skip # Uses dart:io.
-build/test/message_extraction/message_extraction_no_deferred_test: Skip # Uses dart:io.
-build/test/message_extraction/really_fail_extraction_test: Skip # Users dart:io
-build/test/message_extraction/embedded_plural_text_after_test: Skip # Uses dart:io.
-build/test/message_extraction/embedded_plural_text_before_test: Skip # Uses dart:io.
-build/test/messages_with_transformer/transformer_test: Pass # Build version uses the transformer.
