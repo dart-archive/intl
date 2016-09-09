@@ -64,17 +64,43 @@ main() {
   testCurrency("it", 4420, "4420\u00A0\$", "4000\u00A0\$", currency: 'CAD');
   testCurrency("it", 4420000, "4,42\u00A0Mio\u00A0\$", "4\u00A0Mio\u00A0\$",
       currency: 'USD');
+  
+  test("Explicit non-default symbol with compactCurrency", () {
+    var format = new NumberFormat.compactCurrency(locale: "ja", symbol: "()");
+    var result = format.format(98765);
+    expect(result, "()9.88\u4e07");
+  });
 }
 
 testCurrency(String locale, num number, String expected, String expectedShort,
     {String currency}) {
-  test("Compact currency for $locale, $number", () {
+  test("Compact simple currency for $locale, $number", () {
     var format =
         new NumberFormat.compactSimpleCurrency(locale: locale, name: currency);
     var result = format.format(number);
     expect(result, expected);
     var shortFormat =
         new NumberFormat.compactSimpleCurrency(locale: locale, name: currency);
+    shortFormat.significantDigits = 1;
+    var shortResult = shortFormat.format(number);
+    expect(shortResult, expectedShort);
+  });
+  test("Compact currency for $locale, $number", () {
+    var symbols = {
+      "ja": "¥",
+      "en_US": r"$",
+      "ru": "руб.",
+      "it": "€",
+      "CAD": r"$",
+      "USD": r"$"
+    };
+    var symbol = symbols[currency] ?? symbols[locale];
+    var format = new NumberFormat.compactCurrency(
+        locale: locale, name: currency, symbol: symbol);
+    var result = format.format(number);
+    expect(result, expected);
+    var shortFormat = new NumberFormat.compactCurrency(
+        locale: locale, name: currency, symbol: symbol);
     shortFormat.significantDigits = 1;
     var shortResult = shortFormat.format(number);
     expect(shortResult, expectedShort);

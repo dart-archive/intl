@@ -1,3 +1,6 @@
+## 0.15.0
+ * Fix compactCurrency to correctly use passed-in symbol.
+
 ## 0.14.0
  * MAJOR BREAKING CHANGE! Remove message extraction and code generation into a
    separate intl_translation package. This means packages with a runtime

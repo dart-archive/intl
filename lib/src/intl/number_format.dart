@@ -536,6 +536,8 @@ class NumberFormat {
         locale: locale,
         formatType: _CompactFormatType.COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN,
         name: name,
+        getPattern: (symbols) => symbols.CURRENCY_PATTERN,
+        currencySymbol: symbol,
         decimalDigits: decimalDigits,
         isForCurrency: true);
   }
