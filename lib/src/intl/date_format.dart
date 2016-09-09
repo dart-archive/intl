@@ -18,7 +18,7 @@ part of intl;
 ///
 /// Formatting dates in the default "en_US" format does not require any
 /// initialization. e.g.
-///       print(new DateFormat.yMMMd().format(new Date.now()));
+///       print(new DateFormat.yMMMd().format(new DateTime.now()));
 ///
 /// But for other locales, the formatting data for the locale must be
 /// obtained. This can currently be done in one of three ways, determined by
