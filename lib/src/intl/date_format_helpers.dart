@@ -19,10 +19,28 @@ class _DateBuilder {
   bool pm = false;
   bool utc = false;
 
+  /*Year format as yy (Two chars)*/
+  int _handleShortYearFormat(int year) {
+    const int centureSize = 100; /*In years*/
+    const int currentCentureOffset = 20; /*In years*/
+    if(year < centureSize) {
+      final DateTime now = new DateTime.now();
+      int centureBase = (now.year / centureSize).truncate();
+      final int diff = ((centureBase * centureSize + year) - now.year).abs();
+      if(diff <= currentCentureOffset) {
+        return centureBase * centureSize + year;
+      } else {
+        return (--centureBase) * centureSize + year;
+      }
+    }
+    return date;
+  }
+
+
   // Functions that exist just to be closurized so we can pass them to a general
   // method.
-  void setYear(x) {
-    year = x;
+  void setYear(x, [bool isShortFormat = false]) {
+    year = isShortFormat ? _handleShortYearFormat(x) : x;
   }
 
   void setMonth(x) {

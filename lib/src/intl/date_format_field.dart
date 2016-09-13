@@ -309,7 +309,11 @@ class _DateFormatPatternField extends _DateFormatField {
         case 'v':
           break; // time zone id
         case 'y':
-          handleNumericField(input, builder.setYear);
+          var yearSettter = (int year) {
+            final bool isSHort = pattern.length == 2;
+            builder.setYear(year, isSHort);
+          };
+          handleNumericField(input, yearSettter);
           break;
         case 'z':
           break; // time zone
