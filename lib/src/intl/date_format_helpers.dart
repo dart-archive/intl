@@ -140,7 +140,9 @@ class _Stream {
   peek([int howMany = 1]) {
     var result;
     if (contents is String) {
-      result = contents.substring(index, min(index + howMany, contents.length));
+      String stringContents = contents;
+      result = stringContents.substring(
+          index, min(index + howMany, stringContents.length));
     } else {
       // Assume List
       result = contents.sublist(index, index + howMany);
