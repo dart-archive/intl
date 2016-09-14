@@ -33,7 +33,7 @@ class _DateBuilder {
         return (--centureBase) * centureSize + year;
       }
     }
-    return date;
+    return year;
   }
 
 
