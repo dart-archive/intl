@@ -4,6 +4,42 @@
 
 part of intl;
 
+class DateBuilderHelper {
+  /*Year format as yy (Two chars)*/
+  static yearFromShortFormat(int year, {int yearOffsetInYears: 30,
+    DateTime dateBase: null}) {
+  	const int centureSizeInYears = 100; /*In years*/
+    int getCentureBase(int year) => (year / centureSizeInYears).truncate();
+    if(year < centureSizeInYears) {
+      final DateTime now = dateBase ?? new DateTime.now();
+      final int left = now.year - yearOffsetInYears;
+      final int right = now.year + yearOffsetInYears;
+      int ret = year;
+      if(getCentureBase(left) == getCentureBase(right)) {
+        ret = getCentureBase(left) * centureSizeInYears + year;
+        if(ret >= left && ret <= right) {
+          return ret;
+        } else {
+          ret = (getCentureBase(left) - 1) * centureSizeInYears + year;
+          if(now.year - ret >= (centureSizeInYears - yearOffsetInYears)) {
+            ret = getCentureBase(left) * centureSizeInYears + year;
+          }
+          return ret;
+        }
+      } else {
+        ret = getCentureBase(right) * centureSizeInYears + year;
+        if(ret >= left && ret <= right) {
+          return ret;
+        } else {
+          ret = getCentureBase(left) * centureSizeInYears + year;
+          return ret;
+        }s
+      }
+    }
+    return year;
+  }
+}
+
 /// A class for holding onto the data for a date so that it can be built
 /// up incrementally.
 class _DateBuilder {
@@ -19,28 +55,10 @@ class _DateBuilder {
   bool pm = false;
   bool utc = false;
 
-  /*Year format as yy (Two chars)*/
-  int _handleShortYearFormat(int year) {
-    const int centureSize = 100; /*In years*/
-    const int currentCentureOffset = 20; /*In years*/
-    if(year < centureSize) {
-      final DateTime now = new DateTime.now();
-      int centureBase = (now.year / centureSize).truncate();
-      final int diff = ((centureBase * centureSize + year) - now.year).abs();
-      if(diff <= currentCentureOffset) {
-        return centureBase * centureSize + year;
-      } else {
-        return (--centureBase) * centureSize + year;
-      }
-    }
-    return date;
-  }
-
-
   // Functions that exist just to be closurized so we can pass them to a general
   // method.
   void setYear(x, [bool isShortFormat = false]) {
-    year = isShortFormat ? _handleShortYearFormat(x) : x;
+    year = isShortFormat ? DateBuilderHelper.yearFromShortFormat(x) : x;
   }
 
   void setMonth(x) {
