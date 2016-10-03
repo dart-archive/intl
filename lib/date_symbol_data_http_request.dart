@@ -31,8 +31,10 @@ Future initializeDateFormatting(String locale, String url) {
   var actualLocale = Intl.verifiedLocale(
       locale, (l) => availableLocalesForDateFormatting.contains(l));
   return initializeIndividualLocaleDateFormatting((symbols, patterns) {
-    return Future.wait(
-        [symbols.initLocale(actualLocale), patterns.initLocale(actualLocale)]);
+    return Future.wait(<Future>[
+      symbols.initLocale(actualLocale),
+      patterns.initLocale(actualLocale)
+    ]);
   });
 }
 
