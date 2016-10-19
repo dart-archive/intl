@@ -37,14 +37,12 @@ void setup(ThenList program, Function output) {
   var thaiDatesFuture = initializeDateFormatting('th_TH', null);
   var germanMessagesFuture = initializeMessages('de_DE');
   var thaiMessagesFuture = initializeMessages('th_TH');
-  Future
-      .wait([
+  Future.wait/*<Future>*/([
     germanDatesFuture,
     thaiDatesFuture,
     germanMessagesFuture,
     thaiMessagesFuture
-  ])
-      .then(program);
+  ]).then(program);
 }
 
 // Because the initialization messages return futures we split out the main
