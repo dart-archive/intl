@@ -140,7 +140,7 @@ class Intl {
   ///
   /// The [args] repeats the arguments of the enclosing
   /// function, [desc] provides a description of usage,
-  /// [examples] is a Map of exmaples for each interpolated variable.
+  /// [examples] is a Map of examples for each interpolated variable.
   /// For example
   ///
   ///       hello(yourName) => Intl.message(
