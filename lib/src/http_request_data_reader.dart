@@ -18,12 +18,9 @@ class HttpRequestDataReader implements LocaleDataReader {
   HttpRequestDataReader(this.url);
 
   Future read(String locale) {
-    // TODO(alanknight): Remove this once it's not necessary for Chrome.
-    // Without it, the tests will be flaky on Chrome. Issue 11834.
-    var someNumber = new DateTime.now().millisecondsSinceEpoch;
     var request = new HttpRequest();
     request.timeout = 5000;
-    return _getString('$url$locale.json?cacheBlocker=$someNumber', request)
+    return _getString('$url$locale.json', request)
         .then((r) => r.responseText);
   }
 
