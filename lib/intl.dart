@@ -174,8 +174,10 @@ class Intl {
       _message(message_str, locale, name, args, meaning);
 
   /// Omit the compile-time only parameters so dart2js can see to drop them.
-  static _message(String message_str, String locale, String name, List args, String meaning) {
-    return messageLookup.lookupMessage(message_str, locale, name, args, meaning);
+  static _message(String message_str, String locale, String name, List args,
+      String meaning) {
+    return messageLookup.lookupMessage(
+        message_str, locale, name, args, meaning);
   }
 
   /// Return the locale for this instance. If none was set, the locale will
@@ -386,13 +388,15 @@ class Intl {
   /// of [choice] in [cases] and return the result, or an empty string if
   /// it is not found. Normally used as part
   /// of an Intl.message message that is to be translated.
-  static String select(String choice, Map<String, String> cases,
+  static String select(Object choice, Map<String, String> cases,
       {String desc,
       Map<String, dynamic> examples,
       String locale,
       String name,
       List args,
       String meaning}) {
+    // Allow passing non-strings, e.g. enums to a select.
+    choice = "$choice";
     // If we are passed a name and arguments, then we are operating as a
     // top-level message, so look up our translation by calling Intl.message
     // with ourselves as an argument.
