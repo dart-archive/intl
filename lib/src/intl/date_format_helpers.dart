@@ -81,7 +81,7 @@ class _DateBuilder {
 
   /// Return a date built using our values. If no date portion is set,
   /// use the "Epoch" of January 1, 1970.
-  DateTime asDate({retry: true}) {
+  DateTime asDate({int retries: 10}) {
     // TODO(alanknight): Validate the date, especially for things which
     // can crash the VM, e.g. large month values.
     var result;
@@ -91,11 +91,12 @@ class _DateBuilder {
     } else {
       result = new DateTime(
           year, month, day, hour24, minute, second, fractionalSecond);
-      // TODO(alanknight): Issue 15560 means non-UTC dates occasionally come
-      // out in UTC. If that happens, retry once. This will always happen if
-      // the local time zone is UTC, but that's ok.
-      if (result.toUtc() == result) {
-        result = asDate(retry: false);
+      // TODO(alanknight): Issue 15560 means non-UTC dates occasionally come out
+      // in UTC, or, alternatively, are constructed as if in UTC and then have
+      // the offset subtracted. If that happens, retry, several times if
+      // necessary.
+      if (retries > 0 && (result.hour != hour24 || result.day != day)) {
+        result = asDate(retries: retries - 1);
       }
     }
     return result;
