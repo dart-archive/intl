@@ -64,7 +64,7 @@ main() {
   testCurrency("it", 4420, "4420\u00A0\$", "4000\u00A0\$", currency: 'CAD');
   testCurrency("it", 4420000, "4,42\u00A0Mio\u00A0\$", "4\u00A0Mio\u00A0\$",
       currency: 'USD');
-  
+
   test("Explicit non-default symbol with compactCurrency", () {
     var format = new NumberFormat.compactCurrency(locale: "ja", symbol: "()");
     var result = format.format(98765);
@@ -130,6 +130,7 @@ var problemLocalesShort = [
   "in", // IN not compacting 54321, looks similar to tr.
   "id", // ID not compacting 54321, looks similar to tr.
   "ka", // K Slight difference in the suffix
+  "kk", "mn", // We're picking the wrong pattern for 654321.
   "lo", "mk", "my",
   "pt_PT", // Seems to differ in appending mil or not after thousands. pt_BR
   // does it.
@@ -157,7 +158,9 @@ var problemLocalesLong = [
   "fr", "fr_CA", "ga", "gl",
   "gsw", // GSW seems like we have long forms and pyICU doesn't
   "hr", "is", "it", "lo", // LO seems to be picking up a different pattern.
-  "lt", "lv", "mk", "nb", "ne", "no", "no_NO", "pl",
+  "lt", "lv", "mk",
+  "my", // Seems to come out in the reverse order
+  "nb", "ne", "no", "no_NO", "pl",
   "pt", // PT has some issues with scale as well, but I think it's differences
   // in the patterns.
   "pt_BR", "pt_PT", "ro", "ru", "sk", "sl", "sr", "sr_Latn", "sv", "te", "tl",

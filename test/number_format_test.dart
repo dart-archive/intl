@@ -228,6 +228,18 @@ main() {
   testSimpleCurrencySymbols();
 }
 
+String stripExtras(String input) {
+  // Some of these results from CLDR have a leading LTR/RTL indicator,
+  // and/or Arabic letter indicator,
+  // which we don't want. We also treat the difference between Unicode
+  // minus sign (2212) and hyphen-minus (45) as not significant.
+  return input
+      .replaceAll("\u200e", "")
+      .replaceAll("\u200f", "")
+      .replaceAll("\u061c", "")
+      .replaceAll("\u2212", "-");
+}
+
 void testAgainstIcu(locale, List<NumberFormat> testFormats, list) {
   test("Test against ICU data for $locale", () {
     for (var format in testFormats) {
@@ -237,14 +249,7 @@ void testAgainstIcu(locale, List<NumberFormat> testFormats, list) {
       var expected = (list..moveNext()).current;
       expect(formatted, expected);
       var expectedNegative = (list..moveNext()).current;
-      // Some of these results from CLDR have a leading LTR/RTL indicator,
-      // which we don't want. We also treat the difference between Unicode
-      // minus sign (2212) and hyphen-minus (45) as not significant.
-      expectedNegative = expectedNegative
-          .replaceAll("\u200e", "")
-          .replaceAll("\u200f", "")
-          .replaceAll("\u2212", "-");
-      expect(negative, expectedNegative);
+      expect(stripExtras(negative), stripExtras(expectedNegative));
       var expectedLarge = (list..moveNext()).current;
       expect(large, expectedLarge);
       var readBack = format.parse(formatted);

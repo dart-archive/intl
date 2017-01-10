@@ -490,6 +490,7 @@ class NumberFormat {
     _symbols = numberFormatSymbols[_locale];
     _localeZero = _symbols.ZERO_DIGIT.codeUnitAt(0);
     _zeroOffset = _localeZero - _zero;
+    _negativePrefix = _symbols.MINUS_SIGN;
     currencyName = name ?? _symbols.DEF_CURRENCY_CODE;
     if (this._currencySymbol == null && computeCurrencySymbol != null) {
       this._currencySymbol = computeCurrencySymbol(this);
@@ -1063,26 +1064,27 @@ class _NumberParser {
   /// Check to see if the input begins with either the positive or negative
   /// prefixes. Set the [gotPositive] and [gotNegative] variables accordingly.
   void checkPrefixes({bool skip: false}) {
-    bool checkPrefix(String prefix, skip) {
-      var matched = prefix.isNotEmpty && input.startsWith(prefix);
-      if (skip && matched) input.read(prefix.length);
-      return matched;
-    }
+    bool checkPrefix(String prefix) =>
+        prefix.isNotEmpty && input.startsWith(prefix);
 
     // TODO(alanknight): There's a faint possibility of a bug here where
     // a positive prefix is followed by a negative prefix that's also a valid
     // part of the number, but that seems very unlikely.
-    if (checkPrefix(_positivePrefix, skip)) gotPositive = true;
-    if (checkPrefix(_negativePrefix, skip)) gotNegative = true;
+    if (checkPrefix(_positivePrefix)) gotPositive = true;
+    if (checkPrefix(_negativePrefix)) gotNegative = true;
 
-    // Copied from Closure. It doesn't seem to be necessary to pass the test
-    // suite, so I'm not sure it's really needed.
+    // The positive prefix might be a substring of the negative, in
+    // which case both would match.
     if (gotPositive && gotNegative) {
       if (_positivePrefix.length > _negativePrefix.length) {
         gotNegative = false;
       } else if (_negativePrefix.length > _positivePrefix.length) {
         gotPositive = false;
       }
+    }
+    if (skip) {
+      if (gotPositive) input.read(_positivePrefix.length);
+      if (gotNegative) input.read(_negativePrefix.length);
     }
   }
 
