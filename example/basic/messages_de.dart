@@ -13,8 +13,10 @@ import 'package:intl/message_lookup_by_library.dart';
 final messages = new MessageLookup();
 
 class MessageLookup extends MessageLookupByLibrary {
+  @override
   get localeName => 'de';
 
+  @override
   final messages = {
     "runAt": (time, day) => Intl.message("Ausgedruckt am $time am $day.")
   };

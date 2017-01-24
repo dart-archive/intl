@@ -54,7 +54,6 @@ part of intl;
 /// then up to the caller to insert the return value in the output.
 
 class BidiFormatter {
-
   /// The direction of the surrounding text (the context).
   TextDirection contextDirection;
 

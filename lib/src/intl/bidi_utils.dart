@@ -47,7 +47,6 @@ class TextDirection {
 /// of the methods are static, and are organized into a class primarily to
 /// group them together for documentation and discoverability.
 class Bidi {
-
   /// Unicode "Left-To-Right Embedding" (LRE) character.
   static const LRE = '\u202A';
 
@@ -156,9 +155,12 @@ class Bidi {
   /// Sindhi (sd) and Uyghur (ug).  The presence of other subtags of the
   /// language code, e.g. regions like EG (Egypt), is ignored.
   static bool isRtlLanguage(String languageString) {
-    return new RegExp(r'^(ar|dv|he|iw|fa|nqo|ps|sd|ug|ur|yi|.*[-_]'
-        r'(Arab|Hebr|Thaa|Nkoo|Tfng))(?!.*[-_](Latn|Cyrl)($|-|_))'
-        r'($|-|_)', caseSensitive: false).hasMatch(languageString);
+    return new RegExp(
+            r'^(ar|dv|he|iw|fa|nqo|ps|sd|ug|ur|yi|.*[-_]'
+            r'(Arab|Hebr|Thaa|Nkoo|Tfng))(?!.*[-_](Latn|Cyrl)($|-|_))'
+            r'($|-|_)',
+            caseSensitive: false)
+        .hasMatch(languageString);
   }
 
   /// Enforce the [html] snippet in RTL directionality regardless of overall

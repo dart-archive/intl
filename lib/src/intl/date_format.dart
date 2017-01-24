@@ -582,7 +582,7 @@ class DateFormat {
   /// Return the skeletons for our current locale.
   Map get _availableSkeletons => dateTimePatterns[locale];
 
-  /// Return the [DateSymbol] information for the locale. This can be useful
+  /// Return the date symbol information for the locale. This can be useful
   /// to find lists like the names of weekdays or months in a locale, but
   /// the structure of this data may change, and it's generally better to go
   /// through the [format] and [parse] APIs. If the locale isn't present, or

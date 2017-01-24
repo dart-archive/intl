@@ -43,7 +43,8 @@ class NumberSymbols {
       this.CURRENCY_PATTERN,
       this.DEF_CURRENCY_CODE});
 
-  toString() => NAME;
+  @override
+  String toString() => NAME;
 }
 
 class CompactNumberSymbols {

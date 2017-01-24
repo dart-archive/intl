@@ -25,6 +25,7 @@ main() {
     runAllTests(_) {
       setup(expectAsync(runProgram) as ThenList, addToList);
     }
+
     setup(expectAsync(runAllTests) as ThenList, addToList);
     waitForIt.future.then(expectAsync((_) {
       expect(list[0], "Ran at 00:00:00 on Thursday, January 1, 1970");
