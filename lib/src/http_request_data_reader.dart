@@ -12,11 +12,11 @@ import 'dart:html';
 import 'intl_helpers.dart';
 
 class HttpRequestDataReader implements LocaleDataReader {
-
   /// The base url from which we read the data.
   String url;
   HttpRequestDataReader(this.url);
 
+  @override
   Future read(String locale) {
     // TODO(alanknight): Remove this once it's not necessary for Chrome.
     // Without it, the tests will be flaky on Chrome. Issue 11834.

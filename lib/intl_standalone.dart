@@ -50,14 +50,8 @@ Future<String> findSystemLocale() {
 ///     ...
 RegExp _appleDefaultsRegex = new RegExp(r'((\w\w)_\w+)');
 
-/// Check to see if we have a "LANG" environment variable we can use and return
-/// it if found. Otherwise return null;
-String _checkEnvironmentVariable() {
-  try {
-    return Platform.environment['LANG'];
-  } catch (e) {}
-  return null;
-}
+/// Returns the `'LANG'` environment variable if available, otherwise `null`.
+String _checkEnvironmentVariable() => Platform.environment['LANG'];
 
 /// Run the "defaults read -g AppleLocale" command and return the output in
 /// a future.

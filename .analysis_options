@@ -1,0 +1,30 @@
+analyzer:
+  strong-mode: true
+linter:
+  rules:
+    # Errors
+    - avoid_empty_else
+    - control_flow_in_finally
+    - empty_statements
+    - test_types_in_equals
+    - throw_in_finally
+    - valid_regexps
+
+    # Style
+    - annotate_overrides
+    - avoid_init_to_null
+    - avoid_return_types_on_setters
+    - await_only_futures
+    - camel_case_types
+    - comment_references
+    - empty_catches
+    - empty_constructor_bodies
+    - hash_and_equals
+    # This isn't followed yet in this package; lower priority.
+    # - library_prefixes
+    # Maybe in 1.0.0, but this package existed before this convention.
+    # - non_constant_identifier_names
+    - prefer_is_not_empty
+    - slash_for_doc_comments
+    - type_init_formals
+    - unrelated_type_equality_checks

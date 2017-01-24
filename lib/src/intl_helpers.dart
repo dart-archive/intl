@@ -24,10 +24,16 @@ class UninitializedLocaleData<F> implements MessageLookup {
   operator [](String key) =>
       (key == 'en_US') ? fallbackData : _throwException();
 
-  String lookupMessage(String message_str, String locale, String name,
-          List args, String meaning,
-          {MessageIfAbsent ifAbsent}) =>
-      message_str;
+  @override
+  String lookupMessage(
+    String message,
+    String locale,
+    String name,
+    List args,
+    String meaning, {
+    MessageIfAbsent ifAbsent,
+  }) =>
+      message;
 
   /// Given an initial locale or null, returns the locale that will be used
   /// for messages.
@@ -42,20 +48,38 @@ class UninitializedLocaleData<F> implements MessageLookup {
         ", call $message.");
   }
 
-  void addLocale(String localeName, Function findLocale) => _throwException();
+  @override
+  void addLocale(String name, Function find) => _throwException();
 }
 
 abstract class MessageLookup {
+  /// Lookup the message for the given [name] and [locale].
+  ///
+  /// The translated message is returned with the value in [args] interpolated.
+  ///
+  /// If nothing is found, returns [message].
   String lookupMessage(
-      String message_str, String locale, String name, List args, String meaning,
-      {MessageIfAbsent ifAbsent});
-  void addLocale(String localeName, Function findLocale);
+    String message,
+    String locale,
+    String name,
+    List args,
+    String meaning, {
+    MessageIfAbsent ifAbsent,
+  });
+
+  /// Adds a locale [name] to use the [find] function.
+  ///
+  /// If there is already a locale registered for [name], this does nothing.
+  void addLocale(String name, Function find);
 }
 
 class LocaleDataException implements Exception {
   final String message;
+
   LocaleDataException(this.message);
-  toString() => "LocaleDataException: $message";
+
+  @override
+  String toString() => "LocaleDataException: $message";
 }
 
 ///  An abstract superclass for data readers to keep the type system happy.

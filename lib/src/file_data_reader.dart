@@ -13,13 +13,13 @@ import 'dart:io';
 import 'intl_helpers.dart';
 
 class FileDataReader implements LocaleDataReader {
-
   /// The base path from which we will read data.
   String path;
 
   FileDataReader(this.path);
 
   /// Read the locale data found for [locale] on our [path].
+  @override
   Future read(String locale) {
     var file = new File(join(path, '$locale.json'));
     return file.readAsString();

@@ -33,13 +33,15 @@ class CompositeMessageLookup implements MessageLookup {
   /// Caches the last messages that we found
   MessageLookupByLibrary _lastLookup;
 
-  /// Look up the message with the given [name] and [locale] and return
-  /// the translated version with the values in [args] interpolated.
-  /// If nothing is found, return [message_str]. The [desc] and [examples]
-  /// parameters are ignored
+  @override
   String lookupMessage(
-      String message_str, String locale, String name, List args, String meaning,
-      {MessageIfAbsent ifAbsent: _useOriginal}) {
+    String messageIfAbsent,
+    String locale,
+    String name,
+    List args,
+    String meaning, {
+    MessageIfAbsent ifAbsent: _useOriginal,
+  }) {
     // If passed null, use the default.
     var knownLocale = locale ?? Intl.getCurrentLocale();
     var messages = (knownLocale == _lastLocale)
@@ -48,11 +50,16 @@ class CompositeMessageLookup implements MessageLookup {
     // If we didn't find any messages for this locale, use the original string,
     // faking interpolations if necessary.
     if (messages == null) {
-      return ifAbsent(message_str, args);
+      return ifAbsent(messageIfAbsent, args);
     }
     return messages.lookupMessage(
-        message_str, locale, name, args, meaning,
-        ifAbsent: ifAbsent);
+      messageIfAbsent,
+      locale,
+      name,
+      args,
+      meaning,
+      ifAbsent: ifAbsent,
+    );
   }
 
   /// Find the right message lookup for [locale].
@@ -64,15 +71,13 @@ class CompositeMessageLookup implements MessageLookup {
     return _lastLookup;
   }
 
-  /// If we do not already have a locale for [localeName] then
-  /// [findLocale] will be called and the result stored as the lookup
-  /// mechanism for that locale.
-  void addLocale(String localeName, Function findLocale) {
-    if (localeExists(localeName)) return;
-    var canonical = Intl.canonicalizedLocale(localeName);
-    var newLocale = findLocale(canonical);
+  @override
+  void addLocale(String name, Function find) {
+    if (localeExists(name)) return;
+    var canonical = Intl.canonicalizedLocale(name);
+    var newLocale = find(canonical);
     if (newLocale != null) {
-      availableMessages[localeName] = newLocale;
+      availableMessages[name] = newLocale;
       availableMessages[canonical] = newLocale;
       // If there was already a failed lookup for [newLocale], null the cache.
       if (_lastLocale == newLocale) {
@@ -90,36 +95,26 @@ String _useOriginal(String message_str, List args) => message_str;
 /// Each locale will have a separate subclass of this class with its set of
 /// messages. See generate_localized.dart.
 abstract class MessageLookupByLibrary {
-  /// Return the localized version of a message. We are passed the original
-  /// version of the message, which consists of a
-  /// [message_str] that will be translated, and which may be interpolated
-  /// based on one or more variables, a [desc] providing a description of usage
-  /// for the [message_str], and a map of [examples] for each data element to be
-  /// substituted into the message.
+  /// Lookup the message for the given [name] and [locale].
   ///
-  /// For example, if message="Hello, $name", then
-  /// examples = {'name': 'Sparky'}. If not using the user's default locale, or
-  /// if the locale is not easily detectable, explicitly pass [locale].
+  /// The translated message is returned with the value in [args] interpolated.
   ///
-  /// The values of [desc] and [examples] are not used at run-time but are only
-  /// made available to the translators, so they MUST be simple Strings
-  /// available at compile time: no String interpolation or concatenation.  The
-  /// expected usage of this is inside a function that takes as parameters the
-  /// variables used in the interpolated string.
-  ///
-  /// Ultimately, the information about the enclosing function and its arguments
-  /// will be extracted automatically but for the time being it must be passed
-  /// explicitly in the [name] and [args] arguments.
+  /// If nothing is found, returns [message].
   String lookupMessage(
-      String message_str, String locale, String name, List args, String meaning,
-      {MessageIfAbsent ifAbsent}) {
+    String message,
+    String locale,
+    String name,
+    List args,
+    String meaning, {
+    MessageIfAbsent ifAbsent,
+  }) {
     var notFound = false;
-    var actualName = computeMessageName(name, message_str, meaning);
+    var actualName = computeMessageName(name, message, meaning);
     if (actualName == null) notFound = true;
     var function = this[actualName];
     notFound = notFound || (function == null);
     if (notFound) {
-      return ifAbsent == null ? message_str : ifAbsent(message_str, args);
+      return ifAbsent == null ? message : ifAbsent(message, args);
     } else {
       return Function.apply(function, args);
     }
@@ -135,7 +130,8 @@ abstract class MessageLookupByLibrary {
   /// Subclasses should override this to return their locale, e.g. 'en_US'
   String get localeName;
 
-  toString() => localeName;
+  @override
+  String toString() => localeName;
 
   /// Return a function that returns the given string.
   /// An optimization for dart2js, used from the generated code.

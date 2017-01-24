@@ -31,8 +31,10 @@ Future initializeDateFormatting(String locale, String filePath) {
   initializeDatePatterns(() =>
       new LazyLocaleData(reader2, (x) => x, availableLocalesForDateFormatting));
   return initializeIndividualLocaleDateFormatting((symbols, patterns) {
-    return Future
-        .wait([symbols.initLocale(locale), patterns.initLocale(locale)]);
+    return Future.wait([
+      symbols.initLocale(locale) as Future,
+      patterns.initLocale(locale) as Future,
+    ]);
   });
 }
 

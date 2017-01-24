@@ -139,6 +139,7 @@ class _Stream {
   /// Does not modify the stream position.
   peek([int howMany = 1]) {
     var result;
+    var contents = this.contents;
     if (contents is String) {
       result = contents.substring(index, min(index + howMany, contents.length));
     } else {

@@ -92,7 +92,7 @@ enum _CompactFormatType {
 }
 
 class _CompactNumberFormat extends NumberFormat {
-  /// A default, using the decimal pattern, for the [getPattern] constructor parameter.
+  // A default, using the decimal pattern, for the [getPattern] parameter.
   static String _forDecimal(NumberSymbols symbols) => symbols.DECIMAL_PATTERN;
 
   // Will be either the COMPACT_DECIMAL_SHORT_PATTERN,
@@ -168,6 +168,7 @@ class _CompactNumberFormat extends NumberFormat {
   /// This is a temporary variable that is only valid within a call to format.
   _CompactStyle _style;
 
+  @override
   String format(number) {
     _style = _styleFor(number);
     var divisor = _style.printsAsIs ? 1 : _style.divisor;
@@ -192,6 +193,7 @@ class _CompactNumberFormat extends NumberFormat {
 
   /// How many digits after the decimal place should we display, given that
   /// there are [remainingSignificantDigits] left to show.
+  @override
   int _fractionDigitsAfter(int remainingSignificantDigits) {
     var newFractionDigits =
         super._fractionDigitsAfter(remainingSignificantDigits);
@@ -253,6 +255,7 @@ class _CompactNumberFormat extends NumberFormat {
         "No compact style found for number. This should not happen", number);
   }
 
+  @override
   num parse(String text) {
     for (var style in _styles.reversed) {
       if (text.startsWith(style.prefix) && text.endsWith(style.suffix)) {

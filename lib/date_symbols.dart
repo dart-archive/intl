@@ -37,24 +37,42 @@ class DateSymbols {
   List<int> WEEKENDRANGE;
   int FIRSTWEEKCUTOFFDAY;
 
-  DateSymbols({this.NAME, this.ERAS, this.ERANAMES, this.NARROWMONTHS,
-      this.STANDALONENARROWMONTHS, this.MONTHS, this.STANDALONEMONTHS,
-      this.SHORTMONTHS, this.STANDALONESHORTMONTHS, this.WEEKDAYS,
-      this.STANDALONEWEEKDAYS, this.SHORTWEEKDAYS, this.STANDALONESHORTWEEKDAYS,
-      this.NARROWWEEKDAYS, this.STANDALONENARROWWEEKDAYS, this.SHORTQUARTERS,
-      this.QUARTERS, this.AMPMS,
+  DateSymbols(
+      {this.NAME,
+      this.ERAS,
+      this.ERANAMES,
+      this.NARROWMONTHS,
+      this.STANDALONENARROWMONTHS,
+      this.MONTHS,
+      this.STANDALONEMONTHS,
+      this.SHORTMONTHS,
+      this.STANDALONESHORTMONTHS,
+      this.WEEKDAYS,
+      this.STANDALONEWEEKDAYS,
+      this.SHORTWEEKDAYS,
+      this.STANDALONESHORTWEEKDAYS,
+      this.NARROWWEEKDAYS,
+      this.STANDALONENARROWWEEKDAYS,
+      this.SHORTQUARTERS,
+      this.QUARTERS,
+      this.AMPMS,
       // TODO(alanknight): These formats are taken from Closure,
       // where there's only a fixed set of available formats.
       // Here we have the patterns separately. These should
       // either be used, or removed.
-      this.DATEFORMATS, this.TIMEFORMATS, this.AVAILABLEFORMATS,
-      this.FIRSTDAYOFWEEK, this.WEEKENDRANGE, this.FIRSTWEEKCUTOFFDAY,
+      this.DATEFORMATS,
+      this.TIMEFORMATS,
+      this.AVAILABLEFORMATS,
+      this.FIRSTDAYOFWEEK,
+      this.WEEKENDRANGE,
+      this.FIRSTWEEKCUTOFFDAY,
       this.DATETIMEFORMATS});
 
   // TODO(alanknight): Replace this with use of a more general serialization
   // facility once one is available. Issue 4926.
   DateSymbols.deserializeFromMap(Map map) {
-    List<String> _getStringList(String name) => new List<String>.from(map[name]);
+    List<String> _getStringList(String name) =>
+        new List<String>.from(map[name]);
     NAME = map["NAME"];
     ERAS = _getStringList("ERAS");
     ERANAMES = _getStringList("ERANAMES");
@@ -75,7 +93,8 @@ class DateSymbols {
     AMPMS = _getStringList("AMPMS");
     DATEFORMATS = _getStringList("DATEFORMATS");
     TIMEFORMATS = _getStringList("TIMEFORMATS");
-    AVAILABLEFORMATS = new Map<String, String>.from(map["AVAILABLEFORMATS"] ?? {});
+    AVAILABLEFORMATS =
+        new Map<String, String>.from(map["AVAILABLEFORMATS"] ?? {});
     FIRSTDAYOFWEEK = map["FIRSTDAYOFWEEK"];
     WEEKENDRANGE = new List<int>.from(map["WEEKENDRANGE"]);
     FIRSTWEEKCUTOFFDAY = map["FIRSTWEEKCUTOFFDAY"];
@@ -83,34 +102,35 @@ class DateSymbols {
   }
 
   Map serializeToMap() => {
-    "NAME": NAME,
-    "ERAS": ERAS,
-    "ERANAMES": ERANAMES,
-    "NARROWMONTHS": NARROWMONTHS,
-    "STANDALONENARROWMONTHS": STANDALONENARROWMONTHS,
-    "MONTHS": MONTHS,
-    "STANDALONEMONTHS": STANDALONEMONTHS,
-    "SHORTMONTHS": SHORTMONTHS,
-    "STANDALONESHORTMONTHS": STANDALONESHORTMONTHS,
-    "WEEKDAYS": WEEKDAYS,
-    "STANDALONEWEEKDAYS": STANDALONEWEEKDAYS,
-    "SHORTWEEKDAYS": SHORTWEEKDAYS,
-    "STANDALONESHORTWEEKDAYS": STANDALONESHORTWEEKDAYS,
-    "NARROWWEEKDAYS": NARROWWEEKDAYS,
-    "STANDALONENARROWWEEKDAYS": STANDALONENARROWWEEKDAYS,
-    "SHORTQUARTERS": SHORTQUARTERS,
-    "QUARTERS": QUARTERS,
-    "AMPMS": AMPMS,
-    "DATEFORMATS": DATEFORMATS,
-    "TIMEFORMATS": TIMEFORMATS,
-    "AVAILABLEFORMATS": AVAILABLEFORMATS,
-    "FIRSTDAYOFWEEK": FIRSTDAYOFWEEK,
-    "WEEKENDRANGE": WEEKENDRANGE,
-    "FIRSTWEEKCUTOFFDAY": FIRSTWEEKCUTOFFDAY,
-    "DATETIMEFORMATS": DATETIMEFORMATS,
-  };
+        "NAME": NAME,
+        "ERAS": ERAS,
+        "ERANAMES": ERANAMES,
+        "NARROWMONTHS": NARROWMONTHS,
+        "STANDALONENARROWMONTHS": STANDALONENARROWMONTHS,
+        "MONTHS": MONTHS,
+        "STANDALONEMONTHS": STANDALONEMONTHS,
+        "SHORTMONTHS": SHORTMONTHS,
+        "STANDALONESHORTMONTHS": STANDALONESHORTMONTHS,
+        "WEEKDAYS": WEEKDAYS,
+        "STANDALONEWEEKDAYS": STANDALONEWEEKDAYS,
+        "SHORTWEEKDAYS": SHORTWEEKDAYS,
+        "STANDALONESHORTWEEKDAYS": STANDALONESHORTWEEKDAYS,
+        "NARROWWEEKDAYS": NARROWWEEKDAYS,
+        "STANDALONENARROWWEEKDAYS": STANDALONENARROWWEEKDAYS,
+        "SHORTQUARTERS": SHORTQUARTERS,
+        "QUARTERS": QUARTERS,
+        "AMPMS": AMPMS,
+        "DATEFORMATS": DATEFORMATS,
+        "TIMEFORMATS": TIMEFORMATS,
+        "AVAILABLEFORMATS": AVAILABLEFORMATS,
+        "FIRSTDAYOFWEEK": FIRSTDAYOFWEEK,
+        "WEEKENDRANGE": WEEKENDRANGE,
+        "FIRSTWEEKCUTOFFDAY": FIRSTWEEKCUTOFFDAY,
+        "DATETIMEFORMATS": DATETIMEFORMATS,
+      };
 
-  toString() => NAME;
+  @override
+  String toString() => NAME;
 }
 
 /// We hard-code the locale data for en_US here so that there's at least one
@@ -120,126 +140,126 @@ var en_USSymbols = new DateSymbols(
     ERAS: const ['BC', 'AD'],
     ERANAMES: const ['Before Christ', 'Anno Domini'],
     NARROWMONTHS: const [
-  'J',
-  'F',
-  'M',
-  'A',
-  'M',
-  'J',
-  'J',
-  'A',
-  'S',
-  'O',
-  'N',
-  'D'
-],
+      'J',
+      'F',
+      'M',
+      'A',
+      'M',
+      'J',
+      'J',
+      'A',
+      'S',
+      'O',
+      'N',
+      'D'
+    ],
     STANDALONENARROWMONTHS: const [
-  'J',
-  'F',
-  'M',
-  'A',
-  'M',
-  'J',
-  'J',
-  'A',
-  'S',
-  'O',
-  'N',
-  'D'
-],
+      'J',
+      'F',
+      'M',
+      'A',
+      'M',
+      'J',
+      'J',
+      'A',
+      'S',
+      'O',
+      'N',
+      'D'
+    ],
     MONTHS: const [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December'
-],
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
+    ],
     STANDALONEMONTHS: const [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December'
-],
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
+    ],
     SHORTMONTHS: const [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec'
-],
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec'
+    ],
     STANDALONESHORTMONTHS: const [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec'
-],
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec'
+    ],
     WEEKDAYS: const [
-  'Sunday',
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday'
-],
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday'
+    ],
     STANDALONEWEEKDAYS: const [
-  'Sunday',
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday'
-],
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday'
+    ],
     SHORTWEEKDAYS: const ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
     STANDALONESHORTWEEKDAYS: const [
-  'Sun',
-  'Mon',
-  'Tue',
-  'Wed',
-  'Thu',
-  'Fri',
-  'Sat'
-],
+      'Sun',
+      'Mon',
+      'Tue',
+      'Wed',
+      'Thu',
+      'Fri',
+      'Sat'
+    ],
     NARROWWEEKDAYS: const ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
     STANDALONENARROWWEEKDAYS: const ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
     SHORTQUARTERS: const ['Q1', 'Q2', 'Q3', 'Q4'],
     QUARTERS: const [
-  '1st quarter',
-  '2nd quarter',
-  '3rd quarter',
-  '4th quarter'
-],
+      '1st quarter',
+      '2nd quarter',
+      '3rd quarter',
+      '4th quarter'
+    ],
     AMPMS: const ['AM', 'PM'],
     DATEFORMATS: const ['EEEE, MMMM d, y', 'MMMM d, y', 'MMM d, y', 'M/d/yy'],
     TIMEFORMATS: const ['h:mm:ss a zzzz', 'h:mm:ss a z', 'h:mm:ss a', 'h:mm a'],
@@ -247,11 +267,11 @@ var en_USSymbols = new DateSymbols(
     WEEKENDRANGE: const [5, 6],
     FIRSTWEEKCUTOFFDAY: 5,
     DATETIMEFORMATS: const [
-  '{1} \'at\' {0}',
-  '{1} \'at\' {0}',
-  '{1}, {0}',
-  '{1}, {0}'
-]);
+      '{1} \'at\' {0}',
+      '{1} \'at\' {0}',
+      '{1}, {0}',
+      '{1}, {0}'
+    ]);
 
 var en_USPatterns = const {
   'd': 'd', // DAY

@@ -190,7 +190,7 @@ class NumberFormat {
   /// prefer NumberFormat.currency)
   ///
   /// If provided,
-  /// use [nameOrSymbol] in place of the default currency name. e.g.
+  /// use `nameOrSymbol` in place of the default currency name. e.g.
   ///        var eurosInCurrentLocale = new NumberFormat
   ///            .currencyPattern(Intl.defaultLocale, "€");
   @Deprecated("Use NumberFormat.currency")
@@ -916,6 +916,7 @@ class NumberFormat {
     _finalGroupingSize = 0;
   }
 
+  @override
   String toString() => "NumberFormat($_locale, $_pattern)";
 }
 
@@ -986,7 +987,7 @@ class _NumberParser {
   ///  The strings we might replace with functions that return the replacement
   /// values. They are functions because we might need to check something
   /// in the context. Note that the ordering is important here. For example,
-  /// [symbols.PERCENT] might be " %", and we must handle that before we
+  /// `symbols.PERCENT` might be " %", and we must handle that before we
   /// look at an individual space.
   Map<String, Function> get replacements =>
       _replacements ??= _initializeReplacements();
@@ -1233,7 +1234,9 @@ class _NumberFormatParser {
   String _parseAffix() {
     var affix = new StringBuffer();
     inQuote = false;
-    while (parseCharacterAffix(affix) && pattern.moveNext());
+    while (parseCharacterAffix(affix) && pattern.moveNext()) {
+      continue;
+    }
     return affix.toString();
   }
 
@@ -1450,6 +1453,7 @@ Iterator<String> _iterator(String s) => new _StringIterator(s);
 /// Provides an Iterable that wraps [_iterator] so it can be used in a `for`
 /// loop.
 class _StringIterable extends IterableBase<String> {
+  @override
   final Iterator<String> iterator;
 
   _StringIterable(String s) : iterator = _iterator(s);
@@ -1460,12 +1464,14 @@ class _StringIterable extends IterableBase<String> {
 class _StringIterator implements Iterator<String> {
   final String input;
   int nextIndex = 0;
-  String _current = null;
+  String _current;
 
   _StringIterator(input) : input = _validate(input);
 
+  @override
   String get current => _current;
 
+  @override
   bool moveNext() {
     if (nextIndex >= input.length) {
       _current = null;
@@ -1553,6 +1559,7 @@ class _MicroMoney implements MicroMoney {
 
   int toInt() => _integerPart.toInt();
 
+  @override
   String toString() {
     var beforeDecimal = _integerPart.toString();
     var decimalPart = '';
