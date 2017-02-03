@@ -3,6 +3,10 @@
  * A tweak to the way we retry on DateTime.asDate to compensate for a VM bug.
  * Update CLDR version to 30.
  * Cache the last result of isRtlLanguage
+ * Some strong mode fixes
+ * Allow passing enums to a select.
+ * Remove the cacheBlocker parameter from HttpRequestDataReader
+ * Optimize padding numbers when printing
 
 ## 0.14.0
  * MAJOR BREAKING CHANGE! Remove message extraction and code generation into a
