@@ -2,6 +2,7 @@
  * Fix compactCurrency to correctly use passed-in symbol.
  * A tweak to the way we retry on DateTime.asDate to compensate for a VM bug.
  * Update CLDR version to 30.
+ * Cache the last result of isRtlLanguage
 
 ## 0.14.0
  * MAJOR BREAKING CHANGE! Remove message extraction and code generation into a

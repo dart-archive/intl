@@ -47,7 +47,6 @@ class TextDirection {
 /// of the methods are static, and are organized into a class primarily to
 /// group them together for documentation and discoverability.
 class Bidi {
-
   /// Unicode "Left-To-Right Embedding" (LRE) character.
   static const LRE = '\u202A';
 
@@ -134,6 +133,15 @@ class Bidi {
         .hasMatch(isHtml ? stripHtmlIfNeeded(text) : text);
   }
 
+  static final _rtlLocaleRegex = new RegExp(
+      r'^(ar|dv|he|iw|fa|nqo|ps|sd|ug|ur|yi|.*[-_]'
+      r'(Arab|Hebr|Thaa|Nkoo|Tfng))(?!.*[-_](Latn|Cyrl)($|-|_))'
+      r'($|-|_)',
+      caseSensitive: false);
+
+  static String _lastLocaleCheckedForRtl;
+  static bool _lastRtlCheck;
+
   /// Check if a BCP 47 / III [languageString] indicates an RTL language.
   ///
   /// i.e. either:
@@ -155,10 +163,13 @@ class Bidi {
   /// http://www.iana.org/assignments/language-subtag-registry, as well as
   /// Sindhi (sd) and Uyghur (ug).  The presence of other subtags of the
   /// language code, e.g. regions like EG (Egypt), is ignored.
-  static bool isRtlLanguage(String languageString) {
-    return new RegExp(r'^(ar|dv|he|iw|fa|nqo|ps|sd|ug|ur|yi|.*[-_]'
-        r'(Arab|Hebr|Thaa|Nkoo|Tfng))(?!.*[-_](Latn|Cyrl)($|-|_))'
-        r'($|-|_)', caseSensitive: false).hasMatch(languageString);
+  static bool isRtlLanguage([String languageString]) {
+    var language = languageString ?? Intl.getCurrentLocale();
+    if (_lastLocaleCheckedForRtl != language) {
+      _lastLocaleCheckedForRtl = language;
+      _lastRtlCheck = _rtlLocaleRegex.hasMatch(language);
+    }
+    return _lastRtlCheck;
   }
 
   /// Enforce the [html] snippet in RTL directionality regardless of overall

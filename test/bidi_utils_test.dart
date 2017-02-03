@@ -31,6 +31,15 @@ main() {
     expect(Bidi.isRtlLanguage('az-Arab'), isTrue);
     expect(Bidi.isRtlLanguage('az-ARAB-IR'), isTrue);
     expect(Bidi.isRtlLanguage('az_arab_IR'), isTrue);
+    Intl.withLocale('en_US', () {
+      expect(Bidi.isRtlLanguage(), isFalse);
+    });
+    Intl.withLocale('ar', () {
+      expect(Bidi.isRtlLanguage(), isTrue);
+    });
+    Intl.withLocale(null, () {
+      expect(Bidi.isRtlLanguage(), Bidi.isRtlLanguage(Intl.systemLocale));
+    });
   });
 
   test('hasAnyLtr', () {
@@ -190,67 +199,116 @@ main() {
         equals(TextDirection.LTR.value));
     expect(Bidi.estimateDirectionOfText('http://foo/bar/', isHtml: false).value,
         equals(TextDirection.LTR.value));
-    expect(Bidi.estimateDirectionOfText(
-            'http://foo/bar/?s=\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0'
-            '\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0'
-            '\u05d0\u05d0\u05d0\u05d0\u05d0').value,
+    expect(
+        Bidi
+            .estimateDirectionOfText(
+                'http://foo/bar/?s=\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0'
+                '\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0'
+                '\u05d0\u05d0\u05d0\u05d0\u05d0')
+            .value,
         equals(TextDirection.LTR.value));
     expect(Bidi.estimateDirectionOfText('\u05d0', isHtml: false).value,
         equals(TextDirection.RTL.value));
-    expect(Bidi.estimateDirectionOfText('9 \u05d0 -> 17.5, 23, 45, 19',
-        isHtml: false).value, equals(TextDirection.RTL.value));
-    expect(Bidi.estimateDirectionOfText(
-            'http://foo/bar/ \u05d0 http://foo2/bar2/ http://foo3/bar3/').value,
+    expect(
+        Bidi
+            .estimateDirectionOfText('9 \u05d0 -> 17.5, 23, 45, 19',
+                isHtml: false)
+            .value,
         equals(TextDirection.RTL.value));
-    expect(Bidi.estimateDirectionOfText(
-        '\u05d0\u05d9\u05df \u05de\u05de\u05e9 \u05de\u05d4 \u05dc\u05e8\u05d0'
-        '\u05d5\u05ea: \u05dc\u05d0 \u05e6\u05d9\u05dc\u05de\u05ea\u05d9 \u05d4'
-        '\u05e8\u05d1\u05d4 \u05d5\u05d2\u05dd \u05d0\u05dd \u05d4\u05d9\u05d9'
-        '\u05ea\u05d9 \u05de\u05e6\u05dc\u05dd, \u05d4\u05d9\u05d4 \u05e9'
-        '\u05dd').value, equals(TextDirection.RTL.value));
-    expect(Bidi.estimateDirectionOfText(
-        '\u05db\u05d0 - http://geek.co.il/gallery/v/2007-06 - \u05d0\u05d9'
-        '\u05df \u05de\u05de\u05e9 \u05de\u05d4 \u05dc\u05e8\u05d0\u05d5\u05ea:'
-        ' \u05dc\u05d0 \u05e6\u05d9\u05dc\u05de\u05ea\u05d9 \u05d4\u05e8\u05d1 '
-        '\u05d5\u05d2\u05dd \u05d0\u05dd \u05d4\u05d9\u05d9\u05d9 \u05de\u05e6'
-        '\u05dc\u05dd, \u05d4\u05d9\u05d4 \u05e9\u05dd \u05d1\u05e2\u05d9\u05e7'
-        ' \u05d4\u05e8\u05d1\u05d4 \u05d0\u05e0\u05e9\u05d9\u05dd. \u05de\u05d4'
-        ' \u05e9\u05db\u05df - \u05d0\u05e4\u05e9\u05e8 \u05dc\u05e0\u05e6'
-        '\u05dc \u05d0\u05ea \u05d4\u05d4 \u05d3\u05d6\u05de\u05e0\u05d5 '
-        '\u05dc\u05d4\u05e1\u05ea\u05db\u05dc \u05e2\u05dc \u05db\u05de\u05d4 '
-        '\u05ea\u05de\u05d5\u05e0\u05d5\u05ea \u05de\u05e9\u05e9\u05e2\u05d5'
-        '\u05ea \u05d9\u05e9\u05e0\u05d5 \u05d9\u05d5\u05ea\u05e8 \u05e9\u05d9'
-        '\u05e9 \u05dc\u05d9 \u05d1\u05d0\u05ea\u05e8',
-        isHtml: false).value, equals(TextDirection.RTL.value));
-    expect(Bidi.estimateDirectionOfText(
-        'CAPTCHA \u05de\u05e9\u05d5\u05db\u05dc\u05dc '
-        '\u05de\u05d3\u05d9?').value, equals(TextDirection.RTL.value));
-    expect(Bidi.estimateDirectionOfText(
-        'Yes Prime Minister \u05e2\u05d3\u05db\u05d5\u05df. \u05e9\u05d0\u05dc'
-        '\u05d5 \u05d0\u05d5\u05ea\u05d9 \u05de\u05d4 \u05d0\u05e0\u05d9 '
-        '\u05e8\u05d5\u05e6\u05d4 \u05de\u05ea\u05e0\u05d4 \u05dc\u05d7'
-        '\u05d2').value, equals(TextDirection.RTL.value));
-    expect(Bidi.estimateDirectionOfText(
-            '17.4.02 \u05e9\u05e2\u05d4:13-20 .15-00 .\u05dc\u05d0 \u05d4\u05d9'
-            '\u05d9\u05ea\u05d9 \u05db\u05d0\u05df.').value,
+    expect(
+        Bidi
+            .estimateDirectionOfText(
+                'http://foo/bar/ \u05d0 http://foo2/bar2/ http://foo3/bar3/')
+            .value,
         equals(TextDirection.RTL.value));
-    expect(Bidi.estimateDirectionOfText(
-        '5710 5720 5730. \u05d4\u05d3\u05dc\u05ea. \u05d4\u05e0\u05e9\u05d9'
-        '\u05e7\u05d4', isHtml: false).value, equals(TextDirection.RTL.value));
-    expect(Bidi.estimateDirectionOfText(
-        '\u05d4\u05d3\u05dc\u05ea http://www.google.com '
-        'http://www.gmail.com').value, equals(TextDirection.RTL.value));
-    expect(Bidi.estimateDirectionOfText(
-            '\u05d4\u05d3\u05dc <some quite nasty html mark up>').value,
+    expect(
+        Bidi
+            .estimateDirectionOfText(
+                '\u05d0\u05d9\u05df \u05de\u05de\u05e9 \u05de\u05d4 \u05dc\u05e8\u05d0'
+                '\u05d5\u05ea: \u05dc\u05d0 \u05e6\u05d9\u05dc\u05de\u05ea\u05d9 \u05d4'
+                '\u05e8\u05d1\u05d4 \u05d5\u05d2\u05dd \u05d0\u05dd \u05d4\u05d9\u05d9'
+                '\u05ea\u05d9 \u05de\u05e6\u05dc\u05dd, \u05d4\u05d9\u05d4 \u05e9'
+                '\u05dd')
+            .value,
+        equals(TextDirection.RTL.value));
+    expect(
+        Bidi
+            .estimateDirectionOfText(
+                '\u05db\u05d0 - http://geek.co.il/gallery/v/2007-06 - \u05d0\u05d9'
+                '\u05df \u05de\u05de\u05e9 \u05de\u05d4 \u05dc\u05e8\u05d0\u05d5\u05ea:'
+                ' \u05dc\u05d0 \u05e6\u05d9\u05dc\u05de\u05ea\u05d9 \u05d4\u05e8\u05d1 '
+                '\u05d5\u05d2\u05dd \u05d0\u05dd \u05d4\u05d9\u05d9\u05d9 \u05de\u05e6'
+                '\u05dc\u05dd, \u05d4\u05d9\u05d4 \u05e9\u05dd \u05d1\u05e2\u05d9\u05e7'
+                ' \u05d4\u05e8\u05d1\u05d4 \u05d0\u05e0\u05e9\u05d9\u05dd. \u05de\u05d4'
+                ' \u05e9\u05db\u05df - \u05d0\u05e4\u05e9\u05e8 \u05dc\u05e0\u05e6'
+                '\u05dc \u05d0\u05ea \u05d4\u05d4 \u05d3\u05d6\u05de\u05e0\u05d5 '
+                '\u05dc\u05d4\u05e1\u05ea\u05db\u05dc \u05e2\u05dc \u05db\u05de\u05d4 '
+                '\u05ea\u05de\u05d5\u05e0\u05d5\u05ea \u05de\u05e9\u05e9\u05e2\u05d5'
+                '\u05ea \u05d9\u05e9\u05e0\u05d5 \u05d9\u05d5\u05ea\u05e8 \u05e9\u05d9'
+                '\u05e9 \u05dc\u05d9 \u05d1\u05d0\u05ea\u05e8',
+                isHtml: false)
+            .value,
+        equals(TextDirection.RTL.value));
+    expect(
+        Bidi
+            .estimateDirectionOfText(
+                'CAPTCHA \u05de\u05e9\u05d5\u05db\u05dc\u05dc '
+                '\u05de\u05d3\u05d9?')
+            .value,
+        equals(TextDirection.RTL.value));
+    expect(
+        Bidi
+            .estimateDirectionOfText(
+                'Yes Prime Minister \u05e2\u05d3\u05db\u05d5\u05df. \u05e9\u05d0\u05dc'
+                '\u05d5 \u05d0\u05d5\u05ea\u05d9 \u05de\u05d4 \u05d0\u05e0\u05d9 '
+                '\u05e8\u05d5\u05e6\u05d4 \u05de\u05ea\u05e0\u05d4 \u05dc\u05d7'
+                '\u05d2')
+            .value,
+        equals(TextDirection.RTL.value));
+    expect(
+        Bidi
+            .estimateDirectionOfText(
+                '17.4.02 \u05e9\u05e2\u05d4:13-20 .15-00 .\u05dc\u05d0 \u05d4\u05d9'
+                '\u05d9\u05ea\u05d9 \u05db\u05d0\u05df.')
+            .value,
+        equals(TextDirection.RTL.value));
+    expect(
+        Bidi
+            .estimateDirectionOfText(
+                '5710 5720 5730. \u05d4\u05d3\u05dc\u05ea. \u05d4\u05e0\u05e9\u05d9'
+                '\u05e7\u05d4',
+                isHtml: false)
+            .value,
+        equals(TextDirection.RTL.value));
+    expect(
+        Bidi
+            .estimateDirectionOfText(
+                '\u05d4\u05d3\u05dc\u05ea http://www.google.com '
+                'http://www.gmail.com')
+            .value,
+        equals(TextDirection.RTL.value));
+    expect(
+        Bidi
+            .estimateDirectionOfText(
+                '\u05d4\u05d3\u05dc <some quite nasty html mark up>')
+            .value,
         equals(TextDirection.LTR.value));
-    expect(Bidi.estimateDirectionOfText(
-            '\u05d4\u05d3\u05dc <some quite nasty html mark up>').value,
+    expect(
+        Bidi
+            .estimateDirectionOfText(
+                '\u05d4\u05d3\u05dc <some quite nasty html mark up>')
+            .value,
         equals(TextDirection.LTR.value));
-    expect(Bidi.estimateDirectionOfText(
-            '\u05d4\u05d3\u05dc\u05ea &amp; &lt; &gt;').value,
+    expect(
+        Bidi
+            .estimateDirectionOfText('\u05d4\u05d3\u05dc\u05ea &amp; &lt; &gt;')
+            .value,
         equals(TextDirection.LTR.value));
-    expect(Bidi.estimateDirectionOfText(
-            '\u05d4\u05d3\u05dc\u05ea &amp; &lt; &gt;', isHtml: true).value,
+    expect(
+        Bidi
+            .estimateDirectionOfText('\u05d4\u05d3\u05dc\u05ea &amp; &lt; &gt;',
+                isHtml: true)
+            .value,
         equals(TextDirection.RTL.value));
   });
 
@@ -259,14 +317,17 @@ main() {
     var item = new SampleItem('Pure Ascii content');
     bidiText.add(item);
 
-    item = new SampleItem('\u05d0\u05d9\u05df \u05de\u05de\u05e9 \u05de\u05d4'
+    item = new SampleItem(
+        '\u05d0\u05d9\u05df \u05de\u05de\u05e9 \u05de\u05d4'
         ' \u05dc\u05e8\u05d0\u05d5\u05ea: \u05dc\u05d0 \u05e6\u05d9\u05dc'
         '\u05de\u05ea\u05d9 \u05d4\u05e8\u05d1\u05d4 \u05d5\u05d2\u05dd '
         '\u05d0\u05dd \u05d4\u05d9\u05d9\u05ea\u05d9 \u05de\u05e6\u05dc\u05dd, '
-        '\u05d4\u05d9\u05d4 \u05e9\u05dd', true);
+        '\u05d4\u05d9\u05d4 \u05e9\u05dd',
+        true);
     bidiText.add(item);
 
-    item = new SampleItem('\u05db\u05d0\u05df - http://geek.co.il/gallery/v/'
+    item = new SampleItem(
+        '\u05db\u05d0\u05df - http://geek.co.il/gallery/v/'
         '2007-06 - \u05d0\u05d9\u05df \u05de\u05de\u05e9 \u05de\u05d4 \u05dc'
         '\u05e8\u05d0\u05d5\u05ea: \u05dc\u05d0 \u05e6\u05d9\u05dc\u05de\u05ea'
         '\u05d9 \u05d4\u05e8\u05d1\u05d4 \u05d5\u05d2\u05dd \u05d0\u05dd \u05d4'
@@ -278,29 +339,40 @@ main() {
         '\u05db\u05dc \u05e2\u05dc \u05db\u05de\u05d4 \u05ea\u05de\u05d5\u05e0'
         '\u05d5\u05ea \u05de\u05e9\u05e2\u05e9\u05e2\u05d5\u05ea \u05d9\u05e9'
         '\u05e0\u05d5\u05ea \u05d9\u05d5\u05ea\u05e8 \u05e9\u05d9\u05e9 \u05dc'
-        '\u05d9 \u05d1\u05d0\u05ea\u05e8', true);
+        '\u05d9 \u05d1\u05d0\u05ea\u05e8',
+        true);
     bidiText.add(item);
 
-    item = new SampleItem('CAPTCHA \u05de\u05e9\u05d5\u05db\u05dc\u05dc '
-        '\u05de\u05d3\u05d9?', true);
+    item = new SampleItem(
+        'CAPTCHA \u05de\u05e9\u05d5\u05db\u05dc\u05dc '
+        '\u05de\u05d3\u05d9?',
+        true);
     bidiText.add(item);
 
-    item = new SampleItem('Yes Prime Minister \u05e2\u05d3\u05db\u05d5\u05df. '
+    item = new SampleItem(
+        'Yes Prime Minister \u05e2\u05d3\u05db\u05d5\u05df. '
         '\u05e9\u05d0\u05dc\u05d5 \u05d0\u05d5\u05ea\u05d9 \u05de\u05d4 \u05d0'
         '\u05e0\u05d9 \u05e8\u05d5\u05e6\u05d4 \u05de\u05ea\u05e0\u05d4 '
-        '\u05dc\u05d7\u05d2', true);
+        '\u05dc\u05d7\u05d2',
+        true);
     bidiText.add(item);
 
-    item = new SampleItem('17.4.02 \u05e9\u05e2\u05d4:13-20 .15-00 .\u05dc'
-        '\u05d0 \u05d4\u05d9\u05d9\u05ea\u05d9 \u05db\u05d0\u05df.', true);
+    item = new SampleItem(
+        '17.4.02 \u05e9\u05e2\u05d4:13-20 .15-00 .\u05dc'
+        '\u05d0 \u05d4\u05d9\u05d9\u05ea\u05d9 \u05db\u05d0\u05df.',
+        true);
     bidiText.add(item);
 
-    item = new SampleItem('5710 5720 5730. \u05d4\u05d3\u05dc\u05ea. \u05d4'
-        '\u05e0\u05e9\u05d9\u05e7\u05d4', true);
+    item = new SampleItem(
+        '5710 5720 5730. \u05d4\u05d3\u05dc\u05ea. \u05d4'
+        '\u05e0\u05e9\u05d9\u05e7\u05d4',
+        true);
     bidiText.add(item);
 
-    item = new SampleItem('\u05d4\u05d3\u05dc\u05ea http://www.google.com '
-        'http://www.gmail.com', true);
+    item = new SampleItem(
+        '\u05d4\u05d3\u05dc\u05ea http://www.google.com '
+        'http://www.gmail.com',
+        true);
     bidiText.add(item);
 
     item = new SampleItem('&gt;\u05d4&lt;', true, true);
