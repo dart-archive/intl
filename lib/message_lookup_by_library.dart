@@ -50,8 +50,7 @@ class CompositeMessageLookup implements MessageLookup {
     if (messages == null) {
       return ifAbsent(message_str, args);
     }
-    return messages.lookupMessage(
-        message_str, locale, name, args, meaning,
+    return messages.lookupMessage(message_str, locale, name, args, meaning,
         ifAbsent: ifAbsent);
   }
 
@@ -121,6 +120,7 @@ abstract class MessageLookupByLibrary {
     if (notFound) {
       return ifAbsent == null ? message_str : ifAbsent(message_str, args);
     } else {
+      args = args ?? [];
       return Function.apply(function, args);
     }
   }
