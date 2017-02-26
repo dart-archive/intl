@@ -7,6 +7,7 @@
  * Allow passing enums to a select.
  * Remove the cacheBlocker parameter from HttpRequestDataReader
  * Optimize padding numbers when printing
+ * Remove the out of date example directory
 
 ## 0.14.0
  * MAJOR BREAKING CHANGE! Remove message extraction and code generation into a
