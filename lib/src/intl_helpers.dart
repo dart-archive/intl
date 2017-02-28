@@ -19,44 +19,15 @@ typedef MessageIfAbsent(String message_str, List args);
 class UninitializedLocaleData<F> implements MessageLookup {
   final String message;
   final F fallbackData;
-  UninitializedLocaleData(this.message, this.fallbackData);
+  const UninitializedLocaleData(this.message, this.fallbackData);
 
   operator [](String key) =>
       (key == 'en_US') ? fallbackData : _throwException();
 
-  /// If a message is looked up before any locale initialization, record it,
-  /// and throw an exception with that information once the locale is
-  /// initialized.
-  ///
-  /// Set this during development to find issues with race conditions between
-  /// message caching and locale initialization. If the results of Intl.message
-  /// calls aren't being cached, then this won't help.
-  ///
-  /// There's nothing that actually sets this, so checking this requires
-  /// patching the code here.
-  static final bool throwOnFallback = false;
-
-  /// The messages that were called before the locale was initialized.
-  List<String> _badMessages = [];
-
-  void _reportErrors() {
-    if (throwOnFallback && _badMessages.length > 0) {
-      var errorMessage =
-          (_badMessages.toSet().toList()..sort()).join("\n    ");
-      throw new StateError(
-          "The following messages were called before locale initialization:"
-          " $errorMessage");
-    }
-  }
-
-  String lookupMessage(
-      String message_str, String locale, String name, List args, String meaning,
-      {MessageIfAbsent ifAbsent}) {
-    if (throwOnFallback) {
-      _badMessages.add(name ?? message_str);
-    }
-    return message_str;
-  }
+  String lookupMessage(String message_str, String locale, String name,
+          List args, String meaning,
+          {MessageIfAbsent ifAbsent}) =>
+      message_str;
 
   /// Given an initial locale or null, returns the locale that will be used
   /// for messages.
@@ -96,15 +67,13 @@ abstract class LocaleDataReader {
 /// by the implementing package so that we're not dependent on its
 /// implementation.
 MessageLookup messageLookup =
-    new UninitializedLocaleData('initializeMessages(<locale>)', null);
+    const UninitializedLocaleData('initializeMessages(<locale>)', null);
 
 /// Initialize the message lookup mechanism. This is for internal use only.
 /// User applications should import `message_lookup_by_library.dart` and call
 /// `initializeMessages`
 void initializeInternalMessageLookup(Function lookupFunction) {
   if (messageLookup is UninitializedLocaleData) {
-    UninitializedLocaleData lookup = messageLookup;
-    lookup._reportErrors();
     messageLookup = lookupFunction();
   }
 }
