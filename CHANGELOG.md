@@ -8,6 +8,9 @@
  * Remove the cacheBlocker parameter from HttpRequestDataReader
  * Optimize padding numbers when printing
  * Remove the out of date example directory
+ * Add a facility to check if messages are being called before locale
+   initialization, which can lead to errors if the results are being cached. See
+   UninitializedLocaleData.throwOnFallback.
 
 ## 0.14.0
  * MAJOR BREAKING CHANGE! Remove message extraction and code generation into a
