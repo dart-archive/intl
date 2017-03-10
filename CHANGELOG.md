@@ -11,6 +11,8 @@
  * Add a facility to check if messages are being called before locale
    initialization, which can lead to errors if the results are being cached. See
    UninitializedLocaleData.throwOnFallback.
+ * Restore dependency on path which was removed when intl_translation was
+   separated.
 
 ## 0.14.0
  * MAJOR BREAKING CHANGE! Remove message extraction and code generation into a
