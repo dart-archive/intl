@@ -13,6 +13,8 @@
    UninitializedLocaleData.throwOnFallback.
  * Restore dependency on path which was removed when intl_translation was
    separated.
+ * Improve the error message when date parsing fails validation to show what the
+   parsed date was.
 
 ## 0.14.0
  * MAJOR BREAKING CHANGE! Remove message extraction and code generation into a

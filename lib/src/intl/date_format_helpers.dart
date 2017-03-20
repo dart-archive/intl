@@ -66,16 +66,18 @@ class _DateBuilder {
     // check the year, which we otherwise can't verify, and the hours,
     // which will catch cases like "14:00:00 PM".
     var date = asDate();
-    _verify(hour24, date.hour, date.hour, "hour", s);
-    _verify(day, date.day, date.day, "day", s);
-    _verify(year, date.year, date.year, "year", s);
+    _verify(hour24, date.hour, date.hour, "hour", s, date);
+    _verify(day, date.day, date.day, "day", s, date);
+    _verify(year, date.year, date.year, "year", s, date);
   }
 
-  _verify(int value, int min, int max, String desc, String originalInput) {
+  _verify(int value, int min, int max, String desc, String originalInput,
+      [DateTime parsed]) {
     if (value < min || value > max) {
+      var parsedDescription = parsed == null ? "" : " Date parsed as $parsed.";
       throw new FormatException(
           "Error parsing $originalInput, invalid $desc value: $value."
-          " Expected value between $min and $max.");
+          " Expected value between $min and $max.$parsedDescription");
     }
   }
 
