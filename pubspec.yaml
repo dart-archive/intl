@@ -1,5 +1,5 @@
 name: intl
-version: 0.15.0-dev
+version: 0.15.0
 author: Dart Team <misc@dartlang.org>
 description: Contains code to deal with internationalized/localized messages, date and number formatting and parsing, bi-directional text, and other internationalization issues.
 homepage: https://github.com/dart-lang/intl
@@ -17,4 +17,3 @@ transformers:
     - test/date_time_format_file_even_test.dart
     - test/date_time_format_file_odd_test.dart
     - test/find_default_locale_standalone_test.dart
-    - test/intl_message_basic_example_test.dart # invalid import under pub's package-layout
