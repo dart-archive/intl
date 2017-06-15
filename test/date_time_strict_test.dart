@@ -8,7 +8,7 @@
 library date_time_strict_test;
 
 import 'package:intl/intl.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 main() {
   test("All input consumed", () {

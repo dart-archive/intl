@@ -10,7 +10,7 @@
 library plural_test;
 
 import 'package:intl/intl.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 /// Hard-coded expected values for a Russian plural rule.
 ///

@@ -4,7 +4,7 @@
 
 /// Tests for compact format numbers, e.g. 1.2M rather than 1,200,000
 import 'dart:math';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 import 'package:intl/intl.dart';
 import 'package:fixnum/fixnum.dart';
 import 'compact_number_test_data.dart' as testdata;

@@ -5,7 +5,7 @@
 library intl_test;
 
 import 'package:intl/intl.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 main() {

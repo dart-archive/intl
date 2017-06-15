@@ -8,7 +8,7 @@
 library date_time_format_test;
 
 import 'dart:async';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 import 'package:intl/intl.dart';
 import 'date_time_format_test_core.dart';
 

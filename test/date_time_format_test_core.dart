@@ -8,7 +8,7 @@
 
 library date_time_format_tests;
 
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 import 'date_time_format_test_data.dart';
 import 'package:intl/intl.dart';
 

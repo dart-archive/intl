@@ -5,7 +5,7 @@
 library fixnum_test;
 
 import 'package:intl/intl.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 import 'package:fixnum/fixnum.dart';
 
 var int64Values = {

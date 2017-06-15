@@ -5,7 +5,7 @@
 library bidi_format_test;
 
 import 'package:intl/intl.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 /// Tests the bidirectional text formatting library.
 main() {

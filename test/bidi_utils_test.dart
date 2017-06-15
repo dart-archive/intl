@@ -5,7 +5,7 @@
 library bidi_utils_test;
 
 import 'package:intl/intl.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 /// Tests the bidi utilities library.
 main() {

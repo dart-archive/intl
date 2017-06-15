@@ -2,16 +2,14 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+@TestOn("browser")
 library find_default_locale_browser_test;
 
-import 'package:unittest/html_config.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/intl_browser.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 main() {
-  useHtmlConfiguration();
-
   test("Find system locale in browser", () {
     // TODO (alanknight): This only verifies that we found some locale. We
     // should find a way to force the system locale before the test is run

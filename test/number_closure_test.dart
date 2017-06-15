@@ -6,7 +6,7 @@ library number_closure_test;
 
 import 'dart:async';
 import "package:intl/intl.dart";
-import "package:unittest/unittest.dart";
+import "package:test/test.dart";
 
 main() {
   test("testVeryBigNumber", testVeryBigNumber);
