@@ -1,3 +1,6 @@
+## 0.15.1
+ * Use the platform.locale API to get the OS platform.
+
 ## 0.15.0
  * Fix compactCurrency to correctly use passed-in symbol.
  * A tweak to the way we retry on DateTime.asDate to compensate for a VM bug.
