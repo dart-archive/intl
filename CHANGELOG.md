@@ -1,5 +1,6 @@
 ## 0.15.1
  * Use the platform.locale API to get the OS platform.
+ * Convert to use package:test
 
 ## 0.15.0
  * Fix compactCurrency to correctly use passed-in symbol.
