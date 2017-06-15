@@ -27,7 +27,12 @@ bool _isIntlRoot(String dir) {
 }
 
 String get intlDirectory {
-  var dir = path.fromUri(Platform.script);
+  var dir;
+  if (Platform.script.scheme == 'file') {
+    dir = path.fromUri(Platform.script);
+  } else {
+    dir = Directory.current.absolute.path;
+  }
   var root = path.rootPrefix(dir);
 
   while (dir != root) {
