@@ -33,13 +33,13 @@ class CompositeMessageLookup implements MessageLookup {
   /// Caches the last messages that we found
   MessageLookupByLibrary _lastLookup;
 
-  /// Look up the message with the given [name] and [locale] and return
-  /// the translated version with the values in [args] interpolated.
-  /// If nothing is found, return [message_str]. The [desc] and [examples]
-  /// parameters are ignored
+  /// Look up the message with the given [name] and [locale] and return the
+  /// translated version with the values in [args] interpolated.  If nothing is
+  /// found, return the result of [ifAbsent] or [message_str]. The
+  /// [desc] and [examples] parameters are ignored
   String lookupMessage(
       String message_str, String locale, String name, List args, String meaning,
-      {MessageIfAbsent ifAbsent: _useOriginal}) {
+      {MessageIfAbsent ifAbsent}) {
     // If passed null, use the default.
     var knownLocale = locale ?? Intl.getCurrentLocale();
     var messages = (knownLocale == _lastLocale)
@@ -48,7 +48,7 @@ class CompositeMessageLookup implements MessageLookup {
     // If we didn't find any messages for this locale, use the original string,
     // faking interpolations if necessary.
     if (messages == null) {
-      return ifAbsent(message_str, args);
+      return ifAbsent == null ? message_str : ifAbsent(message_str, args);
     }
     return messages.lookupMessage(message_str, locale, name, args, meaning,
         ifAbsent: ifAbsent);
@@ -81,9 +81,6 @@ class CompositeMessageLookup implements MessageLookup {
     }
   }
 }
-
-/// The default ifAbsent method, just returns the message string.
-String _useOriginal(String message_str, List args) => message_str;
 
 /// This provides an abstract class for messages looked up in generated code.
 /// Each locale will have a separate subclass of this class with its set of
