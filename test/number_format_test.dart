@@ -105,6 +105,24 @@ main() {
     }
   });
 
+  test('Padding left', () {
+    var expected = [
+      '1',
+      '1',
+      '01',
+      '001',
+      '0,001',
+      '00,001',
+      '000,001',
+      '0,000,001'
+    ];
+    for (var i = 0; i < 7; i++) {
+      var f = new NumberFormat.decimalPattern();
+      f.minimumIntegerDigits = i;
+      expect(f.format(1), expected[i]);
+    }
+  });
+
   test('Exponential form', () {
     var number = new NumberFormat("#.###E0");
     for (var x in testExponential.keys) {

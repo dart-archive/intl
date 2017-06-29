@@ -761,7 +761,10 @@ class NumberFormat {
         fractionDigits > 0 && (minimumFractionDigits > 0 || fractionPart > 0);
 
     if (_hasIntegerDigits(integerDigits)) {
-      _padEmpty(minimumIntegerDigits - digitLength);
+      // Add the padding digits to the regular digits so that we get grouping.
+      var padding = symbols.ZERO_DIGIT * (minimumIntegerDigits - digitLength);
+      integerDigits = "$padding$integerDigits";
+      digitLength = integerDigits.length;
       for (var i = 0; i < digitLength; i++) {
         _addDigit(integerDigits.codeUnitAt(i));
         _group(digitLength, i);

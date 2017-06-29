@@ -1,3 +1,6 @@
+## 0.15.2
+ * Group the padding digits to the left of the number, if present. e.g. 00,001.
+
 ## 0.15.1
  * Use the platform.locale API to get the OS platform.
  * Convert to use package:test
