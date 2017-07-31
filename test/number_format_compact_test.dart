@@ -11,7 +11,7 @@ import 'compact_number_test_data.dart' as testdata;
 
 /// A place to put a case that's causing a problem and have it run first when
 /// debugging
-var interestingCases = {
+var interestingCases = <String, List<List<String>>>{
 //  "mn" : [["4321", "4.32M", "whatever"]]
 };
 

@@ -300,10 +300,10 @@ testSimpleCurrencySymbols() {
 
 testCurrencySymbolsFor(expected, formats, name) {
   var amount = 1000000.32;
-  new Map.fromIterables(expected, formats)
+  new Map<Object, NumberFormat>.fromIterables(expected, formats)
       .forEach((expected, NumberFormat format) {
     test("Test $name ${format.currencyName}", () {
-      // We have to allow for currencies with different fraction digits, e.g. CRC.
+      // Allow for currencies with different fraction digits, e.g. CRC.
       var maxDigits = format.maximumFractionDigits;
       var rounded = maxDigits == 0 ? amount.round() : amount;
       var fractionDigits = (amount - rounded) < 0.00001 ? '.32' : '';

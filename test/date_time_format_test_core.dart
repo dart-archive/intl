@@ -387,7 +387,7 @@ void runDateTests(SubsetFuncType subsetFunc) {
   /// [leapDay], otherwise pass 0.
   Map<int, DateTime> generateDates(int year, int leapDay) =>
       new Iterable.generate(365 + leapDay, (n) => n + 1)
-          .map/*<DateTime>*/((day) {
+          .map((day) {
             var result = new DateTime(year, 1, day);
             // TODO(alanknight): This is a workaround for dartbug.com/15560.
             if (result.toUtc() == result) result = new DateTime(year, 1, day);

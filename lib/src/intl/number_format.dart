@@ -855,10 +855,6 @@ class NumberFormat {
     _buffer.writeCharCode(x + _zeroOffset);
   }
 
-  void _padEmpty(int howMany) {
-    _buffer.write(symbols.ZERO_DIGIT * howMany);
-  }
-
   void _pad(int numberOfDigits, String basic) {
     if (_zeroOffset == 0) {
       _buffer.write(basic.padLeft(numberOfDigits, '0'));
