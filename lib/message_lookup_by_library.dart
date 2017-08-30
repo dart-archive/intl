@@ -112,14 +112,19 @@ abstract class MessageLookupByLibrary {
     var notFound = false;
     var actualName = computeMessageName(name, message_str, meaning);
     if (actualName == null) notFound = true;
-    var function = this[actualName];
-    notFound = notFound || (function == null);
+    var translation = this[actualName];
+    notFound = notFound || (translation == null);
     if (notFound) {
       return ifAbsent == null ? message_str : ifAbsent(message_str, args);
     } else {
-      args = args ?? [];
-      return Function.apply(function, args);
+      args = args ?? const [];
+      return evaluateMessage(translation, args);
     }
+  }
+
+  /// Evaluate the translated message and return the translated string.
+  String evaluateMessage(translation, List args) {
+    return Function.apply(translation, args);
   }
 
   /// Return our message with the given name
