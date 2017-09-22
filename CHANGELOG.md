@@ -1,6 +1,5 @@
 ## 0.15.2
  * Group the padding digits to the left of the number, if present. e.g. 00,001.
- * Update the SDK constraint for Dart 2.0 dev versions.
  * Tweak lookup code to support translated messages as JSON rather than code.
 
 ## 0.15.1
