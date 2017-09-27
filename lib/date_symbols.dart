@@ -12,28 +12,65 @@ library date_symbols;
 /// make use of this data.
 class DateSymbols {
   String NAME;
-  List<String> ERAS,
+  List<String>
+      /// The short name of the era, e.g. 'BC' or 'AD'
+      ERAS,
+      /// The long name of the era, e.g. 'Before Christ' or 'Anno Domino'
       ERANAMES,
+      /// Very short names of months, e.g. 'J'.
       NARROWMONTHS,
+      /// Very short names of months as they would be written on their own,
+      /// e.g. 'J'.
       STANDALONENARROWMONTHS,
+      /// Full names of months, e.g. 'January'.
       MONTHS,
+      /// Full names of months as they would be written on their own,
+      /// e.g. 'January'.
+      ///
+      /// These are frequently the same as MONTHS, but for example might start
+      /// with upper case where the names in MONTHS might not.
       STANDALONEMONTHS,
+      /// Short names of months, e.g. 'Jan'.
       SHORTMONTHS,
+      /// Short names of months as they would be written on their own,
+      /// e.g. 'Jan'.
       STANDALONESHORTMONTHS,
+      /// The days of the week, starting with Sunday.
       WEEKDAYS,
+      /// The days of the week as they would be written on their own, starting
+      /// with Sunday.
+      /// Frequently the same as WEEKDAYS, but for example might
+      /// start with upper case where the names in WEEKDAYS might not.
       STANDALONEWEEKDAYS,
+      /// Short names for days of the week, starting with Sunday, e.g. 'Sun'.
       SHORTWEEKDAYS,
+      /// Short names for days of the week as they would be written on their
+      /// own, starting with Sunday, e.g. 'Sun'.
       STANDALONESHORTWEEKDAYS,
+      /// Very short names for days of the week, starting with Sunday, e.g. 'S'.
       NARROWWEEKDAYS,
+      /// Very short names for days of the week as they would be written on
+      /// their own, starting with Sunday, e.g. 'S'.
       STANDALONENARROWWEEKDAYS,
+      /// Names of the quarters of the year in a short form, e.g. 'Q1'.
       SHORTQUARTERS,
+      /// Long names of the quartesr of the year, e.g. '1st Quarter'.
       QUARTERS,
+      /// A list of length 2 with localized text for 'AM' and 'PM'.
       AMPMS,
+      /// The supported date formats for this locale.
       DATEFORMATS,
+      /// The supported time formats for this locale.
       TIMEFORMATS,
+      /// The ways date and time formats can be combined for this locale.
       DATETIMEFORMATS;
   Map<String, String> AVAILABLEFORMATS;
+  /// The first day of the week, in ISO 8601 style, where the first day of the
+  /// week, i.e. index 0, is Monday.
   int FIRSTDAYOFWEEK;
+  /// Which days are weekend days, integers where 0=Monday.
+  ///
+  /// For example, [5, 6] to mean Saturday and Sunday are weekend days.
   List<int> WEEKENDRANGE;
   int FIRSTWEEKCUTOFFDAY;
 
