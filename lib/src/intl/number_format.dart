@@ -762,7 +762,7 @@ class NumberFormat {
 
     if (_hasIntegerDigits(integerDigits)) {
       // Add the padding digits to the regular digits so that we get grouping.
-      var padding = symbols.ZERO_DIGIT * (minimumIntegerDigits - digitLength);
+      var padding = '0' * (minimumIntegerDigits - digitLength);
       integerDigits = "$padding$integerDigits";
       digitLength = integerDigits.length;
       for (var i = 0; i < digitLength; i++) {

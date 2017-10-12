@@ -244,6 +244,12 @@ main() {
   });
 
   testSimpleCurrencySymbols();
+
+  test('Padding digits with non-ascii zero', () {
+    var format = new NumberFormat('000', 'ar');
+    var padded = format.format(0);
+    expect(padded, '٠٠٠');
+  });
 }
 
 String stripExtras(String input) {
