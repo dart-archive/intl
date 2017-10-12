@@ -4,6 +4,47 @@
 
 part of intl;
 
+/// An abstract class for compact number styles.
+abstract class _CompactStyleBase {
+  /// The _CompactStyle for the sign of [number], i.e. positive or
+  /// negative.
+  _CompactStyle styleForSign(number);
+
+  /// How many total digits do we expect in the number.
+  ///
+  /// If the pattern is
+  ///
+  ///       4: "00K",
+  ///
+  /// then this is 5, meaning we expect this to be a 5-digit (or more)
+  /// number. We will scale by 1000 and expect 2 integer digits remaining, so we
+  /// get something like '12K'. This is used to find the closest pattern for a
+  /// number.
+  int get totalDigits;
+
+  /// What should we divide the number by in order to print. Normally it is
+  /// either `10^requiredDigits` or 1 if we shouldn't divide at all.
+  int get divisor;
+
+  /// The iterable of all possible styles which we represent.
+  ///
+  /// Normally this will be either a list with just ourself, or of two elements
+  /// for our positive and negative styles.
+  Iterable<_CompactStyle> get allStyles;
+}
+
+/// A compact format with separate styles for positive and negative numbers.
+class _CompactStyleWithNegative extends _CompactStyleBase {
+  _CompactStyleWithNegative(this.positiveStyle, this.negativeStyle);
+  final _CompactStyle positiveStyle;
+  final _CompactStyle negativeStyle;
+  _CompactStyle styleForSign(number) =>
+      number < 0 ? negativeStyle : positiveStyle;
+  int get totalDigits => positiveStyle.totalDigits;
+  int get divisor => positiveStyle.divisor;
+  get allStyles => [positiveStyle, negativeStyle];
+}
+
 /// Represents a compact format for a particular base
 ///
 /// For example, 10k can be used to represent 10,000.  Corresponds to one of the
@@ -17,7 +58,7 @@ part of intl;
 ///      expectedDigits: 1, prefix: '', suffix: 'K');
 ///
 /// where expectedDigits is the number of zeros.
-class _CompactStyle {
+class _CompactStyle extends _CompactStyleBase {
   _CompactStyle(
       {this.pattern,
       this.requiredDigits: 0,
@@ -83,6 +124,9 @@ class _CompactStyle {
   bool get printsAsIs =>
       isFallback ||
       pattern.replaceAll(new RegExp('[0\u00a0\u00a4]'), '').isEmpty;
+
+  _CompactStyle styleForSign(number) => this;
+  get allStyles => [this];
 }
 
 enum _CompactFormatType {
@@ -99,7 +143,7 @@ class _CompactNumberFormat extends NumberFormat {
   // COMPACT_DECIMAL_LONG_PATTERN, or COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN
   Map<int, String> _patterns;
 
-  List<_CompactStyle> _styles = [];
+  List<_CompactStyleBase> _styles = [];
 
   _CompactNumberFormat(
       {String locale,
@@ -122,6 +166,8 @@ class _CompactNumberFormat extends NumberFormat {
       case _CompactFormatType.COMPACT_DECIMAL_SHORT_PATTERN:
         _patterns = compactSymbols.COMPACT_DECIMAL_SHORT_PATTERN;
         break;
+      // TODO(alanknight): Long formats have a one vs. other case,
+      // e.g. million/millions that we don't yet support.
       case _CompactFormatType.COMPACT_DECIMAL_LONG_PATTERN:
         _patterns = compactSymbols.COMPACT_DECIMAL_LONG_PATTERN ??
             compactSymbols.COMPACT_DECIMAL_SHORT_PATTERN;
@@ -132,35 +178,52 @@ class _CompactNumberFormat extends NumberFormat {
       default:
         throw new ArgumentError.notNull("formatType");
     }
-    var regex = new RegExp('([^0]*)(0+)(.*)');
     _patterns.forEach((int impliedDigits, String pattern) {
-      var match = regex.firstMatch(pattern);
-      var integerDigits = match.group(2).length;
-      var prefix = match.group(1);
-      var suffix = match.group(3);
-      // If the pattern is just zeros, with no suffix, then we shouldn't divide
-      // by the number of digits. e.g. for 'af', the pattern for 3 is '0', but
-      // it doesn't mean that 4321 should print as 4. But if the pattern was
-      // '0K', then it should print as '4K'. So we have to check if the pattern
-      // has a suffix. This seems extremely hacky, but I don't know how else to
-      // encode that. Check what other things are doing.
-      var divisor = 1;
-      if (pattern.replaceAll('0', '').isNotEmpty) {
-        divisor = pow(10, impliedDigits - integerDigits + 1);
+      if (pattern.contains(";")) {
+        var patterns = pattern.split(";");
+        _styles.add(new _CompactStyleWithNegative(
+            _createStyle(patterns.first, impliedDigits),
+            _createStyle(patterns.last, impliedDigits)));
+      } else {
+        _styles.add(_createStyle(pattern, impliedDigits));
       }
-      var style = new _CompactStyle(
-          pattern: pattern,
-          requiredDigits: impliedDigits,
-          expectedDigits: integerDigits,
-          prefix: prefix,
-          suffix: suffix,
-          divisor: divisor);
-      _styles.add(style);
     });
+
     // Reverse the styles so that we look through them from largest to smallest.
     _styles = _styles.reversed.toList();
     // Add a fallback style that just prints the number.
     _styles.add(new _CompactStyle());
+  }
+
+  final _regex = new RegExp('([^0]*)(0+)(.*)');
+
+  final _justZeros = new RegExp(r'^0*$');
+
+  /// Does pattern have any additional characters or is it just zeros.
+  bool _hasNonZeroContent(String pattern) => !_justZeros.hasMatch(pattern);
+
+  _CompactStyle _createStyle(String pattern, int impliedDigits) {
+    var match = _regex.firstMatch(pattern);
+    var integerDigits = match.group(2).length;
+    var prefix = match.group(1);
+    var suffix = match.group(3);
+    // If the pattern is just zeros, with no suffix, then we shouldn't divide
+    // by the number of digits. e.g. for 'af', the pattern for 3 is '0', but
+    // it doesn't mean that 4321 should print as 4. But if the pattern was
+    // '0K', then it should print as '4K'. So we have to check if the pattern
+    // has a suffix. This seems extremely hacky, but I don't know how else to
+    // encode that. Check what other things are doing.
+    var divisor = 1;
+    if (_hasNonZeroContent(pattern)) {
+      divisor = pow(10, impliedDigits - integerDigits + 1);
+    }
+    return new _CompactStyle(
+        pattern: pattern,
+        requiredDigits: impliedDigits,
+        expectedDigits: integerDigits,
+        prefix: prefix,
+        suffix: suffix,
+        divisor: divisor);
   }
 
   /// The style in which we will format a particular number.
@@ -246,15 +309,18 @@ class _CompactNumberFormat extends NumberFormat {
     }
     for (var style in _styles) {
       if (digitLength > style.totalDigits) {
-        return style;
+        return style.styleForSign(number);
       }
     }
     throw new FormatException(
         "No compact style found for number. This should not happen", number);
   }
 
+  Iterable<_CompactStyle> get _stylesForSearching =>
+      _styles.reversed.expand((x) => x.allStyles);
+
   num parse(String text) {
-    for (var style in _styles.reversed) {
+    for (var style in _stylesForSearching) {
       if (text.startsWith(style.prefix) && text.endsWith(style.suffix)) {
         var numberText = text.substring(
             style.prefix.length, text.length - style.suffix.length);

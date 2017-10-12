@@ -134,6 +134,7 @@ var problemLocalesShort = [
   "lo", "mk", "my",
   "pt_PT", // Seems to differ in appending mil or not after thousands. pt_BR
   // does it.
+  "sd", // ICU considers this locale data questionable
   "th", // TH Expected abbreviations as '1.09 พ.ล.' rather than '1.09 พ'
   "tr", // TR Doesn't have a 0B format, goes directly to 00B, as a result 54321
   // just prints as 54321
@@ -150,20 +151,25 @@ var problemLocalesShort = [
 //TODO(alanknight): Narrow these down to particular numbers. Often it's just
 // 999999.
 var problemLocalesLong = [
-  "ar",
+  "ar", "ar_DZ",
   "be", "bg", "bs",
   "ca", "cs", "da", "de", "de_AT", "de_CH", "el", "es", "es_419", "es_ES",
   "es_MX", "es_US", "et", "fi",
   "fil", // FIL is different, seems like a genuine difference in suffixes
-  "fr", "fr_CA", "ga", "gl",
+  "fr", "fr_CA",
+  "fr_CH", // TODO(alanknight): million/millions, supported since CLDR 31.
+  "ga", "gl",
   "gsw", // GSW seems like we have long forms and pyICU doesn't
-  "hr", "is", "it", "lo", // LO seems to be picking up a different pattern.
+  "hr", "is", "it",
+  "it_CH", "lo", // LO seems to be picking up a different pattern.
   "lt", "lv", "mk",
   "my", // Seems to come out in the reverse order
   "nb", "ne", "no", "no_NO", "pl",
   "pt", // PT has some issues with scale as well, but I think it's differences
   // in the patterns.
-  "pt_BR", "pt_PT", "ro", "ru", "sk", "sl", "sr", "sr_Latn", "sv", "te", "tl",
+  "pt_BR", "pt_PT", "ro", "ru",
+  "sd", // ICU considers this locale data questionable
+   "sk", "sl", "sr", "sr_Latn", "sv", "te", "tl",
   "ur",
   "uk",
 ];

@@ -164,14 +164,24 @@ main() {
     var swissConvention = new NumberFormat.currencyPattern('de_CH', r'$');
     formatted = swissConvention.format(amount);
     var nbsp = new String.fromCharCode(0xa0);
-    expect(formatted, r"$" + nbsp + "1'000'000.32");
+    var backquote = new String.fromCharCode(0x2019);
+    expect(formatted,
+        r"$" + nbsp + "1" + backquote + "000" + backquote + "000.32");
     readBack = swissConvention.parse(formatted);
+    expect(readBack, amount);
+
+    var italianSwiss = new NumberFormat.currencyPattern('it_CH', r'$');
+    formatted = italianSwiss.format(amount);
+    expect(formatted,
+        r"$" + nbsp + "1" + backquote + "000" + backquote + "000.32");
+    readBack = italianSwiss.parse(formatted);
     expect(readBack, amount);
 
     /// Verify we can leave off the currency and it gets filled in.
     var plainSwiss = new NumberFormat.currency(locale: 'de_CH');
     formatted = plainSwiss.format(amount);
-    expect(formatted, r"CHF" + nbsp + "1'000'000.32");
+    expect(formatted,
+        r"CHF" + nbsp + "1" + backquote + "000" + backquote + "000.32");
     readBack = plainSwiss.parse(formatted);
     expect(readBack, amount);
 

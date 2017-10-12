@@ -1,6 +1,8 @@
 ## 0.15.2
  * Group the padding digits to the left of the number, if present. e.g. 00,001.
  * Tweak lookup code to support translated messages as JSON rather than code.
+ * Update data to CLDR 31.0.1
+ * Adds locales en_MY, fr_CH, it_CH, and ps.
 
 ## 0.15.1
  * Use the platform.locale API to get the OS platform.
