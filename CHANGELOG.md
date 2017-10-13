@@ -6,6 +6,8 @@
  * Use locale digits for printing DateTime. This can also be disabled for a
    particular locale use useNativeDigitsByDefaultFor or for a particular
    DateFormat instance use useNativeDigits.
+ * Provide a library for custom-initialized DateTime and number formatting. This
+   allows easier custom locales and synchronous initialization.
 
 ## 0.15.1
  * Use the platform.locale API to get the OS platform.
