@@ -3,6 +3,9 @@
  * Tweak lookup code to support translated messages as JSON rather than code.
  * Update data to CLDR 31.0.1
  * Adds locales en_MY, fr_CH, it_CH, and ps.
+ * Use locale digits for printing DateTime. This can also be disabled for a
+   particular locale use useNativeDigitsByDefaultFor or for a particular
+   DateFormat instance use useNativeDigits.
 
 ## 0.15.1
  * Use the platform.locale API to get the OS platform.

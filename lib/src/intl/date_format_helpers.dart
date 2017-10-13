@@ -176,12 +176,25 @@ class _Stream {
   }
 
   /// Assuming that the contents are characters, read as many digits as we
-  /// can see and then return the corresponding integer. Advance the stream.
-  var digitMatcher = new RegExp(r'^\d+');
-  int nextInteger() {
-    var string = digitMatcher.stringMatch(rest());
+  /// can see and then return the corresponding integer, advancing the receiver.
+  ///
+  /// For non-ascii digits, the optional arguments are a regular expression
+  /// [digitMatcher] to find the next integer, and the codeUnit of the local
+  /// zero [zeroDigit].
+  int nextInteger({RegExp digitMatcher, int zeroDigit}) {
+    var string =
+        (digitMatcher ?? DateFormat._asciiDigitMatcher).stringMatch(rest());
     if (string == null || string.isEmpty) return null;
     read(string.length);
+    if (zeroDigit != null && zeroDigit != DateFormat._asciiZeroCodeUnit) {
+      // Trying to optimize this, as it might get called a lot.
+      var oldDigits = string.codeUnits;
+      var newDigits = new List<int>(string.length);
+      for (var i = 0; i < string.length; i++) {
+        newDigits[i] = oldDigits[i] - zeroDigit + DateFormat._asciiZeroCodeUnit;
+      }
+      string = new String.fromCharCodes(newDigits);
+    }
     return int.parse(string);
   }
 }

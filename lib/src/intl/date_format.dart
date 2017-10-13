@@ -595,6 +595,112 @@ class DateFormat {
     return cachedDateSymbols;
   }
 
+  static final Map<String, bool> _useNativeDigitsByDefault = {};
+
+  /// Should a new DateFormat for [locale] have useNativeDigits true.
+  ///
+  /// For example, for locale 'ar' when this setting is true, DateFormat will
+  /// format using Eastern Arabic digits, e.g. "\u0660, \u0661, \u0662". If it
+  /// is false, a new DateFormat will format using ASCII digits.
+  static shouldUseNativeDigitsByDefaultFor(String locale) {
+    return _useNativeDigitsByDefault[locale] ?? true;
+  }
+
+  /// Indicate if a new DateFormat for [locale] should have useNativeDigits
+  /// true.
+  ///
+  /// For example, for locale 'ar' when this setting is true, DateFormat will
+  /// format using Eastern Arabic digits, e.g. "\u0660, \u0661, \u0662". If it
+  /// is false, a new DateFormat will format using ASCII digits.
+  ///
+  /// If not indicated, the default value is true, so native digits will be
+  /// used.
+  static useNativeDigitsByDefaultFor(String locale, bool value) {
+    _useNativeDigitsByDefault[locale] = value;
+  }
+
+  bool _useNativeDigits;
+
+  /// Should we use native digits for printing DateTime, or ASCII.
+  ///
+  /// The default for this can be set using [useNativeDigitsByDefaultFor].
+  bool get useNativeDigits => _useNativeDigits == null
+      ? _useNativeDigits = shouldUseNativeDigitsByDefaultFor(locale)
+      : _useNativeDigits;
+
+  /// Should we use native digits for printing DateTime, or ASCII.
+  set useNativeDigits(bool native) {
+    _useNativeDigits = native;
+    // Invalidate any cached information that would depend on this setting.
+    _digitMatcher = null;
+    _localeZeroCodeUnit = null;
+    _localeZero = null;
+  }
+
+  /// Caches digit matchers that we have already calculated for particular
+  /// digits.
+  ///
+  /// Keys are the zero digits, and the values are matchers for digits in that
+  /// locale.
+  static Map<String, RegExp> _digitMatchers = {};
+
+  RegExp _digitMatcher;
+
+  /// A regular expression which matches against digits for this locale.
+  RegExp get digitMatcher {
+    if (_digitMatcher != null) return _digitMatcher;
+    _digitMatcher = _digitMatchers.putIfAbsent(localeZero, _initDigitMatcher);
+    return _digitMatcher;
+  }
+
+  /// Hard-code the most common matcher, which has special RegExp syntax.
+  static final RegExp _asciiDigitMatcher = new RegExp(r'^\d+');
+
+  int _localeZeroCodeUnit;
+
+  /// For performance, keep the code unit of the zero digit available.
+  int get localeZeroCodeUnit => _localeZeroCodeUnit == null
+      ? _localeZeroCodeUnit = localeZero.codeUnitAt(0)
+      : _localeZeroCodeUnit;
+  static final int _asciiZeroCodeUnit = '0'.codeUnitAt(0);
+
+  String _localeZero;
+
+  /// For performance, keep the zero digit available.
+  String get localeZero => _localeZero == null
+      ? _localeZero = (useNativeDigits ? dateSymbols.ZERODIGIT ?? '0' : '0')
+      : _localeZero;
+
+  // Does this use non-ASCII digits, e.g. Eastern Arabic.
+  bool get usesNativeDigits =>
+      useNativeDigits && _localeZeroCodeUnit != _asciiZeroCodeUnit;
+
+  /// Does this use ASCII digits
+  bool get usesAsciiDigits => !usesNativeDigits;
+
+  /// Given a numeric string in ASCII digits, return a copy updated for our
+  /// locale digits.
+  String _localizeDigits(String numberString) {
+    if (usesAsciiDigits) return numberString;
+    var newDigits = new List<int>(numberString.length);
+    var oldDigits = numberString.codeUnits;
+    for (var i = 0; i < numberString.length; i++) {
+      newDigits[i] = oldDigits[i] + localeZeroCodeUnit - _asciiZeroCodeUnit;
+    }
+    return new String.fromCharCodes(newDigits);
+  }
+
+  /// A regular expression that matches for digits in a particular
+  /// locale, defined by the digit for zero in that locale.
+  RegExp _initDigitMatcher() {
+    if (usesAsciiDigits) return _asciiDigitMatcher;
+    List<int> localeDigits = new Iterable.generate(10, (i) => i)
+        .map((i) => localeZeroCodeUnit + i)
+        .toList();
+    var localeDigitsString = new String.fromCharCodes(localeDigits);
+    return new RegExp(r'^[' + localeDigitsString + ']+');
+  }
+
   /// Return true if the locale exists, or if it is null. The null case
   /// is interpreted to mean that we use the default locale.
   static bool localeExists(localeName) {

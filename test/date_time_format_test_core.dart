@@ -133,7 +133,8 @@ testLocale(String localeName, Map expectedResults, DateTime date) {
   }
 }
 
-testRoundTripParsing(String localeName, DateTime date) {
+testRoundTripParsing(String localeName, DateTime date,
+    [bool forceAscii = false]) {
   // In order to test parsing, we can't just read back the date, because
   // printing in most formats loses information. But we can test that
   // what we parsed back prints the same as what we originally printed.
@@ -157,6 +158,7 @@ testRoundTripParsing(String localeName, DateTime date) {
     var skeleton = formatsToTest[i];
     if (!badSkeletons.any((x) => x == skeleton)) {
       var format = new DateFormat(skeleton, localeName);
+      if (forceAscii) format.useNativeDigits = false;
       var actualResult = format.format(date);
       var parsed = format.parse(actualResult);
       var thenPrintAgain = format.format(parsed);
@@ -225,14 +227,23 @@ void runDateTests(SubsetFuncType subsetFunc) {
   test('Test round-trip parsing of dates', () {
     var hours = [0, 1, 11, 12, 13, 23];
     var months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+    // For locales that use non-ascii digits, e.g. "ar", also test
+    // forcing ascii digits.
     for (var locale in subset) {
+      var alsoForceAscii = new DateFormat.d(locale).usesNativeDigits;
       for (var month in months) {
         var aDate = new DateTime(2012, month, 27, 13, 58, 59, 012);
         testRoundTripParsing(locale, aDate);
+        if (alsoForceAscii) {
+          testRoundTripParsing(locale, aDate, true);
+        }
       }
       for (var hour in hours) {
         var aDate = new DateTime(2012, 1, 27, hour, 58, 59, 123);
         testRoundTripParsing(locale, aDate);
+        if (alsoForceAscii) {
+          testRoundTripParsing(locale, aDate, true);
+        }
       }
     }
   });
@@ -431,5 +442,23 @@ void runDateTests(SubsetFuncType subsetFunc) {
     expect(first, basic);
     expect(basic, basicAgain);
     expect(first.month, 7);
+  });
+
+  test('Native digit default', () {
+    if (!subset.contains('ar')) return;
+    var nativeFormat = new DateFormat.yMd('ar');
+    var date = new DateTime(1974, 12, 30);
+    var native = nativeFormat.format(date);
+    expect(DateFormat.shouldUseNativeDigitsByDefaultFor('ar'), true);
+    DateFormat.useNativeDigitsByDefaultFor('ar', false);
+    expect(DateFormat.shouldUseNativeDigitsByDefaultFor('ar'), false);
+    var asciiFormat = new DateFormat.yMd('ar');
+    var ascii = asciiFormat.format(date);
+    // This prints with RTL markers before the slashes. That doesn't seem good,
+    // but it's what the data says.
+    expect(ascii, '30\u200f/12\u200f/1974');
+    expect(native, '٣٠\u200f/١٢\u200f/١٩٧٤');
+    // Reset the value.
+    DateFormat.useNativeDigitsByDefaultFor('ar', true);
   });
 }

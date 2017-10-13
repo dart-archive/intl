@@ -472,6 +472,7 @@ Map dateTimeSymbolMap() => {
       // Date/time formatting symbols for locale ar.
       "ar": new DateSymbols(
           NAME: "ar",
+          ZERODIGIT: '\u0660',
           ERAS: const ['ق.م', 'م'],
           ERANAMES: const ['قبل الميلاد', 'ميلادي'],
           NARROWMONTHS: const [
@@ -1218,6 +1219,7 @@ Map dateTimeSymbolMap() => {
       // Date/time formatting symbols for locale bn.
       "bn": new DateSymbols(
           NAME: "bn",
+          ZERODIGIT: '\u09E6',
           ERAS: const ['খ্রিস্টপূর্ব', 'খৃষ্টাব্দ'],
           ERANAMES: const ['খ্রিস্টপূর্ব', 'খৃষ্টাব্দ'],
           NARROWMONTHS: const [
@@ -5693,6 +5695,7 @@ Map dateTimeSymbolMap() => {
       // Date/time formatting symbols for locale fa.
       "fa": new DateSymbols(
           NAME: "fa",
+          ZERODIGIT: '\u06F0',
           ERAS: const ['ق.م.', 'م.'],
           ERANAMES: const ['قبل از میلاد', 'میلادی'],
           NARROWMONTHS: const [
@@ -11129,6 +11132,7 @@ Map dateTimeSymbolMap() => {
       // Date/time formatting symbols for locale mr.
       "mr": new DateSymbols(
           NAME: "mr",
+          ZERODIGIT: '\u0966',
           ERAS: const ['इ. स. पू.', 'इ. स.'],
           ERANAMES: const ['ईसवीसनपूर्व', 'ईसवीसन'],
           NARROWMONTHS: const [
@@ -11598,6 +11602,7 @@ Map dateTimeSymbolMap() => {
       // Date/time formatting symbols for locale my.
       "my": new DateSymbols(
           NAME: "my",
+          ZERODIGIT: '\u1040',
           ERAS: const ['ဘီစီ', 'အေဒီ'],
           ERANAMES: const ['ခရစ်တော် မပေါ်မီနှစ်', 'ခရစ်နှစ်'],
           NARROWMONTHS: const [
@@ -11910,6 +11915,7 @@ Map dateTimeSymbolMap() => {
       // Date/time formatting symbols for locale ne.
       "ne": new DateSymbols(
           NAME: "ne",
+          ZERODIGIT: '\u0966',
           ERAS: const ['ईसा पूर्व', 'सन्'],
           ERANAMES: const ['ईसा पूर्व', 'सन्'],
           NARROWMONTHS: const [
@@ -12999,6 +13005,7 @@ Map dateTimeSymbolMap() => {
       // Date/time formatting symbols for locale ps.
       "ps": new DateSymbols(
           NAME: "ps",
+          ZERODIGIT: '\u06F0',
           ERAS: const ['له میلاد وړاندې', 'م.'],
           ERANAMES: const ['له میلاد څخه وړاندې', 'له میلاد څخه وروسته'],
           NARROWMONTHS: const [
