@@ -7,6 +7,7 @@
 /// of them takes long enough that it may cause timeouts in the test bots.
 
 @Timeout(const Duration(seconds: 60))
+@TestOn("vm")
 library date_time_format_file_test_2;
 
 import 'date_time_format_test_stub.dart';
