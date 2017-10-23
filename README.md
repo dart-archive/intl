@@ -97,11 +97,14 @@ description for translators, the arguments used in the message, and
 examples. The `name` and `args` parameters are required, and must
 match the name (or ClassName_methodName) and arguments list of the
 function respectively. However, there is a transformer provided that
-will automatically insert those parameters for you. In pubspec.yaml,
-add a section like
-
+will automatically insert those parameters for you. This transformer 
+is in the [Intl_translation](Intl_translation) package. 
+In pubspec.yaml, add a section like
+      
+      dev_dependencies:
+        intl_translation: ^0.15.0
       transformers:
-      - intl:
+      - intl_translation:
       $include: some_file.dart
 
 and then you can omit the name and args.
@@ -187,7 +190,7 @@ the structure as simple as possible for the translators.
 When your program contains messages that need translation, these must
 be extracted from the program source, sent to human translators, and the
 results need to be incorporated. The code for this is in the
-[Intl_translation][Intl_translation] package.
+[Intl_translation](Intl_translation) package.
 
 To extract messages, run the `extract_to_arb.dart` program.
 
