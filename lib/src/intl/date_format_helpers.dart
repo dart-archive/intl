@@ -4,6 +4,31 @@
 
 part of intl;
 
+/// Given a month and day number, return the day of the year, all one-based.
+///
+/// For example,
+///  * January 2nd (1, 2) -> 2.
+///  * February 5th (2, 5) -> 36.
+///  * March 1st of a non-leap year (3, 1) -> 60.
+int _dayOfYear(int month, int day, bool leapYear) {
+  if (month == 1) return day;
+  if (month == 2) return day + 31;
+  return ordinalDayFromMarchFirst(month, day) + 59 + (leapYear ? 1 : 0);
+}
+
+/// Return true if this is a leap year. Rely on [DateTime] to do the
+/// underlying calculation, even though it doesn't expose the test to us.
+bool _isLeapYear(DateTime date) {
+  var feb29 = new DateTime(date.year, 2, 29);
+  return feb29.month == 2;
+}
+
+/// Return the day of the year counting March 1st as 1, after which the
+/// number of days per month is constant, so it's easier to calculate.
+/// Formula from http://en.wikipedia.org/wiki/Ordinal_date
+int ordinalDayFromMarchFirst(int month, int day) =>
+    ((30.6 * month) - 91.4).floor() + day;
+
 /// A class for holding onto the data for a date so that it can be built
 /// up incrementally.
 class _DateBuilder {
@@ -18,6 +43,18 @@ class _DateBuilder {
       fractionalSecond = 0;
   bool pm = false;
   bool utc = false;
+
+  /// Is this constructing a pure date.
+  ///
+  /// This is important because some locales change times at midnight,
+  /// e.g. Brazil. So if we try to create a DateTime representing a date at
+  /// midnight on the day of transition it will jump forward or back 1 hour.  If
+  /// it jumps forward that's mostly harmless if we only care about the
+  /// date. But if it jumps backwards that will change the date, which is
+  /// bad. Compensate by adjusting the time portion forward. But only do that
+  /// when we're explicitly trying to construct a date, which we can tell from
+  /// the format.
+  bool _dateOnly = false;
 
   // Functions that exist just to be closurized so we can pass them to a general
   // method.
@@ -67,7 +104,16 @@ class _DateBuilder {
     // which will catch cases like "14:00:00 PM".
     var date = asDate();
     _verify(hour24, date.hour, date.hour, "hour", s, date);
-    _verify(day, date.day, date.day, "day", s, date);
+    if (day > 31) {
+      // We have an ordinal date, compute the corresponding date for the result
+      // and compare to that.
+      var leapYear = _isLeapYear(date);
+      var correspondingDay = _dayOfYear(date.month, date.day, leapYear);
+      _verify(day, correspondingDay, correspondingDay, "day", s, date);
+    } else {
+      // We have the day of the month, compare directly.
+      _verify(day, date.day, date.day, "day", s, date);
+    }
     _verify(year, date.year, date.year, "year", s, date);
   }
 
@@ -83,23 +129,62 @@ class _DateBuilder {
 
   /// Return a date built using our values. If no date portion is set,
   /// use the "Epoch" of January 1, 1970.
-  DateTime asDate({int retries: 10}) {
+  DateTime asDate({int retries: 3}) {
     // TODO(alanknight): Validate the date, especially for things which
     // can crash the VM, e.g. large month values.
-    var result;
     if (utc) {
-      result = new DateTime.utc(
+      return new DateTime.utc(
           year, month, day, hour24, minute, second, fractionalSecond);
     } else {
-      result = new DateTime(
+      var preliminaryResult = new DateTime(
           year, month, day, hour24, minute, second, fractionalSecond);
-      // TODO(alanknight): Issue 15560 means non-UTC dates occasionally come out
-      // in UTC, or, alternatively, are constructed as if in UTC and then have
-      // the offset subtracted. If that happens, retry, several times if
-      // necessary.
-      if (retries > 0 && (result.hour != hour24 || result.day != day)) {
-        result = asDate(retries: retries - 1);
-      }
+      return _correctForErrors(preliminaryResult, retries);
+    }
+  }
+
+  static final Duration _zeroDuration = new Duration();
+
+  /// Given a local DateTime, check for errors and try to compensate for them if
+  /// possible.
+  DateTime _correctForErrors(DateTime result, int retries) {
+    // There are 3 kinds of errors that we know of
+    //
+    // 1 - Issue 15560, sometimes we get UTC even when we asked for local, or
+    // they get constructed as if in UTC and then have the offset
+    // subtracted. Retry, possibly several times, until we get something that
+    // looks valid, or we give up.
+    //
+    // 2 - Timezone transitions. If we ask for the time during a timezone
+    // transition then it will offset it by that transition. This is
+    // particularly a problem if the timezone transition happens at midnight,
+    // and we're looking for a date with no time component. This happens in
+    // Brazil, and we can end up with 11:00pm the previous day. Add time to
+    // compensate.
+    //
+    // 3 - Invalid input which the constructor nevertheless accepts. Just
+    // return what it created, and verify will catch it if we're in strict
+    // mode.
+    var leapYear = _isLeapYear(result);
+    var correspondingDay = _dayOfYear(result.month, result.day, leapYear);
+
+    var looksLikeUtc = result.timeZoneOffset == _zeroDuration;
+    if (looksLikeUtc &&
+        (result.hour != hour24 || result.day != correspondingDay)) {
+      // This may be a UTC failure. Retry and if the result doesn't look
+      // like it's in the UTC time zone, use that instead.
+      var retry = asDate(retries: retries - 1);
+      if (retry.timeZoneOffset != _zeroDuration) return retry;
+    }
+    if (_dateOnly && day != correspondingDay) {
+      // If we're _dateOnly, then hours should be zero, but might have been
+      // offset to e.g. 11:00pm the previous day. Add that time back in. We
+      // only care about jumps backwards. If we were offset to e.g. 1:00am the
+      // same day that's all right for a date. It gets the day correct, and we
+      // have no way to even represent midnight on a day when it doesn't
+      // happen.
+      var adjusted = result.add(new Duration(hours: (24 - result.hour)));
+      if (_dayOfYear(adjusted.month, adjusted.day, leapYear) == day)
+        return adjusted;
     }
     return result;
   }

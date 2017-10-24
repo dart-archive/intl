@@ -160,7 +160,7 @@ testRoundTripParsing(String localeName, DateTime date,
       var format = new DateFormat(skeleton, localeName);
       if (forceAscii) format.useNativeDigits = false;
       var actualResult = format.format(date);
-      var parsed = format.parse(actualResult);
+      var parsed = format.parseStrict(actualResult);
       var thenPrintAgain = format.format(parsed);
       expect(thenPrintAgain, equals(actualResult));
     }
@@ -399,7 +399,11 @@ void runDateTests(SubsetFuncType subsetFunc) {
   Map<int, DateTime> generateDates(int year, int leapDay) =>
       new Iterable.generate(365 + leapDay, (n) => n + 1)
           .map((day) {
-            var result = new DateTime(year, 1, day);
+            // Typically a "date" would have a time value of zero, but we
+            // give them an hour value, because they can get created with an
+            // offset to the previous day in time zones where the daylight
+            // savings transition happens at midnight (e.g. Brazil).
+            var result = new DateTime(year, 1, day, 3);
             // TODO(alanknight): This is a workaround for dartbug.com/15560.
             if (result.toUtc() == result) result = new DateTime(year, 1, day);
             return result;
@@ -415,7 +419,12 @@ void runDateTests(SubsetFuncType subsetFunc) {
       expect(formatted, (number + 1).toString());
       var formattedWithYear = withYear.format(date);
       var parsed = withYear.parse(formattedWithYear);
-      expect(parsed, date);
+      // Only compare the date portion, because time zone changes (e.g. DST) can
+      // cause the hour values to be different.
+      expect(parsed.year, date.year);
+      expect(parsed.month, date.month);
+      expect(parsed.day, date.day,
+          reason: 'Mismatch between parsed ($parsed) and original ($date)');
     });
   }
 
