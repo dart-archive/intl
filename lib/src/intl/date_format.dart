@@ -324,7 +324,6 @@ class DateFormat {
     // values with no delimiters, which we currently don't do. Should we?
     var dateFields = new _DateBuilder();
     if (utc) dateFields.utc = true;
-    dateFields._dateOnly = this.dateOnly;
     var stream = new _Stream(inputString);
     _formatFields.forEach((f) => f.parse(stream, dateFields));
     if (strict && !stream.atEnd()) {
@@ -334,13 +333,6 @@ class DateFormat {
     if (strict) dateFields.verify(inputString);
     return dateFields.asDate();
   }
-
-  /// Does our format only only date fields, and no time fields.
-  ///
-  /// For example, 'yyyy-MM-dd' would be true, but 'dd hh:mm' would be false.
-  bool get dateOnly => _dateOnly ??= _checkDateOnly;
-  bool _dateOnly;
-  bool get _checkDateOnly => _formatFields.every((each) => each.forDate);
 
   /// Given user input, attempt to parse the [inputString] into the anticipated
   /// format, treating it as being in UTC.
