@@ -132,6 +132,7 @@ class _DateBuilder {
   DateTime asDate({int retries: 3}) {
     // TODO(alanknight): Validate the date, especially for things which
     // can crash the VM, e.g. large month values.
+
     if (utc) {
       return new DateTime.utc(
           year, month, day, hour24, minute, second, fractionalSecond);
@@ -141,8 +142,6 @@ class _DateBuilder {
       return _correctForErrors(preliminaryResult, retries);
     }
   }
-
-  static final Duration _zeroDuration = new Duration();
 
   /// Given a local DateTime, check for errors and try to compensate for them if
   /// possible.
@@ -164,15 +163,28 @@ class _DateBuilder {
     // 3 - Invalid input which the constructor nevertheless accepts. Just
     // return what it created, and verify will catch it if we're in strict
     // mode.
+
+    // If we've exhausted our retries, just return the input - it's not just a
+    // flaky result.
+    if (retries <= 0) {
+      return result;
+    }
+
     var leapYear = _isLeapYear(result);
     var correspondingDay = _dayOfYear(result.month, result.day, leapYear);
 
-    if (result.isUtc &&
-        (result.hour != hour24 || result.day != correspondingDay)) {
+    // Check for the UTC failure. Are we expecting to produce a local time, but
+    // the result is UTC. However, the local time might happen to be the same as
+    // UTC. To be thorough, check if either the hour/day don't agree with what
+    // we expect, or is a new DateTime in a non-UTC timezone.
+    if (!utc &&
+        result.isUtc &&
+        (result.hour != hour24 ||
+            result.day != correspondingDay ||
+            !new DateTime.now().isUtc)) {
       // This may be a UTC failure. Retry and if the result doesn't look
       // like it's in the UTC time zone, use that instead.
-      var retry = asDate(retries: retries - 1);
-      if (retry.timeZoneOffset != _zeroDuration) return retry;
+      return asDate(retries: retries - 1);
     }
     if (_dateOnly && day != correspondingDay) {
       // If we're _dateOnly, then hours should be zero, but might have been
