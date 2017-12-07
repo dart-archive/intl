@@ -238,10 +238,18 @@ class NumberFormat {
   /// currency's default takes priority over the locale's default.
   ///       new NumberFormat.currency(locale: 'en_US')
   /// will format with two, which is the default for that locale.
+  ///
+  /// The [customPattern] parameter can be used to specify a particular
+  /// format. This is useful if you have your own locale data which includes
+  /// unsupported formats (e.g. accounting format for currencies.)
   // TODO(alanknight): Should we allow decimalDigits on other numbers.
   NumberFormat.currency(
-      {String locale, String name, String symbol, int decimalDigits})
-      : this._forPattern(locale, (x) => x.CURRENCY_PATTERN,
+      {String locale,
+      String name,
+      String symbol,
+      int decimalDigits,
+      String customPattern})
+      : this._forPattern(locale, (x) => customPattern ?? x.CURRENCY_PATTERN,
             name: name,
             currencySymbol: symbol,
             decimalDigits: decimalDigits,

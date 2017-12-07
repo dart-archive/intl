@@ -260,6 +260,15 @@ main() {
     var padded = format.format(0);
     expect(padded, '٠٠٠');
   });
+
+  // Exercise a custom pattern. There's not actually much logic here, so just
+  // validate that the custom pattern is in fact being used.
+  test('Custom currency pattern', () {
+    var format = new NumberFormat.currency(
+        name: 'XYZZY', customPattern: '[\u00a4][#,##.#]');
+    var text = format.format(12345.67);
+    expect(text, '[XYZZY][1,23,45.67]');
+  });
 }
 
 String stripExtras(String input) {

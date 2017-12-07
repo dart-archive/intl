@@ -1,3 +1,7 @@
+## 0.15.3
+ * Add a customPattern parameter to the currency constructor. This can be used
+   to provide a custom pattern if you have one, e.g. for accounting formats.
+
 ## 0.15.2
  * Group the padding digits to the left of the number, if present. e.g. 00,001.
  * Tweak lookup code to support translated messages as JSON rather than code.
