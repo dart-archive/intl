@@ -45,8 +45,8 @@ var testNumbersWeCannotReadBack = {
 
 /// Test numbers that won't work in Javascript because they're too big.
 var testNumbersOnlyForTheVM = {
-  "10,000,000,000,000,000,000,000,000,000,000":
-      10000000000000000000000000000000,
+  "9,000,000,000,000,000,000":
+      9000000000000000000,
 };
 
 get allTestNumbers => new Map.from(testNumbersWeCanReadBack)
