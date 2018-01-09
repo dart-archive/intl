@@ -47,6 +47,9 @@ var testNumbersWeCannotReadBack = {
 var testNumbersOnlyForTheVM = {
   "9,000,000,000,000,000,000":
       9000000000000000000,
+  "9,223,372,036,854,775,807":
+      9223372036854775807
+
 };
 
 get allTestNumbers => new Map.from(testNumbersWeCanReadBack)

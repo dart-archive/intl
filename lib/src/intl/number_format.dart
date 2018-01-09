@@ -640,8 +640,10 @@ class NumberFormat {
     _pad(minimumExponentDigits, exponent.toString());
   }
 
-  /// Used to test if we have exceeded Javascript integer limits.
-  final _maxInt = pow(2, 52);
+  /// Used to test if we have exceeded integer limits.
+  // TODO(alanknight): Do we have a MaxInt constant we could use instead?
+  static final _maxInt = 1 is double ? pow(2, 52) : 1.0e300.floor();
+  static final _maxDigits = (log(_maxInt)/log(10)).floor();
 
   /// Helpers to check numbers that don't conform to the [num] interface,
   /// e.g. Int64
@@ -673,7 +675,8 @@ class NumberFormat {
       // Not a normal number, but int-like, e.g. Int64
       return number;
     } else {
-      // TODO(alanknight): Do this more efficiently. If IntX  had floor and round we could avoid this.
+      // TODO(alanknight): Do this more efficiently. If IntX  had floor and
+      // round we could avoid this.
       var basic = _floor(number);
       var fraction = (number - basic).toDouble().round();
       return fraction == 0 ? number : number + fraction;
@@ -732,6 +735,13 @@ class NumberFormat {
       // integer pieces.
       integerPart = _floor(number);
       var fraction = number - integerPart;
+      if (fraction.toInt() != 0) {
+        // If the fractional part leftover is > 1, presumbly the number
+        // was too big for a fixed-size integer, so leave it as whatever
+        // it was - the obvious thing is a double.
+        integerPart = number;
+        fraction = 0;
+      }
 
       /// If we have significant digits, recalculate the number of fraction
       /// digits based on that.
@@ -789,13 +799,16 @@ class NumberFormat {
   /// Compute the raw integer digits which will then be printed with
   /// grouping and translated to localized digits.
   String _integerDigits(integerPart, extraIntegerDigits) {
-    // If the int part is larger than 2^52 and we're on Javascript (so it's
-    // really a float) it will lose precision, so pad out the rest of it
-    // with zeros. Check for Javascript by seeing if an integer is double.
+    // If the integer part is larger than the maximum integer size
+    // (2^52 on Javascript, 2^63 on the VM) it will lose precision,
+    // so pad out the rest of it with zeros.
     var paddingDigits = '';
-    if (1 is double && integerPart is num && integerPart > _maxInt) {
-      var howManyDigitsTooBig = (log(integerPart) / LN10).ceil() - 16;
-      var divisor = pow(10, howManyDigitsTooBig).round();
+    if (integerPart is num && integerPart > _maxInt) {
+      var howManyDigitsTooBig = (log(integerPart) / LN10).ceil() - _maxDigits;
+      num divisor = pow(10, howManyDigitsTooBig).round();
+      // pow() produces 0 if the result is too large for a 64-bit int.
+      // If that happens, use a floating point divisor instead.
+      if (divisor == 0) divisor = pow(10.0, howManyDigitsTooBig);
       paddingDigits = '0' * howManyDigitsTooBig.toInt();
       integerPart = (integerPart / divisor).truncate();
     }
