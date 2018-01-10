@@ -643,7 +643,7 @@ class NumberFormat {
   /// Used to test if we have exceeded integer limits.
   // TODO(alanknight): Do we have a MaxInt constant we could use instead?
   static final _maxInt = 1 is double ? pow(2, 52) : 1.0e300.floor();
-  static final _maxDigits = (log(_maxInt)/log(10)).floor();
+  static final _maxDigits = (log(_maxInt)/log(10)).ceil();
 
   /// Helpers to check numbers that don't conform to the [num] interface,
   /// e.g. Int64
