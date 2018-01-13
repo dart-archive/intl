@@ -85,7 +85,7 @@ main() {
     var testLength = (testFormats.length * 3) + 1;
     var list = mainList.take(testLength).iterator;
     list.moveNext();
-    mainList = mainList.skip(testLength);
+    mainList = mainList.skip(testLength).toList();
     if (locale == list.current) {
       testAgainstIcu(locale, testFormats, list);
     }
