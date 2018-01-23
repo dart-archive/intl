@@ -526,7 +526,8 @@ class NumberFormat {
   /// of "$1,200,000", and which will automatically determine a currency symbol
   /// based on the currency name or the locale. See
   /// [NumberFormat.simpleCurrency].
-  factory NumberFormat.compactSimpleCurrency({String locale, String name}) {
+  factory NumberFormat.compactSimpleCurrency(
+      {String locale, String name, int decimalDigits}) {
     return new _CompactNumberFormat(
         locale: locale,
         formatType: _CompactFormatType.COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN,
@@ -534,6 +535,7 @@ class NumberFormat {
         getPattern: (symbols) => symbols.CURRENCY_PATTERN,
         computeCurrencySymbol: (format) =>
             _simpleCurrencySymbols[format.currencyName] ?? format.currencyName,
+        decimalDigits: decimalDigits,
         isForCurrency: true);
   }
 
@@ -643,7 +645,7 @@ class NumberFormat {
   /// Used to test if we have exceeded integer limits.
   // TODO(alanknight): Do we have a MaxInt constant we could use instead?
   static final _maxInt = 1 is double ? pow(2, 52) : 1.0e300.floor();
-  static final _maxDigits = (log(_maxInt)/log(10)).ceil();
+  static final _maxDigits = (log(_maxInt) / log(10)).ceil();
 
   /// Helpers to check numbers that don't conform to the [num] interface,
   /// e.g. Int64

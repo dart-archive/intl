@@ -3,6 +3,7 @@
    to provide a custom pattern if you have one, e.g. for accounting formats.
  * Update data to CLDR 32.0.1
  * Update for Dart 2.0 fixed-size integers.
+ * Add missing support for specifying decimalDigits in compactSimpleCurrency.
 
 ## 0.15.2
  * Group the padding digits to the left of the number, if present. e.g. 00,001.
