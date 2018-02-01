@@ -18,7 +18,10 @@ part of intl;
 ///
 /// Formatting dates in the default "en_US" format does not require any
 /// initialization. e.g.
-///       print(new DateFormat.yMMMd().format(new DateTime.now()));
+///
+/// ```dart
+/// print(new DateFormat.yMMMd().format(new DateTime.now()));
+/// ```
 ///
 /// But for other locales, the formatting data for the locale must be
 /// obtained. This can currently be done in one of three ways, determined by
@@ -30,18 +33,27 @@ part of intl;
 ///
 /// The easiest option is that the data may be available locally, imported in a
 /// library that contains data for all the locales.
-///       import 'package:intl/date_symbol_data_local.dart';
-///       initializeDateFormatting("fr_FR", null).then((_) => runMyCode());
+///
+/// ```dart
+/// import 'package:intl/date_symbol_data_local.dart';
+/// initializeDateFormatting("fr_FR", null).then((_) => runMyCode());
+/// ```
 ///
 /// If we are running outside of a browser, we may want to read the data
 /// from files in the file system.
-///       import 'package:intl/date_symbol_data_file.dart';
-///       initializeDateFormatting("de_DE", null).then((_) => runMyCode());
+///
+/// ```dart
+/// import 'package:intl/date_symbol_data_file.dart';
+/// initializeDateFormatting("de_DE", null).then((_) => runMyCode());
+/// ```
 ///
 /// If we are running in a browser, we may want to read the data from the
 /// server using the XmlHttpRequest mechanism.
-///       import 'package:intl/date_symbol_data_http_request.dart';
-///       initializeDateFormatting("pt_BR", null).then((_) => runMyCode());
+///
+/// ```dart
+/// import 'package:intl/date_symbol_data_http_request.dart';
+/// initializeDateFormatting("pt_BR", null).then((_) => runMyCode());
+/// ```
 ///
 /// The code in example/basic/basic_example.dart shows a full example of
 /// using this mechanism.
@@ -189,8 +201,7 @@ part of intl;
 /// pattern of "MM/dd/yy" and a DateParse instance created on Jan 1, 1997,
 /// the string "01/11/12" would be interpreted as Jan 11, 2012 while the string
 /// "05/04/64" would be interpreted as May 4, 1964. During parsing, only
-/// strings consisting of exactly two digits, as defined by {@link
-/// java.lang.Character#isDigit(char)}, will be parsed into the default
+/// strings consisting of exactly two digits will be parsed into the default
 /// century. Any other numeric string, such as a one digit string, a three or
 /// more digit string will be interpreted as its face value.
 ///
@@ -199,20 +210,28 @@ part of intl;
 /// pattern "MM/dd/yyyy", "01/11/12" parses to Jan 11, 12 A.D.
 
 class DateFormat {
-  /// Creates a new DateFormat, using the format specified by [newPattern]. For
-  /// forms that match one of our predefined skeletons, we look up the
+  /// Creates a new DateFormat, using the format specified by [newPattern].
+  ///
+  /// For forms that match one of our predefined skeletons, we look up the
   /// corresponding pattern in [locale] (or in the default locale if none is
-  /// specified) and use the resulting full format string. This is the
-  /// preferred usage, but if [newPattern] does not match one of the skeletons,
-  /// then it is used as a format directly, but will not be adapted to suit
-  /// the locale.
+  /// specified) and use the resulting full format string. This is the preferred
+  /// usage, but if [newPattern] does not match one of the skeletons, then it is
+  /// used as a format directly, but will not be adapted to suit the locale.
   ///
   /// For example, in an en_US locale, specifying the skeleton
-  ///     new DateFormat.yMEd();
+  ///
+  /// ```dart
+  /// new DateFormat.yMEd();
+  /// ```
+  ///
   /// or the explicit
-  ///     new DateFormat('EEE, M/d/y');
-  /// would produce the same result, a date of the form
-  ///     Wed, 6/27/2012
+  ///
+  /// ```dart
+  /// new DateFormat('EEE, M/d/y');
+  /// ```
+  ///
+  /// would produce the same result, a date of the form "Wed, 6/27/2012".
+  ///
   /// The first version would produce a different format string if used in
   /// another locale, but the second format would always be the same.
   ///
@@ -252,31 +271,29 @@ class DateFormat {
   String formatDurationFrom(Duration duration, DateTime date) => '';
 
   /// Given user input, attempt to parse the [inputString] into the anticipated
-  /// format, treating it as being in the local timezone. If [inputString] does
-  /// not match our format, throws a [FormatException]. This will accept dates
-  /// whose values are not strictly valid, or strings with additional characters
-  /// (including whitespace) after a valid date. For stricter parsing, use
-  /// [parseStrict].
+  /// format, treating it as being in the local timezone.
+  ///
+  /// If [inputString] does not match our format, throws a [FormatException].
+  /// This will accept dates whose values are not strictly valid, or strings
+  /// with additional characters (including whitespace) after a valid date. For
+  /// stricter parsing, use [parseStrict].
   DateTime parse(String inputString, [utc = false]) =>
       _parse(inputString, utc: utc, strict: false);
 
   /// Given user input, attempt to parse the [inputString] "loosely" into the
   /// anticipated format, accepting some variations from the strict format.
   ///
-  /// If [inputString]
-  /// is accepted by [parseStrict], just return the result. If not, attempt to
-  /// parse it, but accepting either upper or
-  /// lower case, allowing delimiters to be missing and replaced or
-  /// supplemented with whitespace,
-  /// and allowing arbitrary amounts of whitespace wherever whitespace is
-  /// permitted. Note that this does not allow trailing characters, the way
-  /// [parse] does.
-  /// It also does not allow alternative names for months or weekdays other than
-  /// those the format knows about. The restrictions are quite arbitrary and
-  /// it's not known how well they'll work for locales that aren't English-like.
+  /// If [inputString] is accepted by [parseStrict], just return the result. If
+  /// not, attempt to parse it, but accepting either upper or lower case,
+  /// allowing delimiters to be missing and replaced or supplemented with
+  /// whitespace, and allowing arbitrary amounts of whitespace wherever
+  /// whitespace is permitted. Note that this does not allow trailing
+  /// characters, the way [parse] does.  It also does not allow alternative
+  /// names for months or weekdays other than those the format knows about. The
+  /// restrictions are quite arbitrary and it's not known how well they'll work
+  /// for locales that aren't English-like.
   ///
-  /// If [inputString] does not parse, this throws a
-  /// [FormatException].
+  /// If [inputString] does not parse, this throws a [FormatException].
   ///
   /// For example, this will accept
   ///
@@ -310,9 +327,10 @@ class DateFormat {
   }
 
   /// Given user input, attempt to parse the [inputString] into the anticipated
-  /// format, treating it as being in the local timezone. If [inputString] does
-  /// not match our format, throws a [FormatException]. This will reject dates
-  /// whose values are not strictly valid, even if the
+  /// format, treating it as being in the local timezone.
+  ///
+  /// If [inputString] does not match our format, throws a [FormatException].
+  /// This will reject dates whose values are not strictly valid, even if the
   /// DateTime constructor will accept them. It will also rejct strings with
   /// additional characters (including whitespace) after a valid date. For
   /// looser parsing, use [parse].
@@ -370,12 +388,24 @@ class DateFormat {
   /// instances using one of the known "skeleton" formats, and having code
   /// completion support for discovering those formats.
   /// So,
-  ///     new DateFormat.yMd("en_US")
+  ///
+  /// ```dart
+  /// new DateFormat.yMd("en_US")
+  /// ```
+  ///
   /// is equivalent to
-  ///     new DateFormat("yMd", "en_US")
+  ///
+  /// ```dart
+  /// new DateFormat("yMd", "en_US")
+  /// ```
+  ///
   /// To create a compound format you can use these constructors in combination
-  /// with the add_ methods below. e.g.
-  ///     new DateFormat.yMd().add_Hms();
+  /// with the "add_*" methods below. e.g.
+  ///
+  /// ```dart
+  /// new DateFormat.yMd().add_Hms();
+  /// ```
+  ///
   /// If the optional [locale] is omitted, the format will be created using the
   /// default locale in [Intl.systemLocale].
   DateFormat.d([locale]) : this("d", locale);
@@ -423,7 +453,11 @@ class DateFormat {
   /// The "add_*" methods append a particular skeleton to the format, or set
   /// it as the only format if none was previously set. These are primarily
   /// useful for creating compound formats. For example
-  ///       new DateFormat.yMd().add_Hms();
+  ///
+  /// ```dart
+  /// new DateFormat.yMd().add_Hms();
+  /// ```
+  ///
   /// would create a date format that prints both the date and the time.
   DateFormat add_d() => addPattern("d");
   DateFormat add_E() => addPattern("E");
@@ -564,11 +598,13 @@ class DateFormat {
         _pattern == null ? inputPattern : "$_pattern$separator$inputPattern";
   }
 
-  /// Add [inputPattern] to this instance as a pattern. If there was a previous
-  /// pattern, then this appends to it, separating the two by [separator].
-  /// [inputPattern] is first looked up in our list of known skeletons.
-  /// If it's found there, then use the corresponding pattern for this locale.
-  /// If it's not, then treat [inputPattern] as an explicit pattern.
+  /// Add [inputPattern] to this instance as a pattern.
+  ///
+  /// If there was a previous pattern, then this appends to it, separating the
+  /// two by [separator].  [inputPattern] is first looked up in our list of
+  /// known skeletons.  If it's found there, then use the corresponding pattern
+  /// for this locale.  If it's not, then treat [inputPattern] as an explicit
+  /// pattern.
   DateFormat addPattern(String inputPattern, [String separator = ' ']) {
     // TODO(alanknight): This is an expensive operation. Caching recently used
     // formats, or possibly introducing an entire "locale" object that would
@@ -590,11 +626,12 @@ class DateFormat {
   /// Return the skeletons for our current locale.
   Map get _availableSkeletons => dateTimePatterns[locale];
 
-  /// Return the [DateSymbol] information for the locale. This can be useful
-  /// to find lists like the names of weekdays or months in a locale, but
-  /// the structure of this data may change, and it's generally better to go
-  /// through the [format] and [parse] APIs. If the locale isn't present, or
-  /// is uninitialized, returns null;
+  /// Return the [DateSymbol] information for the locale.
+  ///
+  /// This can be useful to find lists like the names of weekdays or months in a
+  /// locale, but the structure of this data may change, and it's generally
+  /// better to go through the [format] and [parse] APIs. If the locale isn't
+  /// present, or is uninitialized, returns null.
   DateSymbols get dateSymbols {
     if (_locale != lastDateSymbolLocale) {
       lastDateSymbolLocale = _locale;
