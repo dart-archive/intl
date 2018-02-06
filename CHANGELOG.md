@@ -5,6 +5,7 @@
  * Update for Dart 2.0 fixed-size integers.
  * Add missing support for specifying decimalDigits in compactSimpleCurrency.
  * Fix doc comments for DateFormat (Pull request #156)
+ * Added a skip argument to not output the message in the extract step.
 
 ## 0.15.2
  * Group the padding digits to the left of the number, if present. e.g. 00,001.

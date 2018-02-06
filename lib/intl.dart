@@ -155,22 +155,29 @@ class Intl {
   /// particular, everything must be literal and cannot refer to variables
   /// outside the scope of the enclosing function. The [examples] map must be a
   /// valid const literal map. Similarly, the [desc] argument must be a single,
-  /// simple string. These two arguments will not be used at runtime but will be
-  /// extracted from the source code and used as additional data for
-  /// translators. For more information see the "Messages" section of the main
+  /// simple string and [skip] a boolean literal. These three arguments will not
+  /// be used at runtime but will be extracted from the source code and used as
+  /// additional data for translators. For more information see the "Messages"
+  /// section of the main
   /// [package documentation] (https://pub.dartlang.org/packages/intl).
   ///
   /// The [name] and [args] arguments are required, and are used at runtime
   /// to look up the localized version and pass the appropriate arguments to it.
   /// We may in the future modify the code during compilation to make manually
   /// passing those arguments unnecessary.
+  ///
+  /// The [skip] arg will still validate the message, but will be filtered from
+  /// the extracted message output. This can be useful to set up placeholder
+  /// messages during development whose text aren't finalized yet without having
+  /// the placeholder automatically translated.
   static String message(String message_str,
           {String desc: '',
           Map<String, dynamic> examples: const {},
           String locale,
           String name,
           List args,
-          String meaning}) =>
+          String meaning,
+          bool skip}) =>
       _message(message_str, locale, name, args, meaning);
 
   /// Omit the compile-time only parameters so dart2js can see to drop them.
@@ -275,7 +282,8 @@ class Intl {
       String locale,
       String name,
       List args,
-      String meaning}) {
+      String meaning,
+      bool skip}) {
     // Call our internal method, dropping examples and desc because they're not
     // used at runtime and we want them to be optimized away.
     return _plural(howMany,
@@ -386,7 +394,8 @@ class Intl {
       String locale,
       String name,
       List args,
-      String meaning}) {
+      String meaning,
+      bool skip}) {
     // Call our internal method, dropping args and desc because they're not used
     // at runtime and we want them to be optimized away.
     return _gender(targetGender,
@@ -447,7 +456,8 @@ class Intl {
       String locale,
       String name,
       List args,
-      String meaning}) {
+      String meaning,
+      bool skip}) {
     return _select(choice, cases,
         locale: locale, name: name, args: args, meaning: meaning);
   }
