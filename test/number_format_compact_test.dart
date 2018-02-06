@@ -169,7 +169,7 @@ var problemLocalesLong = [
   // in the patterns.
   "pt_BR", "pt_PT", "ro", "ru",
   "sd", // ICU considers this locale data questionable
-   "sk", "sl", "sr", "sr_Latn", "sv", "te", "tl",
+  "sk", "sl", "sr", "sr_Latn", "sv", "te", "tl",
   "ur",
   "uk",
 ];
@@ -187,17 +187,15 @@ void validateShort(String locale, List<List<String>> expected) {
     return;
   }
   var shortFormat = new NumberFormat.compact(locale: locale);
-  for (var data in expected) {
-    var number = num.parse(data.first);
-    test("Validate $locale SHORT for ${data.first}", () {
+  test("Validate $locale SHORT", () {
+    for (var data in expected) {
+      var number = num.parse(data.first);
       validateNumber(number, shortFormat, data[1]);
-    });
-    var int64Number = new Int64(number);
-    test("Validate Int64 SHORT on $locale for ${data.first}", () {
+      var int64Number = new Int64(number);
       validateNumber(int64Number, shortFormat, data[1]);
-    });
-    // TODO(alanknight): Make this work for MicroMoney
-  }
+      // TODO(alanknight): Make this work for MicroMoney
+    }
+  });
 }
 
 void validateLong(String locale, List<List<String>> expected) {
@@ -206,12 +204,12 @@ void validateLong(String locale, List<List<String>> expected) {
     return;
   }
   var longFormat = new NumberFormat.compactLong(locale: locale);
-  for (var data in expected) {
-    var number = num.parse(data.first);
-    test("Validate $locale LONG for ${data.first}", () {
+  test("Validate $locale LONG", () {
+    for (var data in expected) {
+      var number = num.parse(data.first);
       validateNumber(number, longFormat, data[2]);
-    });
-  }
+    }
+  });
 }
 
 void validateNumber(number, NumberFormat format, String expected) {
