@@ -161,10 +161,12 @@ class Intl {
   /// section of the main
   /// [package documentation] (https://pub.dartlang.org/packages/intl).
   ///
-  /// The [name] and [args] arguments are required, and are used at runtime
-  /// to look up the localized version and pass the appropriate arguments to it.
-  /// We may in the future modify the code during compilation to make manually
-  /// passing those arguments unnecessary.
+  /// For messages without parameters, both [name] and [args] can be omitted.
+  /// Messages that supply [args] should also supply a unique [name]. The [name]
+  /// and [args] arguments used at runtime to look up the localized version and
+  /// pass the appropriate arguments to it. We may in the future modify the code
+  /// during compilation to make manually passing those arguments unnecessary in
+  /// more situations.
   ///
   /// The [skip] arg will still validate the message, but will be filtered from
   /// the extracted message output. This can be useful to set up placeholder
