@@ -477,7 +477,7 @@ class Intl {
 
   /// Internal: Implements the logic for select - use [select] for
   /// normal messages.
-  static selectLogic(Object choice, Map<String, String> cases) {
+  static selectLogic(Object choice, Map<String, dynamic> cases) {
     // Allow passing non-strings, e.g. enums to a select.
     choice = "$choice";
     var exact = cases[choice];

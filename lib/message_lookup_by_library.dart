@@ -131,8 +131,9 @@ abstract class MessageLookupByLibrary {
   operator [](String messageName) => messages[messageName];
 
   /// Subclasses should override this to return a list of their message
-  /// functions.
-  Map<String, Function> get messages;
+  /// implementations. In this class these are functions, but subclasses may
+  /// implement them differently.
+  Map<String, dynamic> get messages;
 
   /// Subclasses should override this to return their locale, e.g. 'en_US'
   String get localeName;

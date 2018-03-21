@@ -1,3 +1,6 @@
+## 0.15.4
+ * A couple of minor Dart 2 fixes.
+
 ## 0.15.3
  * Add a customPattern parameter to the currency constructor. This can be used
    to provide a custom pattern if you have one, e.g. for accounting formats.
