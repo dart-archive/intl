@@ -35,6 +35,8 @@ class LazyLocaleData {
   /// The set of available locales.
   Set availableLocaleSet;
 
+  static const jsonDecoder = const JsonCodec();
+
   /// The constructor. The [_reader] specifies where the data comes
   /// from. The [_creationFunction] creates the appropriate data type
   /// from the remote data (which typically comes in as a Map). The
@@ -90,6 +92,6 @@ class LazyLocaleData {
   /// Given a Future [input] whose value is expected to be a string in JSON
   /// form, return another future that parses the JSON into a usable format.
   Future jsonData(Future input) {
-    return input.then((response) => JSON.decode(response));
+    return input.then((response) => jsonDecoder.decode(response));
   }
 }

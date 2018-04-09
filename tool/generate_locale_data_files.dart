@@ -67,10 +67,10 @@ void writeSymbols(locale, symbols) {
 void writePatterns(locale, patterns) {
   var file = new File(path.join(dataDirectory, 'patterns', '${locale}.json'));
   file.openWrite()
-    ..write(JSON.encode(patterns))
+    ..write(new JsonCodec().encode(patterns))
     ..close();
 }
 
 void writeToJSON(dynamic data, IOSink out) {
-  out.write(JSON.encode(data.serializeToMap()));
+  out.write(new JsonCodec().encode(data.serializeToMap()));
 }

@@ -2,6 +2,7 @@
  * Add type parameters on numberFormatSymbols for Dart 2 compatibility. Note
    that it only adds them on the right-hand side because adding them to the
    static type can cause unnecessary cast warnings.
+ * Replace uses of JSON constant for Dart 2 compatibility.
 
 ## 0.15.4
  * A couple of minor Dart 2 fixes.
