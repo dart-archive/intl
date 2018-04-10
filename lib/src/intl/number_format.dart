@@ -1149,12 +1149,12 @@ class _NumberParser {
   /// Parse [text] and return the resulting number. Throws [FormatException]
   /// if we can't parse it.
   num parse() {
-    if (text == symbols.NAN) return double.NAN;
+    if (text == symbols.NAN) return double.nan;
     if (text == "$_positivePrefix${symbols.INFINITY}$_positiveSuffix") {
-      return double.INFINITY;
+      return double.infinity;
     }
     if (text == "$_negativePrefix${symbols.INFINITY}$_negativeSuffix") {
-      return double.NEGATIVE_INFINITY;
+      return double.negativeInfinity;
     }
 
     checkPrefixes();

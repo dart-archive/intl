@@ -90,6 +90,6 @@ class LazyLocaleData {
   /// Given a Future [input] whose value is expected to be a string in JSON
   /// form, return another future that parses the JSON into a usable format.
   Future jsonData(Future input) {
-    return input.then((response) => JSON.decode(response));
+    return input.then((response) => jsonDecode(response));
   }
 }
