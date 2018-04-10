@@ -55,7 +55,7 @@ part 'src/intl/number_format.dart';
 ///
 ///      howManyPeople(numberOfPeople, place) => Intl.plural(
 ///            zero: 'I see no one at all',
-///            one: 'I see one other person',
+///            one: 'I see $numberOfPeople other person',
 ///            other: 'I see $numberOfPeople other people')} in $place.''',
 ///          name: 'msg',
 ///          args: [numberOfPeople, place],

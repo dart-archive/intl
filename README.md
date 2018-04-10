@@ -143,7 +143,7 @@ message string, for plurals and genders.
         Intl.message(
           "${Intl.plural(howMany,
               zero: 'There are no emails left for $userName.',
-              one: 'There is one email left for $userName.',
+              one: 'There is $howMany email left for $userName.',
               other: 'There are $howMany emails left for $userName.')}",
         name: "remainingEmailsMessage",
         args: [howMany, userName],
@@ -160,7 +160,7 @@ provide its parameters to the [Intl.plural][Intl.plural] call instead.
         Intl.plural(
           howMany,
           zero: 'There are no emails left for $userName.',
-          one: 'There is one email left for $userName.',
+          one: 'There is $howMany email left for $userName.',
           other: 'There are $howMany emails left for $userName.',
           name: "remainingEmailsMessage",
           args: [howMany, userName],
