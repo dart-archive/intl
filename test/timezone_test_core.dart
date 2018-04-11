@@ -40,8 +40,8 @@ testTimezone(String timezoneName, {int expectedUtcOffset}) {
       environment['EXPECTED_TZ_OFFSET_FOR_TEST'] = '$expectedUtcOffset';
     }
     var result = await Process.run(dart, args,
-        stdoutEncoding: UTF8,
-        stderrEncoding: UTF8,
+        stdoutEncoding: new Utf8Codec(),
+        stderrEncoding: new Utf8Codec(),
         includeParentEnvironment: true,
         environment: environment);
     // Because the actual tests are run in a spawned parocess their output isn't

@@ -80,6 +80,8 @@ class NumberFormat {
   int minimumExponentDigits = 0;
   int _significantDigits = 0;
 
+  static final _ln10 = log(10);
+
   ///  How many significant digits should we print.
   ///
   ///  Note that if significantDigitsInUse is the default false, this
@@ -97,7 +99,7 @@ class NumberFormat {
   int get _multiplier => _internalMultiplier;
   set _multiplier(int x) {
     _internalMultiplier = x;
-    _multiplierDigits = (log(_multiplier) / LN10).round();
+    _multiplierDigits = (log(_multiplier) / _ln10).round();
   }
 
   int _internalMultiplier = 1;
@@ -602,7 +604,7 @@ class NumberFormat {
       return;
     }
 
-    var exponent = (log(number) / LN10).floor();
+    var exponent = (log(number) / _ln10).floor();
     var mantissa = number / pow(10.0, exponent);
 
     if (maximumIntegerDigits > 1 &&
@@ -708,7 +710,7 @@ class NumberFormat {
     if (simpleNumber < 10000000000000000) return 16;
     // We're past the point where being off by one on the number of digits
     // will affect the pattern, so now we can use logs.
-    return max(1, (log(simpleNumber) / LN10).ceil());
+    return max(1, (log(simpleNumber) / _ln10).ceil());
   }
 
   int _fractionDigitsAfter(int remainingSignificantDigits) =>
@@ -806,7 +808,7 @@ class NumberFormat {
     // so pad out the rest of it with zeros.
     var paddingDigits = '';
     if (integerPart is num && integerPart > _maxInt) {
-      var howManyDigitsTooBig = (log(integerPart) / LN10).ceil() - _maxDigits;
+      var howManyDigitsTooBig = (log(integerPart) / _ln10).ceil() - _maxDigits;
       num divisor = pow(10, howManyDigitsTooBig).round();
       // pow() produces 0 if the result is too large for a 64-bit int.
       // If that happens, use a floating point divisor instead.
@@ -1149,12 +1151,12 @@ class _NumberParser {
   /// Parse [text] and return the resulting number. Throws [FormatException]
   /// if we can't parse it.
   num parse() {
-    if (text == symbols.NAN) return double.NAN;
+    if (text == symbols.NAN) return (0.0 / 0.0);
     if (text == "$_positivePrefix${symbols.INFINITY}$_positiveSuffix") {
-      return double.INFINITY;
+      return 1.0 / 0.0;
     }
     if (text == "$_negativePrefix${symbols.INFINITY}$_negativeSuffix") {
-      return double.NEGATIVE_INFINITY;
+      return -1.0 / 0.0;
     }
 
     checkPrefixes();

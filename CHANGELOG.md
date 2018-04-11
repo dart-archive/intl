@@ -1,3 +1,6 @@
+## 0.15.6
+ * More upper case constant removal.
+
 ## 0.15.5
  * Add type parameters on numberFormatSymbols for Dart 2 compatibility. Note
    that it only adds them on the right-hand side because adding them to the

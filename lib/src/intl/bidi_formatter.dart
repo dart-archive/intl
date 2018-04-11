@@ -54,7 +54,6 @@ part of intl;
 /// then up to the caller to insert the return value in the output.
 
 class BidiFormatter {
-
   /// The direction of the surrounding text (the context).
   TextDirection contextDirection;
 
@@ -97,7 +96,7 @@ class BidiFormatter {
       {bool isHtml: false, bool resetDir: true, TextDirection direction}) {
     if (direction == null) direction = estimateDirection(text, isHtml: isHtml);
     var result;
-    if (!isHtml) text = HTML_ESCAPE.convert(text);
+    if (!isHtml) text = const HtmlEscape().convert(text);
     var directionChange = contextDirection.isDirectionChange(direction);
     if (_alwaysSpan || directionChange) {
       var spanDirection = '';

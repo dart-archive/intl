@@ -8,7 +8,6 @@ import 'package:test/test.dart';
 import 'package:intl/number_symbols_data.dart';
 import 'package:intl/intl.dart';
 import 'number_test_data.dart';
-import 'dart:math';
 
 /// Tests the Numeric formatting library in dart.
 var testNumbersWeCanReadBack = {
@@ -29,14 +28,14 @@ var testNumbersWeCanReadBack = {
   "1,234": 1234.0,
   "1.234": 1.234,
   "1.23": 1.230,
-  "NaN": double.NAN,
-  "∞": double.INFINITY,
-  "-∞": double.NEGATIVE_INFINITY,
+  "NaN": 0.0 / 0.0,
+  "∞": 1.0 / 0.0,
+  "-∞": -1.0 / 0.0,
 };
 
 /// Test numbers that we can't parse because we lose precision in formatting.
 var testNumbersWeCannotReadBack = {
-  "3.142": PI,
+  "3.142": 3.1415926535897932,
   "-1.234": -1.2342,
   "-1.235": -1.2348,
   "1.234": 1.2342,
@@ -45,11 +44,8 @@ var testNumbersWeCannotReadBack = {
 
 /// Test numbers that won't work in Javascript because they're too big.
 var testNumbersOnlyForTheVM = {
-  "9,000,000,000,000,000,000":
-      9000000000000000000,
-  "9,223,372,036,854,775,807":
-      9223372036854775807
-
+  "9,000,000,000,000,000,000": 9000000000000000000,
+  "9,223,372,036,854,775,807": 9223372036854775807
 };
 
 get allTestNumbers => new Map.from(testNumbersWeCanReadBack)
