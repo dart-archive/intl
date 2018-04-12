@@ -1,3 +1,7 @@
+## 0.15.4+1
+
+- Updated SDK version to 2.0.0-dev.17.0
+
 ## 0.15.4
  * A couple of minor Dart 2 fixes.
 
