@@ -103,7 +103,13 @@ class _DateBuilder {
     // check the year, which we otherwise can't verify, and the hours,
     // which will catch cases like "14:00:00 PM".
     var date = asDate();
-    _verify(hour24, date.hour, date.hour, "hour", s, date);
+    // On rare occasions, possibly related to DST boundaries, a parsed date will
+    // come out as 1:00am. We compensate for the case of going backwards in
+    // _correctForErrors, but we may not be able to compensate for a midnight
+    // that doesn't exist. So tolerate an hour value of zero or one in these
+    // cases.
+    var minimumDate = _dateOnly && date.hour == 1 ? 0 : date.hour;
+    _verify(hour24, minimumDate, date.hour, "hour", s, date);
     if (day > 31) {
       // We have an ordinal date, compute the corresponding date for the result
       // and compare to that.

@@ -1,3 +1,9 @@
+## 0.15.7
+ * Compensate for rare cases where a parsed Date in date-only format gets a
+   1:00am time. This is presumably because of DST time-shifts. We may not be
+   able to correct these dates, because midnight may not exist at a transition
+   date, but we can cause the strict parsing to not fail for these dates.
+
 ## 0.15.6
  * More upper case constant removal.
 
@@ -18,6 +24,10 @@
  * Add missing support for specifying decimalDigits in compactSimpleCurrency.
  * Fix doc comments for DateFormat (Pull request #156)
  * Added a skip argument to not output the message in the extract step.
+ * Compensate for parsing a Date that happens at a DST transition, particularly
+   in Brazil, where the transition happens at midnight. This can result in a
+   time of 11:00pm the previous day, or of 1:00am the next day. Make sure that
+   the the 11:00pm case does not cause us to get the wrong date.
 
 ## 0.15.2
  * Group the padding digits to the left of the number, if present. e.g. 00,001.
