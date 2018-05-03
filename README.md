@@ -326,6 +326,7 @@ detected from the text.
 [withLocale]: https://www.dartdocs.org/documentation/intl/latest/intl/Intl/withLocale.html
 [defaultLocale]: https://www.dartdocs.org/documentation/intl/latest/intl/Intl/defaultLocale.html
 [Intl.message]: https://www.dartdocs.org/documentation/intl/latest/intl/Intl/message.html
+[Intl_translation]: https://www.dartdocs.org/documentation/intl_translation/latest
 [Intl.plural]: https://www.dartdocs.org/documentation/intl/latest/intl/Intl/plural.html
 [Intl.gender]: https://www.dartdocs.org/documentation/intl/latest/intl/Intl/gender.html
 [DateTime]: https://api.dartlang.org/stable/dart-core/DateTime-class.html
