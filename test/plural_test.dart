@@ -197,7 +197,7 @@ main() {
   });
 }
 
-verify(expectedValues, locale, pluralFunction) {
+verify(String expectedValues, String locale, pluralFunction) {
   var lines = expectedValues.split('\n').where((x) => x.isNotEmpty).toList();
   for (var i = 0; i < lines.length; i++) {
     test(lines[i], () {

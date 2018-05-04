@@ -14,7 +14,8 @@ import 'package:intl/date_symbol_data_custom.dart';
 main() {
   var symbols = localSymbols.dateTimeSymbolMap();
   var patterns = localPatterns.dateTimePatternMap();
-  List<String> locales = symbols.keys.toList().take(10).toList();
+  var locales = <String>[];
+  symbols.keys.take(10).forEach(locales.add);
   // Force inclusion of locales that are hard-coded in tests.
   var requiredLocales = ["en_US", "de", "fr", "ja", "el", "de_AT"];
   locales.addAll(requiredLocales);
