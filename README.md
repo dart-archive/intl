@@ -208,7 +208,7 @@ This expects to receive a series of files, one per
 locale.
 
 ```
-pub run intl_translation:generate_from_arb --generated_file_prefix=<prefix>
+pub run intl_translation:generate_from_arb --generated-file-prefix=<prefix>
     <my_dart_files> <translated_ARB_files>
 ```
 
