@@ -1,8 +1,9 @@
+# See https://www.dartlang.org/guides/libraries/private-files
+
 # Don’t commit the following directories created by pub.
-.pub
-build/
+.dart_tool/
 .packages
-packages
+build/
 
 # Or the files created by dart2js.
 *.dart.js
