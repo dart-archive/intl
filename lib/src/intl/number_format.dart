@@ -445,7 +445,7 @@ class NumberFormat {
     "IRR": "Rial",
     "KHR": "Riel",
     "MYR": "RM",
-    "SAR": "Rial",
+    "SAR": "Riyal",
     "BYR": "BYR",
     "RUB": "руб.",
     "MUR": "Rs",
