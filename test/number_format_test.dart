@@ -255,7 +255,7 @@ main() {
   testSimpleCurrencySymbols();
 
   test('Padding digits with non-ascii zero', () {
-    var format = new NumberFormat('000', 'ar');
+    var format = new NumberFormat('000', 'ar_EG');
     var padded = format.format(0);
     expect(padded, '٠٠٠');
   });

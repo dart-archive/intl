@@ -9,6 +9,7 @@ final availableLocalesForDateFormatting = const [
   "am",
   "ar",
   "ar_DZ",
+  "ar_EG",
   "az",
   "be",
   "bg",

@@ -151,7 +151,7 @@ var problemLocalesShort = [
 //TODO(alanknight): Narrow these down to particular numbers. Often it's just
 // 999999.
 var problemLocalesLong = [
-  "ar", "ar_DZ",
+  "ar", "ar_DZ", "ar_EG",
   "be", "bg", "bs",
   "ca", "cs", "da", "de", "de_AT", "de_CH", "el", "es", "es_419", "es_ES",
   "es_MX", "es_US", "et", "fi",
