@@ -188,7 +188,7 @@ part of intl;
 ///     Format Pattern                    Result
 ///     --------------                    -------
 ///     "yyyy.MM.dd G 'at' HH:mm:ss vvvv" 1996.07.10 AD at 15:08:56 Pacific Time
-///     "EEE, MMM d, ''yy"                Wed, July 10, '96
+///     "EEE, MMM d, ''yy"                Wed, Jul 10, '96
 ///     "h:mm a"                          12:08 PM
 ///     "hh 'o''clock' a, zzzz"           12 o'clock PM, Pacific Daylight Time
 ///     "K:mm a, vvv"                     0:00 PM, PT
