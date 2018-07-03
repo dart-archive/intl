@@ -243,7 +243,8 @@ class DateFormat {
     // the constructor seems awkward, especially with the possibility of
     // confusion with the locale. A "fluent" interface with cascading on an
     // instance might work better? A list of patterns is also possible.
-    _locale = Intl.verifiedLocale(locale, localeExists);
+    _locale = Intl.verifiedLocale(locale, localeExists,
+        onFailure: (String _) => 'en_US');
     addPattern(newPattern);
   }
 

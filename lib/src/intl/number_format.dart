@@ -493,7 +493,8 @@ class NumberFormat {
       String computeCurrencySymbol(NumberFormat),
       int decimalDigits,
       bool isForCurrency: false})
-      : _locale = Intl.verifiedLocale(locale, localeExists),
+      : _locale = Intl.verifiedLocale(locale, localeExists,
+            onFailure: (String _) => 'en_US'),
         _isForCurrency = isForCurrency {
     this._currencySymbol = currencySymbol;
     this._decimalDigits = decimalDigits;
