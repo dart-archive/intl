@@ -3,6 +3,8 @@
    1:00am time. This is presumably because of DST time-shifts. We may not be
    able to correct these dates, because midnight may not exist at a transition
    date, but we can cause the strict parsing to not fail for these dates.
+ * Update tests to split VM and web number tests, since larger integers now fail
+   to compile with dart2js.
 
 ## 0.15.6
  * More upper case constant removal.

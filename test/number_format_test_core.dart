@@ -42,16 +42,6 @@ var testNumbersWeCannotReadBack = {
   "1.235": 1.2348
 };
 
-/// Test numbers that won't work in Javascript because they're too big.
-var testNumbersOnlyForTheVM = {
-  "9,000,000,000,000,000,000": 9000000000000000000,
-  "9,223,372,036,854,775,807": 9223372036854775807
-};
-
-get allTestNumbers => new Map.from(testNumbersWeCanReadBack)
-  ..addAll(testNumbersWeCannotReadBack)
-  ..addAll(inJavaScript() ? {} : testNumbersOnlyForTheVM);
-
 var testExponential = const {"1E-3": 0.001, "1E-2": 0.01, "1.23E0": 1.23};
 
 // TODO(alanknight): Test against currency, which requires generating data
@@ -65,11 +55,10 @@ List<NumberFormat> standardFormats(String locale) {
   ];
 }
 
-// Pay no attention to the hint. This is here deliberately to have different
-// behavior in the Dart VM versus Javascript so we can distinguish the two.
-inJavaScript() => 1 is double;
+Map<String, num> get testNumbers => new Map.from(testNumbersWeCanReadBack)
+  ..addAll(testNumbersWeCannotReadBack);
 
-main() {
+runTests(Map<String, num> allTestNumbers) {
   // For data from a list of locales, run each locale's data as a separate
   // test so we can see exactly which ones pass or fail. The test data is
   // hard-coded as printing 123, -12.3, %12,300, -1,230% in each locale.
