@@ -244,7 +244,7 @@ class DateFormat {
     // confusion with the locale. A "fluent" interface with cascading on an
     // instance might work better? A list of patterns is also possible.
     _locale = Intl.verifiedLocale(locale, localeExists,
-        onFailure: (String _) => 'en_US');
+        onFailure: (String _) => 'en');
     addPattern(newPattern);
   }
 
