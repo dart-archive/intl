@@ -5,6 +5,7 @@ dart:
 
 dart_task:
   - test: -p vm
+  - test: -p firefox
   - dartfmt
   - dartanalyzer
 
