@@ -1,4 +1,5 @@
 ## 0.15.7
+ * Upate to require Dart 2.0. Remove deprecated calls,
  * Compensate for rare cases where a parsed Date in date-only format gets a
    1:00am time. This is presumably because of DST time-shifts. We may not be
    able to correct these dates, because midnight may not exist at a transition
