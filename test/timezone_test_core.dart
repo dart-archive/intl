@@ -7,13 +7,6 @@ import 'package:test/test.dart';
 import 'dart:io';
 import 'dart:convert';
 
-// This test relies on setting the TZ environment variable to affect the
-// system's time zone calculations. That's only effective on Linux environments,
-// and would only work in a browser if we were able to set it before the browser
-// launched, which we aren't. So restrict this test to the VM and Linux.
-@TestOn('vm')
-@TestOn('linux')
-
 /// The VM arguments we were given, most importantly package-root.
 final vmArgs = Platform.executableArguments;
 
@@ -26,7 +19,7 @@ testTimezone(String timezoneName, {int expectedUtcOffset}) {
   // The VM can be invoked with a "-DPACKAGE_DIR=<directory>" argument to
   // indicate the root of the Intl package. If it is not provided, we assume
   // that the root of the Intl package is the current directory.
-  var packageDir = new String.fromEnvironment('PACKAGE_DIR');
+  var packageDir = const String.fromEnvironment('PACKAGE_DIR');
   var packageRelative = 'test/timezone_local_even_test_helper.dart';
   var fileToSpawn =
       packageDir == null ? packageRelative : '$packageDir/$packageRelative';
@@ -53,5 +46,5 @@ testTimezone(String timezoneName, {int expectedUtcOffset}) {
     print(result.stdout);
     expect(result.exitCode, 0,
         reason: "Spawned test failed. See the test log from stderr to debug");
-  });
+  }, testOn: 'linux && vm');
 }
