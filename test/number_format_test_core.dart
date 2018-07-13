@@ -55,8 +55,8 @@ List<NumberFormat> standardFormats(String locale) {
   ];
 }
 
-Map<String, num> get testNumbers => new Map.from(testNumbersWeCanReadBack)
-  ..addAll(testNumbersWeCannotReadBack);
+Map<String, num> get testNumbers =>
+    new Map.from(testNumbersWeCanReadBack)..addAll(testNumbersWeCannotReadBack);
 
 runTests(Map<String, num> allTestNumbers) {
   // For data from a list of locales, run each locale's data as a separate

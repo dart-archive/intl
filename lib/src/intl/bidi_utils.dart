@@ -233,7 +233,7 @@ class Bidi {
     RegExp matchingBrackets =
         new RegExp(r'(\(.*?\)+)|(\[.*?\]+)|(\{.*?\}+)|(&lt;.*?(&gt;)+)');
     return _guardBracketHelper(str, matchingBrackets,
-        '<span dir=${useRtl? "rtl" : "ltr"}>', '</span>');
+        '<span dir=${useRtl ? "rtl" : "ltr"}>', '</span>');
   }
 
   /// Apply bracket guard to [str] using LRM and RLM. This is to address the
