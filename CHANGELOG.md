@@ -5,6 +5,7 @@
    date, but we can cause the strict parsing to not fail for these dates.
  * Update tests to split VM and web number tests, since larger integers now fail
    to compile with dart2js.
+ * Require at least Dart 2.0.0-dev.48.
 
 ## 0.15.6
  * More upper case constant removal.

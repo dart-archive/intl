@@ -1191,7 +1191,7 @@ class _NumberParser {
     }
 
     var normalizedText = _normalized.toString();
-    num parsed = int.parse(normalizedText, onError: (message) => null);
+    num parsed = int.tryParse(normalizedText);
     if (parsed == null) parsed = double.parse(normalizedText);
     return parsed / scale;
   }
