@@ -55,8 +55,8 @@ List<NumberFormat> standardFormats(String locale) {
   ];
 }
 
-Map<String, num> get testNumbers => new Map.from(testNumbersWeCanReadBack)
-  ..addAll(testNumbersWeCannotReadBack);
+Map<String, num> get testNumbers =>
+    new Map.from(testNumbersWeCanReadBack)..addAll(testNumbersWeCannotReadBack);
 
 runTests(Map<String, num> allTestNumbers) {
   // For data from a list of locales, run each locale's data as a separate
@@ -149,6 +149,7 @@ runTests(Map<String, num> allTestNumbers) {
     expect(formatted, '€1,000,000.32');
     var readBack = usConvention.parse(formatted);
     expect(readBack, amount);
+    // ignore: deprecated_member_use
     var swissConvention = new NumberFormat.currencyPattern('de_CH', r'$');
     formatted = swissConvention.format(amount);
     var nbsp = new String.fromCharCode(0xa0);
@@ -158,6 +159,7 @@ runTests(Map<String, num> allTestNumbers) {
     readBack = swissConvention.parse(formatted);
     expect(readBack, amount);
 
+    // ignore: deprecated_member_use
     var italianSwiss = new NumberFormat.currencyPattern('it_CH', r'$');
     formatted = italianSwiss.format(amount);
     expect(formatted,
@@ -175,6 +177,7 @@ runTests(Map<String, num> allTestNumbers) {
 
     // Verify that we can pass null in order to specify the currency symbol
     // but use the default locale.
+    // ignore: deprecated_member_use
     var defaultLocale = new NumberFormat.currencyPattern(null, 'Smurfs');
     formatted = defaultLocale.format(amount);
     // We don't know what the exact format will be, but it should have Smurfs.

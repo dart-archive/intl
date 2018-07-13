@@ -13,7 +13,6 @@ import 'dart:io';
 import 'intl_helpers.dart';
 
 class FileDataReader implements LocaleDataReader {
-
   /// The base path from which we will read data.
   String path;
 

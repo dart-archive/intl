@@ -200,8 +200,7 @@ main() {
     expect(Bidi.estimateDirectionOfText('http://foo/bar/', isHtml: false).value,
         equals(TextDirection.LTR.value));
     expect(
-        Bidi
-            .estimateDirectionOfText(
+        Bidi.estimateDirectionOfText(
                 'http://foo/bar/?s=\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0'
                 '\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0'
                 '\u05d0\u05d0\u05d0\u05d0\u05d0')
@@ -210,20 +209,17 @@ main() {
     expect(Bidi.estimateDirectionOfText('\u05d0', isHtml: false).value,
         equals(TextDirection.RTL.value));
     expect(
-        Bidi
-            .estimateDirectionOfText('9 \u05d0 -> 17.5, 23, 45, 19',
+        Bidi.estimateDirectionOfText('9 \u05d0 -> 17.5, 23, 45, 19',
                 isHtml: false)
             .value,
         equals(TextDirection.RTL.value));
     expect(
-        Bidi
-            .estimateDirectionOfText(
+        Bidi.estimateDirectionOfText(
                 'http://foo/bar/ \u05d0 http://foo2/bar2/ http://foo3/bar3/')
             .value,
         equals(TextDirection.RTL.value));
     expect(
-        Bidi
-            .estimateDirectionOfText(
+        Bidi.estimateDirectionOfText(
                 '\u05d0\u05d9\u05df \u05de\u05de\u05e9 \u05de\u05d4 \u05dc\u05e8\u05d0'
                 '\u05d5\u05ea: \u05dc\u05d0 \u05e6\u05d9\u05dc\u05de\u05ea\u05d9 \u05d4'
                 '\u05e8\u05d1\u05d4 \u05d5\u05d2\u05dd \u05d0\u05dd \u05d4\u05d9\u05d9'
@@ -232,8 +228,7 @@ main() {
             .value,
         equals(TextDirection.RTL.value));
     expect(
-        Bidi
-            .estimateDirectionOfText(
+        Bidi.estimateDirectionOfText(
                 '\u05db\u05d0 - http://geek.co.il/gallery/v/2007-06 - \u05d0\u05d9'
                 '\u05df \u05de\u05de\u05e9 \u05de\u05d4 \u05dc\u05e8\u05d0\u05d5\u05ea:'
                 ' \u05dc\u05d0 \u05e6\u05d9\u05dc\u05de\u05ea\u05d9 \u05d4\u05e8\u05d1 '
@@ -250,15 +245,13 @@ main() {
             .value,
         equals(TextDirection.RTL.value));
     expect(
-        Bidi
-            .estimateDirectionOfText(
+        Bidi.estimateDirectionOfText(
                 'CAPTCHA \u05de\u05e9\u05d5\u05db\u05dc\u05dc '
                 '\u05de\u05d3\u05d9?')
             .value,
         equals(TextDirection.RTL.value));
     expect(
-        Bidi
-            .estimateDirectionOfText(
+        Bidi.estimateDirectionOfText(
                 'Yes Prime Minister \u05e2\u05d3\u05db\u05d5\u05df. \u05e9\u05d0\u05dc'
                 '\u05d5 \u05d0\u05d5\u05ea\u05d9 \u05de\u05d4 \u05d0\u05e0\u05d9 '
                 '\u05e8\u05d5\u05e6\u05d4 \u05de\u05ea\u05e0\u05d4 \u05dc\u05d7'
@@ -266,47 +259,40 @@ main() {
             .value,
         equals(TextDirection.RTL.value));
     expect(
-        Bidi
-            .estimateDirectionOfText(
+        Bidi.estimateDirectionOfText(
                 '17.4.02 \u05e9\u05e2\u05d4:13-20 .15-00 .\u05dc\u05d0 \u05d4\u05d9'
                 '\u05d9\u05ea\u05d9 \u05db\u05d0\u05df.')
             .value,
         equals(TextDirection.RTL.value));
     expect(
-        Bidi
-            .estimateDirectionOfText(
+        Bidi.estimateDirectionOfText(
                 '5710 5720 5730. \u05d4\u05d3\u05dc\u05ea. \u05d4\u05e0\u05e9\u05d9'
                 '\u05e7\u05d4',
                 isHtml: false)
             .value,
         equals(TextDirection.RTL.value));
     expect(
-        Bidi
-            .estimateDirectionOfText(
+        Bidi.estimateDirectionOfText(
                 '\u05d4\u05d3\u05dc\u05ea http://www.google.com '
                 'http://www.gmail.com')
             .value,
         equals(TextDirection.RTL.value));
     expect(
-        Bidi
-            .estimateDirectionOfText(
+        Bidi.estimateDirectionOfText(
                 '\u05d4\u05d3\u05dc <some quite nasty html mark up>')
             .value,
         equals(TextDirection.LTR.value));
     expect(
-        Bidi
-            .estimateDirectionOfText(
+        Bidi.estimateDirectionOfText(
                 '\u05d4\u05d3\u05dc <some quite nasty html mark up>')
             .value,
         equals(TextDirection.LTR.value));
     expect(
-        Bidi
-            .estimateDirectionOfText('\u05d4\u05d3\u05dc\u05ea &amp; &lt; &gt;')
+        Bidi.estimateDirectionOfText('\u05d4\u05d3\u05dc\u05ea &amp; &lt; &gt;')
             .value,
         equals(TextDirection.LTR.value));
     expect(
-        Bidi
-            .estimateDirectionOfText('\u05d4\u05d3\u05dc\u05ea &amp; &lt; &gt;',
+        Bidi.estimateDirectionOfText('\u05d4\u05d3\u05dc\u05ea &amp; &lt; &gt;',
                 isHtml: true)
             .value,
         equals(TextDirection.RTL.value));

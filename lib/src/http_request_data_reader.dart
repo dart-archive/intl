@@ -12,7 +12,6 @@ import 'dart:html';
 import 'intl_helpers.dart';
 
 class HttpRequestDataReader implements LocaleDataReader {
-
   /// The base url from which we read the data.
   String url;
   HttpRequestDataReader(this.url);
@@ -20,8 +19,7 @@ class HttpRequestDataReader implements LocaleDataReader {
   Future read(String locale) {
     var request = new HttpRequest();
     request.timeout = 5000;
-    return _getString('$url$locale.json', request)
-        .then((r) => r.responseText);
+    return _getString('$url$locale.json', request).then((r) => r.responseText);
   }
 
   /// Read a string with the given request. This is a stripped down copy
