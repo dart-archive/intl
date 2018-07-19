@@ -92,22 +92,11 @@ an [Intl.message][Intl.message] call.
               "the user presses a key");
       print(continueMessage());
 
-This provides, in addition to the basic message string, a name, a
-description for translators, the arguments used in the message, and
-examples. The `name` and `args` parameters are required, and must
-match the name (or ClassName_methodName) and arguments list of the
-function respectively. However, there is a transformer provided that
-will automatically insert those parameters for you. This transformer
-is in the [Intl_translation][Intl_translation] package.
-In pubspec.yaml, add a section like
-
-      dev_dependencies:
-        intl_translation: ^0.15.0
-      transformers:
-      - intl_translation:
-      $include: some_file.dart
-
-and then you can omit the name and args.
+This provides, in addition to the basic message string, a name, a description
+for translators, the arguments used in the message, and examples. The `name` and
+`args` parameters must match the name (or ClassName_methodName) and arguments
+list of the function respectively. For messages without parameters, both of
+these can be omitted.
 
 A function with an Intl.message call can be run in the program before any
 translation has been done, and will just return the message string. It can also
@@ -249,18 +238,6 @@ Current known limitations are that the currency format will only print
 the name of the currency, and does not support currency symbols, and
 that the scientific format does not really agree with scientific
 notation. Number parsing is not yet implemented.
-
-Note that before doing any number formatting for a particular locale
-you must load the appropriate data by calling
-
-      import 'package:intl/number_symbols_data_local.dart';
-      ...
-      initializeNumberFormatting(localeName, null).then(formatNumbers);
-
-Once the future returned from the initialization call returns, the
-formatting data is available. Note that right now this includes all
-the data for a locales. We expect to make this use deferred loading to
-reduce code size.
 
 ## Date Formatting and Parsing
 
