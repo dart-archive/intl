@@ -130,10 +130,10 @@ message string, for plurals and genders.
 
       remainingEmailsMessage(int howMany, String userName) =>
         Intl.message(
-          "${Intl.plural(howMany,
+          '''${Intl.plural(howMany,
               zero: 'There are no emails left for $userName.',
               one: 'There is $howMany email left for $userName.',
-              other: 'There are $howMany emails left for $userName.')}",
+              other: 'There are $howMany emails left for $userName.')}''',
         name: "remainingEmailsMessage",
         args: [howMany, userName],
         desc: "How many emails remain after archiving.",

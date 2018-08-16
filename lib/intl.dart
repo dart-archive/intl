@@ -53,11 +53,11 @@ part 'src/intl/number_format.dart';
 ///          examples: const {'date' : 'June 8, 2012'});
 ///      print(today(new DateTime.now().toString());
 ///
-///      howManyPeople(numberOfPeople, place) => Intl.plural(
-///            zero: 'I see no one at all',
-///            one: 'I see $numberOfPeople other person',
-///            other: 'I see $numberOfPeople other people')} in $place.''',
-///          name: 'msg',
+///      howManyPeople(numberOfPeople, place) => Intl.plural(numberOfPeople,
+///            zero: 'I see no one at all in $place.',
+///            one: 'I see $numberOfPeople other person in $place.',
+///            other: 'I see $numberOfPeople other people in $place.',
+///          name: 'howManyPeople',
 ///          args: [numberOfPeople, place],
 ///          desc: 'Description of how many people are seen in a place.',
 ///          examples: const {'numberOfPeople': 3, 'place': 'London'});
