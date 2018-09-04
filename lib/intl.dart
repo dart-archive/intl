@@ -183,8 +183,8 @@ class Intl {
       _message(message_str, locale, name, args, meaning);
 
   /// Omit the compile-time only parameters so dart2js can see to drop them.
-  static _message(String message_str, String locale, String name, List args,
-      String meaning) {
+  static String _message(String message_str, String locale, String name,
+      List args, String meaning) {
     return messageLookup.lookupMessage(
         message_str, locale, name, args, meaning);
   }

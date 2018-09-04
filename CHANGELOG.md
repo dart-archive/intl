@@ -1,3 +1,6 @@
+## 0.15.8
+ * Add return type to some internal methods to improve dart2js output.
+
 ## 0.15.7
  * Upate to require Dart 2.0. Remove deprecated calls,
  * Compensate for rare cases where a parsed Date in date-only format gets a
