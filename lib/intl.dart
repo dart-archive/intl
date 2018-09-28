@@ -131,16 +131,22 @@ class Intl {
   /// will be substituted in the message.
   ///
   /// The [message_str] is the string to be translated, which may be
-  /// interpolated based on one or more variables. The [name] of the message
-  /// must match the enclosing function name. For methods, it can also be
-  /// className_methodName. So for a method hello in class Simple, the name can
-  /// be either "hello" or "Simple_hello". The name must also be globally unique
-  /// in the program, so the second form can make it easier to distinguish
-  /// messages with the same name but in different classes.
+  /// interpolated based on one or more variables.
   ///
-  /// The [args] repeats the arguments of the enclosing
-  /// function, [desc] provides a description of usage,
-  /// [examples] is a Map of examples for each interpolated variable.
+  /// The [args] is a list containing the arguments of the enclosing function.
+  /// If there are no arguments, [args] can be omitted.
+  ///
+  /// The [name] is required only for messages that have [args], and optional
+  /// for messages without [args]. It is used at runtime to look up the message
+  /// and pass the appropriate arguments to it. If provided, [name] must be
+  /// globally unique in the program. It must match the enclosing function name,
+  /// or if the function is a method of a class, [name] can also be of the form
+  /// <className>_<methodName>, to make it easier to distinguish messages with
+  /// the same name but in different classes.
+  ///
+  /// The [desc] provides a description of the message usage.
+  ///
+  /// The [examples] is a const Map of examples for each interpolated variable.
   /// For example
   ///
   ///       hello(yourName) => Intl.message(
@@ -160,13 +166,6 @@ class Intl {
   /// additional data for translators. For more information see the "Messages"
   /// section of the main
   /// [package documentation] (https://pub.dartlang.org/packages/intl).
-  ///
-  /// For messages without parameters, both [name] and [args] can be omitted.
-  /// Messages that supply [args] should also supply a unique [name]. The [name]
-  /// and [args] arguments used at runtime to look up the localized version and
-  /// pass the appropriate arguments to it. We may in the future modify the code
-  /// during compilation to make manually passing those arguments unnecessary in
-  /// more situations.
   ///
   /// The [skip] arg will still validate the message, but will be filtered from
   /// the extracted message output. This can be useful to set up placeholder
