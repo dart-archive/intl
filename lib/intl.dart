@@ -154,7 +154,7 @@ class Intl {
   ///         name: "hello",
   ///         args: [yourName],
   ///         desc: "Say hello",
-  ///         examples = const {"yourName": "Sparky"}.
+  ///         examples: const {"yourName": "Sparky"});
   ///
   /// The source code will be processed via the analyzer to extract out the
   /// message data, so only a subset of valid Dart code is accepted. In
