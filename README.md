@@ -23,7 +23,7 @@ You can explicitly set the global locale
 
 or get it from the browser
 
-      import "package:intl/intl_browser.dart";
+      import 'package:intl/intl_browser.dart';
       ...
       findSystemLocale().then(runTheRestOfMyProgram);
 
@@ -43,8 +43,8 @@ a specific locale, pass in the locale as a parameter to methods, or
 set the default locale.
 
 ```dart
-var format = new DateFormat.yMd("ar");
-var dateString = format.format(new DateTime.now());
+var format = DateFormat.yMd('ar');
+var dateString = format.format(DateTime.now());
 ```
 
 or
@@ -56,8 +56,8 @@ print(myMessage(dateString, locale: 'ar');
 or
 
 ```dart
-Intl.defaultLocale = "es";
-new DateFormat.jm().format(new DateTime.now());
+Intl.defaultLocale = 'es';
+DateFormat.jm().format(DateTime.now());
 ```
 
 ## Initialization
@@ -85,11 +85,11 @@ Messages to be localized are written as functions that return the result of
 an [Intl.message][Intl.message] call.
 
       String continueMessage() => Intl.message(
-          "Hit any key to continue",
-          name: "continueMessage",
+          'Hit any key to continue',
+          name: 'continueMessage',
           args: [],
-          desc: "Explains that we will not proceed further until "
-              "the user presses a key");
+          desc: 'Explains that we will not proceed further until '
+              'the user presses a key');
       print(continueMessage());
 
 This provides, in addition to the basic message string, a name, a description
@@ -118,11 +118,11 @@ the formatting outside the function and pass the formatted string into
 the message.
 
       greetingMessage(name) => Intl.message(
-          "Hello $name!",
-          name: "greetingMessage",
+          'Hello $name!',
+          name: 'greetingMessage',
           args: [name],
-          desc: "Greet the user as they first open the application",
-          examples: const {'name': "Emily"});
+          desc: 'Greet the user as they first open the application',
+          examples: const {'name': 'Emily'});
       print(greetingMessage('Dan'));
 
 There is one special class of complex expressions allowed in the
@@ -134,12 +134,12 @@ message string, for plurals and genders.
               zero: 'There are no emails left for $userName.',
               one: 'There is $howMany email left for $userName.',
               other: 'There are $howMany emails left for $userName.')}",
-        name: "remainingEmailsMessage",
+        name: 'remainingEmailsMessage',
         args: [howMany, userName],
-        desc: "How many emails remain after archiving.",
+        desc: 'How many emails remain after archiving.',
         examples: const {'howMany': 42, 'userName': 'Fred'});
 
-      print(remainingEmailsMessage(1, "Fred"));
+      print(remainingEmailsMessage(1, 'Fred'));
 
 However, since the typical usage for a plural or gender is for it to
 be at the top-level, we can also omit the [Intl.message][Intl.message] call and
@@ -151,9 +151,9 @@ provide its parameters to the [Intl.plural][Intl.plural] call instead.
           zero: 'There are no emails left for $userName.',
           one: 'There is $howMany email left for $userName.',
           other: 'There are $howMany emails left for $userName.',
-          name: "remainingEmailsMessage",
+          name: 'remainingEmailsMessage',
           args: [howMany, userName],
-          desc: "How many emails remain after archiving.",
+          desc: 'How many emails remain after archiving.',
           examples: const {'howMany': 42, 'userName': 'Fred'});
 
 Similarly, there is an [Intl.gender][Intl.gender] message, and plurals
@@ -165,9 +165,9 @@ and genders can be nested.
           male: '$userName is unavailable because he is not online.',
           female: '$userName is unavailable because she is not online.',
           other: '$userName is unavailable because they are not online',
-          name: "notOnlineMessage",
+          name: 'notOnlineMessage',
           args: [userName, userGender],
-          desc: "The user is not available to hangout.",
+          desc: 'The user is not available to hangout.',
           examples: const {{'userGender': 'male', 'userName': 'Fred'},
               {'userGender': 'female', 'userName' : 'Alice'}});
 
@@ -209,9 +209,9 @@ for a specific locale. Once that's done, any
 will automatically print the translated version instead of the
 original.
 
-      import "my_prefix_messages_all.dart";
+      import 'my_prefix_messages_all.dart';
       ...
-      initializeMessages("dk").then(printSomeMessages);
+      initializeMessages('dk').then(printSomeMessages);
 
 Once the future returned from the initialization call returns, the
 message data is available.
@@ -220,7 +220,7 @@ message data is available.
 
 To format a number, create a NumberFormat instance.
 
-      var f = new NumberFormat("###.0#", "en_US");
+      var f = NumberFormat('###.0#', 'en_US');
       print(f.format(12.345));
         ==> 12.34
 
@@ -246,22 +246,22 @@ instance. These can be created using a set of commonly used skeletons
 taken from ICU/CLDR or using an explicit pattern. For details on the
 supported skeletons and patterns see [DateFormat][DateFormat].
 
-      new DateFormat.yMMMMEEEEd().format(aDateTime);
+      DateFormat.yMMMMEEEEd().format(aDateTime);
         ==> 'Wednesday, January 10, 2012'
-      new DateFormat("EEEEE", "en_US").format(aDateTime);
+      DateFormat('EEEEE', 'en_US').format(aDateTime);
         ==> 'Wednesday'
-      new DateFormat("EEEEE", "ln").format(aDateTime);
+      DateFormat('EEEEE', 'ln').format(aDateTime);
         ==> 'mokɔlɔ mwa mísáto'
 
 You can also parse dates using the same skeletons or patterns.
 
-        new DateFormat.yMd("en_US").parse("1/10/2012");
-        new DateFormat("Hms", "en_US").parse('14:23:01');
+        DateFormat.yMd('en_US').parse('1/10/2012');
+        DateFormat('Hms', 'en_US').parse('14:23:01');
 
 Skeletons can be combined, the main use being to print a full date and
 time, e.g.
 
-        new DateFormat.yMEd().add_jms().format(new DateTime.now());
+        DateFormat.yMEd().add_jms().format(DateTime.now());
           ==> 'Thu, 5/23/2013 10:21:47 AM'
 
 Known limitations: Time zones are not yet supported. Dart
@@ -273,7 +273,7 @@ locale, you must load the appropriate data by calling.
 
         import 'package:intl/date_symbol_data_local.dart';
         ...
-        initializeDateFormatting("de_DE", null).then(formatDates);
+        initializeDateFormatting('de_DE', null).then(formatDates);
 
 Once the future returned from the initialization call returns, the
 formatting data is available.
@@ -293,8 +293,8 @@ direction. The direction can be specified with the
 [RTL][BidiFormatter.RTL] and [LTR][BidiFormatter.LTR] constructors, or
 detected from the text.
 
-        new BidiFormatter.RTL().wrapWithUnicode('xyz');
-        new BidiFormatter.RTL().wrapWithSpan('xyz');
+        BidiFormatter.RTL().wrapWithUnicode('xyz');
+        BidiFormatter.RTL().wrapWithSpan('xyz');
 
 [intl_lib]: https://www.dartdocs.org/documentation/intl/latest/intl/intl-library.html
 [Intl]: https://www.dartdocs.org/documentation/intl/latest
