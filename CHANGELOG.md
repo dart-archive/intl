@@ -1,5 +1,9 @@
 ## 0.15.8
  * Add return type to some internal methods to improve dart2js output.
+ * Change parameter types in some public methods from dynamic (implicit or
+   explicit) to Object. In particular, the examples and args parameters on
+   Intl.message, Intl.plural, Intl.gender, and Intl.select, as well as the args
+   parameter on MessageLookup.
 
 ## 0.15.7
  * Upate to require Dart 2.0. Remove deprecated calls,
