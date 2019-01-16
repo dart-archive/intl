@@ -173,17 +173,17 @@ class Intl {
   /// the placeholder automatically translated.
   static String message(String message_str,
           {String desc: '',
-          Map<String, dynamic> examples: const {},
+          Map<String, Object> examples: const {},
           String locale,
           String name,
-          List args,
+          List<Object> args,
           String meaning,
           bool skip}) =>
       _message(message_str, locale, name, args, meaning);
 
   /// Omit the compile-time only parameters so dart2js can see to drop them.
   static String _message(String message_str, String locale, String name,
-      List args, String meaning) {
+      List<Object> args, String meaning) {
     return messageLookup.lookupMessage(
         message_str, locale, name, args, meaning);
   }
@@ -279,10 +279,10 @@ class Intl {
       String many,
       String other,
       String desc,
-      Map<String, dynamic> examples,
+      Map<String, Object> examples,
       String locale,
       String name,
-      List args,
+      List<Object> args,
       String meaning,
       bool skip}) {
     // Call our internal method, dropping examples and desc because they're not
@@ -309,7 +309,7 @@ class Intl {
       String other,
       String locale,
       String name,
-      List args,
+      List<Object> args,
       String meaning}) {
     // Look up our translation, but pass in a null message so we don't have to
     // eagerly evaluate calls that may not be necessary.
@@ -391,10 +391,10 @@ class Intl {
       String male,
       String other,
       String desc,
-      Map<String, dynamic> examples,
+      Map<String, Object> examples,
       String locale,
       String name,
-      List args,
+      List<Object> args,
       String meaning,
       bool skip}) {
     // Call our internal method, dropping args and desc because they're not used
@@ -414,10 +414,10 @@ class Intl {
       String male,
       String other,
       String desc,
-      Map<String, dynamic> examples,
+      Map<String, Object> examples,
       String locale,
       String name,
-      List args,
+      List<Object> args,
       String meaning}) {
     // Look up our translation, but pass in a null message so we don't have to
     // eagerly evaluate calls that may not be necessary.
@@ -453,10 +453,10 @@ class Intl {
   /// of an Intl.message message that is to be translated.
   static String select(Object choice, Map<String, String> cases,
       {String desc,
-      Map<String, dynamic> examples,
+      Map<String, Object> examples,
       String locale,
       String name,
-      List args,
+      List<Object> args,
       String meaning,
       bool skip}) {
     return _select(choice, cases,
@@ -464,7 +464,7 @@ class Intl {
   }
 
   static String _select(Object choice, Map<String, String> cases,
-      {String locale, String name, List args, String meaning}) {
+      {String locale, String name, List<Object> args, String meaning}) {
     // Look up our translation, but pass in a null message so we don't have to
     // eagerly evaluate calls that may not be necessary.
     var translated = _message(null, locale, name, args, meaning);
