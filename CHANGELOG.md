@@ -4,6 +4,9 @@
    explicit) to Object. In particular, the examples and args parameters on
    Intl.message, Intl.plural, Intl.gender, and Intl.select, as well as the args
    parameter on MessageLookup.
+ * Allow Dart enums in an Intl.select call. The map of cases can either take
+   enums directly, or the short string name of the enum. Requires
+   intl_translation 0.17.4 to take advantage of this.
 
 ## 0.15.7
  * Upate to require Dart 2.0. Remove deprecated calls,
