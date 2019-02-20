@@ -447,11 +447,19 @@ class Intl {
     }
   }
 
-  /// Format a message differently depending on [choice]. We look up the value
+  /// Format a message differently depending on [choice].
+  ///
+  /// We look up the value
   /// of [choice] in [cases] and return the result, or an empty string if
   /// it is not found. Normally used as part
   /// of an Intl.message message that is to be translated.
-  static String select(Object choice, Map<String, String> cases,
+  ///
+  /// It is possible to use a Dart enum as the choice and as the
+  /// key in cases, but note that we will process this by truncating
+  /// toString() of the enum and using just the name part. We will
+  /// do this for any class or strings that are passed, since we
+  /// can't actually identify if something is an enum or not.
+  static String select(Object choice, Map<Object, String> cases,
       {String desc,
       Map<String, Object> examples,
       String locale,
@@ -463,11 +471,14 @@ class Intl {
         locale: locale, name: name, args: args, meaning: meaning);
   }
 
-  static String _select(Object choice, Map<String, String> cases,
+  static String _select(Object choice, Map<Object, String> cases,
       {String locale, String name, List<Object> args, String meaning}) {
     // Look up our translation, but pass in a null message so we don't have to
     // eagerly evaluate calls that may not be necessary.
-    var translated = _message(null, locale, name, args, meaning);
+    var stringChoice = choice is String ? choice : "$choice".split('.').last;
+    var modifiedArgs =
+        args == null ? null : (<Object>[stringChoice]..addAll(args.skip(1)));
+    var translated = _message(null, locale, name, modifiedArgs, meaning);
 
     /// If there's a translation, return it, otherwise evaluate with our
     /// original text.
@@ -476,11 +487,18 @@ class Intl {
 
   /// Internal: Implements the logic for select - use [select] for
   /// normal messages.
-  static selectLogic(Object choice, Map<String, dynamic> cases) {
-    // Allow passing non-strings, e.g. enums to a select.
-    choice = "$choice";
+  static selectLogic(Object choice, Map<Object, dynamic> cases) {
+    // This will work if choice is a string, or if it's e.g. an
+    // enum and the map uses the enum values as choices.
     var exact = cases[choice];
     if (exact != null) return exact;
+    // If it didn't match exactly, take the toString and
+    // take the part after the period. We need to do this
+    // because enums print as 'EnumType.enumName' and periods
+    // aren't acceptable in ICU select choices.
+    var stringChoice = "$choice".split('.').last;
+    var stringMatch = cases[stringChoice];
+    if (stringMatch != null) return stringMatch;
     var other = cases["other"];
     if (other == null)
       throw new ArgumentError("The 'other' case must be specified");
