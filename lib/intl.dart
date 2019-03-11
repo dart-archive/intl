@@ -29,6 +29,7 @@ import 'number_symbols_data.dart';
 import 'src/date_format_internal.dart';
 import 'src/intl_helpers.dart';
 import 'package:intl/src/plural_rules.dart' as plural_rules;
+import 'package:meta/dart2js.dart' as dart2js;
 
 part 'src/intl/bidi_formatter.dart';
 part 'src/intl/bidi_utils.dart';
@@ -171,6 +172,7 @@ class Intl {
   /// the extracted message output. This can be useful to set up placeholder
   /// messages during development whose text aren't finalized yet without having
   /// the placeholder automatically translated.
+  @dart2js.tryInline
   static String message(String message_str,
           {String desc: '',
           Map<String, Object> examples: const {},
@@ -271,6 +273,7 @@ class Intl {
   /// as part of an `Intl.message` text that is to be translated.
   /// Selects the correct plural form from
   /// the provided alternatives. The [other] named argument is mandatory.
+  @dart2js.tryInline
   static String plural(int howMany,
       {String zero,
       String one,
@@ -386,6 +389,7 @@ class Intl {
   }
 
   /// Format a message differently depending on [targetGender].
+  @dart2js.tryInline
   static String gender(String targetGender,
       {String female,
       String male,
@@ -459,6 +463,7 @@ class Intl {
   /// toString() of the enum and using just the name part. We will
   /// do this for any class or strings that are passed, since we
   /// can't actually identify if something is an enum or not.
+  @dart2js.tryInline
   static String select(Object choice, Map<Object, String> cases,
       {String desc,
       Map<String, Object> examples,
