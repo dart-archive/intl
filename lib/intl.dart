@@ -459,6 +459,8 @@ class Intl {
   /// toString() of the enum and using just the name part. We will
   /// do this for any class or strings that are passed, since we
   /// can't actually identify if something is an enum or not.
+  ///
+  /// The first argument in [args] must correspond to the [choice] Object.
   static String select(Object choice, Map<Object, String> cases,
       {String desc,
       Map<String, Object> examples,
