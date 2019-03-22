@@ -1,3 +1,5 @@
+## 0.16.0
+
 ## 0.15.8
  * Add return type to some internal methods to improve dart2js output.
  * Change parameter types in some public methods from dynamic (implicit or
