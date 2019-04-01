@@ -85,7 +85,7 @@ class LocaleExtensions {
   //
   // Must be static to get tree-shaken away in production code.
   static final _uExtensionsValidValuesRE =
-      RegExp(r'^[a-z]{3,8}([-][a-z]{3,8})*$');
+      RegExp(r'^[a-z\d]{3,8}([-][a-z\d]{3,8})*$');
 
   /// For debug/assert-use only! Matches keys considered valid for
   /// [_tExtensions], does not imply keys are valid as per Unicode LDML spec!
@@ -99,7 +99,7 @@ class LocaleExtensions {
   //
   // Must be static to get tree-shaken away in production code.
   static final _tExtensionsValidValuesRE =
-      RegExp(r'^[a-z]{3,8}([-][a-z]{3,8})*$');
+      RegExp(r'^[a-z\d]{3,8}([-][a-z\d]{3,8})*$');
 
   /// For debug/assert-use only! Matches keys considered valid for
   /// [_otherExtensions], does not imply keys are valid as per Unicode LDML

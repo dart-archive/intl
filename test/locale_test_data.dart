@@ -46,6 +46,13 @@ Map<String, String> localeParsingTestData = <String, String>{
   // Private-use extension subtags do not get sorted
   'en-x-BCDE0123-ABCD0123': 'en-x-bcde0123-abcd0123',
   'en-x-BCDE0123-123456-ABCD0123': 'en-x-bcde0123-123456-abcd0123',
+
+  // Digits in u-extension values
+  'en-u-hc-h11': 'en-u-hc-h11',
+  'en-u-hc-h23': 'en-u-hc-h23',
+
+  // Digits in t-extension values
+  'en-t-m0-c11': 'en-t-m0-c11',
 };
 
 /// Invalid Language Tags.
