@@ -16,10 +16,10 @@ final dart = Platform.executable;
 /// running in that time zone, verify that the DateTime offset is one of the
 /// expected values.
 testTimezone(String timezoneName, {int expectedUtcOffset}) {
-  // The VM can be invoked with a "-DPACKAGE_DIR=<directory>" argument to
-  // indicate the root of the Intl package. If it is not provided, we assume
-  // that the root of the Intl package is the current directory.
-  var packageDir = const String.fromEnvironment('PACKAGE_DIR');
+  // Define the environment variable "PACKAGE_DIR=<directory>" to indicate the
+  // root of the Intl package. If it is not provided, we assume that the root of
+  // the Intl package is the current directory.
+  var packageDir = Platform.environment['PACKAGE_DIR'];
   var packageRelative = 'test/timezone_local_even_test_helper.dart';
   var fileToSpawn =
       packageDir == null ? packageRelative : '$packageDir/$packageRelative';
