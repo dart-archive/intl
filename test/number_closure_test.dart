@@ -391,5 +391,5 @@ testLocaleSwitchAsync() {
 void verifyFrenchLocale() {
   var fmt = new NumberFormat('#,###');
   var str = fmt.format(1234567890);
-  expect(str, '1\u00a0234\u00a0567\u00a0890');
+  expect(str, '1\u202f234\u202f567\u202f890');
 }
