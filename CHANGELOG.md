@@ -1,4 +1,5 @@
 ## 0.16.0
+ * Fix 'k' formatting (1 to 24 hours) which incorrectly showed 0 to 23.
 
 ## 0.15.8
  * Add return type to some internal methods to improve dart2js output.

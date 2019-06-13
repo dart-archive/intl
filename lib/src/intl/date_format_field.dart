@@ -467,7 +467,8 @@ class _DateFormatPatternField extends _DateFormatField {
   }
 
   String format24Hours(DateTime date) {
-    return padTo(width, date.hour);
+    var hour = date.hour == 0 ? 24 : date.hour;
+    return padTo(width, hour);
   }
 
   String formatFractionalSeconds(DateTime date) {

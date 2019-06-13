@@ -470,4 +470,19 @@ void runDateTests(SubsetFuncType subsetFunc) {
     // Reset the value.
     DateFormat.useNativeDigitsByDefaultFor('ar', true);
   });
+
+  // This just tests the basic logic, which was in error, not
+  // formatting in different locales. See #215.
+  test('hours', () {
+    var oneToTwentyFour = DateFormat('kk');
+    var oneToTwelve = DateFormat('hh');
+    var zeroToTwentyThree = DateFormat('KK');
+    var zeroToEleven = DateFormat('HH');
+    var late = DateTime(2019, 1, 2, 0, 4, 6);
+    expect(oneToTwentyFour.format(late), '24');
+    expect(zeroToTwentyThree.format(late), '00');
+    expect(oneToTwelve.format(late), '12');
+    expect(zeroToEleven.format(late), '00');
+
+  });
 }
