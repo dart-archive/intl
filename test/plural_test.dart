@@ -195,6 +195,20 @@ main() {
     expect(() => plural(null, null), throwsArgumentError);
     expect(() => plural(null, "ru"), throwsArgumentError);
   });
+
+  verify_with_precision('1 dollar', 'en', 1, 0);
+  // This would not work in back-compatibility for one vs. =1 in plurals,
+  // because of this test in intl.dart:
+  //    if (howMany == 1 && one != null) return one;
+  // That one will ignore the precision and always return one, while the
+  // test below requires the result to be 'other'
+  // verify_with_precision('1.00 dollars', 'en', 1, 2);
+
+  verify_with_precision('1 dollar', 'en', 1.2, 0);
+  verify_with_precision('1.20 dollars', 'en', 1.2, 2);
+
+  verify_with_precision('3 dollars', 'en', 3.14, 0);
+  verify_with_precision('3.14 dollars', 'en', 3.14, 2);
 }
 
 verify(String expectedValues, String locale, pluralFunction) {
@@ -205,4 +219,16 @@ verify(String expectedValues, String locale, pluralFunction) {
       expect(pluralFunction(number, locale), lines[i]);
     });
   }
+}
+
+verify_with_precision(String expected, String locale, num n, int precision) {
+  test('verify_with_precision(howMany: $n, precision: $precision)', () {
+    var nString = n.toStringAsFixed(precision);
+    var actual = Intl.plural(n,
+        locale: locale,
+        precision: precision,
+        one: '$nString dollar',
+        other: '$nString dollars');
+    expect(actual, expected);
+  });
 }

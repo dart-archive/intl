@@ -173,7 +173,7 @@ class Intl {
   /// the placeholder automatically translated.
   static String message(String message_str,
           {String desc: '',
-          Map<String, Object> examples: const {},
+          Map<String, Object> examples,
           String locale,
           String name,
           List<Object> args,
@@ -267,11 +267,17 @@ class Intl {
     return '${aLocale[0]}${aLocale[1]}_$region';
   }
 
-  /// Format a message differently depending on [howMany]. Normally used
-  /// as part of an `Intl.message` text that is to be translated.
-  /// Selects the correct plural form from
-  /// the provided alternatives. The [other] named argument is mandatory.
-  static String plural(int howMany,
+  /// Formats a message differently depending on [howMany].
+  ///
+  /// Selects the correct plural form from the provided alternatives.
+  /// The [other] named argument is mandatory.
+  /// The [precision] is the number of fractional digits that would be rendered
+  /// when [howMany] is formatted. In some cases just knowing the numeric value
+  /// of [howMany] itsef is not enough, for example "1 mile" vs "1.00 miles"
+  ///
+  /// For an explanation of plurals and the [zero], [one], [two], [few], [many]
+  /// categories see http://cldr.unicode.org/index/cldr-spec/plural-rules
+  static String plural(num howMany,
       {String zero,
       String one,
       String two,
@@ -281,6 +287,7 @@ class Intl {
       String desc,
       Map<String, Object> examples,
       String locale,
+      int precision,
       String name,
       List<Object> args,
       String meaning,
@@ -295,12 +302,13 @@ class Intl {
         many: many,
         other: other,
         locale: locale,
+        precision: precision,
         name: name,
         args: args,
         meaning: meaning);
   }
 
-  static String _plural(int howMany,
+  static String _plural(num howMany,
       {String zero,
       String one,
       String two,
@@ -308,6 +316,7 @@ class Intl {
       String many,
       String other,
       String locale,
+      int precision,
       String name,
       List<Object> args,
       String meaning}) {
@@ -325,29 +334,40 @@ class Intl {
             few: few,
             many: many,
             other: other,
-            locale: locale);
+            locale: locale,
+            precision: precision);
   }
 
   /// Internal: Implements the logic for plural selection - use [plural] for
   /// normal messages.
-  static pluralLogic(int howMany,
-      {zero, one, two, few, many, other, String locale, String meaning}) {
+  static pluralLogic(num howMany,
+      {zero, one, two, few, many, other, String locale, int precision,
+      String meaning}) {
     if (other == null) {
       throw new ArgumentError("The 'other' named argument must be provided");
     }
     if (howMany == null) {
       throw new ArgumentError("The howMany argument to plural cannot be null");
     }
-    // If there's an explicit case for the exact number, we use it. This is not
-    // strictly in accord with the CLDR rules, but it seems to be the
-    // expectation. At least I see e.g. Russian translations that have a zero
-    // case defined. The rule for that locale will never produce a zero, and
-    // treats it as other. But it seems reasonable that, even if the language
-    // rules treat zero as other, we might want a special message for zero.
-    if (howMany == 0 && zero != null) return zero;
-    if (howMany == 1 && one != null) return one;
-    if (howMany == 2 && two != null) return two;
-    var pluralRule = _pluralRule(locale, howMany);
+
+    // This is for backward compatibility.
+    // We interpret the presence of [precision] parameter as an "opt-in" to
+    // the new behavior, since [precision] did not exist before.
+    // For an English example: if the precision is 2 then the formatted string
+    // would not map to 'one' (for example "1.00 miles")
+    if (precision == null || precision == 0) {
+      // If there's an explicit case for the exact number, we use it. This is
+      // not strictly in accord with the CLDR rules, but it seems to be the
+      // expectation. At least I see e.g. Russian translations that have a zero
+      // case defined. The rule for that locale will never produce a zero, and
+      // treats it as other. But it seems reasonable that, even if the language
+      // rules treat zero as other, we might want a special message for zero.
+      if (howMany == 0 && zero != null) return zero;
+      if (howMany == 1 && one != null) return one;
+      if (howMany == 2 && two != null) return two;
+    }
+
+    var pluralRule = _pluralRule(locale, howMany, precision);
     var pluralCase = pluralRule();
     switch (pluralCase) {
       case plural_rules.PluralCase.ZERO:
@@ -371,8 +391,8 @@ class Intl {
   static var _cachedPluralRule;
   static String _cachedPluralLocale;
 
-  static _pluralRule(String locale, int howMany) {
-    plural_rules.startRuleEvaluation(howMany);
+  static _pluralRule(String locale, num howMany, int precision) {
+    plural_rules.startRuleEvaluation(howMany, precision);
     var verifiedLocale = Intl.verifiedLocale(
         locale, plural_rules.localeHasPluralRules,
         onFailure: (locale) => 'default');
@@ -414,7 +434,6 @@ class Intl {
       String male,
       String other,
       String desc,
-      Map<String, Object> examples,
       String locale,
       String name,
       List<Object> args,
