@@ -479,7 +479,8 @@ class Intl {
     // eagerly evaluate calls that may not be necessary.
     var stringChoice = choice is String ? choice : "$choice".split('.').last;
     var modifiedArgs =
-        args == null ? null : (<Object>[stringChoice]..addAll(args.skip(1)));
+        args == null ? null : (<Object>[stringChoice.toLowerCase()]..addAll(args.skip(1)));
+
     var translated = _message(null, locale, name, modifiedArgs, meaning);
 
     /// If there's a translation, return it, otherwise evaluate with our
