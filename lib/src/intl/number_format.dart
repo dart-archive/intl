@@ -180,6 +180,11 @@ class NumberFormat {
   NumberFormat.percentPattern([String locale])
       : this._forPattern(locale, (x) => x.PERCENT_PATTERN);
 
+  /// Create a number format that prints as PERCENT_PATTERN.
+  NumberFormat.decimalPercentPattern({String locale, int decimalDigits})
+      : this._forPattern(locale, (x) => x.PERCENT_PATTERN,
+            decimalDigits: decimalDigits);
+
   /// Create a number format that prints as SCIENTIFIC_PATTERN.
   NumberFormat.scientificPattern([String locale])
       : this._forPattern(locale, (x) => x.SCIENTIFIC_PATTERN);
