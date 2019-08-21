@@ -277,7 +277,7 @@ class DateFormat {
   /// This will accept dates whose values are not strictly valid, or strings
   /// with additional characters (including whitespace) after a valid date. For
   /// stricter parsing, use [parseStrict].
-  DateTime parse(String inputString, [utc = false]) =>
+  DateTime parse(String inputString, [bool utc = false]) =>
       _parse(inputString, utc: utc, strict: false);
 
   /// Given user input, attempt to parse the [inputString] "loosely" into the
@@ -305,7 +305,7 @@ class DateFormat {
   ///
   ///      // "Sept" is not a valid month name.
   ///      new DateFormat.yMMMd("en_US").parseLoose("Sept 3, 2014");
-  DateTime parseLoose(String inputString, [utc = false]) {
+  DateTime parseLoose(String inputString, [bool utc = false]) {
     try {
       return _parse(inputString, utc: utc, strict: true);
     } on FormatException {
@@ -313,7 +313,7 @@ class DateFormat {
     }
   }
 
-  _parseLoose(String inputString, bool utc) {
+  DateTime _parseLoose(String inputString, bool utc) {
     var dateFields = new _DateBuilder();
     if (utc) dateFields.utc = true;
     var stream = new _Stream(inputString);
@@ -334,10 +334,10 @@ class DateFormat {
   /// DateTime constructor will accept them. It will also rejct strings with
   /// additional characters (including whitespace) after a valid date. For
   /// looser parsing, use [parse].
-  DateTime parseStrict(String inputString, [utc = false]) =>
+  DateTime parseStrict(String inputString, [bool utc = false]) =>
       _parse(inputString, utc: utc, strict: true);
 
-  DateTime _parse(String inputString, {utc: false, strict: false}) {
+  DateTime _parse(String inputString, {bool utc: false, bool strict: false}) {
     // TODO(alanknight): The Closure code refers to special parsing of numeric
     // values with no delimiters, which we currently don't do. Should we?
     var dateFields = new _DateBuilder();
