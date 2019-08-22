@@ -94,7 +94,7 @@ class Intl {
   /// [Intl.withLocale] may be preferable if you are using different locales
   /// in the same application.
   static String get defaultLocale {
-    var zoneLocale = Zone.current[#Intl.locale] as String;
+    var zoneLocale = Zone.current[#Intl.locale];
     return zoneLocale == null ? _defaultLocale : zoneLocale;
   }
 
@@ -207,9 +207,8 @@ class Intl {
   ///
   /// Note that null is interpreted as meaning the default locale, so if
   /// [newLocale] is null the default locale will be returned.
-  static String verifiedLocale(
-      String newLocale, bool Function(String) localeExists,
-      {String Function(String) onFailure: _throwLocaleError}) {
+  static String verifiedLocale(String newLocale, Function localeExists,
+      {Function onFailure: _throwLocaleError}) {
     // TODO(alanknight): Previously we kept a single verified locale on the Intl
     // object, but with different verification for different uses, that's more
     // difficult. As a result, we call this more often. Consider keeping
@@ -341,15 +340,8 @@ class Intl {
 
   /// Internal: Implements the logic for plural selection - use [plural] for
   /// normal messages.
-  static T pluralLogic<T>(num howMany,
-      {T zero,
-      T one,
-      T two,
-      T few,
-      T many,
-      T other,
-      String locale,
-      int precision,
+  static pluralLogic(num howMany,
+      {zero, one, two, few, many, other, String locale, int precision,
       String meaning}) {
     if (other == null) {
       throw new ArgumentError("The 'other' named argument must be provided");
@@ -557,10 +549,7 @@ class Intl {
   ///           desc: 'Say Hello');
   ///       Intl.withLocale("zh", new Timer(new Duration(milliseconds:10),
   ///           () => print(hello("World")));
-  static dynamic withLocale<T>(String locale, T Function() function) {
-    // TODO(alanknight): Make this return T. This requires work because T might
-    // be Future and the caller could get an unawaited Future.  Which is
-    // probably an error in their code, but the change is semi-breaking.
+  static withLocale(String locale, function()) {
     var canonical = Intl.canonicalizedLocale(locale);
     return runZoned(function, zoneValues: {#Intl.locale: canonical});
   }
