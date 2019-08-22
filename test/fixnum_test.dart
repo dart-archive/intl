@@ -80,7 +80,7 @@ main() {
 
   test('micro money', () {
     microMoneyValues.forEach((number, expected) {
-      // ignore: deprecated_member_use
+      // ignore: deprecated_member_use_from_same_package
       var currency = new NumberFormat.currencyPattern().format(number);
       expect(currency, expected.first);
       var percent = new NumberFormat.percentPattern().format(number);
