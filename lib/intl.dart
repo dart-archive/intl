@@ -171,6 +171,10 @@ class Intl {
   /// the extracted message output. This can be useful to set up placeholder
   /// messages during development whose text aren't finalized yet without having
   /// the placeholder automatically translated.
+  @pragma('dart2js:tryInline')
+  // We want dart2js to try to inline these messages, but not inline the
+  // internal messages, so it will eliminate the descriptions and other
+  // information not neeeded at runtime.
   static String message(String message_str,
           {String desc: '',
           Map<String, Object> examples,
@@ -182,6 +186,7 @@ class Intl {
       _message(message_str, locale, name, args, meaning);
 
   /// Omit the compile-time only parameters so dart2js can see to drop them.
+  @pragma('dart2js:noInline')
   static String _message(String message_str, String locale, String name,
       List<Object> args, String meaning) {
     return messageLookup.lookupMessage(
@@ -278,6 +283,7 @@ class Intl {
   ///
   /// For an explanation of plurals and the [zero], [one], [two], [few], [many]
   /// categories see http://cldr.unicode.org/index/cldr-spec/plural-rules
+  @pragma('dart2js:tryInline')
   static String plural(num howMany,
       {String zero,
       String one,
@@ -309,6 +315,7 @@ class Intl {
         meaning: meaning);
   }
 
+  @pragma('dart2js:noInline')
   static String _plural(num howMany,
       {String zero,
       String one,
@@ -414,6 +421,7 @@ class Intl {
   }
 
   /// Format a message differently depending on [targetGender].
+  @pragma('dart2js:tryInline')
   static String gender(String targetGender,
       {String female,
       String male,
@@ -437,6 +445,7 @@ class Intl {
         meaning: meaning);
   }
 
+  @pragma('dart2js:noInline')
   static String _gender(String targetGender,
       {String female,
       String male,
@@ -488,6 +497,7 @@ class Intl {
   /// can't actually identify if something is an enum or not.
   ///
   /// The first argument in [args] must correspond to the [choice] Object.
+  @pragma('dart2js:tryInline')
   static String select(Object choice, Map<Object, String> cases,
       {String desc,
       Map<String, Object> examples,
@@ -500,6 +510,7 @@ class Intl {
         locale: locale, name: name, args: args, meaning: meaning);
   }
 
+  @pragma('dart2js:noInline')
   static String _select(Object choice, Map<Object, String> cases,
       {String locale, String name, List<Object> args, String meaning}) {
     // Look up our translation, but pass in a null message so we don't have to
