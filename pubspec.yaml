@@ -1,5 +1,5 @@
 name: intl
-version: 0.16.0-dev
+version: 0.16.0
 author: Dart Team <misc@dartlang.org>
 homepage: https://github.com/dart-lang/intl
 description: >-
@@ -8,8 +8,7 @@ description: >-
   internationalization issues.
 
 environment:
-  sdk: '>=2.0.0-dev.48 <3.0.0'
-documentation: http://www.dartdocs.org/documentation/intl/latest
+  sdk: '>=2.0.0 <3.0.0'
 
 dependencies:
   path: '>=0.9.0 <2.0.0'
