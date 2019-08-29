@@ -16,9 +16,12 @@
 /// * t	- visible fractional digits in n, without trailing zeros.
 library plural_rules;
 
+// Suppress naming issues as changing them might be breaking.
+// ignore_for_file: constant_identifier_names, non_constant_identifier_names
+
 import 'dart:math' as math;
 
-typedef PluralCase PluralRule();
+typedef PluralRule = PluralCase Function();
 
 /// The possible cases used in a plural rule.
 enum PluralCase { ZERO, ONE, TWO, FEW, MANY, OTHER }
@@ -28,7 +31,7 @@ PluralCase _default_rule() => OTHER;
 
 /// This must be called before evaluating a new rule, because we're using
 /// library-global state to both keep the rules terse and minimize space.
-startRuleEvaluation(num howMany, [int precision = 0]) {
+void startRuleEvaluation(num howMany, [int precision = 0]) {
   _n = howMany;
   _precision = precision;
   _i = _n.round();
@@ -67,8 +70,8 @@ int _decimals(num n, int precision) {
 /// The short names for parameters / return match the CLDR syntax and UTS #35
 ///     (https://unicode.org/reports/tr35/tr35-numbers.html#Plural_rules_syntax)
 /// Takes the item count [n] and a [precision].
-_updateVF(num n, int precision) {
-  int defaultDigits = 3;
+void _updateVF(num n, int precision) {
+  var defaultDigits = 3;
 
   _v = precision ?? math.min(_decimals(n, precision), defaultDigits);
 
@@ -82,7 +85,7 @@ _updateVF(num n, int precision) {
 ///     (https://unicode.org/reports/tr35/tr35-numbers.html#Plural_rules_syntax)
 /// @param v Calculated previously.
 /// @param f Calculated previously.
-_updateWT(int v, int f) {
+void _updateWT(int v, int f) {
   if (f == 0) {
     // Unused, for now _w = 0;
     _t = 0;

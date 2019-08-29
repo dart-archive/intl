@@ -1,3 +1,6 @@
+## 0.16.1
+ * Add an analysis_options.yaml and fix or suppress all the complaints from it.
+
 ## 0.16.0
  * Fix 'k' formatting (1 to 24 hours) which incorrectly showed 0 to 23.
  * Tighten up types in a couple of places.

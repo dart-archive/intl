@@ -19,7 +19,7 @@ int _dayOfYear(int month, int day, bool leapYear) {
 /// Return true if this is a leap year. Rely on [DateTime] to do the
 /// underlying calculation, even though it doesn't expose the test to us.
 bool _isLeapYear(DateTime date) {
-  var feb29 = new DateTime(date.year, 2, 29);
+  var feb29 = DateTime(date.year, 2, 29);
   return feb29.month == 2;
 }
 
@@ -54,7 +54,10 @@ class _DateBuilder {
   /// bad. Compensate by adjusting the time portion forward. But only do that
   /// when we're explicitly trying to construct a date, which we can tell from
   /// the format.
-  bool _dateOnly = false;
+
+  // We do set it, the analyzer just can't tell.
+  // ignore: prefer_final_fields
+  var _dateOnly = false;
 
   // Functions that exist just to be closurized so we can pass them to a general
   // method.
@@ -86,22 +89,22 @@ class _DateBuilder {
     fractionalSecond = x;
   }
 
-  get hour24 => pm ? hour + 12 : hour;
+  int get hour24 => pm ? hour + 12 : hour;
 
   /// Verify that we correspond to a valid date. This will reject out of
   /// range values, even if the DateTime constructor would accept them. An
   /// invalid message will result in throwing a [FormatException].
-  verify(String s) {
-    _verify(month, 1, 12, "month", s);
-    _verify(hour24, 0, 23, "hour", s);
-    _verify(minute, 0, 59, "minute", s);
-    _verify(second, 0, 59, "second", s);
-    _verify(fractionalSecond, 0, 999, "fractional second", s);
+  void verify(String s) {
+    _verify(month, 1, 12, 'month', s);
+    _verify(hour24, 0, 23, 'hour', s);
+    _verify(minute, 0, 59, 'minute', s);
+    _verify(second, 0, 59, 'second', s);
+    _verify(fractionalSecond, 0, 999, 'fractional second', s);
     // Verifying the day is tricky, because it depends on the month. Create
     // our resulting date and then verify that our values agree with it
     // as an additional verification. And since we're doing that, also
     // check the year, which we otherwise can't verify, and the hours,
-    // which will catch cases like "14:00:00 PM".
+    // which will catch cases like '14:00:00 PM'.
     var date = asDate();
     // On rare occasions, possibly related to DST boundaries, a parsed date will
     // come out as 1:00am. We compensate for the case of going backwards in
@@ -109,42 +112,42 @@ class _DateBuilder {
     // that doesn't exist. So tolerate an hour value of zero or one in these
     // cases.
     var minimumDate = _dateOnly && date.hour == 1 ? 0 : date.hour;
-    _verify(hour24, minimumDate, date.hour, "hour", s, date);
+    _verify(hour24, minimumDate, date.hour, 'hour', s, date);
     if (day > 31) {
       // We have an ordinal date, compute the corresponding date for the result
       // and compare to that.
       var leapYear = _isLeapYear(date);
       var correspondingDay = _dayOfYear(date.month, date.day, leapYear);
-      _verify(day, correspondingDay, correspondingDay, "day", s, date);
+      _verify(day, correspondingDay, correspondingDay, 'day', s, date);
     } else {
       // We have the day of the month, compare directly.
-      _verify(day, date.day, date.day, "day", s, date);
+      _verify(day, date.day, date.day, 'day', s, date);
     }
-    _verify(year, date.year, date.year, "year", s, date);
+    _verify(year, date.year, date.year, 'year', s, date);
   }
 
-  _verify(int value, int min, int max, String desc, String originalInput,
+  void _verify(int value, int min, int max, String desc, String originalInput,
       [DateTime parsed]) {
     if (value < min || value > max) {
-      var parsedDescription = parsed == null ? "" : " Date parsed as $parsed.";
-      throw new FormatException(
-          "Error parsing $originalInput, invalid $desc value: $value."
-          " Expected value between $min and $max.$parsedDescription");
+      var parsedDescription = parsed == null ? '' : ' Date parsed as $parsed.';
+      throw FormatException(
+          'Error parsing $originalInput, invalid $desc value: $value.'
+          ' Expected value between $min and $max.$parsedDescription');
     }
   }
 
   /// Return a date built using our values. If no date portion is set,
-  /// use the "Epoch" of January 1, 1970.
-  DateTime asDate({int retries: 3}) {
+  /// use the 'Epoch' of January 1, 1970.
+  DateTime asDate({int retries = 3}) {
     // TODO(alanknight): Validate the date, especially for things which
     // can crash the VM, e.g. large month values.
 
     if (utc) {
-      return new DateTime.utc(
+      return DateTime.utc(
           year, month, day, hour24, minute, second, fractionalSecond);
     } else {
-      var preliminaryResult = new DateTime(
-          year, month, day, hour24, minute, second, fractionalSecond);
+      var preliminaryResult =
+          DateTime(year, month, day, hour24, minute, second, fractionalSecond);
       return _correctForErrors(preliminaryResult, retries);
     }
   }
@@ -187,7 +190,7 @@ class _DateBuilder {
         result.isUtc &&
         (result.hour != hour24 ||
             result.day != correspondingDay ||
-            !new DateTime.now().isUtc)) {
+            !DateTime.now().isUtc)) {
       // This may be a UTC failure. Retry and if the result doesn't look
       // like it's in the UTC time zone, use that instead.
       return asDate(retries: retries - 1);
@@ -199,9 +202,10 @@ class _DateBuilder {
       // same day that's all right for a date. It gets the day correct, and we
       // have no way to even represent midnight on a day when it doesn't
       // happen.
-      var adjusted = result.add(new Duration(hours: (24 - result.hour)));
-      if (_dayOfYear(adjusted.month, adjusted.day, leapYear) == day)
+      var adjusted = result.add(Duration(hours: 24 - result.hour));
+      if (_dayOfYear(adjusted.month, adjusted.day, leapYear) == day) {
         return adjusted;
+      }
     }
     return result;
   }
@@ -216,18 +220,18 @@ class _DateBuilder {
 // strings, or else make the implementation trivial. And consider renaming,
 // as _Stream is now just confusing with the system Streams.
 class _Stream {
-  var contents;
+  dynamic contents;
   int index = 0;
 
   _Stream(this.contents);
 
   bool atEnd() => index >= contents.length;
 
-  next() => contents[index++];
+  dynamic next() => contents[index++];
 
   /// Return the next [howMany] items, or as many as there are remaining.
   /// Advance the stream by that many positions.
-  read([int howMany = 1]) {
+  dynamic read([int howMany = 1]) {
     var result = peek(howMany);
     index += howMany;
     return result;
@@ -242,8 +246,8 @@ class _Stream {
 
   /// Return the next [howMany] items, or as many as there are remaining.
   /// Does not modify the stream position.
-  peek([int howMany = 1]) {
-    var result;
+  dynamic peek([int howMany = 1]) {
+    dynamic result;
     if (contents is String) {
       String stringContents = contents;
       result = stringContents.substring(
@@ -256,7 +260,7 @@ class _Stream {
   }
 
   /// Return the remaining contents of the stream
-  rest() => peek(contents.length - index);
+  dynamic rest() => peek(contents.length - index);
 
   /// Find the index of the first element for which [f] returns true.
   /// Advances the stream to that position.
@@ -269,7 +273,7 @@ class _Stream {
 
   /// Find the indexes of all the elements for which [f] returns true.
   /// Leaves the stream positioned at the end.
-  List findIndexes(Function f) {
+  List<dynamic> findIndexes(Function f) {
     var results = [];
     while (!atEnd()) {
       if (f(next())) results.add(index - 1);
@@ -291,11 +295,11 @@ class _Stream {
     if (zeroDigit != null && zeroDigit != DateFormat._asciiZeroCodeUnit) {
       // Trying to optimize this, as it might get called a lot.
       var oldDigits = string.codeUnits;
-      var newDigits = new List<int>(string.length);
+      var newDigits = List<int>(string.length);
       for (var i = 0; i < string.length; i++) {
         newDigits[i] = oldDigits[i] - zeroDigit + DateFormat._asciiZeroCodeUnit;
       }
-      string = new String.fromCharCodes(newDigits);
+      string = String.fromCharCodes(newDigits);
     }
     return int.parse(string);
   }

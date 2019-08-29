@@ -8,6 +8,6 @@ library date_time_format_file_test;
 
 import 'date_time_format_test_core.dart';
 
-main() {
+void main() {
   runDateTests(() => ['en_US']);
 }

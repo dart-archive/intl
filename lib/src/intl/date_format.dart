@@ -4,6 +4,9 @@
 
 part of intl;
 
+// Suppress naming issues as changes would breaking.
+// ignore_for_file: non_constant_identifier_names, constant_identifier_names
+
 // TODO(efortuna): Customized pattern system -- suggested by i18n needs
 // feedback on appropriateness.
 /// DateFormat is for formatting and parsing dates in a locale-sensitive
@@ -16,7 +19,7 @@ part of intl;
 /// date-time strings under certain locales. Date elements that vary across
 /// locales include month name, weekname, field, order, etc.
 ///
-/// Formatting dates in the default "en_US" format does not require any
+/// Formatting dates in the default 'en_US' format does not require any
 /// initialization. e.g.
 ///
 /// ```dart
@@ -25,7 +28,7 @@ part of intl;
 ///
 /// But for other locales, the formatting data for the locale must be
 /// obtained. This can currently be done in one of three ways, determined by
-/// which library you import. In all cases, the "initializeDateFormatting"
+/// which library you import. In all cases, the 'initializeDateFormatting'
 /// method must be called and will return a future that is complete once the
 /// locale data is available. The result of the future isn't important, but the
 /// data for that locale is available to the date formatting and parsing once it
@@ -36,7 +39,7 @@ part of intl;
 ///
 /// ```dart
 /// import 'package:intl/date_symbol_data_local.dart';
-/// initializeDateFormatting("fr_FR", null).then((_) => runMyCode());
+/// initializeDateFormatting('fr_FR', null).then((_) => runMyCode());
 /// ```
 ///
 /// If we are running outside of a browser, we may want to read the data
@@ -44,7 +47,7 @@ part of intl;
 ///
 /// ```dart
 /// import 'package:intl/date_symbol_data_file.dart';
-/// initializeDateFormatting("de_DE", null).then((_) => runMyCode());
+/// initializeDateFormatting('de_DE', null).then((_) => runMyCode());
 /// ```
 ///
 /// If we are running in a browser, we may want to read the data from the
@@ -52,7 +55,7 @@ part of intl;
 ///
 /// ```dart
 /// import 'package:intl/date_symbol_data_http_request.dart';
-/// initializeDateFormatting("pt_BR", null).then((_) => runMyCode());
+/// initializeDateFormatting('pt_BR', null).then((_) => runMyCode());
 /// ```
 ///
 /// The code in example/basic/basic_example.dart shows a full example of
@@ -60,7 +63,7 @@ part of intl;
 ///
 /// Once we have the locale data, we need to specify the particular format.
 /// This library uses the ICU/JDK date/time pattern specification both for
-/// complete format specifications and also the abbreviated "skeleton" form
+/// complete format specifications and also the abbreviated 'skeleton' form
 /// which can also adapt to different locales and is preferred where available.
 ///
 /// Skeletons: These can be specified either as the ICU constant name or as the
@@ -118,8 +121,8 @@ part of intl;
 ///      Pattern                           Result
 ///      ----------------                  -------
 ///      new DateFormat.yMd()             -> 7/10/1996
-///      new DateFormat("yMd")            -> 7/10/1996
-///      new DateFormat.yMMMMd("en_US")   -> July 10, 1996
+///      new DateFormat('yMd')            -> 7/10/1996
+///      new DateFormat.yMMMMd('en_US')   -> July 10, 1996
 ///      new DateFormat.jm()              -> 5:08 PM
 ///      new DateFormat.yMd().add_jm()    -> 7/10/1996 5:08 PM
 ///      new DateFormat.Hm()              -> 17:08 // force 24 hour time
@@ -127,9 +130,9 @@ part of intl;
 /// Explicit Pattern Syntax: Formats can also be specified with a pattern
 /// string.  This can be used for formats that don't have a skeleton available,
 /// but these will not adapt to different locales. For example, in an explicit
-/// pattern the letters "H" and "h" are available for 24 hour and 12 hour time
+/// pattern the letters 'H' and 'h' are available for 24 hour and 12 hour time
 /// formats respectively. But there isn't a way in an explicit pattern to get
-/// the behaviour of the "j" skeleton, which prints 24 hour or 12 hour time
+/// the behaviour of the 'j' skeleton, which prints 24 hour or 12 hour time
 /// according to the conventions of the locale, and also includes am/pm markers
 /// where appropriate. So it is preferable to use the skeletons.
 ///
@@ -169,9 +172,9 @@ part of intl;
 /// * less than 3--use numeric form if one exists
 ///
 /// **Number**: the minimum number of digits. Shorter numbers are zero-padded to
-/// this amount (e.g. if "m" produces "6", "mm" produces "06"). Year is handled
+/// this amount (e.g. if 'm' produces '6', 'mm' produces '06'). Year is handled
 /// specially; that is, if the count of 'y' is 2, the Year will be truncated to
-/// 2 digits. (e.g., if "yyyy" produces "1997", "yy" produces "97".) Unlike
+/// 2 digits. (e.g., if 'yyyy' produces '1997', 'yy' produces '97'.) Unlike
 /// other fields, fractional seconds are padded on the right with zero.
 ///
 /// **(Text & Number)**: 3 or over, use text, otherwise use number.
@@ -187,27 +190,27 @@ part of intl;
 ///
 ///     Format Pattern                    Result
 ///     --------------                    -------
-///     "yyyy.MM.dd G 'at' HH:mm:ss vvvv" 1996.07.10 AD at 15:08:56 Pacific Time
-///     "EEE, MMM d, ''yy"                Wed, Jul 10, '96
-///     "h:mm a"                          12:08 PM
-///     "hh 'o''clock' a, zzzz"           12 o'clock PM, Pacific Daylight Time
-///     "K:mm a, vvv"                     0:00 PM, PT
-///     "yyyyy.MMMMM.dd GGG hh:mm aaa"    01996.July.10 AD 12:08 PM
+///     'yyyy.MM.dd G 'at' HH:mm:ss vvvv' 1996.07.10 AD at 15:08:56 Pacific Time
+///     'EEE, MMM d, ''yy'                Wed, Jul 10, '96
+///     'h:mm a'                          12:08 PM
+///     'hh 'o''clock' a, zzzz'           12 o'clock PM, Pacific Daylight Time
+///     'K:mm a, vvv'                     0:00 PM, PT
+///     'yyyyy.MMMMM.dd GGG hh:mm aaa'    01996.July.10 AD 12:08 PM
 ///
-/// When parsing a date string using the abbreviated year pattern ("yy"),
+/// When parsing a date string using the abbreviated year pattern ('yy'),
 /// DateFormat must interpret the abbreviated year relative to some
 /// century. It does this by adjusting dates to be within 80 years before and 20
 /// years after the time the parse function is called. For example, using a
-/// pattern of "MM/dd/yy" and a DateParse instance created on Jan 1, 1997,
-/// the string "01/11/12" would be interpreted as Jan 11, 2012 while the string
-/// "05/04/64" would be interpreted as May 4, 1964. During parsing, only
+/// pattern of 'MM/dd/yy' and a DateParse instance created on Jan 1, 1997,
+/// the string '01/11/12' would be interpreted as Jan 11, 2012 while the string
+/// '05/04/64' would be interpreted as May 4, 1964. During parsing, only
 /// strings consisting of exactly two digits will be parsed into the default
 /// century. Any other numeric string, such as a one digit string, a three or
 /// more digit string will be interpreted as its face value.
 ///
 /// If the year pattern does not have exactly two 'y' characters, the year is
 /// interpreted literally, regardless of the number of digits. So using the
-/// pattern "MM/dd/yyyy", "01/11/12" parses to Jan 11, 12 A.D.
+/// pattern 'MM/dd/yyyy', '01/11/12' parses to Jan 11, 12 A.D.
 
 class DateFormat {
   /// Creates a new DateFormat, using the format specified by [newPattern].
@@ -230,7 +233,7 @@ class DateFormat {
   /// new DateFormat('EEE, M/d/y');
   /// ```
   ///
-  /// would produce the same result, a date of the form "Wed, 6/27/2012".
+  /// would produce the same result, a date of the form 'Wed, 6/27/2012'.
   ///
   /// The first version would produce a different format string if used in
   /// another locale, but the second format would always be the same.
@@ -241,7 +244,7 @@ class DateFormat {
     // TODO(alanknight): It should be possible to specify multiple skeletons eg
     // date, time, timezone all separately. Adding many or named parameters to
     // the constructor seems awkward, especially with the possibility of
-    // confusion with the locale. A "fluent" interface with cascading on an
+    // confusion with the locale. A 'fluent' interface with cascading on an
     // instance might work better? A list of patterns is also possible.
     _locale = Intl.verifiedLocale(locale, localeExists);
     addPattern(newPattern);
@@ -251,8 +254,10 @@ class DateFormat {
   /// and internal format.
   String format(DateTime date) {
     // TODO(efortuna): read optional TimeZone argument (or similar)?
-    var result = new StringBuffer();
-    _formatFields.forEach((field) => result.write(field.format(date)));
+    var result = StringBuffer();
+    for (var field in _formatFields) {
+      result.write(field.format(date));
+    }
     return result.toString();
   }
 
@@ -280,7 +285,7 @@ class DateFormat {
   DateTime parse(String inputString, [bool utc = false]) =>
       _parse(inputString, utc: utc, strict: false);
 
-  /// Given user input, attempt to parse the [inputString] "loosely" into the
+  /// Given user input, attempt to parse the [inputString] 'loosely' into the
   /// anticipated format, accepting some variations from the strict format.
   ///
   /// If [inputString] is accepted by [parseStrict], just return the result. If
@@ -297,14 +302,14 @@ class DateFormat {
   ///
   /// For example, this will accept
   ///
-  ///       new DateFormat.yMMMd("en_US").parseLoose("SEp   3 2014");
-  ///       new DateFormat.yMd("en_US").parseLoose("09    03/2014");
-  ///       new DateFormat.yMd("en_US").parseLoose("09 / 03 / 2014");
+  ///       new DateFormat.yMMMd('en_US').parseLoose('SEp   3 2014');
+  ///       new DateFormat.yMd('en_US').parseLoose('09    03/2014');
+  ///       new DateFormat.yMd('en_US').parseLoose('09 / 03 / 2014');
   ///
   /// It will NOT accept
   ///
-  ///      // "Sept" is not a valid month name.
-  ///      new DateFormat.yMMMd("en_US").parseLoose("Sept 3, 2014");
+  ///      // 'Sept' is not a valid month name.
+  ///      new DateFormat.yMMMd('en_US').parseLoose('Sept 3, 2014');
   DateTime parseLoose(String inputString, [bool utc = false]) {
     try {
       return _parse(inputString, utc: utc, strict: true);
@@ -314,13 +319,15 @@ class DateFormat {
   }
 
   DateTime _parseLoose(String inputString, bool utc) {
-    var dateFields = new _DateBuilder();
+    var dateFields = _DateBuilder();
     if (utc) dateFields.utc = true;
-    var stream = new _Stream(inputString);
-    _formatFields.forEach((f) => f.parseLoose(stream, dateFields));
+    var stream = _Stream(inputString);
+    for (var field in _formatFields) {
+      field.parseLoose(stream, dateFields);
+    }
     if (!stream.atEnd()) {
-      throw new FormatException(
-          "Characters remaining after date parsing in $inputString");
+      throw FormatException(
+          'Characters remaining after date parsing in $inputString');
     }
     dateFields.verify(inputString);
     return dateFields.asDate();
@@ -337,17 +344,19 @@ class DateFormat {
   DateTime parseStrict(String inputString, [bool utc = false]) =>
       _parse(inputString, utc: utc, strict: true);
 
-  DateTime _parse(String inputString, {bool utc: false, bool strict: false}) {
+  DateTime _parse(String inputString, {bool utc = false, bool strict = false}) {
     // TODO(alanknight): The Closure code refers to special parsing of numeric
     // values with no delimiters, which we currently don't do. Should we?
-    var dateFields = new _DateBuilder();
+    var dateFields = _DateBuilder();
     if (utc) dateFields.utc = true;
-    dateFields._dateOnly = this.dateOnly;
-    var stream = new _Stream(inputString);
-    _formatFields.forEach((f) => f.parse(stream, dateFields));
+    dateFields._dateOnly = dateOnly;
+    var stream = _Stream(inputString);
+    for (var field in _formatFields) {
+      field.parse(stream, dateFields);
+    }
     if (strict && !stream.atEnd()) {
-      throw new FormatException(
-          "Characters remaining after date parsing in $inputString");
+      throw FormatException(
+          'Characters remaining after date parsing in $inputString');
     }
     if (strict) dateFields.verify(inputString);
     return dateFields.asDate();
@@ -382,25 +391,25 @@ class DateFormat {
   /// Returns a list of all locales for which we have date formatting
   /// information.
   static List<String> allLocalesWithSymbols() =>
-      new List<String>.from(dateTimeSymbols.keys);
+      List<String>.from(dateTimeSymbols.keys);
 
   /// The named constructors for this class are all conveniences for creating
-  /// instances using one of the known "skeleton" formats, and having code
+  /// instances using one of the known 'skeleton' formats, and having code
   /// completion support for discovering those formats.
   /// So,
   ///
   /// ```dart
-  /// new DateFormat.yMd("en_US")
+  /// new DateFormat.yMd('en_US')
   /// ```
   ///
   /// is equivalent to
   ///
   /// ```dart
-  /// new DateFormat("yMd", "en_US")
+  /// new DateFormat('yMd', 'en_US')
   /// ```
   ///
   /// To create a compound format you can use these constructors in combination
-  /// with the "add_*" methods below. e.g.
+  /// with the 'add_*' methods below. e.g.
   ///
   /// ```dart
   /// new DateFormat.yMd().add_Hms();
@@ -408,49 +417,49 @@ class DateFormat {
   ///
   /// If the optional [locale] is omitted, the format will be created using the
   /// default locale in [Intl.systemLocale].
-  DateFormat.d([locale]) : this("d", locale);
-  DateFormat.E([locale]) : this("E", locale);
-  DateFormat.EEEE([locale]) : this("EEEE", locale);
-  DateFormat.LLL([locale]) : this("LLL", locale);
-  DateFormat.LLLL([locale]) : this("LLLL", locale);
-  DateFormat.M([locale]) : this("M", locale);
-  DateFormat.Md([locale]) : this("Md", locale);
-  DateFormat.MEd([locale]) : this("MEd", locale);
-  DateFormat.MMM([locale]) : this("MMM", locale);
-  DateFormat.MMMd([locale]) : this("MMMd", locale);
-  DateFormat.MMMEd([locale]) : this("MMMEd", locale);
-  DateFormat.MMMM([locale]) : this("MMMM", locale);
-  DateFormat.MMMMd([locale]) : this("MMMMd", locale);
-  DateFormat.MMMMEEEEd([locale]) : this("MMMMEEEEd", locale);
-  DateFormat.QQQ([locale]) : this("QQQ", locale);
-  DateFormat.QQQQ([locale]) : this("QQQQ", locale);
-  DateFormat.y([locale]) : this("y", locale);
-  DateFormat.yM([locale]) : this("yM", locale);
-  DateFormat.yMd([locale]) : this("yMd", locale);
-  DateFormat.yMEd([locale]) : this("yMEd", locale);
-  DateFormat.yMMM([locale]) : this("yMMM", locale);
-  DateFormat.yMMMd([locale]) : this("yMMMd", locale);
-  DateFormat.yMMMEd([locale]) : this("yMMMEd", locale);
-  DateFormat.yMMMM([locale]) : this("yMMMM", locale);
-  DateFormat.yMMMMd([locale]) : this("yMMMMd", locale);
-  DateFormat.yMMMMEEEEd([locale]) : this("yMMMMEEEEd", locale);
-  DateFormat.yQQQ([locale]) : this("yQQQ", locale);
-  DateFormat.yQQQQ([locale]) : this("yQQQQ", locale);
-  DateFormat.H([locale]) : this("H", locale);
-  DateFormat.Hm([locale]) : this("Hm", locale);
-  DateFormat.Hms([locale]) : this("Hms", locale);
-  DateFormat.j([locale]) : this("j", locale);
-  DateFormat.jm([locale]) : this("jm", locale);
-  DateFormat.jms([locale]) : this("jms", locale);
-  DateFormat.jmv([locale]) : this("jmv", locale);
-  DateFormat.jmz([locale]) : this("jmz", locale);
-  DateFormat.jv([locale]) : this("jv", locale);
-  DateFormat.jz([locale]) : this("jz", locale);
-  DateFormat.m([locale]) : this("m", locale);
-  DateFormat.ms([locale]) : this("ms", locale);
-  DateFormat.s([locale]) : this("s", locale);
+  DateFormat.d([locale]) : this('d', locale);
+  DateFormat.E([locale]) : this('E', locale);
+  DateFormat.EEEE([locale]) : this('EEEE', locale);
+  DateFormat.LLL([locale]) : this('LLL', locale);
+  DateFormat.LLLL([locale]) : this('LLLL', locale);
+  DateFormat.M([locale]) : this('M', locale);
+  DateFormat.Md([locale]) : this('Md', locale);
+  DateFormat.MEd([locale]) : this('MEd', locale);
+  DateFormat.MMM([locale]) : this('MMM', locale);
+  DateFormat.MMMd([locale]) : this('MMMd', locale);
+  DateFormat.MMMEd([locale]) : this('MMMEd', locale);
+  DateFormat.MMMM([locale]) : this('MMMM', locale);
+  DateFormat.MMMMd([locale]) : this('MMMMd', locale);
+  DateFormat.MMMMEEEEd([locale]) : this('MMMMEEEEd', locale);
+  DateFormat.QQQ([locale]) : this('QQQ', locale);
+  DateFormat.QQQQ([locale]) : this('QQQQ', locale);
+  DateFormat.y([locale]) : this('y', locale);
+  DateFormat.yM([locale]) : this('yM', locale);
+  DateFormat.yMd([locale]) : this('yMd', locale);
+  DateFormat.yMEd([locale]) : this('yMEd', locale);
+  DateFormat.yMMM([locale]) : this('yMMM', locale);
+  DateFormat.yMMMd([locale]) : this('yMMMd', locale);
+  DateFormat.yMMMEd([locale]) : this('yMMMEd', locale);
+  DateFormat.yMMMM([locale]) : this('yMMMM', locale);
+  DateFormat.yMMMMd([locale]) : this('yMMMMd', locale);
+  DateFormat.yMMMMEEEEd([locale]) : this('yMMMMEEEEd', locale);
+  DateFormat.yQQQ([locale]) : this('yQQQ', locale);
+  DateFormat.yQQQQ([locale]) : this('yQQQQ', locale);
+  DateFormat.H([locale]) : this('H', locale);
+  DateFormat.Hm([locale]) : this('Hm', locale);
+  DateFormat.Hms([locale]) : this('Hms', locale);
+  DateFormat.j([locale]) : this('j', locale);
+  DateFormat.jm([locale]) : this('jm', locale);
+  DateFormat.jms([locale]) : this('jms', locale);
+  DateFormat.jmv([locale]) : this('jmv', locale);
+  DateFormat.jmz([locale]) : this('jmz', locale);
+  DateFormat.jv([locale]) : this('jv', locale);
+  DateFormat.jz([locale]) : this('jz', locale);
+  DateFormat.m([locale]) : this('m', locale);
+  DateFormat.ms([locale]) : this('ms', locale);
+  DateFormat.s([locale]) : this('s', locale);
 
-  /// The "add_*" methods append a particular skeleton to the format, or set
+  /// The 'add_*' methods append a particular skeleton to the format, or set
   /// it as the only format if none was previously set. These are primarily
   /// useful for creating compound formats. For example
   ///
@@ -459,47 +468,47 @@ class DateFormat {
   /// ```
   ///
   /// would create a date format that prints both the date and the time.
-  DateFormat add_d() => addPattern("d");
-  DateFormat add_E() => addPattern("E");
-  DateFormat add_EEEE() => addPattern("EEEE");
-  DateFormat add_LLL() => addPattern("LLL");
-  DateFormat add_LLLL() => addPattern("LLLL");
-  DateFormat add_M() => addPattern("M");
-  DateFormat add_Md() => addPattern("Md");
-  DateFormat add_MEd() => addPattern("MEd");
-  DateFormat add_MMM() => addPattern("MMM");
-  DateFormat add_MMMd() => addPattern("MMMd");
-  DateFormat add_MMMEd() => addPattern("MMMEd");
-  DateFormat add_MMMM() => addPattern("MMMM");
-  DateFormat add_MMMMd() => addPattern("MMMMd");
-  DateFormat add_MMMMEEEEd() => addPattern("MMMMEEEEd");
-  DateFormat add_QQQ() => addPattern("QQQ");
-  DateFormat add_QQQQ() => addPattern("QQQQ");
-  DateFormat add_y() => addPattern("y");
-  DateFormat add_yM() => addPattern("yM");
-  DateFormat add_yMd() => addPattern("yMd");
-  DateFormat add_yMEd() => addPattern("yMEd");
-  DateFormat add_yMMM() => addPattern("yMMM");
-  DateFormat add_yMMMd() => addPattern("yMMMd");
-  DateFormat add_yMMMEd() => addPattern("yMMMEd");
-  DateFormat add_yMMMM() => addPattern("yMMMM");
-  DateFormat add_yMMMMd() => addPattern("yMMMMd");
-  DateFormat add_yMMMMEEEEd() => addPattern("yMMMMEEEEd");
-  DateFormat add_yQQQ() => addPattern("yQQQ");
-  DateFormat add_yQQQQ() => addPattern("yQQQQ");
-  DateFormat add_H() => addPattern("H");
-  DateFormat add_Hm() => addPattern("Hm");
-  DateFormat add_Hms() => addPattern("Hms");
-  DateFormat add_j() => addPattern("j");
-  DateFormat add_jm() => addPattern("jm");
-  DateFormat add_jms() => addPattern("jms");
-  DateFormat add_jmv() => addPattern("jmv");
-  DateFormat add_jmz() => addPattern("jmz");
-  DateFormat add_jv() => addPattern("jv");
-  DateFormat add_jz() => addPattern("jz");
-  DateFormat add_m() => addPattern("m");
-  DateFormat add_ms() => addPattern("ms");
-  DateFormat add_s() => addPattern("s");
+  DateFormat add_d() => addPattern('d');
+  DateFormat add_E() => addPattern('E');
+  DateFormat add_EEEE() => addPattern('EEEE');
+  DateFormat add_LLL() => addPattern('LLL');
+  DateFormat add_LLLL() => addPattern('LLLL');
+  DateFormat add_M() => addPattern('M');
+  DateFormat add_Md() => addPattern('Md');
+  DateFormat add_MEd() => addPattern('MEd');
+  DateFormat add_MMM() => addPattern('MMM');
+  DateFormat add_MMMd() => addPattern('MMMd');
+  DateFormat add_MMMEd() => addPattern('MMMEd');
+  DateFormat add_MMMM() => addPattern('MMMM');
+  DateFormat add_MMMMd() => addPattern('MMMMd');
+  DateFormat add_MMMMEEEEd() => addPattern('MMMMEEEEd');
+  DateFormat add_QQQ() => addPattern('QQQ');
+  DateFormat add_QQQQ() => addPattern('QQQQ');
+  DateFormat add_y() => addPattern('y');
+  DateFormat add_yM() => addPattern('yM');
+  DateFormat add_yMd() => addPattern('yMd');
+  DateFormat add_yMEd() => addPattern('yMEd');
+  DateFormat add_yMMM() => addPattern('yMMM');
+  DateFormat add_yMMMd() => addPattern('yMMMd');
+  DateFormat add_yMMMEd() => addPattern('yMMMEd');
+  DateFormat add_yMMMM() => addPattern('yMMMM');
+  DateFormat add_yMMMMd() => addPattern('yMMMMd');
+  DateFormat add_yMMMMEEEEd() => addPattern('yMMMMEEEEd');
+  DateFormat add_yQQQ() => addPattern('yQQQ');
+  DateFormat add_yQQQQ() => addPattern('yQQQQ');
+  DateFormat add_H() => addPattern('H');
+  DateFormat add_Hm() => addPattern('Hm');
+  DateFormat add_Hms() => addPattern('Hms');
+  DateFormat add_j() => addPattern('j');
+  DateFormat add_jm() => addPattern('jm');
+  DateFormat add_jms() => addPattern('jms');
+  DateFormat add_jmv() => addPattern('jmv');
+  DateFormat add_jmz() => addPattern('jmz');
+  DateFormat add_jv() => addPattern('jv');
+  DateFormat add_jz() => addPattern('jz');
+  DateFormat add_m() => addPattern('m');
+  DateFormat add_ms() => addPattern('ms');
+  DateFormat add_s() => addPattern('s');
 
   /// For each of the skeleton formats we also allow the use of the
   /// corresponding ICU constant names.
@@ -569,33 +578,32 @@ class DateFormat {
 
   /// We are being asked to do formatting without having set any pattern.
   /// Use a default.
-  _useDefaultPattern() {
+  void _useDefaultPattern() {
     add_yMMMMd();
     add_jms();
   }
 
   /// A series of regular expressions used to parse a format string into its
   /// component fields.
-  static List<RegExp> _matchers = [
+  static final List<RegExp> _matchers = [
     // Quoted String - anything between single quotes, with escaping
     //   of single quotes by doubling them.
-    // e.g. in the pattern "hh 'o''clock'" will match 'o''clock'
-    new RegExp("^\'(?:[^\']|\'\')*\'"),
+    // e.g. in the pattern 'hh 'o''clock'' will match 'o''clock'
+    RegExp('^\'(?:[^\']|\'\')*\''),
     // Fields - any sequence of 1 or more of the same field characters.
-    // e.g. in "hh:mm:ss" will match hh, mm, and ss. But in "hms" would
+    // e.g. in 'hh:mm:ss' will match hh, mm, and ss. But in 'hms' would
     // match each letter individually.
-    new RegExp(
-        "^(?:G+|y+|M+|k+|S+|E+|a+|h+|K+|H+|c+|L+|Q+|d+|D+|m+|s+|v+|z+|Z+)"),
+    RegExp('^(?:G+|y+|M+|k+|S+|E+|a+|h+|K+|H+|c+|L+|Q+|d+|D+|m+|s+|v+|z+|Z+)'),
     // Everything else - A sequence that is not quotes or field characters.
-    // e.g. in "hh:mm:ss" will match the colons.
-    new RegExp("^[^\'GyMkSEahKHcLQdDmsvzZ]+")
+    // e.g. in 'hh:mm:ss' will match the colons.
+    RegExp('^[^\'GyMkSEahKHcLQdDmsvzZ]+')
   ];
 
   /// Set our pattern, appending it to any existing patterns. Also adds a single
   /// space to separate the two.
-  _appendPattern(String inputPattern, [String separator = ' ']) {
+  void _appendPattern(String inputPattern, [String separator = ' ']) {
     _pattern =
-        _pattern == null ? inputPattern : "$_pattern$separator$inputPattern";
+        _pattern == null ? inputPattern : '$_pattern$separator$inputPattern';
   }
 
   /// Add [inputPattern] to this instance as a pattern.
@@ -607,7 +615,7 @@ class DateFormat {
   /// pattern.
   DateFormat addPattern(String inputPattern, [String separator = ' ']) {
     // TODO(alanknight): This is an expensive operation. Caching recently used
-    // formats, or possibly introducing an entire "locale" object that would
+    // formats, or possibly introducing an entire 'locale' object that would
     // cache patterns for that locale could be a good optimization.
     // If we have already parsed the format fields, reset them.
     _formatFieldsPrivate = null;
@@ -621,12 +629,12 @@ class DateFormat {
   }
 
   /// Return the pattern that we use to format dates.
-  get pattern => _pattern;
+  String get pattern => _pattern;
 
   /// Return the skeletons for our current locale.
-  Map get _availableSkeletons => dateTimePatterns[locale];
+  Map<dynamic, dynamic> get _availableSkeletons => dateTimePatterns[locale];
 
-  /// Return the [DateSymbol] information for the locale.
+  /// Return the [DateSymbols] information for the locale.
   ///
   /// This can be useful to find lists like the names of weekdays or months in a
   /// locale, but the structure of this data may change, and it's generally
@@ -645,9 +653,9 @@ class DateFormat {
   /// Should a new DateFormat for [locale] have useNativeDigits true.
   ///
   /// For example, for locale 'ar' when this setting is true, DateFormat will
-  /// format using Eastern Arabic digits, e.g. "\u0660, \u0661, \u0662". If it
+  /// format using Eastern Arabic digits, e.g. '\u0660, \u0661, \u0662'. If it
   /// is false, a new DateFormat will format using ASCII digits.
-  static shouldUseNativeDigitsByDefaultFor(String locale) {
+  static bool shouldUseNativeDigitsByDefaultFor(String locale) {
     return _useNativeDigitsByDefault[locale] ?? true;
   }
 
@@ -655,12 +663,12 @@ class DateFormat {
   /// true.
   ///
   /// For example, for locale 'ar' when this setting is true, DateFormat will
-  /// format using Eastern Arabic digits, e.g. "\u0660, \u0661, \u0662". If it
+  /// format using Eastern Arabic digits, e.g. '\u0660, \u0661, \u0662'. If it
   /// is false, a new DateFormat will format using ASCII digits.
   ///
   /// If not indicated, the default value is true, so native digits will be
   /// used.
-  static useNativeDigitsByDefaultFor(String locale, bool value) {
+  static void useNativeDigitsByDefaultFor(String locale, bool value) {
     _useNativeDigitsByDefault[locale] = value;
   }
 
@@ -687,7 +695,7 @@ class DateFormat {
   ///
   /// Keys are the zero digits, and the values are matchers for digits in that
   /// locale.
-  static Map<String, RegExp> _digitMatchers = {};
+  static final Map<String, RegExp> _digitMatchers = {};
 
   RegExp _digitMatcher;
 
@@ -699,7 +707,7 @@ class DateFormat {
   }
 
   /// Hard-code the most common matcher, which has special RegExp syntax.
-  static final RegExp _asciiDigitMatcher = new RegExp(r'^\d+');
+  static final RegExp _asciiDigitMatcher = RegExp(r'^\d+');
 
   int _localeZeroCodeUnit;
 
@@ -713,7 +721,7 @@ class DateFormat {
 
   /// For performance, keep the zero digit available.
   String get localeZero => _localeZero == null
-      ? _localeZero = (useNativeDigits ? dateSymbols.ZERODIGIT ?? '0' : '0')
+      ? _localeZero = useNativeDigits ? dateSymbols.ZERODIGIT ?? '0' : '0'
       : _localeZero;
 
   // Does this use non-ASCII digits, e.g. Eastern Arabic.
@@ -727,23 +735,23 @@ class DateFormat {
   /// locale digits.
   String _localizeDigits(String numberString) {
     if (usesAsciiDigits) return numberString;
-    var newDigits = new List<int>(numberString.length);
+    var newDigits = List<int>(numberString.length);
     var oldDigits = numberString.codeUnits;
     for (var i = 0; i < numberString.length; i++) {
       newDigits[i] = oldDigits[i] + localeZeroCodeUnit - _asciiZeroCodeUnit;
     }
-    return new String.fromCharCodes(newDigits);
+    return String.fromCharCodes(newDigits);
   }
 
   /// A regular expression that matches for digits in a particular
   /// locale, defined by the digit for zero in that locale.
   RegExp _initDigitMatcher() {
     if (usesAsciiDigits) return _asciiDigitMatcher;
-    List<int> localeDigits = new Iterable.generate(10, (i) => i)
+    var localeDigits = Iterable.generate(10, (i) => i)
         .map((i) => localeZeroCodeUnit + i)
         .toList();
-    var localeDigitsString = new String.fromCharCodes(localeDigits);
-    return new RegExp(r'^[' + localeDigitsString + ']+');
+    var localeDigitsString = String.fromCharCodes(localeDigits);
+    return RegExp('^[$localeDigitsString]+');
   }
 
   /// Return true if the locale exists, or if it is null. The null case
@@ -753,11 +761,12 @@ class DateFormat {
     return dateTimeSymbols.containsKey(localeName);
   }
 
-  static List get _fieldConstructors => [
-        (pattern, parent) => new _DateFormatQuotedField(pattern, parent),
-        (pattern, parent) => new _DateFormatPatternField(pattern, parent),
-        (pattern, parent) => new _DateFormatLiteralField(pattern, parent)
-      ];
+  static List<_DateFormatField Function(String, DateFormat)>
+      get _fieldConstructors => [
+            (pattern, parent) => _DateFormatQuotedField(pattern, parent),
+            (pattern, parent) => _DateFormatPatternField(pattern, parent),
+            (pattern, parent) => _DateFormatLiteralField(pattern, parent)
+          ];
 
   /// Parse the template pattern and return a list of field objects.
   List<_DateFormatField> parsePattern(String pattern) {

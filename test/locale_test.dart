@@ -38,7 +38,8 @@ void main() {
   });
 
   group('Locale.fromSubtags() FormatExceptions:', () {
-    testExceptionForSubtags(String language, String script, String region) {
+    void testExceptionForSubtags(
+        String language, String script, String region) {
       test('fromSubtags: "$language / $script / $region"', () {
         expect(
             () => Locale.fromSubtags(
@@ -108,15 +109,15 @@ void main() {
       [], 'en-u-co-phonebk-cu-usd-z-abc-001-foo-fii-bar');
 
   group('Locale.parse() throws FormatException:', () {
-    testExceptionForId(String x) {
+    void testExceptionForId(String x) {
       test('"$x"', () {
         expect(() => Locale.parse(x), throwsFormatException);
       });
     }
 
-    invalidLocales.forEach((badLocaleIdentifier) {
+    for (var badLocaleIdentifier in invalidLocales) {
       testExceptionForId(badLocaleIdentifier);
-    });
+    }
 
     // ICU permits '', taking it as 'und', but it is not a valid Unicode Locale
     // Identifier: We reject it.
@@ -144,11 +145,11 @@ void main() {
   });
 
   group('Locale.tryParse() returns null:', () {
-    invalidLocales.forEach((badLocaleIdentifier) {
+    for (var badLocaleIdentifier in invalidLocales) {
       test('"$badLocaleIdentifier"', () {
         expect(Locale.tryParse(badLocaleIdentifier), isNull);
       });
-    });
+    }
   });
 
   // TODO: determine appropriate behaviour for the following examples.
@@ -174,7 +175,7 @@ void main() {
   test('Locale cannot be modified via the variants field', () {
     var l = Locale.parse('en-scotland');
     List<String> v = l.variants;
-    bool good = false;
+    var good = false;
     try {
       v.add('basiceng');
     } on Error {
@@ -201,7 +202,7 @@ void main() {
   });
 }
 
-testFromSubtags(
+void testFromSubtags(
     String language,
     String script,
     String region,
@@ -210,7 +211,7 @@ testFromSubtags(
     String expectedRegion,
     String expectedTag) {
   test('Locale.fromSubtags(...) with $language, $script, $region', () {
-    Locale l = Locale.fromSubtags(
+    var l = Locale.fromSubtags(
         languageCode: language, scriptCode: script, countryCode: region);
     expect(l.languageCode, expectedLanguage);
     expect(l.scriptCode, expectedScript);
@@ -220,7 +221,7 @@ testFromSubtags(
   });
 }
 
-testParse(
+void testParse(
     String bcp47Tag,
     String expectedLanguage,
     String expectedScript,
@@ -228,7 +229,7 @@ testParse(
     Iterable<String> expectedVariants,
     String expectedTag) {
   test('Locale.parse("$bcp47Tag");', () {
-    Locale l = Locale.parse(bcp47Tag);
+    var l = Locale.parse(bcp47Tag);
     expect(l.languageCode, expectedLanguage);
     expect(l.scriptCode, expectedScript);
     expect(l.countryCode, expectedRegion);

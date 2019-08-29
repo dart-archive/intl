@@ -101,7 +101,7 @@ abstract class Locale {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    return other is Locale && this.toLanguageTag() == other.toLanguageTag();
+    return other is Locale && toLanguageTag() == other.toLanguageTag();
   }
 
   @override

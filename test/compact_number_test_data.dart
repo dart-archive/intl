@@ -14,6 +14,9 @@
 /// significant digits and decimal digits. Manual edits were made to pair up
 /// CLDR ver. 35 formats with old digit handling.
 
+// MANUAL EDIT TO SUPPRESS WARNINGS IN GENERATED CODE
+// ignore_for_file: prefer_single_quotes
+
 /// The test data. A map, keyed by locale name, whose values
 /// are a list of [basic, shortform, longform] formatted data
 /// for different numbers.

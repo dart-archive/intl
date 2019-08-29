@@ -128,7 +128,7 @@ class LocaleParser {
     _currentIndex = 0;
     _current = _subtags[0];
 
-    bool scriptFound = false;
+    var scriptFound = false;
     if (acceptLanguage()) {
       _languageCode = replaceDeprecatedLanguageSubtag(accepted());
       scriptFound = acceptScript();
@@ -160,7 +160,7 @@ class LocaleParser {
   /// empty.
   void processExtensions() {
     while (acceptSingleton()) {
-      String singleton = accepted();
+      var singleton = accepted();
       if (singleton == 'u') {
         processUExtensions();
       } else if (singleton == 't') {
@@ -185,8 +185,8 @@ class LocaleParser {
       return;
     }
     _uExtensions = <String, String>{};
-    bool empty = true;
-    final List<String> attributes = [];
+    var empty = true;
+    final attributes = <String>[];
     while (acceptLowAlphaNumeric3to8()) {
       attributes.add(accepted());
     }
@@ -198,8 +198,8 @@ class LocaleParser {
     // unicode_locale_extensions: collect "(sep keyword)*".
     while (acceptUExtensionKey()) {
       empty = false;
-      String key = accepted();
-      final List<String> typeParts = <String>[];
+      var key = accepted();
+      final typeParts = <String>[];
       while (acceptLowAlphaNumeric3to8()) {
         typeParts.add(accepted());
       }
@@ -229,8 +229,8 @@ class LocaleParser {
       return;
     }
     _tExtensions = <String, String>{};
-    bool empty = true;
-    final List<String> tlang = <String>[];
+    var empty = true;
+    final tlang = <String>[];
     if (acceptLanguage()) {
       empty = false;
       tlang.add(replaceDeprecatedLanguageSubtag(accepted()));
@@ -247,8 +247,8 @@ class LocaleParser {
     }
     // transformed_extensions: collect "(sep tfield)*".
     while (acceptTExtensionKey()) {
-      String tkey = accepted();
-      final List<String> tvalueParts = <String>[];
+      var tkey = accepted();
+      final tvalueParts = <String>[];
       while (acceptLowAlphaNumeric3to8()) {
         tvalueParts.add(accepted());
       }
@@ -274,7 +274,7 @@ class LocaleParser {
   /// If parsing fails, `atEnd()` will be false and/or [problems] will not be
   /// empty.
   void processPrivateUseExtensions() {
-    final List<String> values = <String>[];
+    final values = <String>[];
     while (acceptLowAlphaNumeric1to8()) {
       values.add(accepted());
     }
@@ -290,7 +290,7 @@ class LocaleParser {
   /// If parsing fails, `atEnd()` will be false and/or [problems] will not be
   /// empty.
   void processOtherExtensions(String singleton) {
-    final List<String> values = <String>[];
+    final values = <String>[];
     while (acceptLowAlphaNumeric2to8()) {
       values.add(accepted());
     }
@@ -374,8 +374,9 @@ class LocaleParser {
   /// ranging from 2 to 8.
   bool acceptLowAlphaNumeric2to8() {
     if (atEnd()) return false;
-    if (!_alphaNumeric1to8RegExp.hasMatch(current()) || current().length < 2)
+    if (!_alphaNumeric1to8RegExp.hasMatch(current()) || current().length < 2) {
       return false;
+    }
     advance();
     return true;
   }
@@ -384,8 +385,9 @@ class LocaleParser {
   /// ranging from 3 to 8.
   bool acceptLowAlphaNumeric3to8() {
     if (atEnd()) return false;
-    if (!_alphaNumeric1to8RegExp.hasMatch(current()) || current().length < 3)
+    if (!_alphaNumeric1to8RegExp.hasMatch(current()) || current().length < 3) {
       return false;
+    }
     advance();
     return true;
   }

@@ -9,9 +9,9 @@
 
 library intl_browser;
 
-import "dart:async";
-import "dart:html";
-import "intl.dart";
+import 'dart:async';
+import 'dart:html';
+import 'intl.dart';
 
 // TODO(alanknight): The need to do this by forcing the user to specially
 // import a particular library is a horrible hack, only done because there
@@ -23,5 +23,5 @@ import "intl.dart";
 /// [Intl.systemLocale] variable.
 Future<String> findSystemLocale() {
   Intl.systemLocale = Intl.canonicalizedLocale(window.navigator.language);
-  return new Future.value(Intl.systemLocale);
+  return Future.value(Intl.systemLocale);
 }

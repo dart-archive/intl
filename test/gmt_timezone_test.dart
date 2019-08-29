@@ -16,6 +16,6 @@
 import 'package:test/test.dart';
 import 'timezone_test_core.dart';
 
-main() {
+void main() {
   testTimezone('GMT', expectedUtcOffset: 0);
 }

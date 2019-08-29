@@ -3,6 +3,9 @@
 // BSD-style license that can be found in the LICENSE file.
 library date_symbols;
 
+// Suppress naming lints, as changes would be breaking.
+// ignore_for_file: avoid_types_as_parameter_names,non_constant_identifier_names
+
 /// This holds onto information about how a particular locale formats dates. It
 /// contains mostly strings, e.g. what the names of months or weekdays are,
 /// but also indicates things like the first day of the week. We expect the data
@@ -132,83 +135,81 @@ class DateSymbols {
 
   // TODO(alanknight): Replace this with use of a more general serialization
   // facility once one is available. Issue 4926.
-  DateSymbols.deserializeFromMap(Map map) {
-    List<String> _getStringList(String name) =>
-        new List<String>.from(map[name]);
-    NAME = map["NAME"];
-    ERAS = _getStringList("ERAS");
-    ERANAMES = _getStringList("ERANAMES");
-    NARROWMONTHS = _getStringList("NARROWMONTHS");
-    STANDALONENARROWMONTHS = _getStringList("STANDALONENARROWMONTHS");
-    MONTHS = _getStringList("MONTHS");
-    STANDALONEMONTHS = _getStringList("STANDALONEMONTHS");
-    SHORTMONTHS = _getStringList("SHORTMONTHS");
-    STANDALONESHORTMONTHS = _getStringList("STANDALONESHORTMONTHS");
-    WEEKDAYS = _getStringList("WEEKDAYS");
-    STANDALONEWEEKDAYS = _getStringList("STANDALONEWEEKDAYS");
-    SHORTWEEKDAYS = _getStringList("SHORTWEEKDAYS");
-    STANDALONESHORTWEEKDAYS = _getStringList("STANDALONESHORTWEEKDAYS");
-    NARROWWEEKDAYS = _getStringList("NARROWWEEKDAYS");
-    STANDALONENARROWWEEKDAYS = _getStringList("STANDALONENARROWWEEKDAYS");
-    SHORTQUARTERS = _getStringList("SHORTQUARTERS");
-    QUARTERS = _getStringList("QUARTERS");
-    AMPMS = _getStringList("AMPMS");
-    ZERODIGIT = map["ZERODIGIT"];
-    DATEFORMATS = _getStringList("DATEFORMATS");
-    TIMEFORMATS = _getStringList("TIMEFORMATS");
-    AVAILABLEFORMATS =
-        new Map<String, String>.from(map["AVAILABLEFORMATS"] ?? {});
-    FIRSTDAYOFWEEK = map["FIRSTDAYOFWEEK"];
-    WEEKENDRANGE = new List<int>.from(map["WEEKENDRANGE"]);
-    FIRSTWEEKCUTOFFDAY = map["FIRSTWEEKCUTOFFDAY"];
-    DATETIMEFORMATS = _getStringList("DATETIMEFORMATS");
+  DateSymbols.deserializeFromMap(Map<dynamic, dynamic> map) {
+    List<String> _getStringList(String name) => List<String>.from(map[name]);
+    NAME = map['NAME'];
+    ERAS = _getStringList('ERAS');
+    ERANAMES = _getStringList('ERANAMES');
+    NARROWMONTHS = _getStringList('NARROWMONTHS');
+    STANDALONENARROWMONTHS = _getStringList('STANDALONENARROWMONTHS');
+    MONTHS = _getStringList('MONTHS');
+    STANDALONEMONTHS = _getStringList('STANDALONEMONTHS');
+    SHORTMONTHS = _getStringList('SHORTMONTHS');
+    STANDALONESHORTMONTHS = _getStringList('STANDALONESHORTMONTHS');
+    WEEKDAYS = _getStringList('WEEKDAYS');
+    STANDALONEWEEKDAYS = _getStringList('STANDALONEWEEKDAYS');
+    SHORTWEEKDAYS = _getStringList('SHORTWEEKDAYS');
+    STANDALONESHORTWEEKDAYS = _getStringList('STANDALONESHORTWEEKDAYS');
+    NARROWWEEKDAYS = _getStringList('NARROWWEEKDAYS');
+    STANDALONENARROWWEEKDAYS = _getStringList('STANDALONENARROWWEEKDAYS');
+    SHORTQUARTERS = _getStringList('SHORTQUARTERS');
+    QUARTERS = _getStringList('QUARTERS');
+    AMPMS = _getStringList('AMPMS');
+    ZERODIGIT = map['ZERODIGIT'];
+    DATEFORMATS = _getStringList('DATEFORMATS');
+    TIMEFORMATS = _getStringList('TIMEFORMATS');
+    AVAILABLEFORMATS = Map<String, String>.from(map['AVAILABLEFORMATS'] ?? {});
+    FIRSTDAYOFWEEK = map['FIRSTDAYOFWEEK'];
+    WEEKENDRANGE = List<int>.from(map['WEEKENDRANGE']);
+    FIRSTWEEKCUTOFFDAY = map['FIRSTWEEKCUTOFFDAY'];
+    DATETIMEFORMATS = _getStringList('DATETIMEFORMATS');
   }
 
-  Map serializeToMap() {
+  Map<String, dynamic> serializeToMap() {
     // Don't write default ZERODIGIT, conserves space, but also minimize file
     // churn.
     var basicMap = _serializeToMap();
     if (ZERODIGIT != null && ZERODIGIT != '') {
-      basicMap["ZERODIGIT"] = ZERODIGIT;
+      basicMap['ZERODIGIT'] = ZERODIGIT;
     }
     return basicMap;
   }
 
-  Map _serializeToMap() => {
-        "NAME": NAME,
-        "ERAS": ERAS,
-        "ERANAMES": ERANAMES,
-        "NARROWMONTHS": NARROWMONTHS,
-        "STANDALONENARROWMONTHS": STANDALONENARROWMONTHS,
-        "MONTHS": MONTHS,
-        "STANDALONEMONTHS": STANDALONEMONTHS,
-        "SHORTMONTHS": SHORTMONTHS,
-        "STANDALONESHORTMONTHS": STANDALONESHORTMONTHS,
-        "WEEKDAYS": WEEKDAYS,
-        "STANDALONEWEEKDAYS": STANDALONEWEEKDAYS,
-        "SHORTWEEKDAYS": SHORTWEEKDAYS,
-        "STANDALONESHORTWEEKDAYS": STANDALONESHORTWEEKDAYS,
-        "NARROWWEEKDAYS": NARROWWEEKDAYS,
-        "STANDALONENARROWWEEKDAYS": STANDALONENARROWWEEKDAYS,
-        "SHORTQUARTERS": SHORTQUARTERS,
-        "QUARTERS": QUARTERS,
-        "AMPMS": AMPMS,
-        "DATEFORMATS": DATEFORMATS,
-        "TIMEFORMATS": TIMEFORMATS,
-        "AVAILABLEFORMATS": AVAILABLEFORMATS,
-        "FIRSTDAYOFWEEK": FIRSTDAYOFWEEK,
-        "WEEKENDRANGE": WEEKENDRANGE,
-        "FIRSTWEEKCUTOFFDAY": FIRSTWEEKCUTOFFDAY,
-        "DATETIMEFORMATS": DATETIMEFORMATS,
+  Map<String, dynamic> _serializeToMap() => {
+        'NAME': NAME,
+        'ERAS': ERAS,
+        'ERANAMES': ERANAMES,
+        'NARROWMONTHS': NARROWMONTHS,
+        'STANDALONENARROWMONTHS': STANDALONENARROWMONTHS,
+        'MONTHS': MONTHS,
+        'STANDALONEMONTHS': STANDALONEMONTHS,
+        'SHORTMONTHS': SHORTMONTHS,
+        'STANDALONESHORTMONTHS': STANDALONESHORTMONTHS,
+        'WEEKDAYS': WEEKDAYS,
+        'STANDALONEWEEKDAYS': STANDALONEWEEKDAYS,
+        'SHORTWEEKDAYS': SHORTWEEKDAYS,
+        'STANDALONESHORTWEEKDAYS': STANDALONESHORTWEEKDAYS,
+        'NARROWWEEKDAYS': NARROWWEEKDAYS,
+        'STANDALONENARROWWEEKDAYS': STANDALONENARROWWEEKDAYS,
+        'SHORTQUARTERS': SHORTQUARTERS,
+        'QUARTERS': QUARTERS,
+        'AMPMS': AMPMS,
+        'DATEFORMATS': DATEFORMATS,
+        'TIMEFORMATS': TIMEFORMATS,
+        'AVAILABLEFORMATS': AVAILABLEFORMATS,
+        'FIRSTDAYOFWEEK': FIRSTDAYOFWEEK,
+        'WEEKENDRANGE': WEEKENDRANGE,
+        'FIRSTWEEKCUTOFFDAY': FIRSTWEEKCUTOFFDAY,
+        'DATETIMEFORMATS': DATETIMEFORMATS,
       };
 
-  toString() => NAME;
+  String toString() => NAME;
 }
 
 /// We hard-code the locale data for en_US here so that there's at least one
 /// locale always available.
-var en_USSymbols = new DateSymbols(
-    NAME: "en_US",
+var en_USSymbols = DateSymbols(
+    NAME: 'en_US',
     ERAS: const ['BC', 'AD'],
     ERANAMES: const ['Before Christ', 'Anno Domini'],
     NARROWMONTHS: const [

@@ -16,8 +16,8 @@ class HttpRequestDataReader implements LocaleDataReader {
   String url;
   HttpRequestDataReader(this.url);
 
-  Future read(String locale) {
-    var request = new HttpRequest();
+  Future<String> read(String locale) {
+    var request = HttpRequest();
     request.timeout = 5000;
     return _getString('$url$locale.json', request).then((r) => r.responseText);
   }
@@ -26,7 +26,7 @@ class HttpRequestDataReader implements LocaleDataReader {
   /// of HttpRequest getString, but was the simplest way I could find to
   /// issue a request with a timeout.
   Future<HttpRequest> _getString(String url, HttpRequest xhr) {
-    var completer = new Completer<HttpRequest>();
+    var completer = Completer<HttpRequest>();
     xhr.open('GET', url, async: true);
     xhr.onLoad.listen((e) {
       // Note: file:// URIs have status of 0.

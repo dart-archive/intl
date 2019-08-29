@@ -7,8 +7,10 @@ library bidi_format_test;
 import 'package:intl/intl.dart';
 import 'package:test/test.dart';
 
+// ignore_for_file: non_constant_identifier_names
+
 /// Tests the bidirectional text formatting library.
-main() {
+void main() {
   var LTR = TextDirection.LTR;
   var RTL = TextDirection.RTL;
   var LRM = Bidi.LRM;
@@ -21,9 +23,9 @@ main() {
   var en = 'abba';
   var html = '&lt;';
   var longEn = 'abba sabba gabba ';
-  var ltrFmt = new BidiFormatter.LTR(); // LTR context
-  var rtlFmt = new BidiFormatter.RTL(); // RTL context
-  var unkFmt = new BidiFormatter.UNKNOWN(); // unknown context
+  var ltrFmt = BidiFormatter.LTR(); // LTR context
+  var rtlFmt = BidiFormatter.RTL(); // RTL context
+  var unkFmt = BidiFormatter.UNKNOWN(); // unknown context
 
   test('estimateDirection', () {
     expect(ltrFmt.estimateDirection(''), equals(UNKNOWN));
@@ -86,8 +88,8 @@ main() {
     expect(ltrFmt.wrapWithSpan('<br>$en', isHtml: false, resetDir: false),
         equals('&lt;br&gt;$en'));
 
-    var ltrAlwaysSpanFmt = new BidiFormatter.LTR(true);
-    var rtlAlwaysSpanFmt = new BidiFormatter.RTL(true);
+    var ltrAlwaysSpanFmt = BidiFormatter.LTR(true);
+    var rtlAlwaysSpanFmt = BidiFormatter.RTL(true);
 
     // Test alwaysSpan, overall dir matches context dir (LTR), no dirReset.
     expect(ltrAlwaysSpanFmt.wrapWithSpan(en, isHtml: true, resetDir: false),

@@ -8,12 +8,15 @@
 /// 'http://go/generate_datetime_pattern_dart.cc' (Google internal)
 /// File generated from CLDR ver. 35.0
 
+// MANUAL EDIT TO SUPPRESS WARNINGS IN GENERATED CODE
+// ignore_for_file: unnecessary_const
+
 library date_time_patterns;
 
 /// Returns a Map from locale names to another Map that goes from skeletons
 /// to the locale-specific formatting patterns.
 /// Internal use only. Call initializeDateFormatting instead.
-Map dateTimePatternMap() => const {
+Map<dynamic, dynamic> dateTimePatternMap() => const {
       /// Extended set of localized date/time patterns for locale af.
       'af': const {
         'd': 'd', // DAY

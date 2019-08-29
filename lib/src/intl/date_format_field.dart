@@ -6,10 +6,10 @@ part of intl;
 
 /// This is a private class internal to DateFormat which is used for formatting
 /// particular fields in a template. e.g. if the format is hh:mm:ss then the
-/// fields would be "hh", ":", "mm", ":", and "ss". Each type of field knows
+/// fields would be 'hh', ':', 'mm', ':', and 'ss'. Each type of field knows
 /// how to format that portion of a date.
 abstract class _DateFormatField {
-  /// The format string that defines us, e.g. "hh"
+  /// The format string that defines us, e.g. 'hh'
   final String pattern;
 
   /// The DateFormat that we are part of.
@@ -84,8 +84,8 @@ abstract class _DateFormatField {
 
   /// Throw a format exception with an error message indicating the position.
   void throwFormatException(_Stream stream) {
-    throw new FormatException("Trying to read $this from ${stream.contents} "
-        "at position ${stream.index}");
+    throw FormatException('Trying to read $this from ${stream.contents} '
+        'at position ${stream.index}');
   }
 }
 
@@ -95,11 +95,11 @@ abstract class _DateFormatField {
 class _DateFormatLiteralField extends _DateFormatField {
   _DateFormatLiteralField(pattern, parent) : super(pattern, parent);
 
-  parse(_Stream input, _DateBuilder dateFields) {
+  void parse(_Stream input, _DateBuilder dateFields) {
     parseLiteral(input);
   }
 
-  parseLoose(_Stream input, _DateBuilder dateFields) =>
+  void parseLoose(_Stream input, _DateBuilder dateFields) =>
       parseLiteralLoose(input);
 }
 
@@ -115,14 +115,14 @@ class _DateFormatQuotedField extends _DateFormatField {
     _fullPattern = pattern;
   }
 
-  parse(_Stream input, _DateBuilder dateFields) {
+  void parse(_Stream input, _DateBuilder dateFields) {
     parseLiteral(input);
   }
 
-  parseLoose(_Stream input, _DateBuilder dateFields) =>
+  void parseLoose(_Stream input, _DateBuilder dateFields) =>
       parseLiteralLoose(input);
 
-  static final _twoEscapedQuotes = new RegExp(r"''");
+  static final _twoEscapedQuotes = RegExp(r"''");
 
   static String _patchQuotes(String pattern) {
     if (pattern == "''") {
@@ -135,7 +135,7 @@ class _DateFormatQuotedField extends _DateFormatField {
   }
 }
 
-/// A field that parses "loosely", meaning that we'll accept input that is
+/// A field that parses 'loosely', meaning that we'll accept input that is
 /// missing delimiters, has upper/lower case mixed up, and might not strictly
 /// conform to the pattern, e.g. the pattern calls for Sep we might accept
 /// sep, september, sEPTember. Doesn't affect numeric fields.
@@ -144,7 +144,7 @@ class _LoosePatternField extends _DateFormatPatternField {
 
   /// Parse from a list of possibilities, but case-insensitively.
   /// Assumes that input is lower case.
-  int parseEnumeratedString(_Stream input, List possibilities) {
+  int parseEnumeratedString(_Stream input, List<String> possibilities) {
     var lowercasePossibilities =
         possibilities.map((x) => x.toLowerCase()).toList();
     try {
@@ -254,7 +254,7 @@ class _DateFormatPatternField extends _DateFormatField {
   /// into the correct place in dateFields. Allow looser parsing, accepting
   /// case-insensitive input and skipped delimiters.
   void parseLoose(_Stream input, _DateBuilder dateFields) {
-    new _LoosePatternField(pattern, parent).parse(input, dateFields);
+    _LoosePatternField(pattern, parent).parse(input, dateFields);
   }
 
   bool _forDate;
@@ -263,7 +263,7 @@ class _DateFormatPatternField extends _DateFormatField {
   /// time.
   ///
   /// The [pattern] will contain one or more of a particular format character,
-  /// e.g. "yyyy" for a four-digit year. This hard-codes all the pattern
+  /// e.g. 'yyyy' for a four-digit year. This hard-codes all the pattern
   /// characters that pertain to dates. The remaining characters, 'ahHkKms' are
   /// all time-related. See e.g. [formatField]
   bool get forDate => _forDate ??= 'cdDEGLMQvyZz'.contains(pattern[0]);
@@ -389,12 +389,12 @@ class _DateFormatPatternField extends _DateFormatField {
   /// Return the symbols for our current locale.
   DateSymbols get symbols => parent.dateSymbols;
 
-  formatEra(DateTime date) {
+  String formatEra(DateTime date) {
     var era = date.year > 0 ? 1 : 0;
     return width >= 4 ? symbols.ERANAMES[era] : symbols.ERAS[era];
   }
 
-  formatYear(DateTime date) {
+  String formatYear(DateTime date) {
     // TODO(alanknight): Proper handling of years <= 0
     var year = date.year;
     if (year < 0) {
@@ -404,13 +404,18 @@ class _DateFormatPatternField extends _DateFormatField {
   }
 
   /// We are given [input] as a stream from which we want to read a date. We
-  /// can't dynamically build up a date, so we are given a list [dateFields] of
-  /// the constructor arguments and an [position] at which to set it
-  /// (year,month,day,hour,minute,second,fractionalSecond)
-  /// then after all parsing is done we construct a date from the arguments.
+  /// can't dynamically build up a date, so the caller has a list of the
+  /// constructor arguments and a position at which to set it
+  /// (year,month,day,hour,minute,second,fractionalSecond) and gives us a setter
+  /// for it.
+  ///
+  /// Then after all parsing is done we construct a date from the
+  /// arguments.
+  ///
   /// This method handles reading any of the numeric fields. The [offset]
   /// argument allows us to compensate for zero-based versus one-based values.
-  void handleNumericField(_Stream input, Function setter, [int offset = 0]) {
+  void handleNumericField(_Stream input, void Function(num) setter,
+      [int offset = 0]) {
     var result = input.nextInteger(
         digitMatcher: parent.digitMatcher,
         zeroDigit: parent.localeZeroCodeUnit);
@@ -419,13 +424,16 @@ class _DateFormatPatternField extends _DateFormatField {
   }
 
   /// We are given [input] as a stream from which we want to read a date. We
-  /// can't dynamically build up a date, so we are given a list [dateFields] of
-  /// the constructor arguments and an [position] at which to set it
-  /// (year,month,day,hour,minute,second,fractionalSecond)
-  /// then after all parsing is done we construct a date from the arguments.
-  /// This method handles reading any of string fields from an enumerated set.
-  int parseEnumeratedString(_Stream input, List possibilities) {
-    var results = new _Stream(possibilities)
+  /// can't dynamically build up a date, so the caller has a list of the
+  /// constructor arguments and a position at which to set it
+  /// (year,month,day,hour,minute,second,fractionalSecond) and gives us a setter
+  /// for it.
+  ///
+  /// Then after all parsing is done we construct a date from the
+  /// arguments. This method handles reading any of string fields from an
+  /// enumerated set.
+  int parseEnumeratedString(_Stream input, List<String> possibilities) {
+    var results = _Stream(possibilities)
         .findIndexes((each) => input.peek(each.length) == each);
     if (results.isEmpty) throwFormatException(input);
     results.sort(
@@ -449,7 +457,7 @@ class _DateFormatPatternField extends _DateFormatField {
   }
 
   void parseMonth(input, dateFields) {
-    var possibilities;
+    List<String> possibilities;
     switch (width) {
       case 5:
         possibilities = symbols.NARROWMONTHS;
@@ -490,7 +498,7 @@ class _DateFormatPatternField extends _DateFormatField {
   }
 
   void parseAmPm(input, dateFields) {
-    // If we see a "PM" note it in an extra field.
+    // If we see a 'PM' note it in an extra field.
     var ampm = parseEnumeratedString(input, symbols.AMPMS);
     if (ampm == 1) dateFields.pm = true;
   }
@@ -530,7 +538,7 @@ class _DateFormatPatternField extends _DateFormatField {
 
   void parseStandaloneDay(_Stream input) {
     // This is ignored, but we still have to skip over it the correct amount.
-    var possibilities;
+    List<String> possibilities;
     switch (width) {
       case 5:
         possibilities = symbols.STANDALONENARROWWEEKDAYS;
@@ -561,7 +569,7 @@ class _DateFormatPatternField extends _DateFormatField {
   }
 
   void parseStandaloneMonth(input, dateFields) {
-    var possibilities;
+    List<String> possibilities;
     switch (width) {
       case 5:
         possibilities = symbols.STANDALONENARROWMONTHS;
@@ -625,15 +633,15 @@ class _DateFormatPatternField extends _DateFormatField {
 
   String formatTimeZoneId(DateTime date) {
     // TODO(alanknight): implement time zone support
-    throw new UnimplementedError();
+    throw UnimplementedError();
   }
 
   String formatTimeZone(DateTime date) {
-    throw new UnimplementedError();
+    throw UnimplementedError();
   }
 
   String formatTimeZoneRFC(DateTime date) {
-    throw new UnimplementedError();
+    throw UnimplementedError();
   }
 
   /// Return a string representation of the object padded to the left with

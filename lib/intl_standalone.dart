@@ -9,9 +9,9 @@
 
 library intl_standalone;
 
-import "dart:async";
-import "dart:io";
-import "intl.dart";
+import 'dart:async';
+import 'dart:io';
+import 'intl.dart';
 
 // TODO(alanknight): The need to do this by forcing the user to specially
 // import a particular library is a horrible hack, only done because there
@@ -25,7 +25,7 @@ Future<String> findSystemLocale() {
   try {
     Intl.systemLocale = Intl.canonicalizedLocale(Platform.localeName);
   } catch (e) {
-    return new Future.value();
+    return Future.value();
   }
-  return new Future.value(Intl.systemLocale);
+  return Future.value(Intl.systemLocale);
 }

@@ -23,19 +23,21 @@ export 'src/data/dates/locale_list.dart';
 /// methods are called. It sets up the lookup for date symbols using [path].
 /// The [path] parameter should end with a directory separator appropriate
 /// for the platform.
-Future initializeDateFormatting(String locale, String filePath) {
-  var reader = new FileDataReader(path.join(filePath, 'symbols'));
-  initializeDateSymbols(() => new LazyLocaleData(
+Future<void> initializeDateFormatting(String locale, String filePath) {
+  var reader = FileDataReader(path.join(filePath, 'symbols'));
+  initializeDateSymbols(() => LazyLocaleData(
       reader, _createDateSymbol, availableLocalesForDateFormatting));
-  var reader2 = new FileDataReader(path.join(filePath, 'patterns'));
+  var reader2 = FileDataReader(path.join(filePath, 'patterns'));
   initializeDatePatterns(() =>
-      new LazyLocaleData(reader2, (x) => x, availableLocalesForDateFormatting));
+      LazyLocaleData(reader2, (x) => x, availableLocalesForDateFormatting));
   return initializeIndividualLocaleDateFormatting((symbols, patterns) {
-    return Future.wait(
-        <Future>[symbols.initLocale(locale), patterns.initLocale(locale)]);
+    return Future.wait(<Future<dynamic>>[
+      symbols.initLocale(locale),
+      patterns.initLocale(locale)
+    ]);
   });
 }
 
 /// Defines how new date symbol entries are created.
-DateSymbols _createDateSymbol(Map map) =>
-    new DateSymbols.deserializeFromMap(map);
+DateSymbols _createDateSymbol(Map<dynamic, dynamic> map) =>
+    DateSymbols.deserializeFromMap(map);

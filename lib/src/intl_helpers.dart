@@ -11,7 +11,8 @@ import 'dart:async';
 import 'package:intl/intl.dart';
 
 /// Type for the callback action when a message translation is not found.
-typedef MessageIfAbsent(String message_str, List<Object> args);
+typedef MessageIfAbsent = String Function(
+    String messageText, List<Object> args);
 
 /// This is used as a marker for a locale data map that hasn't been initialized,
 /// and will throw an exception on any usage that isn't the fallback
@@ -21,7 +22,7 @@ class UninitializedLocaleData<F> implements MessageLookup {
   final F fallbackData;
   UninitializedLocaleData(this.message, this.fallbackData);
 
-  operator [](String key) =>
+  F operator [](String key) =>
       (key == 'en_US') ? fallbackData : _throwException();
 
   /// If a message is looked up before any locale initialization, record it,
@@ -37,26 +38,26 @@ class UninitializedLocaleData<F> implements MessageLookup {
   static final bool throwOnFallback = false;
 
   /// The messages that were called before the locale was initialized.
-  List<String> _badMessages = [];
+  final List<String> _badMessages = [];
 
   void _reportErrors() {
-    if (throwOnFallback && _badMessages.length > 0) {
-      throw new StateError(
-          "The following messages were called before locale initialization:"
-          " $_uninitializedMessages");
+    if (throwOnFallback && _badMessages.isNotEmpty) {
+      throw StateError(
+          'The following messages were called before locale initialization:'
+          ' $_uninitializedMessages');
     }
   }
 
   String get _uninitializedMessages =>
-      (_badMessages.toSet().toList()..sort()).join("\n    ");
+      (_badMessages.toSet().toList()..sort()).join('\n    ');
 
-  String lookupMessage(String message_str, String locale, String name,
+  String lookupMessage(String messageText, String locale, String name,
       List<Object> args, String meaning,
       {MessageIfAbsent ifAbsent}) {
     if (throwOnFallback) {
-      _badMessages.add(name ?? message_str);
+      _badMessages.add(name ?? messageText);
     }
-    return message_str;
+    return messageText;
   }
 
   /// Given an initial locale or null, returns the locale that will be used
@@ -67,16 +68,16 @@ class UninitializedLocaleData<F> implements MessageLookup {
 
   bool containsKey(String key) => (key == 'en_US') ? true : _throwException();
 
-  _throwException() {
-    throw new LocaleDataException("Locale data has not been initialized"
-        ", call $message.");
+  F _throwException() {
+    throw LocaleDataException('Locale data has not been initialized'
+        ', call $message.');
   }
 
   void addLocale(String localeName, Function findLocale) => _throwException();
 }
 
 abstract class MessageLookup {
-  String lookupMessage(String message_str, String locale, String name,
+  String lookupMessage(String messageText, String locale, String name,
       List<Object> args, String meaning,
       {MessageIfAbsent ifAbsent});
   void addLocale(String localeName, Function findLocale);
@@ -85,27 +86,27 @@ abstract class MessageLookup {
 class LocaleDataException implements Exception {
   final String message;
   LocaleDataException(this.message);
-  toString() => "LocaleDataException: $message";
+  String toString() => 'LocaleDataException: $message';
 }
 
 ///  An abstract superclass for data readers to keep the type system happy.
 abstract class LocaleDataReader {
-  Future read(String locale);
+  Future<String> read(String locale);
 }
 
 /// The internal mechanism for looking up messages. We expect this to be set
 /// by the implementing package so that we're not dependent on its
 /// implementation.
 MessageLookup messageLookup =
-    new UninitializedLocaleData('initializeMessages(<locale>)', null);
+    UninitializedLocaleData('initializeMessages(<locale>)', null);
 
 /// Initialize the message lookup mechanism. This is for internal use only.
 /// User applications should import `message_lookup_by_library.dart` and call
 /// `initializeMessages`
 void initializeInternalMessageLookup(Function lookupFunction) {
-  if (messageLookup is UninitializedLocaleData) {
+  if (messageLookup is UninitializedLocaleData<dynamic>) {
     // This line has to be precisely this way to work around an analyzer crash.
-    (messageLookup as UninitializedLocaleData)._reportErrors();
+    (messageLookup as UninitializedLocaleData<dynamic>)._reportErrors();
     messageLookup = lookupFunction();
   }
 }
@@ -114,6 +115,6 @@ void initializeInternalMessageLookup(Function lookupFunction) {
 /// a name based on that and the meaning, if present.
 // NOTE: THIS LOGIC IS DUPLICATED IN intl_translation AND THE TWO MUST MATCH.
 String computeMessageName(String name, String text, String meaning) {
-  if (name != null && name != "") return name;
-  return meaning == null ? text : "${text}_${meaning}";
+  if (name != null && name != '') return name;
+  return meaning == null ? text : '${text}_$meaning';
 }

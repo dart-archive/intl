@@ -4,9 +4,11 @@
 
 part of intl;
 
+// ignore_for_file: constant_identifier_names
+
 /// The function that we pass internally to NumberFormat to get
 /// the appropriate pattern (e.g. currency)
-typedef String _PatternGetter(NumberSymbols symbols);
+typedef _PatternGetter = String Function(NumberSymbols);
 
 /// Provides the ability to format a number in a locale-specific way. The
 /// format is specified as a pattern using a subset of the ICU formatting
@@ -165,12 +167,12 @@ class NumberFormat {
   /// single-threaded and unless we do an asynchronous operation in the process
   /// of formatting then there will only ever be one number being formatted
   /// at a time. In languages with threads we'd need to pass this on the stack.
-  final StringBuffer _buffer = new StringBuffer();
+  final StringBuffer _buffer = StringBuffer();
 
   /// Create a number format that prints using [newPattern] as it applies in
   /// [locale].
   factory NumberFormat([String newPattern, String locale]) =>
-      new NumberFormat._forPattern(locale, (x) => newPattern);
+      NumberFormat._forPattern(locale, (x) => newPattern);
 
   /// Create a number format that prints as DECIMAL_PATTERN.
   NumberFormat.decimalPattern([String locale])
@@ -191,25 +193,24 @@ class NumberFormat {
 
   /// A regular expression to validate currency names are exactly three
   /// alphabetic characters.
-  static final _checkCurrencyName = new RegExp(r'^[a-zA-Z]{3}$');
+  static final _checkCurrencyName = RegExp(r'^[a-zA-Z]{3}$');
 
   /// Create a number format that prints as CURRENCY_PATTERN. (Deprecated:
   /// prefer NumberFormat.currency)
   ///
   /// If provided,
-  /// use [nameOrSymbol] in place of the default currency name. e.g.
+  /// use [currencyNameOrSymbol] in place of the default currency name. e.g.
   ///        var eurosInCurrentLocale = new NumberFormat
   ///            .currencyPattern(Intl.defaultLocale, "€");
-  @Deprecated("Use NumberFormat.currency")
+  @Deprecated('Use NumberFormat.currency')
   factory NumberFormat.currencyPattern(
       [String locale, String currencyNameOrSymbol]) {
     // If it looks like an iso4217 name, pass as name, otherwise as symbol.
     if (currencyNameOrSymbol != null &&
         _checkCurrencyName.hasMatch(currencyNameOrSymbol)) {
-      return new NumberFormat.currency(
-          locale: locale, name: currencyNameOrSymbol);
+      return NumberFormat.currency(locale: locale, name: currencyNameOrSymbol);
     } else {
-      return new NumberFormat.currency(
+      return NumberFormat.currency(
           locale: locale, symbol: currencyNameOrSymbol);
     }
   }
@@ -287,7 +288,7 @@ class NumberFormat {
   /// will format with two, which is the default for that locale.
   factory NumberFormat.simpleCurrency(
       {String locale, String name, int decimalDigits}) {
-    return new NumberFormat._forPattern(locale, (x) => x.CURRENCY_PATTERN,
+    return NumberFormat._forPattern(locale, (x) => x.CURRENCY_PATTERN,
         name: name,
         computeCurrencySymbol: (format) =>
             _simpleCurrencySymbols[format.currencyName] ?? format.currencyName,
@@ -323,167 +324,167 @@ class NumberFormat {
   ///
   /// (The current implementation is the same for all locales, but this is
   /// temporary and callers shouldn't rely on it.)
-  static Map<String, String> _simpleCurrencySymbols = {
-    "AFN": "Af.",
-    "TOP": r"T$",
-    "MGA": "Ar",
-    "THB": "\u0e3f",
-    "PAB": "B/.",
-    "ETB": "Birr",
-    "VEF": "Bs",
-    "BOB": "Bs",
-    "GHS": "GHS",
-    "CRC": "\u20a1",
-    "NIO": r"C$",
-    "GMD": "GMD",
-    "MKD": "din",
-    "BHD": "din",
-    "DZD": "din",
-    "IQD": "din",
-    "JOD": "din",
-    "KWD": "din",
-    "LYD": "din",
-    "RSD": "din",
-    "TND": "din",
-    "AED": "dh",
-    "MAD": "dh",
-    "STD": "Db",
-    "BSD": r"$",
-    "FJD": r"$",
-    "GYD": r"$",
-    "KYD": r"$",
-    "LRD": r"$",
-    "SBD": r"$",
-    "SRD": r"$",
-    "AUD": r"$",
-    "BBD": r"$",
-    "BMD": r"$",
-    "BND": r"$",
-    "BZD": r"$",
-    "CAD": r"$",
-    "HKD": r"$",
-    "JMD": r"$",
-    "NAD": r"$",
-    "NZD": r"$",
-    "SGD": r"$",
-    "TTD": r"$",
-    "TWD": r"NT$",
-    "USD": r"$",
-    "XCD": r"$",
-    "VND": "\u20ab",
-    "AMD": "Dram",
-    "CVE": "CVE",
-    "EUR": "\u20ac",
-    "AWG": "Afl.",
-    "HUF": "Ft",
-    "BIF": "FBu",
-    "CDF": "FrCD",
-    "CHF": "CHF",
-    "DJF": "Fdj",
-    "GNF": "FG",
-    "RWF": "RF",
-    "XOF": "CFA",
-    "XPF": "FCFP",
-    "KMF": "CF",
-    "XAF": "FCFA",
-    "HTG": "HTG",
-    "PYG": "Gs",
-    "UAH": "\u20b4",
-    "PGK": "PGK",
-    "LAK": "\u20ad",
-    "CZK": "K\u010d",
-    "SEK": "kr",
-    "ISK": "kr",
-    "DKK": "kr",
-    "NOK": "kr",
-    "HRK": "kn",
-    "MWK": "MWK",
-    "ZMK": "ZWK",
-    "AOA": "Kz",
-    "MMK": "K",
-    "GEL": "GEL",
-    "LVL": "Ls",
-    "ALL": "Lek",
-    "HNL": "L",
-    "SLL": "SLL",
-    "MDL": "MDL",
-    "RON": "RON",
-    "BGN": "lev",
-    "SZL": "SZL",
-    "TRY": "TL",
-    "LTL": "Lt",
-    "LSL": "LSL",
-    "AZN": "man.",
-    "BAM": "KM",
-    "MZN": "MTn",
-    "NGN": "\u20a6",
-    "ERN": "Nfk",
-    "BTN": "Nu.",
-    "MRO": "MRO",
-    "MOP": "MOP",
-    "CUP": r"$",
-    "CUC": r"$",
-    "ARS": r"$",
-    "CLF": "UF",
-    "CLP": r"$",
-    "COP": r"$",
-    "DOP": r"$",
-    "MXN": r"$",
-    "PHP": "\u20b1",
-    "UYU": r"$",
-    "FKP": "£",
-    "GIP": "£",
-    "SHP": "£",
-    "EGP": "E£",
-    "LBP": "L£",
-    "SDG": "SDG",
-    "SSP": "SSP",
-    "GBP": "£",
-    "SYP": "£",
-    "BWP": "P",
-    "GTQ": "Q",
-    "ZAR": "R",
-    "BRL": r"R$",
-    "OMR": "Rial",
-    "QAR": "Rial",
-    "YER": "Rial",
-    "IRR": "Rial",
-    "KHR": "Riel",
-    "MYR": "RM",
-    "SAR": "Riyal",
-    "BYR": "BYR",
-    "RUB": "руб.",
-    "MUR": "Rs",
-    "SCR": "SCR",
-    "LKR": "Rs",
-    "NPR": "Rs",
-    "INR": "\u20b9",
-    "PKR": "Rs",
-    "IDR": "Rp",
-    "ILS": "\u20aa",
-    "KES": "Ksh",
-    "SOS": "SOS",
-    "TZS": "TSh",
-    "UGX": "UGX",
-    "PEN": "S/.",
-    "KGS": "KGS",
-    "UZS": "so\u02bcm",
-    "TJS": "Som",
-    "BDT": "\u09f3",
-    "WST": "WST",
-    "KZT": "\u20b8",
-    "MNT": "\u20ae",
-    "VUV": "VUV",
-    "KPW": "\u20a9",
-    "KRW": "\u20a9",
-    "JPY": "¥",
-    "CNY": "¥",
-    "PLN": "z\u0142",
-    "MVR": "Rf",
-    "NLG": "NAf",
-    "ZMW": "ZK",
-    "ANG": "ƒ",
-    "TMT": "TMT",
+  static final Map<String, String> _simpleCurrencySymbols = {
+    'AFN': 'Af.',
+    'TOP': r'T$',
+    'MGA': 'Ar',
+    'THB': '\u0e3f',
+    'PAB': 'B/.',
+    'ETB': 'Birr',
+    'VEF': 'Bs',
+    'BOB': 'Bs',
+    'GHS': 'GHS',
+    'CRC': '\u20a1',
+    'NIO': r'C$',
+    'GMD': 'GMD',
+    'MKD': 'din',
+    'BHD': 'din',
+    'DZD': 'din',
+    'IQD': 'din',
+    'JOD': 'din',
+    'KWD': 'din',
+    'LYD': 'din',
+    'RSD': 'din',
+    'TND': 'din',
+    'AED': 'dh',
+    'MAD': 'dh',
+    'STD': 'Db',
+    'BSD': r'$',
+    'FJD': r'$',
+    'GYD': r'$',
+    'KYD': r'$',
+    'LRD': r'$',
+    'SBD': r'$',
+    'SRD': r'$',
+    'AUD': r'$',
+    'BBD': r'$',
+    'BMD': r'$',
+    'BND': r'$',
+    'BZD': r'$',
+    'CAD': r'$',
+    'HKD': r'$',
+    'JMD': r'$',
+    'NAD': r'$',
+    'NZD': r'$',
+    'SGD': r'$',
+    'TTD': r'$',
+    'TWD': r'NT$',
+    'USD': r'$',
+    'XCD': r'$',
+    'VND': '\u20ab',
+    'AMD': 'Dram',
+    'CVE': 'CVE',
+    'EUR': '\u20ac',
+    'AWG': 'Afl.',
+    'HUF': 'Ft',
+    'BIF': 'FBu',
+    'CDF': 'FrCD',
+    'CHF': 'CHF',
+    'DJF': 'Fdj',
+    'GNF': 'FG',
+    'RWF': 'RF',
+    'XOF': 'CFA',
+    'XPF': 'FCFP',
+    'KMF': 'CF',
+    'XAF': 'FCFA',
+    'HTG': 'HTG',
+    'PYG': 'Gs',
+    'UAH': '\u20b4',
+    'PGK': 'PGK',
+    'LAK': '\u20ad',
+    'CZK': 'K\u010d',
+    'SEK': 'kr',
+    'ISK': 'kr',
+    'DKK': 'kr',
+    'NOK': 'kr',
+    'HRK': 'kn',
+    'MWK': 'MWK',
+    'ZMK': 'ZWK',
+    'AOA': 'Kz',
+    'MMK': 'K',
+    'GEL': 'GEL',
+    'LVL': 'Ls',
+    'ALL': 'Lek',
+    'HNL': 'L',
+    'SLL': 'SLL',
+    'MDL': 'MDL',
+    'RON': 'RON',
+    'BGN': 'lev',
+    'SZL': 'SZL',
+    'TRY': 'TL',
+    'LTL': 'Lt',
+    'LSL': 'LSL',
+    'AZN': 'man.',
+    'BAM': 'KM',
+    'MZN': 'MTn',
+    'NGN': '\u20a6',
+    'ERN': 'Nfk',
+    'BTN': 'Nu.',
+    'MRO': 'MRO',
+    'MOP': 'MOP',
+    'CUP': r'$',
+    'CUC': r'$',
+    'ARS': r'$',
+    'CLF': 'UF',
+    'CLP': r'$',
+    'COP': r'$',
+    'DOP': r'$',
+    'MXN': r'$',
+    'PHP': '\u20b1',
+    'UYU': r'$',
+    'FKP': '£',
+    'GIP': '£',
+    'SHP': '£',
+    'EGP': 'E£',
+    'LBP': 'L£',
+    'SDG': 'SDG',
+    'SSP': 'SSP',
+    'GBP': '£',
+    'SYP': '£',
+    'BWP': 'P',
+    'GTQ': 'Q',
+    'ZAR': 'R',
+    'BRL': r'R$',
+    'OMR': 'Rial',
+    'QAR': 'Rial',
+    'YER': 'Rial',
+    'IRR': 'Rial',
+    'KHR': 'Riel',
+    'MYR': 'RM',
+    'SAR': 'Riyal',
+    'BYR': 'BYR',
+    'RUB': 'руб.',
+    'MUR': 'Rs',
+    'SCR': 'SCR',
+    'LKR': 'Rs',
+    'NPR': 'Rs',
+    'INR': '\u20b9',
+    'PKR': 'Rs',
+    'IDR': 'Rp',
+    'ILS': '\u20aa',
+    'KES': 'Ksh',
+    'SOS': 'SOS',
+    'TZS': 'TSh',
+    'UGX': 'UGX',
+    'PEN': 'S/.',
+    'KGS': 'KGS',
+    'UZS': 'so\u02bcm',
+    'TJS': 'Som',
+    'BDT': '\u09f3',
+    'WST': 'WST',
+    'KZT': '\u20b8',
+    'MNT': '\u20ae',
+    'VUV': 'VUV',
+    'KPW': '\u20a9',
+    'KRW': '\u20a9',
+    'JPY': '¥',
+    'CNY': '¥',
+    'PLN': 'z\u0142',
+    'MVR': 'Rf',
+    'NLG': 'NAf',
+    'ZMW': 'ZK',
+    'ANG': 'ƒ',
+    'TMT': 'TMT',
   };
 
   /// Create a number format that prints in a pattern we get from
@@ -495,20 +496,20 @@ class NumberFormat {
   NumberFormat._forPattern(String locale, _PatternGetter getPattern,
       {String name,
       String currencySymbol,
-      String computeCurrencySymbol(NumberFormat),
+      String Function(NumberFormat) computeCurrencySymbol,
       int decimalDigits,
-      bool isForCurrency: false})
+      bool isForCurrency = false})
       : _locale = Intl.verifiedLocale(locale, localeExists),
         _isForCurrency = isForCurrency {
-    this._currencySymbol = currencySymbol;
-    this._decimalDigits = decimalDigits;
+    _currencySymbol = currencySymbol;
+    _decimalDigits = decimalDigits;
     _symbols = numberFormatSymbols[_locale];
     _localeZero = _symbols.ZERO_DIGIT.codeUnitAt(0);
     _zeroOffset = _localeZero - _zero;
     _negativePrefix = _symbols.MINUS_SIGN;
     currencyName = name ?? _symbols.DEF_CURRENCY_CODE;
-    if (this._currencySymbol == null && computeCurrencySymbol != null) {
-      this._currencySymbol = computeCurrencySymbol(this);
+    if (_currencySymbol == null && computeCurrencySymbol != null) {
+      _currencySymbol = computeCurrencySymbol(this);
     }
     _setPattern(getPattern(_symbols));
   }
@@ -516,7 +517,7 @@ class NumberFormat {
   /// A number format for compact representations, e.g. "1.2M" instead
   /// of "1,200,000".
   factory NumberFormat.compact({String locale}) {
-    return new _CompactNumberFormat(
+    return _CompactNumberFormat(
         locale: locale,
         formatType: _CompactFormatType.COMPACT_DECIMAL_SHORT_PATTERN);
   }
@@ -524,7 +525,7 @@ class NumberFormat {
   /// A number format for "long" compact representations, e.g. "1.2 million"
   /// instead of of "1,200,000".
   factory NumberFormat.compactLong({String locale}) {
-    return new _CompactNumberFormat(
+    return _CompactNumberFormat(
         locale: locale,
         formatType: _CompactFormatType.COMPACT_DECIMAL_LONG_PATTERN);
   }
@@ -535,7 +536,7 @@ class NumberFormat {
   /// [NumberFormat.simpleCurrency].
   factory NumberFormat.compactSimpleCurrency(
       {String locale, String name, int decimalDigits}) {
-    return new _CompactNumberFormat(
+    return _CompactNumberFormat(
         locale: locale,
         formatType: _CompactFormatType.COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN,
         name: name,
@@ -550,7 +551,7 @@ class NumberFormat {
   /// of "$1,200,000".
   factory NumberFormat.compactCurrency(
       {String locale, String name, String symbol, int decimalDigits}) {
-    return new _CompactNumberFormat(
+    return _CompactNumberFormat(
         locale: locale,
         formatType: _CompactFormatType.COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN,
         name: name,
@@ -577,7 +578,7 @@ class NumberFormat {
   /// Format [number] according to our pattern and return the formatted string.
   String format(number) {
     if (_isNaN(number)) return symbols.NAN;
-    if (_isInfinite(number)) return "${_signPrefix(number)}${symbols.INFINITY}";
+    if (_isInfinite(number)) return '${_signPrefix(number)}${symbols.INFINITY}';
 
     _add(_signPrefix(number));
     _formatNumber(number.abs());
@@ -590,7 +591,7 @@ class NumberFormat {
 
   /// Parse the number represented by the string. If it's not
   /// parseable, throws a [FormatException].
-  num parse(String text) => new _NumberParser(this, text).value;
+  num parse(String text) => _NumberParser(this, text).value;
 
   /// Format the main part of the number in the form dictated by the pattern.
   void _formatNumber(number) {
@@ -656,24 +657,24 @@ class NumberFormat {
 
   /// Helpers to check numbers that don't conform to the [num] interface,
   /// e.g. Int64
-  _isInfinite(number) => number is num ? number.isInfinite : false;
-  _isNaN(number) => number is num ? number.isNaN : false;
+  bool _isInfinite(number) => number is num ? number.isInfinite : false;
+  bool _isNaN(number) => number is num ? number.isNaN : false;
 
   /// Helper to get the floor of a number which might not be num. This should
   /// only ever be called with an argument which is positive, or whose abs()
   ///  is negative. The second case is the maximum negative value on a
   ///  fixed-length integer. Since they are integers, they are also their own
   ///  floor.
-  _floor(number) {
-    if (number.isNegative && !(number.abs().isNegative)) {
-      throw new ArgumentError(
-          "Internal error: expected positive number, got $number");
+  dynamic _floor(dynamic number) {
+    if (number.isNegative && !number.abs().isNegative) {
+      throw ArgumentError(
+          'Internal error: expected positive number, got $number');
     }
     return (number is num) ? number.floor() : number ~/ 1;
   }
 
   /// Helper to round a number which might not be num.
-  _round(number) {
+  dynamic _round(dynamic number) {
     if (number is num) {
       if (number.isInfinite) {
         return _maxInt;
@@ -722,14 +723,14 @@ class NumberFormat {
       max(0, remainingSignificantDigits);
 
   /// Format the basic number portion, including the fractional digits.
-  void _formatFixed(number) {
-    var integerPart;
+  void _formatFixed(dynamic number) {
+    dynamic integerPart;
     int fractionPart;
     int extraIntegerDigits;
     var fractionDigits = maximumFractionDigits;
 
     var power = 0;
-    var digitMultiplier;
+    int digitMultiplier;
 
     if (_isInfinite(number)) {
       integerPart = number.toInt();
@@ -790,7 +791,7 @@ class NumberFormat {
     if (_hasIntegerDigits(integerDigits)) {
       // Add the padding digits to the regular digits so that we get grouping.
       var padding = '0' * (minimumIntegerDigits - digitLength);
-      integerDigits = "$padding$integerDigits";
+      integerDigits = '$padding$integerDigits';
       digitLength = integerDigits.length;
       for (var i = 0; i < digitLength; i++) {
         _addDigit(integerDigits.codeUnitAt(i));
@@ -826,7 +827,7 @@ class NumberFormat {
     var intDigits = _mainIntegerDigits(integerPart);
     var paddedExtra =
         intDigits.isEmpty ? extra : extra.padLeft(_multiplierDigits, '0');
-    return "${intDigits}${paddedExtra}${paddingDigits}";
+    return '$intDigits$paddedExtra$paddingDigits';
   }
 
   /// The digit string of the integer part. This is the empty string if the
@@ -898,7 +899,7 @@ class NumberFormat {
     for (var i = 0; i < numberOfDigits - basic.length; i++) {
       _add(symbols.ZERO_DIGIT);
     }
-    for (int i = 0; i < basic.length; i++) {
+    for (var i = 0; i < basic.length; i++) {
       _addDigit(basic.codeUnitAt(i));
     }
   }
@@ -946,8 +947,8 @@ class NumberFormat {
     if (newPattern == null) return;
     // Make spaces non-breaking
     _pattern = newPattern.replaceAll(' ', '\u00a0');
-    var parser = new _NumberFormatParser(
-        this, newPattern, currencySymbol, decimalDigits);
+    var parser =
+        _NumberFormatParser(this, newPattern, currencySymbol, decimalDigits);
     parser.parse();
     if (_overridesDecimalDigits) {
       _decimalDigits ??= _defaultDecimalDigits;
@@ -965,7 +966,7 @@ class NumberFormat {
     _finalGroupingSize = 0;
   }
 
-  String toString() => "NumberFormat($_locale, $_pattern)";
+  String toString() => 'NumberFormat($_locale, $_pattern)';
 }
 
 ///  A one-time object for parsing a particular numeric string. One-time here
@@ -990,7 +991,7 @@ class _NumberParser {
   NumberSymbols get symbols => format.symbols;
 
   /// Where we accumulate the normalized representation of the number.
-  final StringBuffer _normalized = new StringBuffer();
+  final StringBuffer _normalized = StringBuffer();
 
   /// Did we see something that indicates this is, or at least might be,
   /// a positive number.
@@ -1025,9 +1026,7 @@ class _NumberParser {
   int get _localeZero => format._localeZero;
 
   ///  Create a new [_NumberParser] on which we can call parse().
-  _NumberParser(this.format, text)
-      : this.text = text,
-        this.input = new _Stream(text) {
+  _NumberParser(this.format, this.text) : input = _Stream(text) {
     scale = format._internalMultiplier;
     value = parse();
   }
@@ -1035,7 +1034,7 @@ class _NumberParser {
   ///  The strings we might replace with functions that return the replacement
   /// values. They are functions because we might need to check something
   /// in the context. Note that the ordering is important here. For example,
-  /// [symbols.PERCENT] might be " %", and we must handle that before we
+  /// `symbols.PERCENT` might be " %", and we must handle that before we
   /// look at an individual space.
   Map<String, Function> get replacements =>
       _replacements ??= _initializeReplacements();
@@ -1060,14 +1059,14 @@ class _NumberParser {
         '-': () => '-',
       };
 
-  invalidFormat() =>
-      throw new FormatException("Invalid number: ${input.contents}");
+  void invalidFormat() =>
+      throw FormatException('Invalid number: ${input.contents}');
 
   /// Replace a space in the number with the normalized form. If space is not
   /// a significant character (normally grouping) then it's just invalid. If it
   /// is the grouping character, then it's only valid if it's followed by a
   /// digit. e.g. '$12 345.00'
-  handleSpace() =>
+  void handleSpace() =>
       groupingIsNotASpaceOrElseItIsSpaceFollowedByADigit ? '' : invalidFormat();
 
   /// Determine if a space is a valid character in the number. See
@@ -1092,7 +1091,7 @@ class _NumberParser {
 
   /// Check to see if the input begins with either the positive or negative
   /// prefixes. Set the [gotPositive] and [gotNegative] variables accordingly.
-  void checkPrefixes({bool skip: false}) {
+  void checkPrefixes({bool skip = false}) {
     bool checkPrefix(String prefix) =>
         prefix.isNotEmpty && input.startsWith(prefix);
 
@@ -1156,11 +1155,11 @@ class _NumberParser {
   /// Parse [text] and return the resulting number. Throws [FormatException]
   /// if we can't parse it.
   num parse() {
-    if (text == symbols.NAN) return (0.0 / 0.0);
-    if (text == "$_positivePrefix${symbols.INFINITY}$_positiveSuffix") {
+    if (text == symbols.NAN) return 0.0 / 0.0;
+    if (text == '$_positivePrefix${symbols.INFINITY}$_positiveSuffix') {
       return 1.0 / 0.0;
     }
-    if (text == "$_negativePrefix${symbols.INFINITY}$_negativeSuffix") {
+    if (text == '$_negativePrefix${symbols.INFINITY}$_negativeSuffix') {
       return -1.0 / 0.0;
     }
 
@@ -1176,7 +1175,7 @@ class _NumberParser {
 
   /// The number is invalid, throw a [FormatException].
   void invalidNumber() =>
-      throw new FormatException("Invalid Number: ${input.contents}");
+      throw FormatException('Invalid Number: ${input.contents}');
 
   /// Parse the number portion of the input, i.e. not any prefixes or suffixes,
   /// and assuming NaN and Infinity are already handled.
@@ -1185,7 +1184,7 @@ class _NumberParser {
       _normalized.write('-');
     }
     while (!done && !input.atEnd()) {
-      int digit = asDigit(input.peek());
+      var digit = asDigit(input.peek());
       if (digit != null) {
         _normalized.writeCharCode(_zero + digit);
         input.next();
@@ -1197,7 +1196,7 @@ class _NumberParser {
 
     var normalizedText = _normalized.toString();
     num parsed = int.tryParse(normalizedText);
-    if (parsed == null) parsed = double.parse(normalizedText);
+    parsed ??= double.parse(normalizedText);
     return parsed / scale;
   }
 }
@@ -1261,8 +1260,8 @@ class _NumberFormatParser {
       // positive trunk.
       for (var each in _iterable(trunk)) {
         if (pattern.current != each && pattern.current != null) {
-          throw new FormatException(
-              "Positive and negative trunks must be the same");
+          throw FormatException(
+              'Positive and negative trunks must be the same', trunk);
         }
         pattern.moveNext();
       }
@@ -1281,9 +1280,9 @@ class _NumberFormatParser {
   /// Parse a prefix or suffix and return the prefix/suffix string. Note that
   /// this also may modify the state of [format].
   String _parseAffix() {
-    var affix = new StringBuffer();
+    var affix = StringBuffer();
     inQuote = false;
-    while (parseCharacterAffix(affix) && pattern.moveNext());
+    while (parseCharacterAffix(affix) && pattern.moveNext()) {}
     return affix.toString();
   }
 
@@ -1319,7 +1318,7 @@ class _NumberFormatParser {
           break;
         case _PATTERN_PERCENT:
           if (format._multiplier != 1 && format._multiplier != _PERCENT_SCALE) {
-            throw new FormatException('Too many percent/permill');
+            throw FormatException('Too many percent/permill', format);
           }
           format._multiplier = _PERCENT_SCALE;
           affix.write(symbols.PERCENT);
@@ -1327,7 +1326,7 @@ class _NumberFormatParser {
         case _PATTERN_PER_MILLE:
           if (format._multiplier != 1 &&
               format._multiplier != _PER_MILLE_SCALE) {
-            throw new FormatException('Too many percent/permill');
+            throw FormatException('Too many percent/permill', format);
           }
           format._multiplier = _PER_MILLE_SCALE;
           affix.write(symbols.PERMILL);
@@ -1350,7 +1349,7 @@ class _NumberFormatParser {
   /// positive or negative prefixes or suffixes.
   String _parseTrunk() {
     var loop = true;
-    var trunk = new StringBuffer();
+    var trunk = StringBuffer();
     while (pattern.current != null && loop) {
       loop = parseTrunkCharacter(trunk);
     }
@@ -1370,7 +1369,7 @@ class _NumberFormatParser {
             (decimalPos < digitLeftCount ||
                 decimalPos > digitLeftCount + zeroDigitCount) ||
         groupingCount == 0) {
-      throw new FormatException('Malformed pattern "${pattern.input}"');
+      throw FormatException('Malformed pattern "${pattern.input}"');
     }
     var totalDigits = digitLeftCount + zeroDigitCount + digitRightCount;
 
@@ -1428,8 +1427,7 @@ class _NumberFormatParser {
         break;
       case _PATTERN_ZERO_DIGIT:
         if (digitRightCount > 0) {
-          throw new FormatException(
-              'Unexpected "0" in pattern "' + pattern.input + '"');
+          throw FormatException('Unexpected "0" in pattern "${pattern.input}');
         }
         zeroDigitCount++;
         if (groupingCount >= 0 && decimalPos < 0) {
@@ -1445,7 +1443,7 @@ class _NumberFormatParser {
         break;
       case _PATTERN_DECIMAL_SEPARATOR:
         if (decimalPos >= 0) {
-          throw new FormatException(
+          throw FormatException(
               'Multiple decimal separators in pattern "$pattern"');
         }
         decimalPos = digitLeftCount + zeroDigitCount + digitRightCount;
@@ -1453,7 +1451,7 @@ class _NumberFormatParser {
       case _PATTERN_EXPONENT:
         trunk.write(ch);
         if (format._useExponentialNotation) {
-          throw new FormatException(
+          throw FormatException(
               'Multiple exponential symbols in pattern "$pattern"');
         }
         format._useExponentialNotation = true;
@@ -1478,7 +1476,7 @@ class _NumberFormatParser {
 
         if ((digitLeftCount + zeroDigitCount) < 1 ||
             format.minimumExponentDigits < 1) {
-          throw new FormatException('Malformed exponential pattern "$pattern"');
+          throw FormatException('Malformed exponential pattern "$pattern"');
         }
         return false;
       default:
@@ -1491,10 +1489,10 @@ class _NumberFormatParser {
 }
 
 /// Returns an [Iterable] on the string as a list of substrings.
-Iterable _iterable(String s) => new _StringIterable(s);
+Iterable<String> _iterable(String s) => _StringIterable(s);
 
 /// Return an iterator on the string as a list of substrings.
-Iterator<String> _iterator(String s) => new _StringIterator(s);
+Iterator<String> _iterator(String s) => _StringIterator(s);
 
 // TODO(nweiz): remove this when issue 3780 is fixed.
 /// Provides an Iterable that wraps [_iterator] so it can be used in a `for`
@@ -1510,7 +1508,7 @@ class _StringIterable extends IterableBase<String> {
 class _StringIterator implements Iterator<String> {
   final String input;
   int nextIndex = 0;
-  String _current = null;
+  String _current;
 
   _StringIterator(input) : input = _validate(input);
 
@@ -1530,7 +1528,7 @@ class _StringIterator implements Iterator<String> {
   Iterator<String> get iterator => this;
 
   static String _validate(input) {
-    if (input is! String) throw new ArgumentError(input);
+    if (input is! String) throw ArgumentError(input);
     return input;
   }
 }
@@ -1540,7 +1538,7 @@ class _StringIterator implements Iterator<String> {
 ///
 /// It supports no operations other than being used for Intl number formatting.
 abstract class MicroMoney {
-  factory MicroMoney(micros) => new _MicroMoney(micros);
+  factory MicroMoney(micros) => _MicroMoney(micros);
 }
 
 /// Used primarily for currency formatting, this stores millionths of a
@@ -1548,44 +1546,44 @@ abstract class MicroMoney {
 ///
 /// This private class provides the operations needed by the formatting code.
 class _MicroMoney implements MicroMoney {
-  var _micros;
+  final dynamic _micros;
   _MicroMoney(this._micros);
   static const _multiplier = 1000000;
 
-  get _integerPart => _micros ~/ _multiplier;
+  dynamic get _integerPart => _micros ~/ _multiplier;
   int get _fractionPart => (this - _integerPart)._micros.toInt().abs();
 
   bool get isNegative => _micros.isNegative;
 
-  _MicroMoney abs() => isNegative ? new _MicroMoney(_micros.abs()) : this;
+  _MicroMoney abs() => isNegative ? _MicroMoney(_micros.abs()) : this;
 
   // Note that if this is done in a general way there's a risk of integer
   // overflow on JS when multiplying out the [other] parameter, which may be
   // an Int64. In formatting we only ever subtract out our own integer part.
   _MicroMoney operator -(other) {
-    if (other is _MicroMoney) return new _MicroMoney(_micros - other._micros);
-    return new _MicroMoney(_micros - (other * _multiplier));
+    if (other is _MicroMoney) return _MicroMoney(_micros - other._micros);
+    return _MicroMoney(_micros - (other * _multiplier));
   }
 
   _MicroMoney operator +(other) {
-    if (other is _MicroMoney) return new _MicroMoney(_micros + other._micros);
-    return new _MicroMoney(_micros + (other * _multiplier));
+    if (other is _MicroMoney) return _MicroMoney(_micros + other._micros);
+    return _MicroMoney(_micros + (other * _multiplier));
   }
 
   _MicroMoney operator ~/(divisor) {
     if (divisor is! int) {
-      throw new ArgumentError.value(
+      throw ArgumentError.value(
           divisor, 'divisor', '_MicroMoney ~/ only supports int arguments.');
     }
-    return new _MicroMoney((_integerPart ~/ divisor) * _multiplier);
+    return _MicroMoney((_integerPart ~/ divisor) * _multiplier);
   }
 
   _MicroMoney operator *(other) {
     if (other is! int) {
-      throw new ArgumentError.value(
+      throw ArgumentError.value(
           other, 'other', '_MicroMoney * only supports int arguments.');
     }
-    return new _MicroMoney(
+    return _MicroMoney(
         (_integerPart * other) * _multiplier + (_fractionPart * other));
   }
 
@@ -1593,10 +1591,10 @@ class _MicroMoney implements MicroMoney {
   /// not division by another MicroMoney
   _MicroMoney remainder(other) {
     if (other is! int) {
-      throw new ArgumentError.value(
+      throw ArgumentError.value(
           other, 'other', '_MicroMoney.remainder only supports int arguments.');
     }
-    return new _MicroMoney(_micros.remainder(other * _multiplier));
+    return _MicroMoney(_micros.remainder(other * _multiplier));
   }
 
   double toDouble() => _micros.toDouble() / _multiplier;
@@ -1604,11 +1602,11 @@ class _MicroMoney implements MicroMoney {
   int toInt() => _integerPart.toInt();
 
   String toString() {
-    var beforeDecimal = _integerPart.toString();
+    var beforeDecimal = '$_integerPart';
     var decimalPart = '';
     var fractionPart = _fractionPart;
     if (fractionPart != 0) {
-      decimalPart = '.' + fractionPart.toString();
+      decimalPart = '.$fractionPart';
     }
     return '$beforeDecimal$decimalPart';
   }
