@@ -49,6 +49,10 @@ class NumberSymbols {
   String toString() => NAME;
 }
 
+/// A container class for SHORT, LONG, and SHORT CURRENCY patterns.
+///
+/// (This class' members contain more than just symbols: they contain the full
+/// number formatting pattern.)
 class CompactNumberSymbols {
   final Map<int, String> COMPACT_DECIMAL_SHORT_PATTERN;
   final Map<int, String> COMPACT_DECIMAL_LONG_PATTERN;

@@ -26,7 +26,7 @@ abstract class _CompactStyleBase {
   int get totalDigits;
 
   /// What should we divide the number by in order to print. Normally it is
-  /// either `10^requiredDigits` or 1 if we shouldn't divide at all.
+  /// either `10^normalizedExponent` or 1 if we shouldn't divide at all.
   int get divisor;
 
   /// The iterable of all possible styles which we represent.
@@ -50,21 +50,21 @@ class _CompactStyleWithNegative extends _CompactStyleBase {
 
 /// Represents a compact format for a particular base
 ///
-/// For example, 10k can be used to represent 10,000.  Corresponds to one of the
+/// For example, 10K can be used to represent 10,000.  Corresponds to one of the
 /// patterns in COMPACT_DECIMAL_SHORT_FORMAT. So, for example, in en_US we have
 /// the pattern
 ///
-///       4: '0K'
+///       4: '00K'
 /// which matches
 ///
-///      new _CompactStyle(pattern: '0K', requiredDigits: 4, divisor: 1000,
+///      new _CompactStyle(pattern: '00K', normalizedExponent: 4, divisor: 1000,
 ///      expectedDigits: 1, prefix: '', suffix: 'K');
 ///
 /// where expectedDigits is the number of zeros.
 class _CompactStyle extends _CompactStyleBase {
   _CompactStyle(
       {this.pattern,
-      this.requiredDigits = 0,
+      this.normalizedExponent = 0,
       this.divisor = 1,
       this.expectedDigits = 1,
       this.prefix = '',
@@ -75,17 +75,17 @@ class _CompactStyle extends _CompactStyleBase {
   /// We don't actually need this, but it makes debugging easier.
   String pattern;
 
-  /// The length for which the format applies.
+  /// The normalized scientific notation exponent for which the format applies.
   ///
-  /// So if this is 3, we expect it to apply to numbers from 100 up. Typically
-  /// it would be from 100 to 1000, but that depends if there's a style for 4 or
-  /// not. This is the CLDR index of the pattern, and usually determines the
-  /// divisor, but if the pattern is just a 0 with no prefix or suffix then we
-  /// don't divide at all.
-  int requiredDigits;
+  /// So if this is 3, we expect it to apply for numbers from 1000 and up.
+  /// Typically it would be from 1000 to 9999, but that depends if there's a
+  /// style for 4 or not. This is the CLDR index of the pattern, and usually
+  /// determines the divisor, but if the pattern is just a 0 with no prefix or
+  /// suffix then we don't divide at all.
+  int normalizedExponent;
 
   /// What should we divide the number by in order to print. Normally is either
-  /// 10^requiredDigits or 1 if we shouldn't divide at all.
+  /// 10^normalizedExponent or 1 if we shouldn't divide at all.
   int divisor;
 
   /// How many integer digits do we expect to print - the number of zeros in the
@@ -108,7 +108,7 @@ class _CompactStyle extends _CompactStyleBase {
   /// number. We will scale by 1000 and expect 2 integer digits remaining, so we
   /// get something like '12K'. This is used to find the closest pattern for a
   /// number.
-  int get totalDigits => requiredDigits + expectedDigits - 1;
+  int get totalDigits => normalizedExponent + expectedDigits - 1;
 
   /// Return true if this is the fallback compact pattern, printing the number
   /// un-compacted. e.g. 1200 might print as '1.2K', but 12 just prints as '12'.
@@ -131,6 +131,7 @@ class _CompactStyle extends _CompactStyleBase {
   List<_CompactStyle> get allStyles => [this];
 }
 
+/// Enumerates the different formats supported.
 enum _CompactFormatType {
   COMPACT_DECIMAL_SHORT_PATTERN,
   COMPACT_DECIMAL_LONG_PATTERN,
@@ -140,10 +141,6 @@ enum _CompactFormatType {
 class _CompactNumberFormat extends NumberFormat {
   /// A default, using the decimal pattern, for the `getPattern` constructor parameter.
   static String _forDecimal(NumberSymbols symbols) => symbols.DECIMAL_PATTERN;
-
-  // Will be either the COMPACT_DECIMAL_SHORT_PATTERN,
-  // COMPACT_DECIMAL_LONG_PATTERN, or COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN
-  Map<int, String> _patterns;
 
   List<_CompactStyleBase> _styles = [];
 
@@ -164,30 +161,41 @@ class _CompactNumberFormat extends NumberFormat {
             isForCurrency: isForCurrency) {
     significantDigits = 3;
     turnOffGrouping();
+
+    /// Map from magnitude to formatting pattern for that magnitude.
+    ///
+    /// The magnitude is the exponent when using the normalized scientific
+    /// notation (so numbers from 1000 to 9999 correspond to magnitude 3).
+    ///
+    /// These patterns are taken from the appropriate CompactNumberSymbols
+    /// instance's COMPACT_DECIMAL_SHORT_PATTERN, COMPACT_DECIMAL_LONG_PATTERN,
+    /// or COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN members.
+    Map<int, String> _patterns;
+
     switch (formatType) {
       case _CompactFormatType.COMPACT_DECIMAL_SHORT_PATTERN:
-        _patterns = compactSymbols.COMPACT_DECIMAL_SHORT_PATTERN;
+        _patterns = _compactSymbols.COMPACT_DECIMAL_SHORT_PATTERN;
         break;
-      // TODO(alanknight): Long formats have a one vs. other case,
-      // e.g. million/millions that we don't yet support.
+      // TODO(alanknight): Long formats may have different forms for different
+      // plural cases (e.g. million/millions).
       case _CompactFormatType.COMPACT_DECIMAL_LONG_PATTERN:
-        _patterns = compactSymbols.COMPACT_DECIMAL_LONG_PATTERN ??
-            compactSymbols.COMPACT_DECIMAL_SHORT_PATTERN;
+        _patterns = _compactSymbols.COMPACT_DECIMAL_LONG_PATTERN ??
+            _compactSymbols.COMPACT_DECIMAL_SHORT_PATTERN;
         break;
       case _CompactFormatType.COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN:
-        _patterns = compactSymbols.COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN;
+        _patterns = _compactSymbols.COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN;
         break;
       default:
         throw ArgumentError.notNull('formatType');
     }
-    _patterns.forEach((int impliedDigits, String pattern) {
+    _patterns.forEach((int exponent, String pattern) {
       if (pattern.contains(';')) {
         var patterns = pattern.split(';');
         _styles.add(_CompactStyleWithNegative(
-            _createStyle(patterns.first, impliedDigits),
-            _createStyle(patterns.last, impliedDigits)));
+            _createStyle(patterns.first, exponent),
+            _createStyle(patterns.last, exponent)));
       } else {
-        _styles.add(_createStyle(pattern, impliedDigits));
+        _styles.add(_createStyle(pattern, exponent));
       }
     });
 
@@ -204,7 +212,8 @@ class _CompactNumberFormat extends NumberFormat {
   /// Does pattern have any additional characters or is it just zeros.
   bool _hasNonZeroContent(String pattern) => !_justZeros.hasMatch(pattern);
 
-  _CompactStyle _createStyle(String pattern, int impliedDigits) {
+  /// Creates a [_CompactStyle] instance for pattern with [normalizedExponent].
+  _CompactStyle _createStyle(String pattern, int normalizedExponent) {
     var match = _regex.firstMatch(pattern);
     var integerDigits = match.group(2).length;
     var prefix = match.group(1);
@@ -217,11 +226,11 @@ class _CompactNumberFormat extends NumberFormat {
     // encode that. Check what other things are doing.
     var divisor = 1;
     if (_hasNonZeroContent(pattern)) {
-      divisor = pow(10, impliedDigits - integerDigits + 1);
+      divisor = pow(10, normalizedExponent - integerDigits + 1);
     }
     return _CompactStyle(
         pattern: pattern,
-        requiredDigits: impliedDigits,
+        normalizedExponent: normalizedExponent,
         expectedDigits: integerDigits,
         prefix: prefix,
         suffix: suffix,
@@ -336,6 +345,7 @@ class _CompactNumberFormat extends NumberFormat {
         "Cannot parse compact number in locale '$locale'", text);
   }
 
+  /// Returns text parsed into a number if possible, else returns null.
   num _tryParsing(String text) {
     try {
       return super.parse(text);
@@ -344,5 +354,7 @@ class _CompactNumberFormat extends NumberFormat {
     }
   }
 
-  CompactNumberSymbols get compactSymbols => compactNumberSymbols[_locale];
+  /// The [CompactNumberSymbols] instance that corresponds to the [_locale] this
+  /// [NumberFormat] instance was configured for.
+  CompactNumberSymbols get _compactSymbols => compactNumberSymbols[_locale];
 }

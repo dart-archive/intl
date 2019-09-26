@@ -71,6 +71,8 @@ void runTests(Map<String, num> allTestNumbers) {
     var list = mainList.take(testLength).iterator;
     list.moveNext();
     mainList = mainList.skip(testLength).toList();
+    // TODO(hugovdm): this if needs an else statement. Something to do with
+    // Jurassic Park and amphibian DNA?
     if (locale == list.current) {
       testAgainstIcu(locale, testFormats, list);
     }
@@ -107,17 +109,116 @@ void runTests(Map<String, num> allTestNumbers) {
     for (var i = 0; i < 7; i++) {
       var f = NumberFormat.decimalPattern();
       f.minimumIntegerDigits = i;
-      expect(f.format(1), expected[i]);
+      expect(f.format(1), expected[i], reason: 'minimumIntegerDigits: $i');
+    }
+  });
+
+  test('maximumIntegerDigits does not do much', () {
+    var expected = [
+      '9,876,543,210',
+      '9,876,543,210',
+      '9,876,543,210',
+      '9,876,543,210',
+      '9,876,543,210',
+      '9,876,543,210',
+    ];
+    for (var i = 0; i < expected.length; i++) {
+      var f = new NumberFormat.decimalPattern();
+      f.maximumIntegerDigits = i;
+      expect(f.format(9876543210), expected[i],
+          reason: 'maximumIntegerDigits: $i');
+    }
+  });
+
+  test('Padding right', () {
+    var expected = [
+      '1',
+      '1.0',
+      '1.00',
+      '1.000',
+      '1.0000',
+      '1.00000',
+      '1.000000',
+    ];
+    for (var i = 0; i < 6; i++) {
+      var f = new NumberFormat.decimalPattern();
+      f.minimumFractionDigits = i;
+      if (i > f.maximumFractionDigits) f.maximumFractionDigits = i;
+      expect(f.format(1), expected[i],
+          reason: 'minimumFractionDigits: $i, '
+              'maximumFractionDigits: ${f.maximumFractionDigits}');
+    }
+  });
+
+  test('Rounding/truncating fractions', () {
+    var expected = [
+      '9',
+      '9.1',
+      '9.12',
+      '9.123',
+      '9.1235',
+      '9.12346',
+      '9.123457',
+      '9.1234568',
+      '9.12345679',
+      '9.123456789',
+      '9.123456789',
+      '9.123456789',
+    ];
+    for (var i = 0; i < expected.length; i++) {
+      var f = new NumberFormat.decimalPattern();
+      f.maximumFractionDigits = i;
+      expect(f.format(9.123456789), expected[i],
+          reason: 'maximumFractionDigits: $i');
     }
   });
 
   test('Exponential form', () {
-    var number = NumberFormat('#.###E0');
+    var f = NumberFormat('#.###E0');
     for (var x in testExponential.keys) {
-      var formatted = number.format(testExponential[x]);
+      var formatted = f.format(testExponential[x]);
       expect(formatted, x);
-      var readBack = number.parse(formatted);
+      var readBack = f.parse(formatted);
       expect(testExponential[x], readBack);
+    }
+  });
+
+  test('Exponential form with minimumExponentDigits', () {
+    var expected = [
+      '3.21E3',
+      '3.21E3',
+      '3.21E03',
+      '3.21E003',
+    ];
+    for (var i = 0; i < expected.length; i++) {
+      var f = new NumberFormat("#.###E0");
+      f.minimumExponentDigits = i;
+      expect(f.format(3210), expected[i], reason: 'minimumExponentDigits: $i');
+    }
+  });
+
+  test('Significant Digits', () {
+    var expected = [
+      '00,000,000',
+      '10,000,000',
+      '9,900,000',
+      '9,880,000',
+      '9,877,000',
+      '9,876,500',
+      '9,876,540',
+      '9,876,543',
+      '9,876,543.2',
+      '9,876,543.21',
+      '9,876,543.21',
+      '9,876,543.2101',
+      '9,876,543.21012',
+      '9,876,543.21012',
+    ];
+    for (var i = 0; i < expected.length; i++) {
+      var f = new NumberFormat.decimalPattern();
+      f.significantDigits = i;
+      expect(f.format(9876543.21012), expected[i],
+          reason: 'significantDigits: $i');
     }
   });
 

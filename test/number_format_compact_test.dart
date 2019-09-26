@@ -7,7 +7,11 @@ import 'dart:math';
 import 'package:test/test.dart';
 import 'package:intl/intl.dart';
 import 'package:fixnum/fixnum.dart';
-import 'compact_number_test_data.dart' as testdata;
+import 'package:intl/number_symbols_data.dart' as patterns;
+import 'compact_number_test_data_33.dart' as testdata33;
+// End-goal: to stop testing against testdata33 and use testdata35 instead:
+// import 'compact_number_test_data.dart' as testdata35;
+import 'more_compact_number_test_data.dart' as more_testdata;
 
 /// A place to put a case that's causing a problem and have it run first when
 /// debugging
@@ -17,7 +21,19 @@ var interestingCases = <String, List<List<String>>>{
 
 void main() {
   interestingCases.forEach(validate);
-  testdata.compactNumberTestData.forEach(validate);
+  testdata33.compactNumberTestData.forEach(validate);
+  more_testdata.oldIntlCompactNumTests.forEach(validateFancy);
+  // Once code and data is updated to CLDR35:
+  // testdata35.compactNumberTestData.forEach(validate);
+  // more_testdata.cldr35CompactNumTests.forEach(validateFancy);
+
+  test("Patterns are consistent across locales", () {
+    patterns.compactNumberSymbols.forEach((locale, patterns) {
+      expect(patterns.COMPACT_DECIMAL_SHORT_PATTERN.keys,
+          orderedEquals([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]),
+          reason: "Precision algorithm expects no gaps in pattern magnitudes");
+    });
+  });
 
   // ICU doesn't support compact currencies yet, so we don't have a way to
   // generate automatic data for comparison. Hard-coded a couple of cases as a
@@ -284,4 +300,24 @@ bool _oneSpaceOnlyDifference(String result, String expected) {
   return resultWithoutSpaces == expectedWithoutSpaces &&
       resultDifference <= 1 &&
       expectedDifference <= 1;
+}
+
+void validateFancy(more_testdata.CompactRoundingTestCase t) {
+  var shortFormat = new NumberFormat.compact(locale: 'en');
+  if (t.maximumIntegerDigits != null)
+    shortFormat.maximumIntegerDigits = t.maximumIntegerDigits;
+  if (t.minimumIntegerDigits != null)
+    shortFormat.minimumIntegerDigits = t.minimumIntegerDigits;
+  if (t.maximumFractionDigits != null)
+    shortFormat.maximumFractionDigits = t.maximumFractionDigits;
+  if (t.minimumFractionDigits != null)
+    shortFormat.minimumFractionDigits = t.minimumFractionDigits;
+  if (t.minimumExponentDigits != null)
+    shortFormat.minimumExponentDigits = t.minimumExponentDigits;
+  if (t.significantDigits != null)
+    shortFormat.significantDigits = t.significantDigits;
+
+  test(t.toString(), () {
+    expect(shortFormat.format(t.number), t.expected);
+  });
 }
