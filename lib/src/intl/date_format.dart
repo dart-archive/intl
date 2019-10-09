@@ -319,7 +319,7 @@ class DateFormat {
   }
 
   DateTime _parseLoose(String inputString, bool utc) {
-    var dateFields = _DateBuilder();
+    var dateFields = _DateBuilder(locale ?? Intl.defaultLocale);
     if (utc) dateFields.utc = true;
     var stream = _Stream(inputString);
     for (var field in _formatFields) {
@@ -347,7 +347,7 @@ class DateFormat {
   DateTime _parse(String inputString, {bool utc = false, bool strict = false}) {
     // TODO(alanknight): The Closure code refers to special parsing of numeric
     // values with no delimiters, which we currently don't do. Should we?
-    var dateFields = _DateBuilder();
+    var dateFields = _DateBuilder(locale ?? Intl.defaultLocale);
     if (utc) dateFields.utc = true;
     dateFields._dateOnly = dateOnly;
     var stream = _Stream(inputString);

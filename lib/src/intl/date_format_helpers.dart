@@ -44,6 +44,18 @@ class _DateBuilder {
   bool pm = false;
   bool utc = false;
 
+  /// The locale, kept for logging purposes when there's an error.
+  final String _locale;
+
+  /// The date result produced from [asDate].
+  ///
+  /// Kept as a field to cache the result and to reduce the possibility of error
+  /// after we've verified.
+  DateTime _date;
+
+  /// The number of times we've retried, for error reporting.
+  int _retried = 0;
+
   /// Is this constructing a pure date.
   ///
   /// This is important because some locales change times at midnight,
@@ -58,6 +70,8 @@ class _DateBuilder {
   // We do set it, the analyzer just can't tell.
   // ignore: prefer_final_fields
   var _dateOnly = false;
+
+  _DateBuilder(this._locale);
 
   // Functions that exist just to be closurized so we can pass them to a general
   // method.
@@ -130,9 +144,15 @@ class _DateBuilder {
       [DateTime parsed]) {
     if (value < min || value > max) {
       var parsedDescription = parsed == null ? '' : ' Date parsed as $parsed.';
-      throw FormatException(
-          'Error parsing $originalInput, invalid $desc value: $value.'
-          ' Expected value between $min and $max.$parsedDescription');
+      var errorDescription =
+          'Error parsing $originalInput, invalid $desc value: $value'
+          ' in $_locale'
+          ' with time zone offset ${parsed?.timeZoneOffset ?? 'unknown'}.'
+          ' Expected value between $min and $max.$parsedDescription.';
+      if (_retried > 0) {
+        errorDescription += ' Failed after $_retried retries.';
+      }
+      throw FormatException(errorDescription);
     }
   }
 
@@ -141,15 +161,17 @@ class _DateBuilder {
   DateTime asDate({int retries = 3}) {
     // TODO(alanknight): Validate the date, especially for things which
     // can crash the VM, e.g. large month values.
+    if (_date != null) return _date;
 
     if (utc) {
-      return DateTime.utc(
+      _date = DateTime.utc(
           year, month, day, hour24, minute, second, fractionalSecond);
     } else {
       var preliminaryResult =
           DateTime(year, month, day, hour24, minute, second, fractionalSecond);
-      return _correctForErrors(preliminaryResult, retries);
+      _date = _correctForErrors(preliminaryResult, retries);
     }
+    return _date;
   }
 
   /// Given a local DateTime, check for errors and try to compensate for them if
@@ -193,6 +215,7 @@ class _DateBuilder {
             !DateTime.now().isUtc)) {
       // This may be a UTC failure. Retry and if the result doesn't look
       // like it's in the UTC time zone, use that instead.
+      _retried++;
       return asDate(retries: retries - 1);
     }
     if (_dateOnly && day != correspondingDay) {
