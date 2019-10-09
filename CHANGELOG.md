@@ -2,6 +2,8 @@
  * Add an analysis_options.yaml and fix or suppress all the complaints from it.
  * Add unit tests using dart:ffi to compare formatting output to ICU.
  * Bump SDK requirements up to 2.5.0 for dart:ffi availability.
+ * Canonicalize the locale in the Intl.defaultLocale setter, so e.g. 'en-US'
+   will get turned into the correct 'en_US'
 
 ## 0.16.0
  * Fix 'k' formatting (1 to 24 hours) which incorrectly showed 0 to 23.
