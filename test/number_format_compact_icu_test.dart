@@ -165,14 +165,14 @@ String FormatWithUnumf(String locale, String skeleton, num number) {
       unumf_openForSkeletonAndLocale(cSkeleton, -1, cLocale, cErrorCode);
   cSkeleton.free();
   cLocale.free();
-  int errorCode = cErrorCode.load();
+  var errorCode = cErrorCode.load<int>();
   expect(errorCode, lessThanOrEqualTo(0),
-      reason: u_errorName(errorCode).load().toString());
+      reason: u_errorName(errorCode).load<Utf8>().toString());
   final uresult = unumf_openResult(cErrorCode);
   errorCode = cErrorCode.load();
   // Try to improve this once dart:ffi has extension methods:
   expect(errorCode, lessThanOrEqualTo(0),
-      reason: u_errorName(errorCode).load().toString());
+      reason: u_errorName(errorCode).load<Utf8>().toString());
 
   // // Format a double:
   // unumf_formatDouble(uformatter, 5142.3, uresult, &ec);
@@ -184,7 +184,7 @@ String FormatWithUnumf(String locale, String skeleton, num number) {
   }
   errorCode = cErrorCode.load();
   expect(errorCode, lessThanOrEqualTo(0),
-      reason: u_errorName(errorCode).load().toString());
+      reason: u_errorName(errorCode).load<Utf8>().toString());
 
   // // Export the string to a malloc'd buffer:
   // int32_t len = unumf_resultToString(uresult, NULL, 0, &ec);
@@ -198,14 +198,14 @@ String FormatWithUnumf(String locale, String skeleton, num number) {
       unumf_resultToString(uresult, ffi.nullptr.cast(), 0, cErrorCode);
   errorCode = cErrorCode.load();
   expect(errorCode, equals(15), // U_BUFFER_OVERFLOW_ERROR
-      reason: u_errorName(errorCode).load().toString());
+      reason: u_errorName(errorCode).load<Utf8>().toString());
   cErrorCode.store(0);
   final buffer = ffi.Pointer<Utf16>.allocate(count: reqLen + 1);
   unumf_resultToString(uresult, buffer, reqLen + 1, cErrorCode);
   errorCode = cErrorCode.load();
   expect(errorCode, lessThanOrEqualTo(0),
-      reason: u_errorName(errorCode).load().toString());
-  final bufferContent = buffer.load();
+      reason: u_errorName(errorCode).load<Utf8>().toString());
+  final bufferContent = buffer.load<Utf16>();
   final result = bufferContent.toString();
 
   // // Cleanup:
