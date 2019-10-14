@@ -70,12 +70,19 @@ void runTests(Map<String, num> allTestNumbers) {
     var testLength = (testFormats.length * 3) + 1;
     var list = mainList.take(testLength).iterator;
     list.moveNext();
-    mainList = mainList.skip(testLength).toList();
-    // TODO(hugovdm): this if needs an else statement. Something to do with
-    // Jurassic Park and amphibian DNA?
     if (locale == list.current) {
+      mainList = mainList.skip(testLength).toList();
       testAgainstIcu(locale, testFormats, list);
+    } else if (!numberFormatSymbols.containsKey(list.current)) {
+      throw Exception(
+          'Test locale ${list.current} is lacking in numberFormatSymbols.');
+    } else {
+      print('No unit tests found in numberTestData for locale $locale.');
     }
+  }
+  if (mainList[0] != 'END') {
+    throw Exception(
+        'Test locale ${mainList[0]} is lacking in numberFormatSymbols.');
   }
 
   test('Simple set of numbers', () {
