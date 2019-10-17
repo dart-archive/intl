@@ -4,8 +4,8 @@
 /// testing the package:intl implementation, they only help verify consistent
 /// behaviour across platforms.
 @TestOn("!browser")
-import 'dart:convert';
-import 'dart:ffi' as ffi;
+import 'dart:ffi';
+import 'package:ffi/ffi.dart';
 import 'package:test/test.dart';
 
 import 'compact_number_test_data.dart' as testdata35;
@@ -105,23 +105,23 @@ UnumfCloseResultOp unumf_closeResult;
 /// If [systemIcuVersion] is unspecified, we expect to find all functions in a
 /// library with filename [specialIcuLibPath].
 bool setupICU({int systemIcuVersion = null, String specialIcuLibPath = null}) {
-  ffi.DynamicLibrary libicui18n;
+  DynamicLibrary libicui18n;
   String icuVersionSuffix;
   if (systemIcuVersion != null) {
     icuVersionSuffix = '_$systemIcuVersion';
     try {
-      ffi.DynamicLibrary libicuuc =
-          ffi.DynamicLibrary.open('libicuuc.so.$systemIcuVersion');
+      DynamicLibrary libicuuc =
+          DynamicLibrary.open('libicuuc.so.$systemIcuVersion');
       u_errorName = libicuuc.lookupFunction<NativeUErrorNameOp, UErrorNameOp>(
           "u_errorName$icuVersionSuffix");
-      libicui18n = ffi.DynamicLibrary.open('libicui18n.so.$systemIcuVersion');
+      libicui18n = DynamicLibrary.open('libicui18n.so.$systemIcuVersion');
     } on ArgumentError catch (e) {
       print('Unable to test against ICU version $systemIcuVersion: $e');
       return false;
     }
   } else {
     icuVersionSuffix = '';
-    libicui18n = ffi.DynamicLibrary.open(specialIcuLibPath);
+    libicui18n = DynamicLibrary.open(specialIcuLibPath);
     u_errorName = libicui18n.lookupFunction<NativeUErrorNameOp, UErrorNameOp>(
         "u_errorName$icuVersionSuffix");
   }
@@ -157,22 +157,22 @@ String FormatWithUnumf(String locale, String skeleton, num number) {
   //     unumf_openForSkeletonAndLocale(u"precision-integer", -1, "en", &ec);
   // UFormattedNumber* uresult = unumf_openResult(&ec);
   // if (U_FAILURE(ec)) { return; }
-  final cLocale = Utf8.allocate(locale);
-  final cSkeleton = Utf16.allocate(skeleton);
-  final cErrorCode = ffi.Pointer<ffi.Int32>.allocate(count: 1);
-  cErrorCode.store(0);
+  final cLocale = Utf8.toUtf8(locale);
+  final cSkeleton = Utf16.toUtf16(skeleton);
+  final cErrorCode = allocate<Int32>(count: 1);
+  cErrorCode.value = 0;
   final uformatter =
       unumf_openForSkeletonAndLocale(cSkeleton, -1, cLocale, cErrorCode);
-  cSkeleton.free();
-  cLocale.free();
-  var errorCode = cErrorCode.load<int>();
+  free(cSkeleton);
+  free(cLocale);
+  var errorCode = cErrorCode.value;
   expect(errorCode, lessThanOrEqualTo(0),
-      reason: u_errorName(errorCode).load<Utf8>().toString());
+      reason: u_errorName(errorCode).toString());
   final uresult = unumf_openResult(cErrorCode);
-  errorCode = cErrorCode.load();
+  errorCode = cErrorCode.value;
   // Try to improve this once dart:ffi has extension methods:
   expect(errorCode, lessThanOrEqualTo(0),
-      reason: u_errorName(errorCode).load<Utf8>().toString());
+      reason: u_errorName(errorCode).toString());
 
   // // Format a double:
   // unumf_formatDouble(uformatter, 5142.3, uresult, &ec);
@@ -182,9 +182,9 @@ String FormatWithUnumf(String locale, String skeleton, num number) {
   } else {
     unumf_formatInt(uformatter, number, uresult, cErrorCode);
   }
-  errorCode = cErrorCode.load();
+  errorCode = cErrorCode.value;
   expect(errorCode, lessThanOrEqualTo(0),
-      reason: u_errorName(errorCode).load<Utf8>().toString());
+      reason: u_errorName(errorCode).toString());
 
   // // Export the string to a malloc'd buffer:
   // int32_t len = unumf_resultToString(uresult, NULL, 0, &ec);
@@ -194,19 +194,17 @@ String FormatWithUnumf(String locale, String skeleton, num number) {
   // unumf_resultToString(uresult, buffer, len+1, &ec);
   // if (U_FAILURE(ec)) { return; }
   // // buffer should equal "5,142"
-  final reqLen =
-      unumf_resultToString(uresult, ffi.nullptr.cast(), 0, cErrorCode);
-  errorCode = cErrorCode.load();
+  final reqLen = unumf_resultToString(uresult, nullptr.cast(), 0, cErrorCode);
+  errorCode = cErrorCode.value;
   expect(errorCode, equals(15), // U_BUFFER_OVERFLOW_ERROR
-      reason: u_errorName(errorCode).load<Utf8>().toString());
-  cErrorCode.store(0);
-  final buffer = ffi.Pointer<Utf16>.allocate(count: reqLen + 1);
+      reason: u_errorName(errorCode).toString());
+  cErrorCode.value = 0;
+  final buffer = allocate<Utf16>(count: reqLen + 1);
   unumf_resultToString(uresult, buffer, reqLen + 1, cErrorCode);
-  errorCode = cErrorCode.load();
+  errorCode = cErrorCode.value;
   expect(errorCode, lessThanOrEqualTo(0),
-      reason: u_errorName(errorCode).load<Utf8>().toString());
-  final bufferContent = buffer.load<Utf16>();
-  final result = bufferContent.toString();
+      reason: u_errorName(errorCode).toString());
+  final result = buffer.toString();
 
   // // Cleanup:
   // unumf_close(uformatter);
@@ -214,179 +212,103 @@ String FormatWithUnumf(String locale, String skeleton, num number) {
   // free(buffer);
   unumf_close(uformatter);
   unumf_closeResult(uresult);
-  buffer.free();
-  cErrorCode.free();
+  free(buffer);
+  free(cErrorCode);
 
   return result;
 }
 
-/// Represents a char* UTF-8 string in C memory.
-class Utf8 extends ffi.Struct<Utf8> {
-  @ffi.Uint8()
-  int char;
-
-  /// Allocate a [CString] and populates it with [dartStr].
-  ///
-  /// This [CString] is not managed by an [Arena]. Please ensure to [free] the
-  /// memory manually!
-  static ffi.Pointer<Utf8> allocate(String dartStr) {
-    List<int> units = Utf8Encoder().convert(dartStr);
-    ffi.Pointer<Utf8> str = ffi.Pointer<Utf8>.allocate(count: units.length + 1);
-    for (int i = 0; i < units.length; ++i) {
-      str.elementAt(i).load<Utf8>().char = units[i];
-    }
-    str.elementAt(units.length).load<Utf8>().char = 0;
-    return str;
-  }
-
-  /// Read the string for C memory into Dart.
-  String toString() {
-    final str = addressOf;
-    if (str == ffi.nullptr) return null;
-    int len = 0;
-    while (str.elementAt(++len).load<Utf8>().char != 0);
-    List<int> units = List(len);
-    for (int i = 0; i < len; ++i) {
-      units[i] = str.elementAt(i).load<Utf8>().char;
-    }
-    return Utf8Decoder().convert(units);
-  }
-}
-
-/// Represents a UChar* in C memory.
-class Utf16 extends ffi.Struct<Utf16> {
-  @ffi.Uint16()
-  int char;
-
-  /// Allocates a Pointer<Utf16> and populates it with [dartStr].
-  ///
-  /// Please ensure to [free] the memory manually!
-  static ffi.Pointer<Utf16> allocate(String dartStr) {
-    List<int> units = dartStr.codeUnits;
-    ffi.Pointer<Utf16> str =
-        ffi.Pointer<Utf16>.allocate(count: (units.length + 1));
-    for (int i = 0; i < units.length; ++i) {
-      str.elementAt(i).load<Utf16>().char = units[i];
-    }
-    str.elementAt(units.length).load<Utf16>().char = 0;
-    return str;
-  }
-
-  /// Read the string for C memory into Dart.
-  String toString() {
-    final str = addressOf;
-    if (str == ffi.nullptr) return null;
-    int len = 0;
-    while (str.elementAt(++len).load<Utf16>().char != 0);
-    List<int> units = List(len);
-    for (int i = 0; i < len; ++i) {
-      units[i] = str.elementAt(i).load<Utf16>().char;
-    }
-    return String.fromCharCodes(units);
-  }
-}
-
 /// C signature for
 /// [u_errorName()](http://icu-project.org/apiref/icu4c/utypes_8h.html#a89eb455526bb29bf5350ee861d81df92)
-typedef NativeUErrorNameOp = ffi.Pointer<Utf8> Function(ffi.Int32 code);
+typedef NativeUErrorNameOp = Pointer<Utf8> Function(Int32 code);
 
 /// Dart signature for
 /// [u_errorName()](http://icu-project.org/apiref/icu4c/utypes_8h.html#a89eb455526bb29bf5350ee861d81df92)
-typedef UErrorNameOp = ffi.Pointer<Utf8> Function(int code);
+typedef UErrorNameOp = Pointer<Utf8> Function(int code);
 
 /// [UNumberFormatter](http://icu-project.org/apiref/icu4c/unumberformatter_8h.html#a7c1238b2dd08f32f1ea245ece41e71bd)
-class UNumberFormatter extends ffi.Struct<UNumberFormatter> {}
+class UNumberFormatter extends Struct {}
 
 /// [UFormattedNumber](http://icu-project.org/apiref/icu4c/unumberformatter_8h.html#a9d4030bdc4dd1ec4de828bf1bcf4b1b6)
-class UFormattedNumber extends ffi.Struct<UFormattedNumber> {}
+class UFormattedNumber extends Struct {}
 
 /// C signature for
 /// [unumf_openForSkeletonAndLocale()](http://icu-project.org/apiref/icu4c/unumberformatter_8h.html#a29339e144833880bda36fb7c17032698)
 typedef NativeUnumfOpenForSkeletonAndLocaleOp
-    = ffi.Pointer<UNumberFormatter> Function(
-        ffi.Pointer<Utf16> skeleton,
-        ffi.Int32 skeletonLen,
-        ffi.Pointer<Utf8> locale,
-        ffi.Pointer<ffi.Int32> ec);
+    = Pointer<UNumberFormatter> Function(Pointer<Utf16> skeleton,
+        Int32 skeletonLen, Pointer<Utf8> locale, Pointer<Int32> ec);
 
 /// Dart signature for
 /// [unumf_openForSkeletonAndLocale()](http://icu-project.org/apiref/icu4c/unumberformatter_8h.html#a29339e144833880bda36fb7c17032698)
-typedef UnumfOpenForSkeletonAndLocaleOp
-    = ffi.Pointer<UNumberFormatter> Function(ffi.Pointer<Utf16> skeleton,
-        int skeletonLen, ffi.Pointer<Utf8> locale, ffi.Pointer<ffi.Int32> ec);
+typedef UnumfOpenForSkeletonAndLocaleOp = Pointer<UNumberFormatter> Function(
+    Pointer<Utf16> skeleton,
+    int skeletonLen,
+    Pointer<Utf8> locale,
+    Pointer<Int32> ec);
 
 /// C signature for
 /// [unumf_openResult()](http://icu-project.org/apiref/icu4c/unumberformatter_8h.html#a5bd2d297cb2664b4964d25fd41671dad)
-typedef NativeUnumfOpenResultOp = ffi.Pointer<UFormattedNumber> Function(
-    ffi.Pointer<ffi.Int32> ec);
+typedef NativeUnumfOpenResultOp = Pointer<UFormattedNumber> Function(
+    Pointer<Int32> ec);
 
 /// Dart signature for
 /// [unumf_openResult()](http://icu-project.org/apiref/icu4c/unumberformatter_8h.html#a5bd2d297cb2664b4964d25fd41671dad)
-typedef UnumfOpenResultOp = ffi.Pointer<UFormattedNumber> Function(
-    ffi.Pointer<ffi.Int32> ec);
+typedef UnumfOpenResultOp = Pointer<UFormattedNumber> Function(
+    Pointer<Int32> ec);
 
 /// C signature for
 /// [unumf_formatDouble()](http://icu-project.org/apiref/icu4c/unumberformatter_8h.html#af5f79e43adc900f07b3ba90b6315944e)
-typedef NativeUnumfFormatDoubleOp = ffi.Void Function(
-    ffi.Pointer<UNumberFormatter> uformatter,
-    ffi.Double value,
-    ffi.Pointer<UFormattedNumber> uresult,
-    ffi.Pointer<ffi.Int32> ec);
+typedef NativeUnumfFormatDoubleOp = Void Function(
+    Pointer<UNumberFormatter> uformatter,
+    Double value,
+    Pointer<UFormattedNumber> uresult,
+    Pointer<Int32> ec);
 
 /// Dart signature for
 /// [unumf_formatDouble()](http://icu-project.org/apiref/icu4c/unumberformatter_8h.html#af5f79e43adc900f07b3ba90b6315944e)
-typedef UnumfFormatDoubleOp = Function(
-    ffi.Pointer<UNumberFormatter> uformatter,
-    double value,
-    ffi.Pointer<UFormattedNumber> uresult,
-    ffi.Pointer<ffi.Int32> ec);
+typedef UnumfFormatDoubleOp = void Function(Pointer<UNumberFormatter> uformatter,
+    double value, Pointer<UFormattedNumber> uresult, Pointer<Int32> ec);
 
 /// C signature for
 /// [unumf_formatInt()](http://icu-project.org/apiref/icu4c/unumberformatter_8h.html#a459b9313ed05fc98c9cd125eb9c1a625)
-typedef NativeUnumfFormatIntOp = ffi.Void Function(
-    ffi.Pointer<UNumberFormatter> uformatter,
-    ffi.Int32 value,
-    ffi.Pointer<UFormattedNumber> uresult,
-    ffi.Pointer<ffi.Int32> ec);
+typedef NativeUnumfFormatIntOp = Void Function(
+    Pointer<UNumberFormatter> uformatter,
+    Int32 value,
+    Pointer<UFormattedNumber> uresult,
+    Pointer<Int32> ec);
 
 /// Dart signature for
 /// [unumf_formatInt()](http://icu-project.org/apiref/icu4c/unumberformatter_8h.html#a459b9313ed05fc98c9cd125eb9c1a625)
-typedef UnumfFormatIntOp = Function(
-    ffi.Pointer<UNumberFormatter> uformatter,
-    int value,
-    ffi.Pointer<UFormattedNumber> uresult,
-    ffi.Pointer<ffi.Int32> ec);
+typedef UnumfFormatIntOp = void Function(Pointer<UNumberFormatter> uformatter,
+    int value, Pointer<UFormattedNumber> uresult, Pointer<Int32> ec);
 
 /// C signature for
 /// [unumf_resultToString()](http://icu-project.org/apiref/icu4c/unumberformatter_8h.html#a72131183633fda6851c35e37ffd821a1)
-typedef NativeUnumfResultToStringOp = ffi.Int32 Function(
-    ffi.Pointer<UFormattedNumber> uresult,
-    ffi.Pointer<Utf16> buffer,
-    ffi.Int32 bufferCapacity,
-    ffi.Pointer<ffi.Int32> ec);
+typedef NativeUnumfResultToStringOp = Int32 Function(
+    Pointer<UFormattedNumber> uresult,
+    Pointer<Utf16> buffer,
+    Int32 bufferCapacity,
+    Pointer<Int32> ec);
 
 /// Dart signature for
 /// [unumf_resultToString()](http://icu-project.org/apiref/icu4c/unumberformatter_8h.html#a72131183633fda6851c35e37ffd821a1)
-typedef UnumfResultToStringOp = int Function(
-    ffi.Pointer<UFormattedNumber> uresult,
-    ffi.Pointer<Utf16> buffer,
-    int bufferCapacity,
-    ffi.Pointer<ffi.Int32> ec);
+typedef UnumfResultToStringOp = int Function(Pointer<UFormattedNumber> uresult,
+    Pointer<Utf16> buffer, int bufferCapacity, Pointer<Int32> ec);
 
 /// C signature for
 /// [unumf_close()](http://icu-project.org/apiref/icu4c/unumberformatter_8h.html#a6f47836ca05077fc912ad24e462312c6)
-typedef NativeUnumfCloseOp = ffi.Void Function(
-    ffi.Pointer<UNumberFormatter> uformatter);
+typedef NativeUnumfCloseOp = Void Function(
+    Pointer<UNumberFormatter> uformatter);
 
 /// Dart signature for
 /// [unumf_close()](http://icu-project.org/apiref/icu4c/unumberformatter_8h.html#a6f47836ca05077fc912ad24e462312c6)
-typedef UnumfCloseOp = Function(ffi.Pointer<UNumberFormatter> uformatter);
+typedef UnumfCloseOp = void Function(Pointer<UNumberFormatter> uformatter);
 
 /// C signature for
 /// [unumf_closeResult()](http://icu-project.org/apiref/icu4c/unumberformatter_8h.html#a78f19cef14a2db1a0eb62a8b724eb123)
-typedef NativeUnumfCloseResultOp = ffi.Void Function(
-    ffi.Pointer<UFormattedNumber> uresult);
+typedef NativeUnumfCloseResultOp = Void Function(
+    Pointer<UFormattedNumber> uresult);
 
 /// Dart signature for
 /// [unumf_closeResult()](http://icu-project.org/apiref/icu4c/unumberformatter_8h.html#a78f19cef14a2db1a0eb62a8b724eb123)
-typedef UnumfCloseResultOp = Function(ffi.Pointer<UFormattedNumber> uresult);
+typedef UnumfCloseResultOp = void Function(Pointer<UFormattedNumber> uresult);
