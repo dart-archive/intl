@@ -4,6 +4,8 @@
  * Bump SDK requirements up to 2.5.0 for dart:ffi availability.
  * Canonicalize the locale in the Intl.defaultLocale setter, so e.g. 'en-US'
    will get turned into the correct 'en_US'
+ * Attempt to compensate for erratic errors in DateTime creation better, and add
+   tests for the compensation.
 
 ## 0.16.0
  * Fix 'k' formatting (1 to 24 hours) which incorrectly showed 0 to 23.

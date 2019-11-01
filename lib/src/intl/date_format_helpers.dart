@@ -71,7 +71,12 @@ class _DateBuilder {
   // ignore: prefer_final_fields
   var _dateOnly = false;
 
-  _DateBuilder(this._locale);
+  /// The function we will call to create a DateTime from its component pieces.
+  ///
+  /// This is normally only modified in tests that want to introduce errors.
+  final _DateTimeConstructor _dateTimeConstructor;
+
+  _DateBuilder(this._locale, this._dateTimeConstructor);
 
   // Functions that exist just to be closurized so we can pass them to a general
   // method.
@@ -164,11 +169,11 @@ class _DateBuilder {
     if (_date != null) return _date;
 
     if (utc) {
-      _date = DateTime.utc(
-          year, month, day, hour24, minute, second, fractionalSecond);
+      _date = _dateTimeConstructor(
+          year, month, day, hour24, minute, second, fractionalSecond, utc);
     } else {
-      var preliminaryResult =
-          DateTime(year, month, day, hour24, minute, second, fractionalSecond);
+      var preliminaryResult = _dateTimeConstructor(
+          year, month, day, hour24, minute, second, fractionalSecond, utc);
       _date = _correctForErrors(preliminaryResult, retries);
     }
     return _date;
@@ -180,9 +185,13 @@ class _DateBuilder {
     // There are 3 kinds of errors that we know of
     //
     // 1 - Issue 15560, sometimes we get UTC even when we asked for local, or
-    // they get constructed as if in UTC and then have the offset
-    // subtracted. Retry, possibly several times, until we get something that
-    // looks valid, or we give up.
+    // they get constructed as if in UTC and then have the offset subtracted.
+    // Retry, possibly several times, until we get something that looks valid,
+    // or we give up.
+    //
+    // 1a) - It appears that sometimes we get incorrect timezone offsets that
+    // are not directly related to UTC. Also check for those and retry or
+    // compensate.
     //
     // 2 - Timezone transitions. If we ask for the time during a timezone
     // transition then it will offset it by that transition. This is
@@ -191,9 +200,8 @@ class _DateBuilder {
     // Brazil, and we can end up with 11:00pm the previous day. Add time to
     // compensate.
     //
-    // 3 - Invalid input which the constructor nevertheless accepts. Just
-    // return what it created, and verify will catch it if we're in strict
-    // mode.
+    // 3 - Invalid input which the constructor nevertheless accepts. Just return
+    // what it created, and verify will catch it if we're in strict mode.
 
     // If we've exhausted our retries, just return the input - it's not just a
     // flaky result.
@@ -202,7 +210,7 @@ class _DateBuilder {
     }
 
     var leapYear = _isLeapYear(result);
-    var correspondingDay = _dayOfYear(result.month, result.day, leapYear);
+    var resultDayOfYear = _dayOfYear(result.month, result.day, leapYear);
 
     // Check for the UTC failure. Are we expecting to produce a local time, but
     // the result is UTC. However, the local time might happen to be the same as
@@ -211,25 +219,55 @@ class _DateBuilder {
     if (!utc &&
         result.isUtc &&
         (result.hour != hour24 ||
-            result.day != correspondingDay ||
+            result.day != resultDayOfYear ||
             !DateTime.now().isUtc)) {
       // This may be a UTC failure. Retry and if the result doesn't look
       // like it's in the UTC time zone, use that instead.
       _retried++;
       return asDate(retries: retries - 1);
     }
-    if (_dateOnly && day != correspondingDay) {
+
+    if (_dateOnly && result.hour != 0) {
+      // This could be a flake, try again.
+      var tryAgain = asDate(retries: retries - 1);
+      if (tryAgain != result) {
+        // Trying again gave a different answer, so presumably it worked.
+        return tryAgain;
+      }
+
+      // Trying again didn't work, try to force the offset.
+      var expectedDayOfYear = _dayOfYear(month, day, leapYear);
+
       // If we're _dateOnly, then hours should be zero, but might have been
-      // offset to e.g. 11:00pm the previous day. Add that time back in. We
-      // only care about jumps backwards. If we were offset to e.g. 1:00am the
-      // same day that's all right for a date. It gets the day correct, and we
-      // have no way to even represent midnight on a day when it doesn't
-      // happen.
-      var adjusted = result.add(Duration(hours: 24 - result.hour));
-      if (_dayOfYear(adjusted.month, adjusted.day, leapYear) == day) {
+      // offset to e.g. 11:00pm the previous day. Add that time back in. This
+      // might be because of an erratic error, but it might also be because of a
+      // time zone (Brazil) where there is no midnight at a daylight savings
+      // time transition. In that case we will retry, but eventually give up and
+      // return 1:00am on the correct date.
+      var daysPrevious = expectedDayOfYear - resultDayOfYear;
+      // For example, if it's the day before at 11:00pm, we offset by (24 - 23),
+      // so +1. If it's the same day at 1:00am, we offset by (0 - 1), so -1.
+      var offset = (daysPrevious * 24) - result.hour;
+      var adjusted = result.add(Duration(hours: offset));
+      // Check if the adjustment worked. This can fail on a time zone transition
+      // where midnight doesn't exist.
+      if (adjusted.hour == 0) {
         return adjusted;
       }
+      // Adjusting did not work. Just check if the adjusted date is right. And
+      // if it's not, just give up and return [result]. The scenario where this
+      // might correctly happen is if we're in a Brazil time zone, jump forward
+      // to 1:00 am because of a DST transition, and trying to go backwards 1
+      // hour takes us back to 11:00pm the day before. In that case the 1:00am
+      // answer on the correct date is preferable.
+      var adjustedDayOfYear =
+          _dayOfYear(adjusted.month, adjusted.day, leapYear);
+      if (adjustedDayOfYear != expectedDayOfYear) {
+        return result;
+      }
+      return adjusted;
     }
+    // None of our corrections applied, just return the uncorrected date.
     return result;
   }
 }
