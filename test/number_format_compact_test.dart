@@ -81,6 +81,10 @@ void main() {
   testCurrency('it', 4420000, '4,42\u00A0Mio\u00A0\$', '4\u00A0Mio\u00A0\$',
       currency: 'USD');
 
+  testCurrency('he', 335, '\u200F335 ₪', '\u200F300 ₪',
+      reason: 'TODO(b/36488375): Short format throws away significant digits '
+          'without good reason.');
+
   test('Explicit non-default symbol with compactCurrency', () {
     var format = NumberFormat.compactCurrency(locale: 'ja', symbol: '()');
     var result = format.format(98765);
@@ -88,19 +92,24 @@ void main() {
   });
 }
 
+/// Tests for [NumberFormat.compactSimpleCurrency] and
+/// [Numberformat.compactCurrency]. For `compactCurrency`, it also passes the
+/// `symbol` parameter after which the result is expected to be the same as for
+/// `compactSimpleCurrency`. The `expectedShort` string is compared to the
+/// output of the formatters with significantDigits set to `1`.
 void testCurrency(
     String locale, num number, String expected, String expectedShort,
-    {String currency}) {
+    {String currency, String reason}) {
   test('Compact simple currency for $locale, $number', () {
     var format =
         NumberFormat.compactSimpleCurrency(locale: locale, name: currency);
     var result = format.format(number);
-    expect(result, expected);
+    expect(result, expected, reason: '$reason');
     var shortFormat =
         NumberFormat.compactSimpleCurrency(locale: locale, name: currency);
     shortFormat.significantDigits = 1;
     var shortResult = shortFormat.format(number);
-    expect(shortResult, expectedShort);
+    expect(shortResult, expectedShort, reason: 'shortFormat: $reason');
   });
   test('Compact currency for $locale, $number', () {
     var symbols = {
@@ -108,6 +117,7 @@ void testCurrency(
       'en_US': r'$',
       'ru': 'руб.',
       'it': '€',
+      'he': '₪',
       'CAD': r'$',
       'USD': r'$'
     };
@@ -115,12 +125,12 @@ void testCurrency(
     var format = NumberFormat.compactCurrency(
         locale: locale, name: currency, symbol: symbol);
     var result = format.format(number);
-    expect(result, expected);
+    expect(result, expected, reason: '$reason');
     var shortFormat = NumberFormat.compactCurrency(
         locale: locale, name: currency, symbol: symbol);
     shortFormat.significantDigits = 1;
     var shortResult = shortFormat.format(number);
-    expect(shortResult, expectedShort);
+    expect(shortResult, expectedShort, reason: 'shortFormat: $reason');
   });
 }
 
