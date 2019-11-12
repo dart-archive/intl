@@ -22,8 +22,10 @@ class UninitializedLocaleData<F> implements MessageLookup {
   final F fallbackData;
   UninitializedLocaleData(this.message, this.fallbackData);
 
+  bool _isFallback(String key) => Intl.canonicalizedLocale(key) == 'en_US';
+
   F operator [](String key) =>
-      (key == 'en_US') ? fallbackData : _throwException();
+      _isFallback(key) ? fallbackData : _throwException();
 
   /// If a message is looked up before any locale initialization, record it,
   /// and throw an exception with that information once the locale is
@@ -66,7 +68,7 @@ class UninitializedLocaleData<F> implements MessageLookup {
 
   List<String> get keys => _throwException() as List<String>;
 
-  bool containsKey(String key) => (key == 'en_US') ? true : _throwException();
+  bool containsKey(String key) => _isFallback(key) ? true : _throwException();
 
   F _throwException() {
     throw LocaleDataException('Locale data has not been initialized'
