@@ -99,7 +99,7 @@ class Intl {
   }
 
   static set defaultLocale(String newLocale) {
-    _defaultLocale = newLocale == null ? null : canonicalizedLocale(newLocale);
+    _defaultLocale = newLocale;
   }
 
   static String _defaultLocale;

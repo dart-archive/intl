@@ -2,8 +2,6 @@
  * Add an analysis_options.yaml and fix or suppress all the complaints from it.
  * Add unit tests using dart:ffi to compare formatting output to ICU.
  * Bump SDK requirements up to 2.5.0 for dart:ffi availability.
- * Canonicalize the locale in the Intl.defaultLocale setter, so e.g. 'en-US'
-   will get turned into the correct 'en_US'
  * Attempt to compensate for erratic errors in DateTime creation better, and add
    tests for the compensation.
  * Add a MessageFormat class. It can prepares strings for display to users,
