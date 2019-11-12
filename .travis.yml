@@ -4,7 +4,7 @@ dart:
   - dev
 
 dart_task:
-  - test: -p vm
+  - test: -p vm -x ffi
   - test: -p firefox
   - dartanalyzer
 

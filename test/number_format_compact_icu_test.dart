@@ -4,6 +4,7 @@
 /// testing the package:intl implementation, they only help verify consistent
 /// behaviour across platforms.
 @TestOn("!browser")
+@Tags(['ffi'])
 import 'dart:convert';
 import 'dart:ffi' as ffi;
 import 'package:test/test.dart';
