@@ -1,0 +1,3 @@
+analyzer:
+  exclude:
+     - test/number_format_compact_icu_test.dart # broken due to ffi instability
