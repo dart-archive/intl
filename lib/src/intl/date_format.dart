@@ -250,6 +250,23 @@ class DateFormat {
     addPattern(newPattern);
   }
 
+  /// Allows specifying a different way of creating a DateTime instance for
+  /// testing.
+  ///
+  /// There can be rare and erratic errors in DateTime creation in both
+  /// JavaScript and the Dart VM, and this allows us to test ways of
+  /// compensating for them.
+  _DateTimeConstructor dateTimeConstructor = (int year, int month, int day,
+      int hour24, int minute, int second, int fractionalSecond, bool utc) {
+    if (utc) {
+      return DateTime.utc(
+          year, month, day, hour24, minute, second, fractionalSecond);
+    } else {
+      return DateTime(
+          year, month, day, hour24, minute, second, fractionalSecond);
+    }
+  };
+
   /// Return a string representing [date] formatted according to our locale
   /// and internal format.
   String format(DateTime date) {
@@ -319,7 +336,8 @@ class DateFormat {
   }
 
   DateTime _parseLoose(String inputString, bool utc) {
-    var dateFields = _DateBuilder(locale ?? Intl.defaultLocale);
+    var dateFields =
+        _DateBuilder(locale ?? Intl.defaultLocale, dateTimeConstructor);
     if (utc) dateFields.utc = true;
     var stream = _Stream(inputString);
     for (var field in _formatFields) {
@@ -347,7 +365,8 @@ class DateFormat {
   DateTime _parse(String inputString, {bool utc = false, bool strict = false}) {
     // TODO(alanknight): The Closure code refers to special parsing of numeric
     // values with no delimiters, which we currently don't do. Should we?
-    var dateFields = _DateBuilder(locale ?? Intl.defaultLocale);
+    var dateFields =
+        _DateBuilder(locale ?? Intl.defaultLocale, dateTimeConstructor);
     if (utc) dateFields.utc = true;
     dateFields._dateOnly = dateOnly;
     var stream = _Stream(inputString);
@@ -799,3 +818,7 @@ class DateFormat {
     return null;
   }
 }
+
+/// Defines a function type for creating DateTime instances.
+typedef _DateTimeConstructor = DateTime Function(int year, int month, int day,
+    int hour24, int minute, int second, int fractionalSecond, bool utc);

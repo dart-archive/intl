@@ -1,14 +1,16 @@
-/// Tests for ECMAScript compact format numbers (e.g. 1.2M instead of 1200000).
+/// Tests for compact number formatting in pure Dart and in ECMAScript.
 ///
-/// These tests check that the test cases match what ECMAScript produces. They
-/// are not testing the package:intl implementation, they only help verify
-/// consistent behaviour across platforms.
+/// TODO(b/36488375): run all these tests against both implementations to prove
+/// consistency when the bug is fixed. Also fix documentation and perhaps
+/// merge tests: these tests currently also touch non-compact currency
+/// formatting.
 
 /// We use @Tags rather than @TestOn to be able to specify something that can be
 /// ignored when using a build system that can't read dart_test.yaml. This
 /// depends on https://github.com/tc39/proposal-unified-intl-numberformat.
 @Tags(const ['unifiedNumberFormat'])
 
+import 'package:intl/intl.dart' as intl;
 import 'package:js/js_util.dart' as js;
 import 'package:test/test.dart';
 
@@ -18,6 +20,59 @@ import 'more_compact_number_test_data.dart' as more_testdata;
 main() {
   testdata35.compactNumberTestData.forEach(validate);
   more_testdata.cldr35CompactNumTests.forEach(validateMore);
+
+  test('RTL currency formatting', () {
+    var basic = intl.NumberFormat.currency(locale: 'he');
+    expect(basic.format(1234), '\u200F1,234.00 ILS');
+    basic = intl.NumberFormat.currency(locale: 'he', symbol: '₪');
+    expect(basic.format(1234), '\u200F1,234.00 ₪');
+    expect(ecmaFormatNumber('he', 1234, style: 'currency', currency: 'ILS'),
+        '\u200F1,234.00 ₪');
+
+    var compact = intl.NumberFormat.compactCurrency(locale: 'he');
+    // Awkward:
+    expect(compact.format(1234), 'ILS \u200F1.23K');
+    compact = intl.NumberFormat.compactCurrency(locale: 'he', symbol: '₪');
+    // Awkward:
+    expect(compact.format(1234), '₪ \u200F1.23K');
+    // ECMAScript skips the RTL character for notation:'compact':
+    expect(
+        ecmaFormatNumber('he', 1234,
+            style: 'currency', currency: 'ILS', notation: 'compact'),
+        '₪ 1.2K');
+    // short/long compactDisplay doesn't change anything here:
+    expect(
+        ecmaFormatNumber('he', 1234,
+            style: 'currency',
+            currency: 'ILS',
+            notation: 'compact',
+            compactDisplay: 'short'),
+        '₪ 1.2K');
+    expect(
+        ecmaFormatNumber('he', 1234,
+            style: 'currency',
+            currency: 'ILS',
+            notation: 'compact',
+            compactDisplay: 'long'),
+        '₪ 1.2K');
+
+    var compactSimple = intl.NumberFormat.compactSimpleCurrency(locale: 'he');
+    expect(compactSimple.format(1234), '₪ \u200F1.23K');
+  });
+}
+
+String ecmaFormatNumber(String locale, num number,
+    {String style: null,
+    String currency: null,
+    String notation: null,
+    String compactDisplay: null}) {
+  var options = js.newObject();
+  if (notation != null) js.setProperty(options, 'notation', notation);
+  if (compactDisplay != null)
+    js.setProperty(options, 'compactDisplay', compactDisplay);
+  if (style != null) js.setProperty(options, 'style', style);
+  if (currency != null) js.setProperty(options, 'currency', currency);
+  return js.callMethod(number, 'toLocaleString', [locale, options]);
 }
 
 var ecmaProblemLocalesShort = [
@@ -47,14 +102,11 @@ void validateShort(String locale, List<List<String>> expected) {
     print("Skipping problem locale '$locale' for SHORT compact number tests");
     return;
   }
-  var options = js.newObject();
-  js.setProperty(options, 'notation', 'compact');
 
   test('Validate $locale SHORT', () {
     for (var data in expected) {
       var number = num.parse(data.first);
-      expect(
-          js.callMethod(number, 'toLocaleString', [locale, options]), data[1]);
+      expect(ecmaFormatNumber(locale, number, notation: 'compact'), data[1]);
     }
   });
 }
@@ -64,15 +116,14 @@ void validateLong(String locale, List<List<String>> expected) {
     print("Skipping problem locale '$locale' for LONG compact number tests");
     return;
   }
-  var options = js.newObject();
-  js.setProperty(options, 'notation', 'compact');
-  js.setProperty(options, 'compactDisplay', 'long');
 
   test('Validate $locale LONG', () {
     for (var data in expected) {
       var number = num.parse(data.first);
       expect(
-          js.callMethod(number, 'toLocaleString', [locale, options]), data[2]);
+          ecmaFormatNumber(locale, number,
+              notation: 'compact', compactDisplay: 'long'),
+          data[2]);
     }
   });
 }

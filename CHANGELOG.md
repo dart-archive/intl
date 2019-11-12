@@ -4,6 +4,12 @@
  * Bump SDK requirements up to 2.5.0 for dart:ffi availability.
  * Canonicalize the locale in the Intl.defaultLocale setter, so e.g. 'en-US'
    will get turned into the correct 'en_US'
+ * Attempt to compensate for erratic errors in DateTime creation better, and add
+   tests for the compensation.
+ * Add a MessageFormat class. It can prepares strings for display to users,
+   with optional arguments (variables/placeholders). Common data types will
+   be formatted properly for the given locale. It handles both pluralization
+   and gender. Think of it as "internationalization aware printf."
 
 ## 0.16.0
  * Fix 'k' formatting (1 to 24 hours) which incorrectly showed 0 to 23.
