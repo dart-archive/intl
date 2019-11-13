@@ -1,5 +1,8 @@
 analyzer:
-  errors:
+  exclude:
+     - test/number_format_compact_icu_test.dart # TODO(240): Update for FFI changes
+
+errors:
     dead_code: error
     override_on_non_overriding_method: error
     unused_element: error

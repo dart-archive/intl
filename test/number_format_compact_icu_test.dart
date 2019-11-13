@@ -4,6 +4,7 @@
 /// testing the package:intl implementation, they only help verify consistent
 /// behaviour across platforms.
 @TestOn("!browser")
+@Tags(['ffi'])
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:test/test.dart';
@@ -266,8 +267,11 @@ typedef NativeUnumfFormatDoubleOp = Void Function(
 
 /// Dart signature for
 /// [unumf_formatDouble()](http://icu-project.org/apiref/icu4c/unumberformatter_8h.html#af5f79e43adc900f07b3ba90b6315944e)
-typedef UnumfFormatDoubleOp = void Function(Pointer<UNumberFormatter> uformatter,
-    double value, Pointer<UFormattedNumber> uresult, Pointer<Int32> ec);
+typedef UnumfFormatDoubleOp = void Function(
+    Pointer<UNumberFormatter> uformatter,
+    double value,
+    Pointer<UFormattedNumber> uresult,
+    Pointer<Int32> ec);
 
 /// C signature for
 /// [unumf_formatInt()](http://icu-project.org/apiref/icu4c/unumberformatter_8h.html#a459b9313ed05fc98c9cd125eb9c1a625)
