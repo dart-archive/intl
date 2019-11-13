@@ -10,8 +10,9 @@ part of intl;
 /// the appropriate pattern (e.g. currency)
 typedef _PatternGetter = String Function(NumberSymbols);
 
-/// Provides the ability to format a number in a locale-specific way. The
-/// format is specified as a pattern using a subset of the ICU formatting
+/// Provides the ability to format a number in a locale-specific way.
+///
+/// The format is specified as a pattern using a subset of the ICU formatting
 /// patterns.
 ///
 /// - `0` A single digit
@@ -28,23 +29,25 @@ typedef _PatternGetter = String Function(NumberSymbols);
 /// - `;` Used to separate the positive and negative patterns (if both present)
 ///
 /// For example,
+///
 ///       var f = new NumberFormat("###.0#", "en_US");
 ///       print(f.format(12.345));
-///       ==> 12.34
+///           ==> 12.34
+///
 /// If the locale is not specified, it will default to the current locale. If
 /// the format is not specified it will print in a basic format with at least
 /// one integer digit and three fraction digits.
 ///
 /// There are also standard patterns available via the special constructors.
 /// e.g.
-///       var percent = new NumberFormat.percentFormat("ar");
-///       var eurosInUSFormat = new NumberFormat.currency(locale: "en_US",
+///
+///       var percent = new NumberFormat.percentPattern("ar"); var
+///       eurosInUSFormat = new NumberFormat.currency(locale: "en_US",
 ///           symbol: "€");
-/// There are four such constructors: decimalFormat, percentFormat,
-/// scientificFormat and currencyFormat. However, at the moment,
-/// scientificFormat prints only as equivalent to "#E0" and does not take
-/// into account significant digits. The currencyFormat will default to the
-/// three-letter name of the currency if no explicit name/symbol is provided.
+///
+/// There are several such constructors available, though some of them are
+/// limited. For example, at the moment, scientificPattern prints only as
+/// equivalent to "#E0" and does not take into account significant digits.
 class NumberFormat {
   /// Variables to determine how number printing behaves.
   // TODO(alanknight): If these remain as variables and are set based on the
