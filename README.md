@@ -187,8 +187,9 @@ To extract messages, run the `extract_to_arb.dart` program.
           my_program.dart more_of_my_program.dart
 
 This will produce a file `intl_messages.arb` with the messages from
-all of these programs. an [ARB][ARB]
+all of these programs. An [ARB][ARB]
 format file which can be used for input to translation tools like
+[Localizely][Localizely] or
 [Google Translator Toolkit][GoogleTranslateToolkit].
 The resulting translations can be used to generate a set of libraries
 using the `generate_from_arb.dart` program.
@@ -312,3 +313,4 @@ detected from the text.
 [BidiFormatter.LTR]: https://www.dartdocs.org/documentation/intl/latest/intl/BidiFormatter/BidiFormatter.LTR.html
 [ARB]: https://code.google.com/p/arb/wiki/ApplicationResourceBundleSpecification
 [GoogleTranslateToolkit]: https://translate.google.com/toolkit/
+[Localizely]: https://localizely.com/
