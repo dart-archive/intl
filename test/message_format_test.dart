@@ -330,8 +330,8 @@ void main() {
     expect(fmt.format({'SOME_NUM': 17}), '17 many');
     expect(fmt.format({'SOME_NUM': 100}), '100 many');
     expect(fmt.format({'SOME_NUM': 1.4}), '1,4 other');
-    expect(fmt.format({'SOME_NUM': '10.0'}), '10 other');
-    expect(fmt.format({'SOME_NUM': '100.00'}), '100 other');
+    expect(fmt.format({'SOME_NUM': '10.0'}), '10 many');
+    expect(fmt.format({'SOME_NUM': '100.00'}), '100 many');
   });
 
   test('testPluralWithIgnorePound', () {

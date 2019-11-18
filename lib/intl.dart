@@ -364,6 +364,13 @@ class Intl {
     if (howMany == null) {
       throw ArgumentError('The howMany argument to plural cannot be null');
     }
+    // If we haven't specified precision and we have a float that is an integer
+    // value, turn it into an integer. This gives us the behavior that 1.0 and 1
+    // produce the same output, e.g. 1 dollar.
+    var truncated = howMany.truncate();
+    if (precision == null && truncated == howMany) {
+      howMany = truncated;
+    }
 
     // This is for backward compatibility.
     // We interpret the presence of [precision] parameter as an "opt-in" to

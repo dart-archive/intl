@@ -217,6 +217,9 @@ void verify(String expectedValues, String locale, pluralFunction) {
     test(lines[i], () {
       var number = int.parse(lines[i].split(':').first);
       expect(pluralFunction(number, locale), lines[i]);
+      var float = number.toDouble();
+      var lineWithFloat = lines[i].replaceFirst('$number', '$float');
+      expect(pluralFunction(float, locale), lineWithFloat);
     });
   }
 }
