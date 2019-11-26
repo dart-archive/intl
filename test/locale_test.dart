@@ -11,7 +11,7 @@
 /// to be tested.
 
 import 'package:test/test.dart';
-import 'package:intl/src/locale.dart';
+import 'package:intl/locale.dart';
 
 import 'locale_test_data.dart';
 
