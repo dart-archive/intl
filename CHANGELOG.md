@@ -11,6 +11,7 @@
  * Change plural behavior with floating point howMany argument so that doubles
    that are equal to integers print the same as the integer 1. That is, '1
    dollar', rather than '1.0 dollars'.
+ * Add package:intl/locale.dart that exports a standards-compliant Locale class.
 
 ## 0.16.0
  * Fix 'k' formatting (1 to 24 hours) which incorrectly showed 0 to 23.
