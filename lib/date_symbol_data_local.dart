@@ -32,7 +32,7 @@ import "dart:async";
 Future<void> initializeDateFormatting([String locale, String ignored]) {
   initializeDateSymbols(dateTimeSymbolMap);
   initializeDatePatterns(dateTimePatternMap);
-  return new Future.value(null);
+  return Future.value(null);
 }
 
 /// Returns a Map from locale names to the DateSymbols instance for
@@ -40,7 +40,7 @@ Future<void> initializeDateFormatting([String locale, String ignored]) {
 /// instead.
 Map<dynamic, dynamic> dateTimeSymbolMap() => {
       // Date/time formatting symbols for locale en_ISO.
-      "en_ISO": new DateSymbols(
+      "en_ISO": DateSymbols(
           NAME: 'en_ISO',
           ERAS: const ['BC', 'AD'],
           ERANAMES: const ['Before Christ', 'Anno Domini'],
@@ -192,7 +192,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           FIRSTWEEKCUTOFFDAY: 3),
 
       // Date/time formatting symbols for locale af.
-      "af": new DateSymbols(
+      "af": DateSymbols(
           NAME: "af",
           ERAS: const ['v.C.', 'n.C.'],
           ERANAMES: const ['voor Christus', 'na Christus'],
@@ -343,7 +343,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale am.
-      "am": new DateSymbols(
+      "am": DateSymbols(
           NAME: "am",
           ERAS: const ['ዓ/ዓ', 'ዓ/ም'],
           ERANAMES: const ['ዓመተ ዓለም', 'ዓመተ ምሕረት'],
@@ -473,7 +473,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale ar.
-      "ar": new DateSymbols(
+      "ar": DateSymbols(
           NAME: "ar",
           ZERODIGIT: '\u0660',
           ERAS: const ['ق.م', 'م'],
@@ -630,7 +630,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [4, 5],
           FIRSTWEEKCUTOFFDAY: 4),
       // Date/time formatting symbols for locale ar_DZ.
-      "ar_DZ": new DateSymbols(
+      "ar_DZ": DateSymbols(
           NAME: "ar_DZ",
           ERAS: const ['ق.م', 'م'],
           ERANAMES: const ['قبل الميلاد', 'ميلادي'],
@@ -787,7 +787,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           FIRSTWEEKCUTOFFDAY: 4),
       // Date/time formatting symbols for locale ar_EG.
       // Date/time formatting symbols for locale ar_EG.
-      "ar_EG": new DateSymbols(
+      "ar_EG": DateSymbols(
           NAME: "ar_EG",
           ZERODIGIT: '\u0660',
           ERAS: const ['ق.م', 'م'],
@@ -944,7 +944,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [4, 5],
           FIRSTWEEKCUTOFFDAY: 4),
       // Date/time formatting symbols for locale az.
-      "az": new DateSymbols(
+      "az": DateSymbols(
           NAME: "az",
           ERAS: const ['e.ə.', 'y.e.'],
           ERANAMES: const ['eramızdan əvvəl', 'yeni era'],
@@ -1087,7 +1087,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 6),
       // Date/time formatting symbols for locale be.
-      "be": new DateSymbols(
+      "be": DateSymbols(
           NAME: "be",
           ERAS: const ['да н.э.', 'н.э.'],
           ERANAMES: const ['да нараджэння Хрыстова', 'ад нараджэння Хрыстова'],
@@ -1235,7 +1235,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 6),
       // Date/time formatting symbols for locale bg.
-      "bg": new DateSymbols(
+      "bg": DateSymbols(
           NAME: "bg",
           ERAS: const ['пр.Хр.', 'сл.Хр.'],
           ERANAMES: const ['преди Христа', 'след Христа'],
@@ -1383,7 +1383,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale bn.
-      "bn": new DateSymbols(
+      "bn": DateSymbols(
           NAME: "bn",
           ZERODIGIT: '\u09E6',
           ERAS: const ['খ্রিস্টপূর্ব', 'খৃষ্টাব্দ'],
@@ -1548,7 +1548,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale br.
-      "br": new DateSymbols(
+      "br": DateSymbols(
           NAME: "br",
           ERAS: const ['a-raok J.K.', 'goude J.K.'],
           ERANAMES: const ['a-raok Jezuz-Krist', 'goude Jezuz-Krist'],
@@ -1717,7 +1717,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 6),
       // Date/time formatting symbols for locale bs.
-      "bs": new DateSymbols(
+      "bs": DateSymbols(
           NAME: "bs",
           ERAS: const ['p. n. e.', 'n. e.'],
           ERANAMES: const ['prije nove ere', 'nove ere'],
@@ -1873,7 +1873,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 6),
       // Date/time formatting symbols for locale ca.
-      "ca": new DateSymbols(
+      "ca": DateSymbols(
           NAME: "ca",
           ERAS: const ['aC', 'dC'],
           ERANAMES: const ['abans de Crist', 'després de Crist'],
@@ -2032,7 +2032,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale chr.
-      "chr": new DateSymbols(
+      "chr": DateSymbols(
           NAME: "chr",
           ERAS: const ['BC', 'AD'],
           ERANAMES: const ['ᏧᏓᎷᎸ ᎤᎷᎯᏍᏗ ᎦᎶᏁᏛ', 'ᎠᏃ ᏙᎻᏂ'],
@@ -2183,7 +2183,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 6),
       // Date/time formatting symbols for locale cs.
-      "cs": new DateSymbols(
+      "cs": DateSymbols(
           NAME: "cs",
           ERAS: const ['př. n. l.', 'n. l.'],
           ERANAMES: const ['před naším letopočtem', 'našeho letopočtu'],
@@ -2321,7 +2321,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale cy.
-      "cy": new DateSymbols(
+      "cy": DateSymbols(
           NAME: "cy",
           ERAS: const ['CC', 'OC'],
           ERANAMES: const ['Cyn Crist', 'Oed Crist'],
@@ -2477,7 +2477,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale da.
-      "da": new DateSymbols(
+      "da": DateSymbols(
           NAME: "da",
           ERAS: const ['f.Kr.', 'e.Kr.'],
           ERANAMES: const ['f.Kr.', 'e.Kr.'],
@@ -2633,7 +2633,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale de.
-      "de": new DateSymbols(
+      "de": DateSymbols(
           NAME: "de",
           ERAS: const ['v. Chr.', 'n. Chr.'],
           ERANAMES: const ['v. Chr.', 'n. Chr.'],
@@ -2789,7 +2789,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale de_AT.
-      "de_AT": new DateSymbols(
+      "de_AT": DateSymbols(
           NAME: "de_AT",
           ERAS: const ['v. Chr.', 'n. Chr.'],
           ERANAMES: const ['v. Chr.', 'n. Chr.'],
@@ -2946,7 +2946,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale de_CH.
       // Date/time formatting symbols for locale de_CH.
-      "de_CH": new DateSymbols(
+      "de_CH": DateSymbols(
           NAME: "de_CH",
           ERAS: const ['v. Chr.', 'n. Chr.'],
           ERANAMES: const ['v. Chr.', 'n. Chr.'],
@@ -3102,7 +3102,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale el.
-      "el": new DateSymbols(
+      "el": DateSymbols(
           NAME: "el",
           ERAS: const ['π.Χ.', 'μ.Χ.'],
           ERANAMES: const ['προ Χριστού', 'μετά Χριστόν'],
@@ -3258,7 +3258,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale en.
-      "en": new DateSymbols(
+      "en": DateSymbols(
           NAME: "en",
           ERAS: const ['BC', 'AD'],
           ERANAMES: const ['Before Christ', 'Anno Domini'],
@@ -3414,7 +3414,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale en_AU.
-      "en_AU": new DateSymbols(
+      "en_AU": DateSymbols(
           NAME: "en_AU",
           ERAS: const ['BC', 'AD'],
           ERANAMES: const ['Before Christ', 'Anno Domini'],
@@ -3578,7 +3578,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale en_CA.
-      "en_CA": new DateSymbols(
+      "en_CA": DateSymbols(
           NAME: "en_CA",
           ERAS: const ['BC', 'AD'],
           ERANAMES: const ['Before Christ', 'Anno Domini'],
@@ -3734,7 +3734,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale en_GB.
-      "en_GB": new DateSymbols(
+      "en_GB": DateSymbols(
           NAME: "en_GB",
           ERAS: const ['BC', 'AD'],
           ERANAMES: const ['Before Christ', 'Anno Domini'],
@@ -3890,7 +3890,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale en_IE.
-      "en_IE": new DateSymbols(
+      "en_IE": DateSymbols(
           NAME: "en_IE",
           ERAS: const ['BC', 'AD'],
           ERANAMES: const ['Before Christ', 'Anno Domini'],
@@ -4046,7 +4046,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale en_IN.
-      "en_IN": new DateSymbols(
+      "en_IN": DateSymbols(
           NAME: "en_IN",
           ERAS: const ['BC', 'AD'],
           ERANAMES: const ['Before Christ', 'Anno Domini'],
@@ -4202,7 +4202,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [6, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale en_MY.
-      "en_MY": new DateSymbols(
+      "en_MY": DateSymbols(
           NAME: "en_MY",
           ERAS: const ['BC', 'AD'],
           ERANAMES: const ['Before Christ', 'Anno Domini'],
@@ -4358,7 +4358,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 6),
       // Date/time formatting symbols for locale en_SG.
-      "en_SG": new DateSymbols(
+      "en_SG": DateSymbols(
           NAME: "en_SG",
           ERAS: const ['BC', 'AD'],
           ERANAMES: const ['Before Christ', 'Anno Domini'],
@@ -4515,7 +4515,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale en_US.
       // Date/time formatting symbols for locale en_US.
-      "en_US": new DateSymbols(
+      "en_US": DateSymbols(
           NAME: "en_US",
           ERAS: const ['BC', 'AD'],
           ERANAMES: const ['Before Christ', 'Anno Domini'],
@@ -4671,7 +4671,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale en_ZA.
-      "en_ZA": new DateSymbols(
+      "en_ZA": DateSymbols(
           NAME: "en_ZA",
           ERAS: const ['BC', 'AD'],
           ERANAMES: const ['Before Christ', 'Anno Domini'],
@@ -4827,7 +4827,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale es.
-      "es": new DateSymbols(
+      "es": DateSymbols(
           NAME: "es",
           ERAS: const ['a. C.', 'd. C.'],
           ERANAMES: const ['antes de Cristo', 'después de Cristo'],
@@ -4973,7 +4973,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale es_419.
-      "es_419": new DateSymbols(
+      "es_419": DateSymbols(
           NAME: "es_419",
           ERAS: const ['a. C.', 'd. C.'],
           ERANAMES: const ['antes de Cristo', 'después de Cristo'],
@@ -5125,7 +5125,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale es_ES.
       // Date/time formatting symbols for locale es_ES.
-      "es_ES": new DateSymbols(
+      "es_ES": DateSymbols(
           NAME: "es_ES",
           ERAS: const ['a. C.', 'd. C.'],
           ERANAMES: const ['antes de Cristo', 'después de Cristo'],
@@ -5271,7 +5271,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale es_MX.
-      "es_MX": new DateSymbols(
+      "es_MX": DateSymbols(
           NAME: "es_MX",
           ERAS: const ['a. C.', 'd. C.'],
           ERANAMES: const ['antes de Cristo', 'después de Cristo'],
@@ -5422,7 +5422,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale es_US.
-      "es_US": new DateSymbols(
+      "es_US": DateSymbols(
           NAME: "es_US",
           ERAS: const ['a. C.', 'd. C.'],
           ERANAMES: const ['antes de Cristo', 'después de Cristo'],
@@ -5573,7 +5573,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale et.
-      "et": new DateSymbols(
+      "et": DateSymbols(
           NAME: "et",
           ERAS: const ['eKr', 'pKr'],
           ERANAMES: const ['enne Kristust', 'pärast Kristust'],
@@ -5708,7 +5708,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale eu.
-      "eu": new DateSymbols(
+      "eu": DateSymbols(
           NAME: "eu",
           ERAS: const ['K.a.', 'K.o.'],
           ERANAMES: const ['K.a.', 'Kristo ondoren'],
@@ -5859,7 +5859,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale fa.
-      "fa": new DateSymbols(
+      "fa": DateSymbols(
           NAME: "fa",
           ZERODIGIT: '\u06F0',
           ERAS: const ['ق.م.', 'م.'],
@@ -6011,7 +6011,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [4, 4],
           FIRSTWEEKCUTOFFDAY: 4),
       // Date/time formatting symbols for locale fi.
-      "fi": new DateSymbols(
+      "fi": DateSymbols(
           NAME: "fi",
           ERAS: const ['eKr.', 'jKr.'],
           ERANAMES: const [
@@ -6152,7 +6152,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale fil.
-      "fil": new DateSymbols(
+      "fil": DateSymbols(
           NAME: "fil",
           ERAS: const ['BC', 'AD'],
           ERANAMES: const ['Before Christ', 'Anno Domini'],
@@ -6324,7 +6324,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale fr.
-      "fr": new DateSymbols(
+      "fr": DateSymbols(
           NAME: "fr",
           ERAS: const ['av. J.-C.', 'ap. J.-C.'],
           ERANAMES: const ['avant Jésus-Christ', 'après Jésus-Christ'],
@@ -6480,7 +6480,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale fr_CA.
-      "fr_CA": new DateSymbols(
+      "fr_CA": DateSymbols(
           NAME: "fr_CA",
           ERAS: const ['av. J.-C.', 'ap. J.-C.'],
           ERANAMES: const ['avant Jésus-Christ', 'après Jésus-Christ'],
@@ -6636,7 +6636,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale fr_CH.
-      "fr_CH": new DateSymbols(
+      "fr_CH": DateSymbols(
           NAME: "fr_CH",
           ERAS: const ['av. J.-C.', 'ap. J.-C.'],
           ERANAMES: const ['avant Jésus-Christ', 'après Jésus-Christ'],
@@ -6792,7 +6792,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale ga.
-      "ga": new DateSymbols(
+      "ga": DateSymbols(
           NAME: "ga",
           ERAS: const ['RC', 'AD'],
           ERANAMES: const ['Roimh Chríost', 'Anno Domini'],
@@ -6938,7 +6938,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale gl.
-      "gl": new DateSymbols(
+      "gl": DateSymbols(
           NAME: "gl",
           ERAS: const ['a.C.', 'd.C.'],
           ERANAMES: const ['antes de Cristo', 'despois de Cristo'],
@@ -7094,7 +7094,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale gsw.
-      "gsw": new DateSymbols(
+      "gsw": DateSymbols(
           NAME: "gsw",
           ERAS: const ['v. Chr.', 'n. Chr.'],
           ERANAMES: const ['v. Chr.', 'n. Chr.'],
@@ -7245,7 +7245,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale gu.
-      "gu": new DateSymbols(
+      "gu": DateSymbols(
           NAME: "gu",
           ERAS: const ['ઈ.સ.પૂર્વે', 'ઈ.સ.'],
           ERANAMES: const ['ઈસવીસન પૂર્વે', 'ઇસવીસન'],
@@ -7409,7 +7409,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [6, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale haw.
-      "haw": new DateSymbols(
+      "haw": DateSymbols(
           NAME: "haw",
           ERAS: const ['BCE', 'CE'],
           ERANAMES: const ['BCE', 'CE'],
@@ -7547,7 +7547,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale he.
-      "he": new DateSymbols(
+      "he": DateSymbols(
           NAME: "he",
           ERAS: const ['לפנה״ס', 'לספירה'],
           ERANAMES: const ['לפני הספירה', 'לספירה'],
@@ -7701,7 +7701,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [4, 5],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale hi.
-      "hi": new DateSymbols(
+      "hi": DateSymbols(
           NAME: "hi",
           ERAS: const ['ईसा-पूर्व', 'ईस्वी'],
           ERANAMES: const ['ईसा-पूर्व', 'ईसवी सन'],
@@ -7865,7 +7865,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [6, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale hr.
-      "hr": new DateSymbols(
+      "hr": DateSymbols(
           NAME: "hr",
           ERAS: const ['pr. Kr.', 'po. Kr.'],
           ERANAMES: const ['prije Krista', 'poslije Krista'],
@@ -8021,7 +8021,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 6),
       // Date/time formatting symbols for locale hu.
-      "hu": new DateSymbols(
+      "hu": DateSymbols(
           NAME: "hu",
           ERAS: const ['i. e.', 'i. sz.'],
           ERANAMES: const ['Krisztus előtt', 'időszámításunk szerint'],
@@ -8167,7 +8167,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale hy.
-      "hy": new DateSymbols(
+      "hy": DateSymbols(
           NAME: "hy",
           ERAS: const ['մ.թ.ա.', 'մ.թ.'],
           ERANAMES: const ['Քրիստոսից առաջ', 'Քրիստոսից հետո'],
@@ -8328,7 +8328,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 6),
       // Date/time formatting symbols for locale id.
-      "id": new DateSymbols(
+      "id": DateSymbols(
           NAME: "id",
           ERAS: const ['SM', 'M'],
           ERANAMES: const ['Sebelum Masehi', 'Masehi'],
@@ -8479,7 +8479,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale in.
-      "in": new DateSymbols(
+      "in": DateSymbols(
           NAME: "in",
           ERAS: const ['SM', 'M'],
           ERANAMES: const ['Sebelum Masehi', 'Masehi'],
@@ -8630,7 +8630,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale is.
-      "is": new DateSymbols(
+      "is": DateSymbols(
           NAME: "is",
           ERAS: const ['f.Kr.', 'e.Kr.'],
           ERANAMES: const ['fyrir Krist', 'eftir Krist'],
@@ -8786,7 +8786,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale it.
-      "it": new DateSymbols(
+      "it": DateSymbols(
           NAME: "it",
           ERAS: const ['a.C.', 'd.C.'],
           ERANAMES: const ['avanti Cristo', 'dopo Cristo'],
@@ -8937,7 +8937,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale it_CH.
-      "it_CH": new DateSymbols(
+      "it_CH": DateSymbols(
           NAME: "it_CH",
           ERAS: const ['a.C.', 'd.C.'],
           ERANAMES: const ['avanti Cristo', 'dopo Cristo'],
@@ -9088,7 +9088,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale iw.
-      "iw": new DateSymbols(
+      "iw": DateSymbols(
           NAME: "iw",
           ERAS: const ['לפנה״ס', 'לספירה'],
           ERANAMES: const ['לפני הספירה', 'לספירה'],
@@ -9242,7 +9242,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [4, 5],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale ja.
-      "ja": new DateSymbols(
+      "ja": DateSymbols(
           NAME: "ja",
           ERAS: const ['紀元前', '西暦'],
           ERANAMES: const ['紀元前', '西暦'],
@@ -9354,7 +9354,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale ka.
-      "ka": new DateSymbols(
+      "ka": DateSymbols(
           NAME: "ka",
           ERAS: const ['ძვ. წ.', 'ახ. წ.'],
           ERANAMES: const ['ძველი წელთაღრიცხვით', 'ახალი წელთაღრიცხვით'],
@@ -9510,7 +9510,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 6),
       // Date/time formatting symbols for locale kk.
-      "kk": new DateSymbols(
+      "kk": DateSymbols(
           NAME: "kk",
           ERAS: const ['б.з.д.', 'б.з.'],
           ERANAMES: const ['Біздің заманымызға дейін', 'біздің заманымыз'],
@@ -9653,7 +9653,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 6),
       // Date/time formatting symbols for locale km.
-      "km": new DateSymbols(
+      "km": DateSymbols(
           NAME: "km",
           ERAS: const ['មុន គ.ស.', 'គ.ស.'],
           ERANAMES: const ['មុន​គ្រិស្តសករាជ', 'គ្រិស្តសករាជ'],
@@ -9809,7 +9809,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale kn.
-      "kn": new DateSymbols(
+      "kn": DateSymbols(
           NAME: "kn",
           ERAS: const ['ಕ್ರಿ.ಪೂ', 'ಕ್ರಿ.ಶ'],
           ERANAMES: const ['ಕ್ರಿಸ್ತ ಪೂರ್ವ', 'ಕ್ರಿಸ್ತ ಶಕ'],
@@ -9968,7 +9968,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [6, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale ko.
-      "ko": new DateSymbols(
+      "ko": DateSymbols(
           NAME: "ko",
           ERAS: const ['BC', 'AD'],
           ERANAMES: const ['기원전', '서기'],
@@ -10090,7 +10090,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale ky.
-      "ky": new DateSymbols(
+      "ky": DateSymbols(
           NAME: "ky",
           ERAS: const ['б.з.ч.', 'б.з.'],
           ERANAMES: const ['биздин заманга чейин', 'биздин заман'],
@@ -10236,7 +10236,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 6),
       // Date/time formatting symbols for locale ln.
-      "ln": new DateSymbols(
+      "ln": DateSymbols(
           NAME: "ln",
           ERAS: const ['libóso ya', 'nsima ya Y'],
           ERANAMES: const ['Yambo ya Yézu Krís', 'Nsima ya Yézu Krís'],
@@ -10382,7 +10382,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 6),
       // Date/time formatting symbols for locale lo.
-      "lo": new DateSymbols(
+      "lo": DateSymbols(
           NAME: "lo",
           ERAS: const ['ກ່ອນ ຄ.ສ.', 'ຄ.ສ.'],
           ERANAMES: const ['ກ່ອນຄຣິດສັກກະລາດ', 'ຄຣິດສັກກະລາດ'],
@@ -10541,7 +10541,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale lt.
-      "lt": new DateSymbols(
+      "lt": DateSymbols(
           NAME: "lt",
           ERAS: const ['pr. Kr.', 'po Kr.'],
           ERANAMES: const ['prieš Kristų', 'po Kristaus'],
@@ -10684,7 +10684,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale lv.
-      "lv": new DateSymbols(
+      "lv": DateSymbols(
           NAME: "lv",
           ERAS: const ['p.m.ē.', 'm.ē.'],
           ERANAMES: const ['pirms mūsu ēras', 'mūsu ērā'],
@@ -10835,7 +10835,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 6),
       // Date/time formatting symbols for locale mk.
-      "mk": new DateSymbols(
+      "mk": DateSymbols(
           NAME: "mk",
           ERAS: const ['пр.н.е.', 'н.е.'],
           ERANAMES: const ['пред нашата ера', 'од нашата ера'],
@@ -10986,7 +10986,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 6),
       // Date/time formatting symbols for locale ml.
-      "ml": new DateSymbols(
+      "ml": DateSymbols(
           NAME: "ml",
           ERAS: const ['ക്രി.മു.', 'എഡി'],
           ERANAMES: const ['ക്രിസ്‌തുവിന് മുമ്പ്', 'ആന്നോ ഡൊമിനി'],
@@ -11150,7 +11150,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [6, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale mn.
-      "mn": new DateSymbols(
+      "mn": DateSymbols(
           NAME: "mn",
           ERAS: const ['МЭӨ', 'МЭ'],
           ERANAMES: const ['манай эриний өмнөх', 'манай эриний'],
@@ -11306,7 +11306,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale mr.
-      "mr": new DateSymbols(
+      "mr": DateSymbols(
           NAME: "mr",
           ZERODIGIT: '\u0966',
           ERAS: const ['इ. स. पू.', 'इ. स.'],
@@ -11471,7 +11471,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [6, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale ms.
-      "ms": new DateSymbols(
+      "ms": DateSymbols(
           NAME: "ms",
           ERAS: const ['S.M.', 'TM'],
           ERANAMES: const ['S.M.', 'TM'],
@@ -11622,7 +11622,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 6),
       // Date/time formatting symbols for locale mt.
-      "mt": new DateSymbols(
+      "mt": DateSymbols(
           NAME: "mt",
           ERAS: const ['QK', 'WK'],
           ERANAMES: const ['Qabel Kristu', 'Wara Kristu'],
@@ -11776,7 +11776,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale my.
-      "my": new DateSymbols(
+      "my": DateSymbols(
           NAME: "my",
           ZERODIGIT: '\u1040',
           ERAS: const ['ဘီစီ', 'အဒေီ'],
@@ -11933,7 +11933,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale nb.
-      "nb": new DateSymbols(
+      "nb": DateSymbols(
           NAME: "nb",
           ERAS: const ['f.Kr.', 'e.Kr.'],
           ERANAMES: const ['før Kristus', 'etter Kristus'],
@@ -12089,7 +12089,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale ne.
-      "ne": new DateSymbols(
+      "ne": DateSymbols(
           NAME: "ne",
           ZERODIGIT: '\u0966',
           ERAS: const ['ईसा पूर्व', 'सन्'],
@@ -12254,7 +12254,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale nl.
-      "nl": new DateSymbols(
+      "nl": DateSymbols(
           NAME: "nl",
           ERAS: const ['v.Chr.', 'n.Chr.'],
           ERANAMES: const ['voor Christus', 'na Christus'],
@@ -12402,7 +12402,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale no.
-      "no": new DateSymbols(
+      "no": DateSymbols(
           NAME: "no",
           ERAS: const ['f.Kr.', 'e.Kr.'],
           ERANAMES: const ['før Kristus', 'etter Kristus'],
@@ -12559,7 +12559,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale no_NO.
       // Date/time formatting symbols for locale no_NO.
-      "no_NO": new DateSymbols(
+      "no_NO": DateSymbols(
           NAME: "no_NO",
           ERAS: const ['f.Kr.', 'e.Kr.'],
           ERANAMES: const ['før Kristus', 'etter Kristus'],
@@ -12715,7 +12715,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale or.
-      "or": new DateSymbols(
+      "or": DateSymbols(
           NAME: "or",
           ERAS: const ['BC', 'AD'],
           ERANAMES: const ['ଖ୍ରୀଷ୍ଟପୂର୍ବ', 'ଖ୍ରୀଷ୍ଟାବ୍ଦ'],
@@ -12884,7 +12884,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [6, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale pa.
-      "pa": new DateSymbols(
+      "pa": DateSymbols(
           NAME: "pa",
           ERAS: const ['ਈ. ਪੂ.', 'ਸੰਨ'],
           ERANAMES: const ['ਈਸਵੀ ਪੂਰਵ', 'ਈਸਵੀ ਸੰਨ'],
@@ -13043,7 +13043,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [6, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale pl.
-      "pl": new DateSymbols(
+      "pl": DateSymbols(
           NAME: "pl",
           ERAS: const ['p.n.e.', 'n.e.'],
           ERANAMES: const ['przed naszą erą', 'naszej ery'],
@@ -13194,7 +13194,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale ps.
-      "ps": new DateSymbols(
+      "ps": DateSymbols(
           NAME: "ps",
           ZERODIGIT: '\u06F0',
           ERAS: const ['له میلاد وړاندې', 'م.'],
@@ -13346,7 +13346,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [3, 4],
           FIRSTWEEKCUTOFFDAY: 4),
       // Date/time formatting symbols for locale pt.
-      "pt": new DateSymbols(
+      "pt": DateSymbols(
           NAME: "pt",
           ERAS: const ['a.C.', 'd.C.'],
           ERANAMES: const ['antes de Cristo', 'depois de Cristo'],
@@ -13498,7 +13498,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale pt_BR.
       // Date/time formatting symbols for locale pt_BR.
-      "pt_BR": new DateSymbols(
+      "pt_BR": DateSymbols(
           NAME: "pt_BR",
           ERAS: const ['a.C.', 'd.C.'],
           ERANAMES: const ['antes de Cristo', 'depois de Cristo'],
@@ -13649,7 +13649,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale pt_PT.
-      "pt_PT": new DateSymbols(
+      "pt_PT": DateSymbols(
           NAME: "pt_PT",
           ERAS: const ['a.C.', 'd.C.'],
           ERANAMES: const ['antes de Cristo', 'depois de Cristo'],
@@ -13805,7 +13805,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 2),
       // Date/time formatting symbols for locale ro.
-      "ro": new DateSymbols(
+      "ro": DateSymbols(
           NAME: "ro",
           ERAS: const ['î.Hr.', 'd.Hr.'],
           ERANAMES: const ['înainte de Hristos', 'după Hristos'],
@@ -13961,7 +13961,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 6),
       // Date/time formatting symbols for locale ru.
-      "ru": new DateSymbols(
+      "ru": DateSymbols(
           NAME: "ru",
           ERAS: const ['до н. э.', 'н. э.'],
           ERANAMES: const ['до Рождества Христова', 'от Рождества Христова'],
@@ -14109,7 +14109,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale si.
-      "si": new DateSymbols(
+      "si": DateSymbols(
           NAME: "si",
           ERAS: const ['ක්‍රි.පූ.', 'ක්‍රි.ව.'],
           ERANAMES: const ['ක්‍රිස්තු පූර්ව', 'ක්‍රිස්තු වර්ෂ'],
@@ -14268,7 +14268,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 6),
       // Date/time formatting symbols for locale sk.
-      "sk": new DateSymbols(
+      "sk": DateSymbols(
           NAME: "sk",
           ERAS: const ['pred Kr.', 'po Kr.'],
           ERANAMES: const ['pred Kristom', 'po Kristovi'],
@@ -14411,7 +14411,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale sl.
-      "sl": new DateSymbols(
+      "sl": DateSymbols(
           NAME: "sl",
           ERAS: const ['pr. Kr.', 'po Kr.'],
           ERANAMES: const ['pred Kristusom', 'po Kristusu'],
@@ -14562,7 +14562,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 6),
       // Date/time formatting symbols for locale sq.
-      "sq": new DateSymbols(
+      "sq": DateSymbols(
           NAME: "sq",
           ERAS: const ['p.K.', 'mb.K.'],
           ERANAMES: const ['para Krishtit', 'mbas Krishtit'],
@@ -14723,7 +14723,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 6),
       // Date/time formatting symbols for locale sr.
-      "sr": new DateSymbols(
+      "sr": DateSymbols(
           NAME: "sr",
           ERAS: const ['п. н. е.', 'н. е.'],
           ERANAMES: const ['пре нове ере', 'нове ере'],
@@ -14874,7 +14874,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 6),
       // Date/time formatting symbols for locale sr_Latn.
-      "sr_Latn": new DateSymbols(
+      "sr_Latn": DateSymbols(
           NAME: "sr_Latn",
           ERAS: const ['p. n. e.', 'n. e.'],
           ERANAMES: const ['pre nove ere', 'nove ere'],
@@ -15025,7 +15025,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 6),
       // Date/time formatting symbols for locale sv.
-      "sv": new DateSymbols(
+      "sv": DateSymbols(
           NAME: "sv",
           ERAS: const ['f.Kr.', 'e.Kr.'],
           ERANAMES: const ['före Kristus', 'efter Kristus'],
@@ -15176,7 +15176,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale sw.
-      "sw": new DateSymbols(
+      "sw": DateSymbols(
           NAME: "sw",
           ERAS: const ['KK', 'BK'],
           ERANAMES: const ['Kabla ya Kristo', 'Baada ya Kristo'],
@@ -15327,7 +15327,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 6),
       // Date/time formatting symbols for locale ta.
-      "ta": new DateSymbols(
+      "ta": DateSymbols(
           NAME: "ta",
           ERAS: const ['கி.மு.', 'கி.பி.'],
           ERANAMES: const ['கிறிஸ்துவுக்கு முன்', 'அன்னோ டோமினி'],
@@ -15491,7 +15491,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [6, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale te.
-      "te": new DateSymbols(
+      "te": DateSymbols(
           NAME: "te",
           ERAS: const ['క్రీపూ', 'క్రీశ'],
           ERANAMES: const ['క్రీస్తు పూర్వం', 'క్రీస్తు శకం'],
@@ -15655,7 +15655,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [6, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale th.
-      "th": new DateSymbols(
+      "th": DateSymbols(
           NAME: "th",
           ERAS: const ['ก่อน ค.ศ.', 'ค.ศ.'],
           ERANAMES: const ['ปีก่อนคริสตกาล', 'คริสต์ศักราช'],
@@ -15793,7 +15793,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale tl.
-      "tl": new DateSymbols(
+      "tl": DateSymbols(
           NAME: "tl",
           ERAS: const ['BC', 'AD'],
           ERANAMES: const ['Before Christ', 'Anno Domini'],
@@ -15965,7 +15965,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale tr.
-      "tr": new DateSymbols(
+      "tr": DateSymbols(
           NAME: "tr",
           ERAS: const ['MÖ', 'MS'],
           ERANAMES: const ['Milattan Önce', 'Milattan Sonra'],
@@ -16106,7 +16106,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 6),
       // Date/time formatting symbols for locale uk.
-      "uk": new DateSymbols(
+      "uk": DateSymbols(
           NAME: "uk",
           ERAS: const ['до н. е.', 'н. е.'],
           ERANAMES: const ['до нашої ери', 'нашої ери'],
@@ -16254,7 +16254,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 6),
       // Date/time formatting symbols for locale ur.
-      "ur": new DateSymbols(
+      "ur": DateSymbols(
           NAME: "ur",
           ERAS: const ['قبل مسیح', 'عیسوی'],
           ERANAMES: const ['قبل مسیح', 'عیسوی'],
@@ -16410,7 +16410,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale uz.
-      "uz": new DateSymbols(
+      "uz": DateSymbols(
           NAME: "uz",
           ERAS: const ['m.a.', 'milodiy'],
           ERANAMES: const ['miloddan avvalgi', 'milodiy'],
@@ -16561,7 +16561,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 6),
       // Date/time formatting symbols for locale vi.
-      "vi": new DateSymbols(
+      "vi": DateSymbols(
           NAME: "vi",
           ERAS: const ['Trước CN', 'sau CN'],
           ERANAMES: const ['Trước CN', 'sau CN'],
@@ -16715,7 +16715,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 6),
       // Date/time formatting symbols for locale zh.
-      "zh": new DateSymbols(
+      "zh": DateSymbols(
           NAME: "zh",
           ERAS: const ['公元前', '公元'],
           ERANAMES: const ['公元前', '公元'],
@@ -16841,7 +16841,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale zh_CN.
       // Date/time formatting symbols for locale zh_CN.
-      "zh_CN": new DateSymbols(
+      "zh_CN": DateSymbols(
           NAME: "zh_CN",
           ERAS: const ['公元前', '公元'],
           ERANAMES: const ['公元前', '公元'],
@@ -16966,7 +16966,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale zh_HK.
-      "zh_HK": new DateSymbols(
+      "zh_HK": DateSymbols(
           NAME: "zh_HK",
           ERAS: const ['公元前', '公元'],
           ERANAMES: const ['公元前', '公元'],
@@ -17091,7 +17091,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale zh_TW.
-      "zh_TW": new DateSymbols(
+      "zh_TW": DateSymbols(
           NAME: "zh_TW",
           ERAS: const ['西元前', '西元'],
           ERANAMES: const ['西元前', '西元'],
@@ -17216,7 +17216,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 5),
       // Date/time formatting symbols for locale zu.
-      "zu": new DateSymbols(
+      "zu": DateSymbols(
           NAME: "zu",
           ERAS: const ['BC', 'AD'],
           ERANAMES: const ['BC', 'AD'],

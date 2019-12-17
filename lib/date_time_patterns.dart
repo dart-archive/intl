@@ -18,7 +18,7 @@ library date_time_patterns;
 /// Internal use only. Call initializeDateFormatting instead.
 Map<dynamic, dynamic> dateTimePatternMap() => const {
       /// Extended set of localized date/time patterns for locale af.
-      'af': const {
+      'af': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -66,7 +66,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale am.
-      'am': const {
+      'am': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -114,7 +114,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale ar.
-      'ar': const {
+      'ar': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -162,7 +162,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale ar_DZ.
-      'ar_DZ': const {
+      'ar_DZ': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -210,7 +210,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale ar_EG.
-      'ar_EG': const {
+      'ar_EG': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -258,7 +258,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale az.
-      'az': const {
+      'az': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -306,7 +306,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale be.
-      'be': const {
+      'be': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -354,7 +354,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale bg.
-      'bg': const {
+      'bg': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -402,7 +402,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale bn.
-      'bn': const {
+      'bn': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -450,7 +450,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale br.
-      'br': const {
+      'br': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -498,7 +498,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale bs.
-      'bs': const {
+      'bs': {
         'd': 'd.', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -546,7 +546,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale ca.
-      'ca': const {
+      'ca': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -594,7 +594,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale chr.
-      'chr': const {
+      'chr': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -642,7 +642,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale cs.
-      'cs': const {
+      'cs': {
         'd': 'd.', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -690,7 +690,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale cy.
-      'cy': const {
+      'cy': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -738,7 +738,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale da.
-      'da': const {
+      'da': {
         'd': 'd.', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -786,7 +786,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale de.
-      'de': const {
+      'de': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -834,7 +834,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale de_AT.
-      'de_AT': const {
+      'de_AT': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -882,7 +882,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale de_CH.
-      'de_CH': const {
+      'de_CH': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -930,7 +930,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale el.
-      'el': const {
+      'el': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -978,7 +978,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale en.
-      'en': const {
+      'en': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -1026,7 +1026,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale en_AU.
-      'en_AU': const {
+      'en_AU': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -1074,7 +1074,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale en_CA.
-      'en_CA': const {
+      'en_CA': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -1122,7 +1122,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale en_GB.
-      'en_GB': const {
+      'en_GB': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -1170,7 +1170,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale en_IE.
-      'en_IE': const {
+      'en_IE': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -1218,7 +1218,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale en_IN.
-      'en_IN': const {
+      'en_IN': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -1266,7 +1266,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale en_SG.
-      'en_SG': const {
+      'en_SG': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -1314,7 +1314,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale en_US.
-      'en_US': const {
+      'en_US': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -1362,7 +1362,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale en_ZA.
-      'en_ZA': const {
+      'en_ZA': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -1410,7 +1410,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale es.
-      'es': const {
+      'es': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -1458,7 +1458,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale es_419.
-      'es_419': const {
+      'es_419': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -1506,7 +1506,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale es_ES.
-      'es_ES': const {
+      'es_ES': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -1554,7 +1554,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale es_MX.
-      'es_MX': const {
+      'es_MX': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -1602,7 +1602,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale es_US.
-      'es_US': const {
+      'es_US': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -1650,7 +1650,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale et.
-      'et': const {
+      'et': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -1698,7 +1698,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale eu.
-      'eu': const {
+      'eu': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -1747,7 +1747,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale fa.
-      'fa': const {
+      'fa': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -1795,7 +1795,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale fi.
-      'fi': const {
+      'fi': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -1843,7 +1843,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale fil.
-      'fil': const {
+      'fil': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -1891,7 +1891,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale fr.
-      'fr': const {
+      'fr': {
         'd': 'd', // DAY
         'E': 'EEE', // ABBR_WEEKDAY
         'EEEE': 'EEEE', // WEEKDAY
@@ -1939,7 +1939,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale fr_CA.
-      'fr_CA': const {
+      'fr_CA': {
         'd': 'd', // DAY
         'E': 'EEE', // ABBR_WEEKDAY
         'EEEE': 'EEEE', // WEEKDAY
@@ -1987,7 +1987,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale ga.
-      'ga': const {
+      'ga': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -2035,7 +2035,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale gl.
-      'gl': const {
+      'gl': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -2083,7 +2083,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale gsw.
-      'gsw': const {
+      'gsw': {
         'd': 'd', // DAY
         'E': 'EEE', // ABBR_WEEKDAY
         'EEEE': 'EEEE', // WEEKDAY
@@ -2131,7 +2131,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale gu.
-      'gu': const {
+      'gu': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -2179,7 +2179,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale haw.
-      'haw': const {
+      'haw': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -2227,7 +2227,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale he.
-      'he': const {
+      'he': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -2275,7 +2275,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale hi.
-      'hi': const {
+      'hi': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -2323,7 +2323,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale hr.
-      'hr': const {
+      'hr': {
         'd': 'd.', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -2371,7 +2371,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale hu.
-      'hu': const {
+      'hu': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -2419,7 +2419,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale hy.
-      'hy': const {
+      'hy': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -2467,7 +2467,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale id.
-      'id': const {
+      'id': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -2515,7 +2515,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale in.
-      'in': const {
+      'in': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -2563,7 +2563,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale is.
-      'is': const {
+      'is': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -2611,7 +2611,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale it.
-      'it': const {
+      'it': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -2659,7 +2659,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale iw.
-      'iw': const {
+      'iw': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -2707,7 +2707,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale ja.
-      'ja': const {
+      'ja': {
         'd': 'd日', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -2755,7 +2755,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale ka.
-      'ka': const {
+      'ka': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -2803,7 +2803,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale kk.
-      'kk': const {
+      'kk': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -2851,7 +2851,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale km.
-      'km': const {
+      'km': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -2899,7 +2899,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale kn.
-      'kn': const {
+      'kn': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -2947,7 +2947,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale ko.
-      'ko': const {
+      'ko': {
         'd': 'd일', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -2995,7 +2995,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale ky.
-      'ky': const {
+      'ky': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -3043,7 +3043,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale ln.
-      'ln': const {
+      'ln': {
         'd': 'd', // DAY
         'E': 'EEE', // ABBR_WEEKDAY
         'EEEE': 'EEEE', // WEEKDAY
@@ -3091,7 +3091,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale lo.
-      'lo': const {
+      'lo': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -3139,7 +3139,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale lt.
-      'lt': const {
+      'lt': {
         'd': 'dd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -3187,7 +3187,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale lv.
-      'lv': const {
+      'lv': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -3235,7 +3235,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale mk.
-      'mk': const {
+      'mk': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -3283,7 +3283,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale ml.
-      'ml': const {
+      'ml': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -3331,7 +3331,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale mn.
-      'mn': const {
+      'mn': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -3379,7 +3379,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale mo.
-      'mo': const {
+      'mo': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -3427,7 +3427,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale mr.
-      'mr': const {
+      'mr': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -3475,7 +3475,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale ms.
-      'ms': const {
+      'ms': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -3523,7 +3523,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale mt.
-      'mt': const {
+      'mt': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -3571,7 +3571,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale my.
-      'my': const {
+      'my': {
         'd': 'd', // DAY
         'E': 'cccနေ့', // ABBR_WEEKDAY
         'EEEE': 'ccccနေ့', // WEEKDAY
@@ -3619,7 +3619,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale nb.
-      'nb': const {
+      'nb': {
         'd': 'd.', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -3667,7 +3667,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale ne.
-      'ne': const {
+      'ne': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -3715,7 +3715,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale nl.
-      'nl': const {
+      'nl': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -3763,7 +3763,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale no.
-      'no': const {
+      'no': {
         'd': 'd.', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -3811,7 +3811,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale no_NO.
-      'no_NO': const {
+      'no_NO': {
         'd': 'd.', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -3859,7 +3859,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale or.
-      'or': const {
+      'or': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -3907,7 +3907,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale pa.
-      'pa': const {
+      'pa': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -3955,7 +3955,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale pl.
-      'pl': const {
+      'pl': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -4003,7 +4003,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale pt.
-      'pt': const {
+      'pt': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -4051,7 +4051,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale pt_BR.
-      'pt_BR': const {
+      'pt_BR': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -4099,7 +4099,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale pt_PT.
-      'pt_PT': const {
+      'pt_PT': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -4147,7 +4147,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale ro.
-      'ro': const {
+      'ro': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -4195,7 +4195,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale ru.
-      'ru': const {
+      'ru': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -4243,7 +4243,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale sh.
-      'sh': const {
+      'sh': {
         'd': 'd', // DAY
         'E': 'EEE', // ABBR_WEEKDAY
         'EEEE': 'EEEE', // WEEKDAY
@@ -4291,7 +4291,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale si.
-      'si': const {
+      'si': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -4339,7 +4339,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale sk.
-      'sk': const {
+      'sk': {
         'd': 'd.', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -4387,7 +4387,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale sl.
-      'sl': const {
+      'sl': {
         'd': 'd.', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -4435,7 +4435,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale sq.
-      'sq': const {
+      'sq': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -4483,7 +4483,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale sr.
-      'sr': const {
+      'sr': {
         'd': 'd', // DAY
         'E': 'EEE', // ABBR_WEEKDAY
         'EEEE': 'EEEE', // WEEKDAY
@@ -4531,7 +4531,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale sr_Latn.
-      'sr_Latn': const {
+      'sr_Latn': {
         'd': 'd', // DAY
         'E': 'EEE', // ABBR_WEEKDAY
         'EEEE': 'EEEE', // WEEKDAY
@@ -4579,7 +4579,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale sv.
-      'sv': const {
+      'sv': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -4627,7 +4627,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale sw.
-      'sw': const {
+      'sw': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -4675,7 +4675,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale ta.
-      'ta': const {
+      'ta': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -4723,7 +4723,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale te.
-      'te': const {
+      'te': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -4771,7 +4771,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale th.
-      'th': const {
+      'th': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -4819,7 +4819,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale tl.
-      'tl': const {
+      'tl': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -4867,7 +4867,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale tr.
-      'tr': const {
+      'tr': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -4915,7 +4915,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale uk.
-      'uk': const {
+      'uk': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -4963,7 +4963,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale ur.
-      'ur': const {
+      'ur': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -5011,7 +5011,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale uz.
-      'uz': const {
+      'uz': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -5059,7 +5059,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale vi.
-      'vi': const {
+      'vi': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -5107,7 +5107,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale zh.
-      'zh': const {
+      'zh': {
         'd': 'd日', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -5155,7 +5155,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale zh_CN.
-      'zh_CN': const {
+      'zh_CN': {
         'd': 'd日', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -5203,7 +5203,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale zh_HK.
-      'zh_HK': const {
+      'zh_HK': {
         'd': 'd日', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -5251,7 +5251,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale zh_TW.
-      'zh_TW': const {
+      'zh_TW': {
         'd': 'd日', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -5299,7 +5299,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale zu.
-      'zu': const {
+      'zu': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -5347,7 +5347,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale en_ISO.
-      'en_ISO': const {
+      'en_ISO': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -5395,7 +5395,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale en_MY.
-      'en_MY': const {
+      'en_MY': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -5443,7 +5443,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale fr_CH.
-      'fr_CH': const {
+      'fr_CH': {
         'd': 'd', // DAY
         'E': 'EEE', // ABBR_WEEKDAY
         'EEEE': 'EEEE', // WEEKDAY
@@ -5491,7 +5491,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale it_CH.
-      'it_CH': const {
+      'it_CH': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
@@ -5539,7 +5539,7 @@ Map<dynamic, dynamic> dateTimePatternMap() => const {
       },
 
       /// Extended set of localized date/time patterns for locale ps.
-      'ps': const {
+      'ps': {
         'd': 'd', // DAY
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
