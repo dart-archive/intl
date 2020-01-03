@@ -18,13 +18,13 @@
 // ignore_for_file: unnecessary_new, prefer_single_quotes, prefer_const_constructors
 library number_symbol_data;
 
-import "number_symbols.dart";
+import 'number_symbols.dart';
 
 /// Map from locale to [NumberSymbols] used for that locale.
 Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
   // Number formatting symbols for locale af.
-  "af": new NumberSymbols(
-      NAME: "af",
+  'af': NumberSymbols(
+      NAME: 'af',
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
       PERCENT: '%',
@@ -41,8 +41,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'ZAR'),
   // Number formatting symbols for locale am.
-  "am": new NumberSymbols(
-      NAME: "am",
+  'am': NumberSymbols(
+      NAME: 'am',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -59,8 +59,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'ETB'),
   // Number formatting symbols for locale ar.
-  "ar": new NumberSymbols(
-      NAME: "ar",
+  'ar': NumberSymbols(
+      NAME: 'ar',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '\u200E%\u200E',
@@ -77,8 +77,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4\u00A0#,##0.00',
       DEF_CURRENCY_CODE: 'EGP'),
   // Number formatting symbols for locale ar_DZ.
-  "ar_DZ": new NumberSymbols(
-      NAME: "ar_DZ",
+  'ar_DZ': NumberSymbols(
+      NAME: 'ar_DZ',
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
       PERCENT: '\u200E%\u200E',
@@ -95,8 +95,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4\u00A0#,##0.00',
       DEF_CURRENCY_CODE: 'DZD'),
   // Number formatting symbols for locale ar_EG.
-  "ar_EG": new NumberSymbols(
-      NAME: "ar_EG",
+  'ar_EG': NumberSymbols(
+      NAME: 'ar_EG',
       DECIMAL_SEP: '\u066B',
       GROUP_SEP: '\u066C',
       PERCENT: '\u066A\u061C',
@@ -113,8 +113,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'EGP'),
   // Number formatting symbols for locale az.
-  "az": new NumberSymbols(
-      NAME: "az",
+  'az': NumberSymbols(
+      NAME: 'az',
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
       PERCENT: '%',
@@ -131,8 +131,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'AZN'),
   // Number formatting symbols for locale be.
-  "be": new NumberSymbols(
-      NAME: "be",
+  'be': NumberSymbols(
+      NAME: 'be',
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
       PERCENT: '%',
@@ -149,8 +149,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'BYN'),
   // Number formatting symbols for locale bg.
-  "bg": new NumberSymbols(
-      NAME: "bg",
+  'bg': NumberSymbols(
+      NAME: 'bg',
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
       PERCENT: '%',
@@ -167,8 +167,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'BGN'),
   // Number formatting symbols for locale bn.
-  "bn": new NumberSymbols(
-      NAME: "bn",
+  'bn': NumberSymbols(
+      NAME: 'bn',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -185,8 +185,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##,##0.00\u00A4',
       DEF_CURRENCY_CODE: 'BDT'),
   // Number formatting symbols for locale br.
-  "br": new NumberSymbols(
-      NAME: "br",
+  'br': NumberSymbols(
+      NAME: 'br',
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
       PERCENT: '%',
@@ -203,8 +203,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'EUR'),
   // Number formatting symbols for locale bs.
-  "bs": new NumberSymbols(
-      NAME: "bs",
+  'bs': NumberSymbols(
+      NAME: 'bs',
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
       PERCENT: '%',
@@ -221,8 +221,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'BAM'),
   // Number formatting symbols for locale ca.
-  "ca": new NumberSymbols(
-      NAME: "ca",
+  'ca': NumberSymbols(
+      NAME: 'ca',
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
       PERCENT: '%',
@@ -239,8 +239,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'EUR'),
   // Number formatting symbols for locale chr.
-  "chr": new NumberSymbols(
-      NAME: "chr",
+  'chr': NumberSymbols(
+      NAME: 'chr',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -257,8 +257,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'USD'),
   // Number formatting symbols for locale cs.
-  "cs": new NumberSymbols(
-      NAME: "cs",
+  'cs': NumberSymbols(
+      NAME: 'cs',
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
       PERCENT: '%',
@@ -275,8 +275,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'CZK'),
   // Number formatting symbols for locale cy.
-  "cy": new NumberSymbols(
-      NAME: "cy",
+  'cy': NumberSymbols(
+      NAME: 'cy',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -293,8 +293,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'GBP'),
   // Number formatting symbols for locale da.
-  "da": new NumberSymbols(
-      NAME: "da",
+  'da': NumberSymbols(
+      NAME: 'da',
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
       PERCENT: '%',
@@ -311,8 +311,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'DKK'),
   // Number formatting symbols for locale de.
-  "de": new NumberSymbols(
-      NAME: "de",
+  'de': NumberSymbols(
+      NAME: 'de',
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
       PERCENT: '%',
@@ -329,8 +329,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'EUR'),
   // Number formatting symbols for locale de_AT.
-  "de_AT": new NumberSymbols(
-      NAME: "de_AT",
+  'de_AT': NumberSymbols(
+      NAME: 'de_AT',
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
       PERCENT: '%',
@@ -347,8 +347,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4\u00A0#,##0.00',
       DEF_CURRENCY_CODE: 'EUR'),
   // Number formatting symbols for locale de_CH.
-  "de_CH": new NumberSymbols(
-      NAME: "de_CH",
+  'de_CH': NumberSymbols(
+      NAME: 'de_CH',
       DECIMAL_SEP: '.',
       GROUP_SEP: '\u2019',
       PERCENT: '%',
@@ -365,8 +365,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4\u00A0#,##0.00;\u00A4-#,##0.00',
       DEF_CURRENCY_CODE: 'CHF'),
   // Number formatting symbols for locale el.
-  "el": new NumberSymbols(
-      NAME: "el",
+  'el': NumberSymbols(
+      NAME: 'el',
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
       PERCENT: '%',
@@ -383,8 +383,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'EUR'),
   // Number formatting symbols for locale en.
-  "en": new NumberSymbols(
-      NAME: "en",
+  'en': NumberSymbols(
+      NAME: 'en',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -401,8 +401,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'USD'),
   // Number formatting symbols for locale en_AU.
-  "en_AU": new NumberSymbols(
-      NAME: "en_AU",
+  'en_AU': NumberSymbols(
+      NAME: 'en_AU',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -419,8 +419,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'AUD'),
   // Number formatting symbols for locale en_CA.
-  "en_CA": new NumberSymbols(
-      NAME: "en_CA",
+  'en_CA': NumberSymbols(
+      NAME: 'en_CA',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -437,8 +437,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'CAD'),
   // Number formatting symbols for locale en_GB.
-  "en_GB": new NumberSymbols(
-      NAME: "en_GB",
+  'en_GB': NumberSymbols(
+      NAME: 'en_GB',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -455,8 +455,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'GBP'),
   // Number formatting symbols for locale en_IE.
-  "en_IE": new NumberSymbols(
-      NAME: "en_IE",
+  'en_IE': NumberSymbols(
+      NAME: 'en_IE',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -473,8 +473,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'EUR'),
   // Number formatting symbols for locale en_IN.
-  "en_IN": new NumberSymbols(
-      NAME: "en_IN",
+  'en_IN': NumberSymbols(
+      NAME: 'en_IN',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -491,8 +491,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4\u00A0#,##,##0.00',
       DEF_CURRENCY_CODE: 'INR'),
   // Number formatting symbols for locale en_MY.
-  "en_MY": new NumberSymbols(
-      NAME: "en_MY",
+  'en_MY': NumberSymbols(
+      NAME: 'en_MY',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -509,8 +509,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'MYR'),
   // Number formatting symbols for locale en_SG.
-  "en_SG": new NumberSymbols(
-      NAME: "en_SG",
+  'en_SG': NumberSymbols(
+      NAME: 'en_SG',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -527,8 +527,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'SGD'),
   // Number formatting symbols for locale en_US.
-  "en_US": new NumberSymbols(
-      NAME: "en_US",
+  'en_US': NumberSymbols(
+      NAME: 'en_US',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -545,8 +545,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'USD'),
   // Number formatting symbols for locale en_ZA.
-  "en_ZA": new NumberSymbols(
-      NAME: "en_ZA",
+  'en_ZA': NumberSymbols(
+      NAME: 'en_ZA',
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
       PERCENT: '%',
@@ -563,8 +563,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'ZAR'),
   // Number formatting symbols for locale es.
-  "es": new NumberSymbols(
-      NAME: "es",
+  'es': NumberSymbols(
+      NAME: 'es',
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
       PERCENT: '%',
@@ -581,8 +581,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'EUR'),
   // Number formatting symbols for locale es_419.
-  "es_419": new NumberSymbols(
-      NAME: "es_419",
+  'es_419': NumberSymbols(
+      NAME: 'es_419',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -599,8 +599,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'MXN'),
   // Number formatting symbols for locale es_ES.
-  "es_ES": new NumberSymbols(
-      NAME: "es_ES",
+  'es_ES': NumberSymbols(
+      NAME: 'es_ES',
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
       PERCENT: '%',
@@ -617,8 +617,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'EUR'),
   // Number formatting symbols for locale es_MX.
-  "es_MX": new NumberSymbols(
-      NAME: "es_MX",
+  'es_MX': NumberSymbols(
+      NAME: 'es_MX',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -635,8 +635,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'MXN'),
   // Number formatting symbols for locale es_US.
-  "es_US": new NumberSymbols(
-      NAME: "es_US",
+  'es_US': NumberSymbols(
+      NAME: 'es_US',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -653,8 +653,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'USD'),
   // Number formatting symbols for locale et.
-  "et": new NumberSymbols(
-      NAME: "et",
+  'et': NumberSymbols(
+      NAME: 'et',
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
       PERCENT: '%',
@@ -671,8 +671,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'EUR'),
   // Number formatting symbols for locale eu.
-  "eu": new NumberSymbols(
-      NAME: "eu",
+  'eu': NumberSymbols(
+      NAME: 'eu',
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
       PERCENT: '%',
@@ -689,8 +689,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'EUR'),
   // Number formatting symbols for locale fa.
-  "fa": new NumberSymbols(
-      NAME: "fa",
+  'fa': NumberSymbols(
+      NAME: 'fa',
       DECIMAL_SEP: '\u066B',
       GROUP_SEP: '\u066C',
       PERCENT: '\u066A',
@@ -707,8 +707,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u200E\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'IRR'),
   // Number formatting symbols for locale fi.
-  "fi": new NumberSymbols(
-      NAME: "fi",
+  'fi': NumberSymbols(
+      NAME: 'fi',
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
       PERCENT: '%',
@@ -725,8 +725,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'EUR'),
   // Number formatting symbols for locale fil.
-  "fil": new NumberSymbols(
-      NAME: "fil",
+  'fil': NumberSymbols(
+      NAME: 'fil',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -743,8 +743,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'PHP'),
   // Number formatting symbols for locale fr.
-  "fr": new NumberSymbols(
-      NAME: "fr",
+  'fr': NumberSymbols(
+      NAME: 'fr',
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u202F',
       PERCENT: '%',
@@ -761,8 +761,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'EUR'),
   // Number formatting symbols for locale fr_CA.
-  "fr_CA": new NumberSymbols(
-      NAME: "fr_CA",
+  'fr_CA': NumberSymbols(
+      NAME: 'fr_CA',
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
       PERCENT: '%',
@@ -779,8 +779,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'CAD'),
   // Number formatting symbols for locale fr_CH.
-  "fr_CH": new NumberSymbols(
-      NAME: "fr_CH",
+  'fr_CH': NumberSymbols(
+      NAME: 'fr_CH',
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u202F',
       PERCENT: '%',
@@ -797,8 +797,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'CHF'),
   // Number formatting symbols for locale ga.
-  "ga": new NumberSymbols(
-      NAME: "ga",
+  'ga': NumberSymbols(
+      NAME: 'ga',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -815,8 +815,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'EUR'),
   // Number formatting symbols for locale gl.
-  "gl": new NumberSymbols(
-      NAME: "gl",
+  'gl': NumberSymbols(
+      NAME: 'gl',
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
       PERCENT: '%',
@@ -833,8 +833,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'EUR'),
   // Number formatting symbols for locale gsw.
-  "gsw": new NumberSymbols(
-      NAME: "gsw",
+  'gsw': NumberSymbols(
+      NAME: 'gsw',
       DECIMAL_SEP: '.',
       GROUP_SEP: '\u2019',
       PERCENT: '%',
@@ -851,8 +851,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'CHF'),
   // Number formatting symbols for locale gu.
-  "gu": new NumberSymbols(
-      NAME: "gu",
+  'gu': NumberSymbols(
+      NAME: 'gu',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -869,8 +869,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##,##0.00',
       DEF_CURRENCY_CODE: 'INR'),
   // Number formatting symbols for locale haw.
-  "haw": new NumberSymbols(
-      NAME: "haw",
+  'haw': NumberSymbols(
+      NAME: 'haw',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -887,8 +887,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'USD'),
   // Number formatting symbols for locale he.
-  "he": new NumberSymbols(
-      NAME: "he",
+  'he': NumberSymbols(
+      NAME: 'he',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -906,8 +906,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
           '\u200F#,##0.00\u00A0\u00A4;\u200F-#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'ILS'),
   // Number formatting symbols for locale hi.
-  "hi": new NumberSymbols(
-      NAME: "hi",
+  'hi': NumberSymbols(
+      NAME: 'hi',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -924,8 +924,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##,##0.00',
       DEF_CURRENCY_CODE: 'INR'),
   // Number formatting symbols for locale hr.
-  "hr": new NumberSymbols(
-      NAME: "hr",
+  'hr': NumberSymbols(
+      NAME: 'hr',
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
       PERCENT: '%',
@@ -942,8 +942,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'HRK'),
   // Number formatting symbols for locale hu.
-  "hu": new NumberSymbols(
-      NAME: "hu",
+  'hu': NumberSymbols(
+      NAME: 'hu',
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
       PERCENT: '%',
@@ -960,8 +960,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'HUF'),
   // Number formatting symbols for locale hy.
-  "hy": new NumberSymbols(
-      NAME: "hy",
+  'hy': NumberSymbols(
+      NAME: 'hy',
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
       PERCENT: '%',
@@ -978,8 +978,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'AMD'),
   // Number formatting symbols for locale id.
-  "id": new NumberSymbols(
-      NAME: "id",
+  'id': NumberSymbols(
+      NAME: 'id',
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
       PERCENT: '%',
@@ -996,8 +996,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'IDR'),
   // Number formatting symbols for locale in.
-  "in": new NumberSymbols(
-      NAME: "in",
+  'in': NumberSymbols(
+      NAME: 'in',
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
       PERCENT: '%',
@@ -1014,8 +1014,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'IDR'),
   // Number formatting symbols for locale is.
-  "is": new NumberSymbols(
-      NAME: "is",
+  'is': NumberSymbols(
+      NAME: 'is',
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
       PERCENT: '%',
@@ -1032,8 +1032,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'ISK'),
   // Number formatting symbols for locale it.
-  "it": new NumberSymbols(
-      NAME: "it",
+  'it': NumberSymbols(
+      NAME: 'it',
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
       PERCENT: '%',
@@ -1050,8 +1050,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'EUR'),
   // Number formatting symbols for locale it_CH.
-  "it_CH": new NumberSymbols(
-      NAME: "it_CH",
+  'it_CH': NumberSymbols(
+      NAME: 'it_CH',
       DECIMAL_SEP: '.',
       GROUP_SEP: '\u2019',
       PERCENT: '%',
@@ -1068,8 +1068,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4\u00A0#,##0.00;\u00A4-#,##0.00',
       DEF_CURRENCY_CODE: 'CHF'),
   // Number formatting symbols for locale iw.
-  "iw": new NumberSymbols(
-      NAME: "iw",
+  'iw': NumberSymbols(
+      NAME: 'iw',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -1087,8 +1087,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
           '\u200F#,##0.00\u00A0\u00A4;\u200F-#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'ILS'),
   // Number formatting symbols for locale ja.
-  "ja": new NumberSymbols(
-      NAME: "ja",
+  'ja': NumberSymbols(
+      NAME: 'ja',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -1105,8 +1105,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'JPY'),
   // Number formatting symbols for locale ka.
-  "ka": new NumberSymbols(
-      NAME: "ka",
+  'ka': NumberSymbols(
+      NAME: 'ka',
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
       PERCENT: '%',
@@ -1124,8 +1124,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'GEL'),
   // Number formatting symbols for locale kk.
-  "kk": new NumberSymbols(
-      NAME: "kk",
+  'kk': NumberSymbols(
+      NAME: 'kk',
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
       PERCENT: '%',
@@ -1142,8 +1142,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'KZT'),
   // Number formatting symbols for locale km.
-  "km": new NumberSymbols(
-      NAME: "km",
+  'km': NumberSymbols(
+      NAME: 'km',
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
       PERCENT: '%',
@@ -1160,8 +1160,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A4',
       DEF_CURRENCY_CODE: 'KHR'),
   // Number formatting symbols for locale kn.
-  "kn": new NumberSymbols(
-      NAME: "kn",
+  'kn': NumberSymbols(
+      NAME: 'kn',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -1178,8 +1178,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'INR'),
   // Number formatting symbols for locale ko.
-  "ko": new NumberSymbols(
-      NAME: "ko",
+  'ko': NumberSymbols(
+      NAME: 'ko',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -1196,8 +1196,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'KRW'),
   // Number formatting symbols for locale ky.
-  "ky": new NumberSymbols(
-      NAME: "ky",
+  'ky': NumberSymbols(
+      NAME: 'ky',
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
       PERCENT: '%',
@@ -1214,8 +1214,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'KGS'),
   // Number formatting symbols for locale ln.
-  "ln": new NumberSymbols(
-      NAME: "ln",
+  'ln': NumberSymbols(
+      NAME: 'ln',
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
       PERCENT: '%',
@@ -1232,8 +1232,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'CDF'),
   // Number formatting symbols for locale lo.
-  "lo": new NumberSymbols(
-      NAME: "lo",
+  'lo': NumberSymbols(
+      NAME: 'lo',
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
       PERCENT: '%',
@@ -1251,8 +1251,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00;\u00A4-#,##0.00',
       DEF_CURRENCY_CODE: 'LAK'),
   // Number formatting symbols for locale lt.
-  "lt": new NumberSymbols(
-      NAME: "lt",
+  'lt': NumberSymbols(
+      NAME: 'lt',
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
       PERCENT: '%',
@@ -1269,8 +1269,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'EUR'),
   // Number formatting symbols for locale lv.
-  "lv": new NumberSymbols(
-      NAME: "lv",
+  'lv': NumberSymbols(
+      NAME: 'lv',
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
       PERCENT: '%',
@@ -1287,8 +1287,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'EUR'),
   // Number formatting symbols for locale mk.
-  "mk": new NumberSymbols(
-      NAME: "mk",
+  'mk': NumberSymbols(
+      NAME: 'mk',
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
       PERCENT: '%',
@@ -1305,8 +1305,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'MKD'),
   // Number formatting symbols for locale ml.
-  "ml": new NumberSymbols(
-      NAME: "ml",
+  'ml': NumberSymbols(
+      NAME: 'ml',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -1323,8 +1323,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'INR'),
   // Number formatting symbols for locale mn.
-  "mn": new NumberSymbols(
-      NAME: "mn",
+  'mn': NumberSymbols(
+      NAME: 'mn',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -1341,8 +1341,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4\u00A0#,##0.00',
       DEF_CURRENCY_CODE: 'MNT'),
   // Number formatting symbols for locale mr.
-  "mr": new NumberSymbols(
-      NAME: "mr",
+  'mr': NumberSymbols(
+      NAME: 'mr',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -1359,8 +1359,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'INR'),
   // Number formatting symbols for locale ms.
-  "ms": new NumberSymbols(
-      NAME: "ms",
+  'ms': NumberSymbols(
+      NAME: 'ms',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -1377,8 +1377,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'MYR'),
   // Number formatting symbols for locale mt.
-  "mt": new NumberSymbols(
-      NAME: "mt",
+  'mt': NumberSymbols(
+      NAME: 'mt',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -1395,8 +1395,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'EUR'),
   // Number formatting symbols for locale my.
-  "my": new NumberSymbols(
-      NAME: "my",
+  'my': NumberSymbols(
+      NAME: 'my',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -1414,8 +1414,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'MMK'),
   // Number formatting symbols for locale nb.
-  "nb": new NumberSymbols(
-      NAME: "nb",
+  'nb': NumberSymbols(
+      NAME: 'nb',
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
       PERCENT: '%',
@@ -1432,8 +1432,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4\u00A0#,##0.00',
       DEF_CURRENCY_CODE: 'NOK'),
   // Number formatting symbols for locale ne.
-  "ne": new NumberSymbols(
-      NAME: "ne",
+  'ne': NumberSymbols(
+      NAME: 'ne',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -1450,8 +1450,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4\u00A0#,##0.00',
       DEF_CURRENCY_CODE: 'NPR'),
   // Number formatting symbols for locale nl.
-  "nl": new NumberSymbols(
-      NAME: "nl",
+  'nl': NumberSymbols(
+      NAME: 'nl',
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
       PERCENT: '%',
@@ -1468,8 +1468,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4\u00A0#,##0.00;\u00A4\u00A0-#,##0.00',
       DEF_CURRENCY_CODE: 'EUR'),
   // Number formatting symbols for locale no.
-  "no": new NumberSymbols(
-      NAME: "no",
+  'no': NumberSymbols(
+      NAME: 'no',
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
       PERCENT: '%',
@@ -1486,8 +1486,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4\u00A0#,##0.00',
       DEF_CURRENCY_CODE: 'NOK'),
   // Number formatting symbols for locale no_NO.
-  "no_NO": new NumberSymbols(
-      NAME: "no_NO",
+  'no_NO': NumberSymbols(
+      NAME: 'no_NO',
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
       PERCENT: '%',
@@ -1504,8 +1504,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4\u00A0#,##0.00',
       DEF_CURRENCY_CODE: 'NOK'),
   // Number formatting symbols for locale or.
-  "or": new NumberSymbols(
-      NAME: "or",
+  'or': NumberSymbols(
+      NAME: 'or',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -1522,8 +1522,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'INR'),
   // Number formatting symbols for locale pa.
-  "pa": new NumberSymbols(
-      NAME: "pa",
+  'pa': NumberSymbols(
+      NAME: 'pa',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -1540,8 +1540,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4\u00A0#,##,##0.00',
       DEF_CURRENCY_CODE: 'INR'),
   // Number formatting symbols for locale pl.
-  "pl": new NumberSymbols(
-      NAME: "pl",
+  'pl': NumberSymbols(
+      NAME: 'pl',
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
       PERCENT: '%',
@@ -1558,8 +1558,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'PLN'),
   // Number formatting symbols for locale ps.
-  "ps": new NumberSymbols(
-      NAME: "ps",
+  'ps': NumberSymbols(
+      NAME: 'ps',
       DECIMAL_SEP: '\u066B',
       GROUP_SEP: '\u066C',
       PERCENT: '\u066A',
@@ -1576,8 +1576,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'AFN'),
   // Number formatting symbols for locale pt.
-  "pt": new NumberSymbols(
-      NAME: "pt",
+  'pt': NumberSymbols(
+      NAME: 'pt',
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
       PERCENT: '%',
@@ -1594,8 +1594,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4\u00A0#,##0.00',
       DEF_CURRENCY_CODE: 'BRL'),
   // Number formatting symbols for locale pt_BR.
-  "pt_BR": new NumberSymbols(
-      NAME: "pt_BR",
+  'pt_BR': NumberSymbols(
+      NAME: 'pt_BR',
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
       PERCENT: '%',
@@ -1612,8 +1612,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4\u00A0#,##0.00',
       DEF_CURRENCY_CODE: 'BRL'),
   // Number formatting symbols for locale pt_PT.
-  "pt_PT": new NumberSymbols(
-      NAME: "pt_PT",
+  'pt_PT': NumberSymbols(
+      NAME: 'pt_PT',
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
       PERCENT: '%',
@@ -1630,8 +1630,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'EUR'),
   // Number formatting symbols for locale ro.
-  "ro": new NumberSymbols(
-      NAME: "ro",
+  'ro': NumberSymbols(
+      NAME: 'ro',
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
       PERCENT: '%',
@@ -1648,8 +1648,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'RON'),
   // Number formatting symbols for locale ru.
-  "ru": new NumberSymbols(
-      NAME: "ru",
+  'ru': NumberSymbols(
+      NAME: 'ru',
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
       PERCENT: '%',
@@ -1666,8 +1666,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'RUB'),
   // Number formatting symbols for locale si.
-  "si": new NumberSymbols(
-      NAME: "si",
+  'si': NumberSymbols(
+      NAME: 'si',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -1684,8 +1684,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'LKR'),
   // Number formatting symbols for locale sk.
-  "sk": new NumberSymbols(
-      NAME: "sk",
+  'sk': NumberSymbols(
+      NAME: 'sk',
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
       PERCENT: '%',
@@ -1702,8 +1702,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'EUR'),
   // Number formatting symbols for locale sl.
-  "sl": new NumberSymbols(
-      NAME: "sl",
+  'sl': NumberSymbols(
+      NAME: 'sl',
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
       PERCENT: '%',
@@ -1720,8 +1720,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'EUR'),
   // Number formatting symbols for locale sq.
-  "sq": new NumberSymbols(
-      NAME: "sq",
+  'sq': NumberSymbols(
+      NAME: 'sq',
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
       PERCENT: '%',
@@ -1738,8 +1738,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'ALL'),
   // Number formatting symbols for locale sr.
-  "sr": new NumberSymbols(
-      NAME: "sr",
+  'sr': NumberSymbols(
+      NAME: 'sr',
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
       PERCENT: '%',
@@ -1756,8 +1756,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'RSD'),
   // Number formatting symbols for locale sr_Latn.
-  "sr_Latn": new NumberSymbols(
-      NAME: "sr_Latn",
+  'sr_Latn': NumberSymbols(
+      NAME: 'sr_Latn',
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
       PERCENT: '%',
@@ -1774,8 +1774,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'RSD'),
   // Number formatting symbols for locale sv.
-  "sv": new NumberSymbols(
-      NAME: "sv",
+  'sv': NumberSymbols(
+      NAME: 'sv',
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
       PERCENT: '%',
@@ -1792,8 +1792,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'SEK'),
   // Number formatting symbols for locale sw.
-  "sw": new NumberSymbols(
-      NAME: "sw",
+  'sw': NumberSymbols(
+      NAME: 'sw',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -1810,8 +1810,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4\u00A0#,##0.00',
       DEF_CURRENCY_CODE: 'TZS'),
   // Number formatting symbols for locale ta.
-  "ta": new NumberSymbols(
-      NAME: "ta",
+  'ta': NumberSymbols(
+      NAME: 'ta',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -1828,8 +1828,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4\u00A0#,##,##0.00',
       DEF_CURRENCY_CODE: 'INR'),
   // Number formatting symbols for locale te.
-  "te": new NumberSymbols(
-      NAME: "te",
+  'te': NumberSymbols(
+      NAME: 'te',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -1846,8 +1846,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##,##0.00',
       DEF_CURRENCY_CODE: 'INR'),
   // Number formatting symbols for locale th.
-  "th": new NumberSymbols(
-      NAME: "th",
+  'th': NumberSymbols(
+      NAME: 'th',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -1864,8 +1864,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'THB'),
   // Number formatting symbols for locale tl.
-  "tl": new NumberSymbols(
-      NAME: "tl",
+  'tl': NumberSymbols(
+      NAME: 'tl',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -1882,8 +1882,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'PHP'),
   // Number formatting symbols for locale tr.
-  "tr": new NumberSymbols(
-      NAME: "tr",
+  'tr': NumberSymbols(
+      NAME: 'tr',
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
       PERCENT: '%',
@@ -1900,8 +1900,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'TRY'),
   // Number formatting symbols for locale uk.
-  "uk": new NumberSymbols(
-      NAME: "uk",
+  'uk': NumberSymbols(
+      NAME: 'uk',
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
       PERCENT: '%',
@@ -1918,8 +1918,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'UAH'),
   // Number formatting symbols for locale ur.
-  "ur": new NumberSymbols(
-      NAME: "ur",
+  'ur': NumberSymbols(
+      NAME: 'ur',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -1936,8 +1936,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4\u00A0#,##0.00',
       DEF_CURRENCY_CODE: 'PKR'),
   // Number formatting symbols for locale uz.
-  "uz": new NumberSymbols(
-      NAME: "uz",
+  'uz': NumberSymbols(
+      NAME: 'uz',
       DECIMAL_SEP: ',',
       GROUP_SEP: '\u00A0',
       PERCENT: '%',
@@ -1954,8 +1954,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'UZS'),
   // Number formatting symbols for locale vi.
-  "vi": new NumberSymbols(
-      NAME: "vi",
+  'vi': NumberSymbols(
+      NAME: 'vi',
       DECIMAL_SEP: ',',
       GROUP_SEP: '.',
       PERCENT: '%',
@@ -1972,8 +1972,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'VND'),
   // Number formatting symbols for locale zh.
-  "zh": new NumberSymbols(
-      NAME: "zh",
+  'zh': NumberSymbols(
+      NAME: 'zh',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -1990,8 +1990,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'CNY'),
   // Number formatting symbols for locale zh_CN.
-  "zh_CN": new NumberSymbols(
-      NAME: "zh_CN",
+  'zh_CN': NumberSymbols(
+      NAME: 'zh_CN',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -2008,8 +2008,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'CNY'),
   // Number formatting symbols for locale zh_HK.
-  "zh_HK": new NumberSymbols(
-      NAME: "zh_HK",
+  'zh_HK': NumberSymbols(
+      NAME: 'zh_HK',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -2026,8 +2026,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'HKD'),
   // Number formatting symbols for locale zh_TW.
-  "zh_TW": new NumberSymbols(
-      NAME: "zh_TW",
+  'zh_TW': NumberSymbols(
+      NAME: 'zh_TW',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -2044,8 +2044,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'TWD'),
   // Number formatting symbols for locale zu.
-  "zu": new NumberSymbols(
-      NAME: "zu",
+  'zu': NumberSymbols(
+      NAME: 'zu',
       DECIMAL_SEP: '.',
       GROUP_SEP: ',',
       PERCENT: '%',
@@ -2065,7 +2065,7 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
 
 Map<String, CompactNumberSymbols> compactNumberSymbols = {
   // Compact number symbols for locale af.
-  "af": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'af': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0k',
     4: '00\u00A0k',
     5: '000\u00A0k',
@@ -2106,7 +2106,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000\u00A0bn',
   }),
   // Compact number symbols for locale am.
-  "am": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'am': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0\u123A',
     4: '00\u00A0\u123A',
     5: '000\u00A0\u123A',
@@ -2147,7 +2147,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000\u00A0\u1275',
   }),
   // Compact number symbols for locale ar.
-  "ar": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'ar': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0\u0623\u0644\u0641',
     4: '00\u00A0\u0623\u0644\u0641',
     5: '000\u00A0\u0623\u0644\u0641',
@@ -2188,7 +2188,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4\u00A0000\u00A0\u062A\u0631\u0644\u064A\u0648\u0646',
   }),
   // Compact number symbols for locale ar_DZ.
-  "ar_DZ": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'ar_DZ': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0\u0623\u0644\u0641',
     4: '00\u00A0\u0623\u0644\u0641',
     5: '000\u00A0\u0623\u0644\u0641',
@@ -2229,7 +2229,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4\u00A0000\u00A0\u062A\u0631\u0644\u064A\u0648\u0646',
   }),
   // Compact number symbols for locale ar_EG.
-  "ar_EG": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'ar_EG': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0\u0623\u0644\u0641',
     4: '00\u00A0\u0623\u0644\u0641',
     5: '000\u00A0\u0623\u0644\u0641',
@@ -2270,7 +2270,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4\u00A0000\u00A0\u062A\u0631\u0644\u064A\u0648\u0646',
   }),
   // Compact number symbols for locale az.
-  "az": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'az': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0K',
     4: '00K',
     5: '000K',
@@ -2311,7 +2311,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000T\u00A0\u00A4',
   }),
   // Compact number symbols for locale be.
-  "be": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'be': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0\u0442\u044B\u0441.',
     4: '00\u00A0\u0442\u044B\u0441.',
     5: '000\u00A0\u0442\u044B\u0441.',
@@ -2352,7 +2352,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0\u0442\u0440\u043B\u043D\u00A0\u00A4',
   }),
   // Compact number symbols for locale bg.
-  "bg": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'bg': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0\u0445\u0438\u043B.',
     4: '00\u00A0\u0445\u0438\u043B.',
     5: '000\u00A0\u0445\u0438\u043B.',
@@ -2393,7 +2393,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0\u0442\u0440\u043B\u043D.\u00A0\u00A4',
   }),
   // Compact number symbols for locale bn.
-  "bn": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'bn': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0\u09B9\u09BE',
     4: '00\u00A0\u09B9\u09BE',
     5: '0\u00A0\u09B2\u09BE',
@@ -2434,7 +2434,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0\u09B2\u09BE.\u0995\u09CB.\u00A4',
   }),
   // Compact number symbols for locale br.
-  "br": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'br': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0k',
     4: '00k',
     5: '000k',
@@ -2475,7 +2475,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0T\u00A4',
   }),
   // Compact number symbols for locale bs.
-  "bs": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'bs': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0hilj.',
     4: '00\u00A0hilj.',
     5: '000\u00A0hilj.',
@@ -2516,7 +2516,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0bil.\u00A0\u00A4',
   }),
   // Compact number symbols for locale ca.
-  "ca": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'ca': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0m',
     4: '00m',
     5: '000m',
@@ -2557,7 +2557,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0B\u00A0\u00A4',
   }),
   // Compact number symbols for locale chr.
-  "chr": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'chr': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0K',
     4: '00K',
     5: '000K',
@@ -2598,7 +2598,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000T',
   }),
   // Compact number symbols for locale cs.
-  "cs": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'cs': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0tis.',
     4: '00\u00A0tis.',
     5: '000\u00A0tis.',
@@ -2639,7 +2639,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0bil.\u00A0\u00A4',
   }),
   // Compact number symbols for locale cy.
-  "cy": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'cy': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0K',
     4: '00K',
     5: '000K',
@@ -2680,7 +2680,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000T',
   }),
   // Compact number symbols for locale da.
-  "da": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'da': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0t',
     4: '00\u00A0t',
     5: '000\u00A0t',
@@ -2721,7 +2721,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0bio.\u00A0\u00A4',
   }),
   // Compact number symbols for locale de.
-  "de": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'de': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0',
     4: '0',
     5: '0',
@@ -2762,7 +2762,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0Bio.\u00A0\u00A4',
   }),
   // Compact number symbols for locale de_AT.
-  "de_AT": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'de_AT': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0',
     4: '0',
     5: '0',
@@ -2803,7 +2803,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0Bio.\u00A0\u00A4',
   }),
   // Compact number symbols for locale de_CH.
-  "de_CH": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'de_CH': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0',
     4: '0',
     5: '0',
@@ -2844,7 +2844,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0Bio.\u00A0\u00A4',
   }),
   // Compact number symbols for locale el.
-  "el": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'el': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0\u03C7\u03B9\u03BB.',
     4: '00\u00A0\u03C7\u03B9\u03BB.',
     5: '000\u00A0\u03C7\u03B9\u03BB.',
@@ -2885,7 +2885,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0\u03C4\u03C1\u03B9\u03C3.\u00A0\u00A4',
   }),
   // Compact number symbols for locale en.
-  "en": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'en': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0K',
     4: '00K',
     5: '000K',
@@ -2926,7 +2926,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000T',
   }),
   // Compact number symbols for locale en_AU.
-  "en_AU": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'en_AU': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0K',
     4: '00K',
     5: '000K',
@@ -2967,7 +2967,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000T',
   }),
   // Compact number symbols for locale en_CA.
-  "en_CA": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'en_CA': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0K',
     4: '00K',
     5: '000K',
@@ -3008,7 +3008,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000T',
   }),
   // Compact number symbols for locale en_GB.
-  "en_GB": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'en_GB': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0K',
     4: '00K',
     5: '000K',
@@ -3049,7 +3049,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000T',
   }),
   // Compact number symbols for locale en_IE.
-  "en_IE": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'en_IE': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0K',
     4: '00K',
     5: '000K',
@@ -3090,7 +3090,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000T',
   }),
   // Compact number symbols for locale en_IN.
-  "en_IN": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'en_IN': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0K',
     4: '00K',
     5: '000K',
@@ -3131,7 +3131,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000LCr',
   }),
   // Compact number symbols for locale en_MY.
-  "en_MY": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'en_MY': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0K',
     4: '00K',
     5: '000K',
@@ -3172,7 +3172,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000T',
   }),
   // Compact number symbols for locale en_SG.
-  "en_SG": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'en_SG': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0K',
     4: '00K',
     5: '000K',
@@ -3213,7 +3213,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000T',
   }),
   // Compact number symbols for locale en_US.
-  "en_US": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'en_US': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0K',
     4: '00K',
     5: '000K',
@@ -3254,7 +3254,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000T',
   }),
   // Compact number symbols for locale en_ZA.
-  "en_ZA": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'en_ZA': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0K',
     4: '00K',
     5: '000K',
@@ -3295,7 +3295,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000T',
   }),
   // Compact number symbols for locale es.
-  "es": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'es': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0mil',
     4: '00\u00A0mil',
     5: '000\u00A0mil',
@@ -3336,7 +3336,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0B\u00A4',
   }),
   // Compact number symbols for locale es_419.
-  "es_419": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'es_419': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0K',
     4: '00\u00A0k',
     5: '000\u00A0k',
@@ -3377,7 +3377,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000\u00A0B',
   }),
   // Compact number symbols for locale es_ES.
-  "es_ES": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'es_ES': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0mil',
     4: '00\u00A0mil',
     5: '000\u00A0mil',
@@ -3418,7 +3418,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0B\u00A4',
   }),
   // Compact number symbols for locale es_MX.
-  "es_MX": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'es_MX': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0k',
     4: '00\u00A0k',
     5: '000\u00A0k',
@@ -3459,7 +3459,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0B\u00A4',
   }),
   // Compact number symbols for locale es_US.
-  "es_US": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'es_US': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0K',
     4: '00\u00A0K',
     5: '000\u00A0K',
@@ -3500,7 +3500,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000\u00A0T',
   }),
   // Compact number symbols for locale et.
-  "et": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'et': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0tuh',
     4: '00\u00A0tuh',
     5: '000\u00A0tuh',
@@ -3541,7 +3541,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0trl\u00A0\u00A4',
   }),
   // Compact number symbols for locale eu.
-  "eu": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'eu': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0000',
     4: '00000',
     5: '000000',
@@ -3582,7 +3582,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0B\u00A0\u00A4',
   }),
   // Compact number symbols for locale fa.
-  "fa": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'fa': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0\u0647\u0632\u0627\u0631',
     4: '00\u00A0\u0647\u0632\u0627\u0631',
     5: '000\u00A0\u0647\u0632\u0627\u0631',
@@ -3623,7 +3623,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0\u0647\u0632\u0627\u0631\u0645\u06CC\u0644\u06CC\u0627\u0631\u062F\u00A0\u00A4',
   }),
   // Compact number symbols for locale fi.
-  "fi": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'fi': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0t.',
     4: '00\u00A0t.',
     5: '000\u00A0t.',
@@ -3664,7 +3664,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0bilj.\u00A0\u00A4',
   }),
   // Compact number symbols for locale fil.
-  "fil": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'fil': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0K',
     4: '00K',
     5: '000K',
@@ -3705,7 +3705,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000T',
   }),
   // Compact number symbols for locale fr.
-  "fr": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'fr': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0k',
     4: '00\u00A0k',
     5: '000\u00A0k',
@@ -3746,7 +3746,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0Bn\u00A0\u00A4',
   }),
   // Compact number symbols for locale fr_CA.
-  "fr_CA": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'fr_CA': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0k',
     4: '00\u00A0k',
     5: '000\u00A0k',
@@ -3787,7 +3787,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0T\u00A4',
   }),
   // Compact number symbols for locale fr_CH.
-  "fr_CH": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'fr_CH': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0k',
     4: '00\u00A0k',
     5: '000\u00A0k',
@@ -3828,7 +3828,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0Bn\u00A0\u00A4',
   }),
   // Compact number symbols for locale ga.
-  "ga": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'ga': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0k',
     4: '00k',
     5: '000k',
@@ -3869,7 +3869,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000T',
   }),
   // Compact number symbols for locale gl.
-  "gl": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'gl': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0',
     4: '0',
     5: '0',
@@ -3910,7 +3910,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0B\u00A4',
   }),
   // Compact number symbols for locale gsw.
-  "gsw": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'gsw': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0Tsg.',
     4: '00\u00A0Tsg.',
     5: '000\u00A0Tsg.',
@@ -3951,7 +3951,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0Bio.\u00A0\u00A4',
   }),
   // Compact number symbols for locale gu.
-  "gu": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'gu': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0\u0AB9\u0A9C\u0ABE\u0AB0',
     4: '00\u00A0\u0AB9\u0A9C\u0ABE\u0AB0',
     5: '0\u00A0\u0AB2\u0ABE\u0A96',
@@ -3992,7 +3992,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A40\u00A0\u0A9C\u0AB2\u0AA7\u0ABF',
   }),
   // Compact number symbols for locale haw.
-  "haw": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'haw': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0K',
     4: '00K',
     5: '000K',
@@ -4020,7 +4020,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000T',
   }),
   // Compact number symbols for locale he.
-  "he": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'he': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0K',
     4: '00K',
     5: '000K',
@@ -4061,7 +4061,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000T',
   }),
   // Compact number symbols for locale hi.
-  "hi": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'hi': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0\u0939\u091C\u093C\u093E\u0930',
     4: '00\u00A0\u0939\u091C\u093C\u093E\u0930',
     5: '0\u00A0\u0932\u093E\u0916',
@@ -4102,7 +4102,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A400\u00A0\u0928\u0940\u0932',
   }),
   // Compact number symbols for locale hr.
-  "hr": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'hr': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0tis.',
     4: '00\u00A0tis.',
     5: '000\u00A0tis.',
@@ -4143,7 +4143,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0bil.\u00A0\u00A4',
   }),
   // Compact number symbols for locale hu.
-  "hu": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'hu': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0E',
     4: '00\u00A0E',
     5: '000\u00A0E',
@@ -4184,7 +4184,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0B\u00A0\u00A4',
   }),
   // Compact number symbols for locale hy.
-  "hy": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'hy': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0\u0570\u0566\u0580',
     4: '00\u00A0\u0570\u0566\u0580',
     5: '000\u00A0\u0570\u0566\u0580',
@@ -4225,7 +4225,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0\u057F\u0580\u056C\u0576\u00A0\u00A4',
   }),
   // Compact number symbols for locale id.
-  "id": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'id': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0rb',
     4: '00\u00A0rb',
     5: '000\u00A0rb',
@@ -4266,7 +4266,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000\u00A0T',
   }),
   // Compact number symbols for locale in.
-  "in": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'in': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0rb',
     4: '00\u00A0rb',
     5: '000\u00A0rb',
@@ -4307,7 +4307,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000\u00A0T',
   }),
   // Compact number symbols for locale is.
-  "is": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'is': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0\u00FE.',
     4: '00\u00A0\u00FE.',
     5: '000\u00A0\u00FE.',
@@ -4348,7 +4348,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0bn\u00A0\u00A4',
   }),
   // Compact number symbols for locale it.
-  "it": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'it': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0',
     4: '0',
     5: '0',
@@ -4389,7 +4389,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0Bln\u00A0\u00A4',
   }),
   // Compact number symbols for locale it_CH.
-  "it_CH": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'it_CH': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0',
     4: '0',
     5: '0',
@@ -4430,7 +4430,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0Bln\u00A0\u00A4',
   }),
   // Compact number symbols for locale iw.
-  "iw": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'iw': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0K',
     4: '00K',
     5: '000K',
@@ -4471,7 +4471,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000T',
   }),
   // Compact number symbols for locale ja.
-  "ja": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'ja': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0',
     4: '0\u4E07',
     5: '00\u4E07',
@@ -4512,7 +4512,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000\u5146',
   }),
   // Compact number symbols for locale ka.
-  "ka": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'ka': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0\u10D0\u10D7.',
     4: '00\u00A0\u10D0\u10D7.',
     5: '000\u00A0\u10D0\u10D7.',
@@ -4553,7 +4553,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0\u10E2\u10E0\u10DA.\u00A0\u00A4',
   }),
   // Compact number symbols for locale kk.
-  "kk": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'kk': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0\u043C\u044B\u04A3',
     4: '00\u00A0\u043C\u044B\u04A3',
     5: '000\u00A0\u043C.',
@@ -4594,7 +4594,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0\u0442\u0440\u043B\u043D\u00A0\u00A4',
   }),
   // Compact number symbols for locale km.
-  "km": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'km': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u1796\u17B6\u1793\u17CB',
     4: '00\u00A0\u1796\u17B6\u1793\u17CB',
     5: '000\u00A0\u1796\u17B6\u1793\u17CB',
@@ -4635,7 +4635,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000\u00A0\u1791\u17D2\u179A\u17B8\u179B\u17B6\u1793',
   }),
   // Compact number symbols for locale kn.
-  "kn": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'kn': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u0CB8\u0CBE',
     4: '00\u0CB8\u0CBE',
     5: '000\u0CB8\u0CBE',
@@ -4676,7 +4676,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000\u0C9F\u0CCD\u0CB0\u0CBF',
   }),
   // Compact number symbols for locale ko.
-  "ko": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'ko': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\uCC9C',
     4: '0\uB9CC',
     5: '00\uB9CC',
@@ -4717,7 +4717,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000\uC870',
   }),
   // Compact number symbols for locale ky.
-  "ky": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'ky': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0\u043C\u0438\u04A3',
     4: '00\u00A0\u043C\u0438\u04A3',
     5: '000\u00A0\u043C\u0438\u04A3',
@@ -4758,7 +4758,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0\u0442\u0440\u043B\u043D\u00A0\u00A4',
   }),
   // Compact number symbols for locale ln.
-  "ln": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'ln': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0K',
     4: '00K',
     5: '000K',
@@ -4786,7 +4786,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000T\u00A0\u00A4',
   }),
   // Compact number symbols for locale lo.
-  "lo": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'lo': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0\u0E9E\u0EB1\u0E99',
     4: '00\u00A0\u0E9E\u0EB1\u0E99',
     5: '000\u00A0\u0E81\u0EB5\u0E9A',
@@ -4827,7 +4827,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000\u00A0\u0EA5\u0EC9\u0EB2\u0E99\u0EA5\u0EC9\u0EB2\u0E99',
   }),
   // Compact number symbols for locale lt.
-  "lt": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'lt': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0t\u016Bkst.',
     4: '00\u00A0t\u016Bkst.',
     5: '000\u00A0t\u016Bkst.',
@@ -4868,7 +4868,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0trln.\u00A0\u00A4',
   }),
   // Compact number symbols for locale lv.
-  "lv": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'lv': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0t\u016Bkst.',
     4: '00\u00A0t\u016Bkst.',
     5: '000\u00A0t\u016Bkst.',
@@ -4909,7 +4909,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0trilj.\u00A0\u00A4',
   }),
   // Compact number symbols for locale mk.
-  "mk": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'mk': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0\u0438\u043B\u0458.',
     4: '00\u00A0\u0438\u043B\u0458.',
     5: '000\u00A0\u0438\u043B\u0458.',
@@ -4950,7 +4950,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0\u0431\u0438\u043B.\u00A0\u00A4',
   }),
   // Compact number symbols for locale ml.
-  "ml": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'ml': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0K',
     4: '00K',
     5: '000K',
@@ -4991,7 +4991,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000T',
   }),
   // Compact number symbols for locale mn.
-  "mn": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'mn': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0\u043C\u044F\u043D\u0433\u0430',
     4: '00\u00A0\u043C\u044F\u043D\u0433\u0430',
     5: '000\u00A0\u043C\u044F\u043D\u0433\u0430',
@@ -5032,7 +5032,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4\u00A0000\u00A0\u0438\u0445\u00A0\u043D\u0430\u044F\u0434',
   }),
   // Compact number symbols for locale mr.
-  "mr": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'mr': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0\u0939',
     4: '00\u00A0\u0939',
     5: '0\u00A0\u0932\u093E\u0916',
@@ -5073,7 +5073,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A400\u00A0\u092A\u0926\u094D\u092E',
   }),
   // Compact number symbols for locale ms.
-  "ms": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'ms': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0K',
     4: '00K',
     5: '000K',
@@ -5114,7 +5114,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000T',
   }),
   // Compact number symbols for locale mt.
-  "mt": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'mt': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0K',
     4: '00K',
     5: '000K',
@@ -5142,7 +5142,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000T',
   }),
   // Compact number symbols for locale my.
-  "my": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'my': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u1011\u1031\u102C\u1004\u103A',
     4: '0\u101E\u1031\u102C\u1004\u103A\u1038',
     5: '0\u101E\u102D\u1014\u103A\u1038',
@@ -5183,7 +5183,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4\u00A00\u1000\u1031\u102C\u100B\u102D',
   }),
   // Compact number symbols for locale nb.
-  "nb": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'nb': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0k',
     4: '00k',
     5: '000k',
@@ -5224,7 +5224,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4\u00A0000\u00A0bill.',
   }),
   // Compact number symbols for locale ne.
-  "ne": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'ne': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0\u0939\u091C\u093E\u0930',
     4: '00\u00A0\u0939\u091C\u093E\u0930',
     5: '0\u00A0\u0932\u093E\u0916',
@@ -5265,7 +5265,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4\u00A000\u00A0\u0936\u0902\u0916',
   }),
   // Compact number symbols for locale nl.
-  "nl": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'nl': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0K',
     4: '00K',
     5: '000K',
@@ -5306,7 +5306,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4\u00A0000\u00A0bln.',
   }),
   // Compact number symbols for locale no.
-  "no": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'no': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0k',
     4: '00k',
     5: '000k',
@@ -5347,7 +5347,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4\u00A0000\u00A0bill.',
   }),
   // Compact number symbols for locale no_NO.
-  "no_NO": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'no_NO': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0k',
     4: '00k',
     5: '000k',
@@ -5388,7 +5388,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4\u00A0000\u00A0bill.',
   }),
   // Compact number symbols for locale or.
-  "or": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'or': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u0B39',
     4: '00\u0B39',
     5: '000\u0B39',
@@ -5429,7 +5429,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000\u0B1F\u0B4D\u0B30\u0B3F',
   }),
   // Compact number symbols for locale pa.
-  "pa": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'pa': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0\u0A39\u0A1C\u0A3C\u0A3E\u0A30',
     4: '00\u00A0\u0A39\u0A1C\u0A3C\u0A3E\u0A30',
     5: '0\u00A0\u0A32\u0A71\u0A16',
@@ -5470,7 +5470,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4\u00A000\u00A0\u0A28\u0A40\u0A32',
   }),
   // Compact number symbols for locale pl.
-  "pl": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'pl': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0tys.',
     4: '00\u00A0tys.',
     5: '000\u00A0tys.',
@@ -5511,7 +5511,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0bln\u00A0\u00A4',
   }),
   // Compact number symbols for locale ps.
-  "ps": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'ps': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0K',
     4: '00K',
     5: '000K',
@@ -5552,7 +5552,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000T\u00A0\u00A4',
   }),
   // Compact number symbols for locale pt.
-  "pt": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'pt': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0mil',
     4: '00\u00A0mil',
     5: '000\u00A0mil',
@@ -5593,7 +5593,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4\u00A0000\u00A0tri',
   }),
   // Compact number symbols for locale pt_BR.
-  "pt_BR": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'pt_BR': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0mil',
     4: '00\u00A0mil',
     5: '000\u00A0mil',
@@ -5634,7 +5634,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4\u00A0000\u00A0tri',
   }),
   // Compact number symbols for locale pt_PT.
-  "pt_PT": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'pt_PT': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0mil',
     4: '00\u00A0mil',
     5: '000\u00A0mil',
@@ -5675,7 +5675,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0B\u00A0\u00A4',
   }),
   // Compact number symbols for locale ro.
-  "ro": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'ro': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0K',
     4: '00\u00A0K',
     5: '000\u00A0K',
@@ -5716,7 +5716,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0tril.\u00A0\u00A4',
   }),
   // Compact number symbols for locale ru.
-  "ru": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'ru': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0\u0442\u044B\u0441.',
     4: '00\u00A0\u0442\u044B\u0441.',
     5: '000\u00A0\u0442\u044B\u0441.',
@@ -5757,7 +5757,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0\u0442\u0440\u043B\u043D\u00A0\u00A4',
   }),
   // Compact number symbols for locale si.
-  "si": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'si': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '\u0DAF0',
     4: '\u0DAF00',
     5: '\u0DAF000',
@@ -5798,7 +5798,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4\u0DA7\u0DCA\u200D\u0DBB\u0DD2000',
   }),
   // Compact number symbols for locale sk.
-  "sk": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'sk': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0tis.',
     4: '00\u00A0tis.',
     5: '000\u00A0tis.',
@@ -5839,7 +5839,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0bil.\u00A0\u00A4',
   }),
   // Compact number symbols for locale sl.
-  "sl": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'sl': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0tis.',
     4: '00\u00A0tis.',
     5: '000\u00A0tis.',
@@ -5880,7 +5880,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0bil.\u00A0\u00A4',
   }),
   // Compact number symbols for locale sq.
-  "sq": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'sq': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0mij\u00EB',
     4: '00\u00A0mij\u00EB',
     5: '000\u00A0mij\u00EB',
@@ -5921,7 +5921,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0bln\u00A0\u00A4',
   }),
   // Compact number symbols for locale sr.
-  "sr": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'sr': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0\u0445\u0438\u0459.',
     4: '00\u00A0\u0445\u0438\u0459.',
     5: '000\u00A0\u0445\u0438\u0459.',
@@ -5962,7 +5962,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0\u0431\u0438\u043B.\u00A0\u00A4',
   }),
   // Compact number symbols for locale sr_Latn.
-  "sr_Latn": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'sr_Latn': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0hilj.',
     4: '00\u00A0hilj.',
     5: '000\u00A0hilj.',
@@ -6003,7 +6003,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0bil.\u00A0\u00A4',
   }),
   // Compact number symbols for locale sv.
-  "sv": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'sv': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0tn',
     4: '00\u00A0tn',
     5: '000\u00A0tn',
@@ -6044,7 +6044,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0bn\u00A0\u00A4',
   }),
   // Compact number symbols for locale sw.
-  "sw": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'sw': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: 'elfu\u00A00;elfu\u00A0-0',
     4: 'elfu\u00A000;elfu\u00A0-00',
     5: 'elfu\u00A0000;elfu\u00A0-000',
@@ -6085,7 +6085,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4\u00A0000T;\u00A4-000T',
   }),
   // Compact number symbols for locale ta.
-  "ta": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'ta': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u0B86',
     4: '00\u0B86',
     5: '000\u0B86',
@@ -6126,7 +6126,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4\u00A0000\u0B9F\u0BBF',
   }),
   // Compact number symbols for locale te.
-  "te": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'te': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u0C35\u0C47',
     4: '00\u0C35\u0C47',
     5: '000\u0C35\u0C47',
@@ -6167,7 +6167,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000\u0C1F\u0C4D\u0C30\u0C3F',
   }),
   // Compact number symbols for locale th.
-  "th": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'th': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0K',
     4: '00K',
     5: '000K',
@@ -6208,7 +6208,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000T',
   }),
   // Compact number symbols for locale tl.
-  "tl": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'tl': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0K',
     4: '00K',
     5: '000K',
@@ -6249,7 +6249,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000T',
   }),
   // Compact number symbols for locale tr.
-  "tr": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'tr': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0B',
     4: '00\u00A0B',
     5: '000\u00A0B',
@@ -6290,7 +6290,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0Tn\u00A0\u00A4',
   }),
   // Compact number symbols for locale uk.
-  "uk": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'uk': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0\u0442\u0438\u0441.',
     4: '00\u00A0\u0442\u0438\u0441.',
     5: '000\u00A0\u0442\u0438\u0441.',
@@ -6331,7 +6331,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0\u0442\u0440\u043B\u043D\u00A0\u00A4',
   }),
   // Compact number symbols for locale ur.
-  "ur": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'ur': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0\u06C1\u0632\u0627\u0631',
     4: '00\u00A0\u06C1\u0632\u0627\u0631',
     5: '0\u00A0\u0644\u0627\u06A9\u06BE',
@@ -6372,7 +6372,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4\u00A0000\u00A0\u0679\u0631\u06CC\u0644\u06CC\u0646',
   }),
   // Compact number symbols for locale uz.
-  "uz": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'uz': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0ming',
     4: '00\u00A0ming',
     5: '000\u00A0ming',
@@ -6413,7 +6413,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0trln\u00A0\u00A4',
   }),
   // Compact number symbols for locale vi.
-  "vi": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'vi': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0\u00A0N',
     4: '00\u00A0N',
     5: '000\u00A0N',
@@ -6454,7 +6454,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '000\u00A0NT\u00A0\u00A4',
   }),
   // Compact number symbols for locale zh.
-  "zh": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'zh': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0',
     4: '0\u4E07',
     5: '00\u4E07',
@@ -6495,7 +6495,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000\u5146',
   }),
   // Compact number symbols for locale zh_CN.
-  "zh_CN": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'zh_CN': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0',
     4: '0\u4E07',
     5: '00\u4E07',
@@ -6536,7 +6536,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000\u5146',
   }),
   // Compact number symbols for locale zh_HK.
-  "zh_HK": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'zh_HK': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0K',
     4: '00K',
     5: '000K',
@@ -6577,7 +6577,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000T',
   }),
   // Compact number symbols for locale zh_TW.
-  "zh_TW": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'zh_TW': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0',
     4: '0\u842C',
     5: '00\u842C',
@@ -6618,7 +6618,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     14: '\u00A4000\u5146',
   }),
   // Compact number symbols for locale zu.
-  "zu": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+  'zu': CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: '0K',
     4: '00K',
     5: '000K',
@@ -6661,76 +6661,76 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
 };
 
 final currencyFractionDigits = {
-  "ADP": 0,
-  "AFN": 0,
-  "ALL": 0,
-  "AMD": 2,
-  "BHD": 3,
-  "BIF": 0,
-  "BYN": 2,
-  "BYR": 0,
-  "CAD": 2,
-  "CHF": 2,
-  "CLF": 4,
-  "CLP": 0,
-  "COP": 2,
-  "CRC": 2,
-  "CZK": 2,
-  "DEFAULT": 2,
-  "DJF": 0,
-  "DKK": 2,
-  "ESP": 0,
-  "GNF": 0,
-  "GYD": 2,
-  "HUF": 2,
-  "IDR": 2,
-  "IQD": 0,
-  "IRR": 0,
-  "ISK": 0,
-  "ITL": 0,
-  "JOD": 3,
-  "JPY": 0,
-  "KMF": 0,
-  "KPW": 0,
-  "KRW": 0,
-  "KWD": 3,
-  "LAK": 0,
-  "LBP": 0,
-  "LUF": 0,
-  "LYD": 3,
-  "MGA": 0,
-  "MGF": 0,
-  "MMK": 0,
-  "MNT": 2,
-  "MRO": 0,
-  "MUR": 2,
-  "NOK": 2,
-  "OMR": 3,
-  "PKR": 2,
-  "PYG": 0,
-  "RSD": 0,
-  "RWF": 0,
-  "SEK": 2,
-  "SLL": 0,
-  "SOS": 0,
-  "STD": 0,
-  "SYP": 0,
-  "TMM": 0,
-  "TND": 3,
-  "TRL": 0,
-  "TWD": 2,
-  "TZS": 2,
-  "UGX": 0,
-  "UYI": 0,
-  "UYW": 4,
-  "UZS": 2,
-  "VEF": 2,
-  "VND": 0,
-  "VUV": 0,
-  "XAF": 0,
-  "XOF": 0,
-  "XPF": 0,
-  "YER": 0,
-  "ZMK": 0,
-  "ZWD": 0,
+  'ADP': 0,
+  'AFN': 0,
+  'ALL': 0,
+  'AMD': 2,
+  'BHD': 3,
+  'BIF': 0,
+  'BYN': 2,
+  'BYR': 0,
+  'CAD': 2,
+  'CHF': 2,
+  'CLF': 4,
+  'CLP': 0,
+  'COP': 2,
+  'CRC': 2,
+  'CZK': 2,
+  'DEFAULT': 2,
+  'DJF': 0,
+  'DKK': 2,
+  'ESP': 0,
+  'GNF': 0,
+  'GYD': 2,
+  'HUF': 2,
+  'IDR': 2,
+  'IQD': 0,
+  'IRR': 0,
+  'ISK': 0,
+  'ITL': 0,
+  'JOD': 3,
+  'JPY': 0,
+  'KMF': 0,
+  'KPW': 0,
+  'KRW': 0,
+  'KWD': 3,
+  'LAK': 0,
+  'LBP': 0,
+  'LUF': 0,
+  'LYD': 3,
+  'MGA': 0,
+  'MGF': 0,
+  'MMK': 0,
+  'MNT': 2,
+  'MRO': 0,
+  'MUR': 2,
+  'NOK': 2,
+  'OMR': 3,
+  'PKR': 2,
+  'PYG': 0,
+  'RSD': 0,
+  'RWF': 0,
+  'SEK': 2,
+  'SLL': 0,
+  'SOS': 0,
+  'STD': 0,
+  'SYP': 0,
+  'TMM': 0,
+  'TND': 3,
+  'TRL': 0,
+  'TWD': 2,
+  'TZS': 2,
+  'UGX': 0,
+  'UYI': 0,
+  'UYW': 4,
+  'UZS': 2,
+  'VEF': 2,
+  'VND': 0,
+  'VUV': 0,
+  'XAF': 0,
+  'XOF': 0,
+  'XPF': 0,
+  'YER': 0,
+  'ZMK': 0,
+  'ZWD': 0,
 };

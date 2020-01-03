@@ -182,7 +182,7 @@ class Bidi {
   /// applied to existing tag, otherwise a span tag will be added as wrapper.
   /// For this reason, if html snippet start with with tag, this tag must
   /// enclose the whole piece. If the tag already has a direction specified,
-  /// this new one will override existing one in behavior (should work on
+  /// this one will override existing one in behavior (should work on
   /// Chrome, FF, and IE since this was ported directly from the Closure
   /// version).
   static String enforceRtlInHtml(String html) =>
@@ -197,7 +197,7 @@ class Bidi {
   /// applied to existing tag, otherwise a span tag will be added as wrapper.
   /// For this reason, if html snippet start with with tag, this tag must
   /// enclose the whole piece. If the tag already has a direction specified,
-  /// this new one will override existing one in behavior (tested on FF and IE).
+  /// this one will override existing one in behavior (tested on FF and IE).
   static String enforceLtrInHtml(String html) =>
       _enforceInHtmlHelper(html, 'ltr');
 
@@ -210,7 +210,7 @@ class Bidi {
   /// will be applied to existing tag, otherwise a span tag will be added as
   /// wrapper.  For this reason, if html snippet start with with tag, this tag
   /// must enclose the whole piece. If the tag already has a direction
-  /// specified, this new one will override existing one in behavior (tested on
+  /// specified, this one will override existing one in behavior (tested on
   /// FF and IE).
   static String _enforceInHtmlHelper(String html, String direction) {
     if (html.startsWith('<')) {
@@ -234,7 +234,7 @@ class Bidi {
   /// If [isRtlContext] is true, then we explicitly want to wrap in a span of
   /// RTL directionality, regardless of the estimated directionality.
   static String guardBracketInHtml(String str, [bool isRtlContext]) {
-    var useRtl = isRtlContext == null ? hasAnyRtl(str) : isRtlContext;
+    var useRtl = isRtlContext ?? hasAnyRtl(str);
     var matchingBrackets =
         RegExp(r'(\(.*?\)+)|(\[.*?\]+)|(\{.*?\}+)|(&lt;.*?(&gt;)+)');
     return _guardBracketHelper(str, matchingBrackets,
@@ -248,7 +248,7 @@ class Bidi {
   /// explicitly want to wrap in a span of RTL directionality, regardless of the
   /// estimated directionality.
   static String guardBracketInText(String str, [bool isRtlContext]) {
-    var useRtl = isRtlContext == null ? hasAnyRtl(str) : isRtlContext;
+    var useRtl = isRtlContext ?? hasAnyRtl(str);
     var mark = useRtl ? RLM : LRM;
     return _guardBracketHelper(
         str, RegExp(r'(\(.*?\)+)|(\[.*?\]+)|(\{.*?\}+)|(<.*?>+)'), mark, mark);
@@ -257,7 +257,7 @@ class Bidi {
   /// (Mostly) reimplements the $& functionality of "replace" in JavaScript.
   /// Given a [str] and the [regexp] to match with, optionally supply a string
   /// to be inserted [before] the match and/or [after]. For example,
-  /// `_guardBracketHelper('firetruck', new RegExp('truck'), 'hydrant', '!')`
+  /// `_guardBracketHelper('firetruck', RegExp('truck'), 'hydrant', '!')`
   /// would return 'firehydrant!'.  // TODO(efortuna): Get rid of this once this
   /// is implemented in Dart.  // See Issue 2979.
   static String _guardBracketHelper(String str, RegExp regexp,

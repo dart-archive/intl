@@ -28,7 +28,7 @@ typedef _PatternGetter = String Function(NumberSymbols);
 /// - `;` Used to separate the positive and negative patterns (if both present)
 ///
 /// For example,
-///       var f = new NumberFormat("###.0#", "en_US");
+///       var f = NumberFormat('###.0#', 'en_US');
 ///       print(f.format(12.345));
 ///       ==> 12.34
 /// If the locale is not specified, it will default to the current locale. If
@@ -37,12 +37,12 @@ typedef _PatternGetter = String Function(NumberSymbols);
 ///
 /// There are also standard patterns available via the special constructors.
 /// e.g.
-///       var percent = new NumberFormat.percentFormat("ar");
-///       var eurosInUSFormat = new NumberFormat.currency(locale: "en_US",
-///           symbol: "€");
+///       var percent = NumberFormat.percentFormat('ar');
+///       var eurosInUSFormat = NumberFormat.currency(locale: 'en_US',
+///           symbol: '€');
 /// There are four such constructors: decimalFormat, percentFormat,
 /// scientificFormat and currencyFormat. However, at the moment,
-/// scientificFormat prints only as equivalent to "#E0" and does not take
+/// scientificFormat prints only as equivalent to '#E0' and does not take
 /// into account significant digits. The currencyFormat will default to the
 /// three-letter name of the currency if no explicit name/symbol is provided.
 class NumberFormat {
@@ -55,7 +55,7 @@ class NumberFormat {
   String _positiveSuffix = '';
 
   /// How many numbers in a group when using punctuation to group digits in
-  /// large numbers. e.g. in en_US: "1,000,000" has a grouping size of 3 digits
+  /// large numbers. e.g. in en_US: '1,000,000' has a grouping size of 3 digits
   /// between commas.
   int _groupingSize = 3;
 
@@ -124,12 +124,12 @@ class NumberFormat {
 
   /// The symbol to be used when formatting this as currency.
   ///
-  /// For example, "$", "US$", or "€".
+  /// For example, '$', 'US$', or '€'.
   String _currencySymbol;
 
   /// The symbol to be used when formatting this as currency.
   ///
-  /// For example, "$", "US$", or "€".
+  /// For example, '$', 'US$', or '€'.
   String get currencySymbol => _currencySymbol ?? currencyName;
 
   /// The number of decimal places to use when formatting.
@@ -139,12 +139,12 @@ class NumberFormat {
   /// otherwise we use the value from the pattern for the locale.
   ///
   /// So, for example,
-  ///      new NumberFormat.currency(name: 'USD', decimalDigits: 7)
+  ///      NumberFormat.currency(name: 'USD', decimalDigits: 7)
   /// will format with 7 decimal digits, because that's what we asked for. But
-  ///       new NumberFormat.currency(locale: 'en_US', name: 'JPY')
+  ///       NumberFormat.currency(locale: 'en_US', name: 'JPY')
   /// will format with zero, because that's the default for JPY, and the
   /// currency's default takes priority over the locale's default.
-  ///       new NumberFormat.currency(locale: 'en_US')
+  ///       NumberFormat.currency(locale: 'en_US')
   /// will format with two, which is the default for that locale.
   ///
   int get decimalDigits => _decimalDigits;
@@ -200,8 +200,8 @@ class NumberFormat {
   ///
   /// If provided,
   /// use [currencyNameOrSymbol] in place of the default currency name. e.g.
-  ///        var eurosInCurrentLocale = new NumberFormat
-  ///            .currencyPattern(Intl.defaultLocale, "€");
+  ///        var eurosInCurrentLocale = NumberFormat
+  ///            .currencyPattern(Intl.defaultLocale, '€');
   @Deprecated('Use NumberFormat.currency')
   factory NumberFormat.currencyPattern(
       [String locale, String currencyNameOrSymbol]) {
@@ -223,14 +223,14 @@ class NumberFormat {
   /// Otherwise we will use the default currency name for the current locale. If
   /// no [symbol] is specified, we will use the currency name in the formatted
   /// result. e.g.
-  ///      var f = new NumberFormat.currency(locale: 'en_US', name: 'EUR')
-  /// will format currency like "EUR1.23". If we did not specify the name, it
-  /// would format like "USD1.23".
+  ///      var f = NumberFormat.currency(locale: 'en_US', name: 'EUR')
+  /// will format currency like 'EUR1.23'. If we did not specify the name, it
+  /// would format like 'USD1.23'.
   ///
   /// If [symbol] is used, then that symbol will be used in formatting instead
   /// of the name. e.g.
-  ///      var eurosInCurrentLocale = new NumberFormat.currency(symbol: "€");
-  /// will format like "€1.23". Otherwise it will use the currency name.
+  ///      var eurosInCurrentLocale = NumberFormat.currency(symbol: '€');
+  /// will format like '€1.23'. Otherwise it will use the currency name.
   /// If this is not explicitly specified in the constructor, then for
   /// currencies we use the default value for the currency if the name is given,
   ///  otherwise we use the value from the pattern for the locale.
@@ -239,12 +239,12 @@ class NumberFormat {
   /// after the decimal place. If it's not, they will use the default for the
   /// currency in [name], and the default currency for [locale] if the currency
   /// name is not specified. e.g.
-  ///       new NumberFormat.currency(name: 'USD', decimalDigits: 7)
+  ///       NumberFormat.currency(name: 'USD', decimalDigits: 7)
   /// will format with 7 decimal digits, because that's what we asked for. But
-  ///       new NumberFormat.currency(locale: 'en_US', name: 'JPY')
+  ///       NumberFormat.currency(locale: 'en_US', name: 'JPY')
   /// will format with zero, because that's the default for JPY, and the
   /// currency's default takes priority over the locale's default.
-  ///       new NumberFormat.currency(locale: 'en_US')
+  ///       NumberFormat.currency(locale: 'en_US')
   /// will format with two, which is the default for that locale.
   ///
   /// The [customPattern] parameter can be used to specify a particular
@@ -273,18 +273,18 @@ class NumberFormat {
   /// Otherwise we will use the default currency name for the current locale. We
   /// will assume that the symbol for this is well known in the locale and
   /// unambiguous. If you format CAD in an en_US locale using this format it
-  /// will display as "$", which may be confusing to the user.
+  /// will display as '$', which may be confusing to the user.
   ///
   /// If [decimalDigits] is specified, numbers will format with that many digits
   /// after the decimal place. If it's not, they will use the default for the
   /// currency in [name], and the default currency for [locale] if the currency
   /// name is not specified. e.g.
-  ///       new NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 7)
+  ///       NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 7)
   /// will format with 7 decimal digits, because that's what we asked for. But
-  ///       new NumberFormat.simpleCurrency(locale: 'en_US', name: 'JPY')
+  ///       NumberFormat.simpleCurrency(locale: 'en_US', name: 'JPY')
   /// will format with zero, because that's the default for JPY, and the
   /// currency's default takes priority over the locale's default.
-  ///       new NumberFormat.simpleCurrency(locale: 'en_US')
+  ///       NumberFormat.simpleCurrency(locale: 'en_US')
   /// will format with two, which is the default for that locale.
   factory NumberFormat.simpleCurrency(
       {String locale, String name, int decimalDigits}) {
@@ -304,7 +304,7 @@ class NumberFormat {
   /// may be a symbol character, or may have letters, or both. It may be
   /// different according to the locale: for example, for an Arabic locale it
   /// may consist of Arabic letters, but for a French locale consist of Latin
-  /// letters. It will not be unique: for example, "$" can appear for both USD
+  /// letters. It will not be unique: for example, '$' can appear for both USD
   /// and CAD.
   ///
   /// (The current implementation is the same for all locales, but this is
@@ -319,7 +319,7 @@ class NumberFormat {
   /// may be a symbol character, or may have letters, or both. It may be
   /// different according to the locale: for example, for an Arabic locale it
   /// may consist of Arabic letters, but for a French locale consist of Latin
-  /// letters. It will not be unique: for example, "$" can appear for both USD
+  /// letters. It will not be unique: for example, '$' can appear for both USD
   /// and CAD.
   ///
   /// (The current implementation is the same for all locales, but this is
@@ -514,24 +514,24 @@ class NumberFormat {
     _setPattern(getPattern(_symbols));
   }
 
-  /// A number format for compact representations, e.g. "1.2M" instead
-  /// of "1,200,000".
+  /// A number format for compact representations, e.g. '1.2M' instead
+  /// of '1,200,000'.
   factory NumberFormat.compact({String locale}) {
     return _CompactNumberFormat(
         locale: locale,
         formatType: _CompactFormatType.COMPACT_DECIMAL_SHORT_PATTERN);
   }
 
-  /// A number format for "long" compact representations, e.g. "1.2 million"
-  /// instead of of "1,200,000".
+  /// A number format for 'long' compact representations, e.g. '1.2 million'
+  /// instead of of '1,200,000'.
   factory NumberFormat.compactLong({String locale}) {
     return _CompactNumberFormat(
         locale: locale,
         formatType: _CompactFormatType.COMPACT_DECIMAL_LONG_PATTERN);
   }
 
-  /// A number format for compact currency representations, e.g. "$1.2M" instead
-  /// of "$1,200,000", and which will automatically determine a currency symbol
+  /// A number format for compact currency representations, e.g. '$1.2M' instead
+  /// of '$1,200,000', and which will automatically determine a currency symbol
   /// based on the currency name or the locale. See
   /// [NumberFormat.simpleCurrency].
   factory NumberFormat.compactSimpleCurrency(
@@ -547,8 +547,8 @@ class NumberFormat {
         isForCurrency: true);
   }
 
-  /// A number format for compact currency representations, e.g. "$1.2M" instead
-  /// of "$1,200,000".
+  /// A number format for compact currency representations, e.g. '$1.2M' instead
+  /// of '$1,200,000'.
   factory NumberFormat.compactCurrency(
       {String locale, String name, String symbol, int decimalDigits}) {
     return _CompactNumberFormat(
@@ -638,7 +638,7 @@ class NumberFormat {
     _formatExponent(exponent);
   }
 
-  /// Format the exponent portion, e.g. in "1.3e-5" the "e-5".
+  /// Format the exponent portion, e.g. in '1.3e-5' the 'e-5'.
   void _formatExponent(num exponent) {
     _add(symbols.EXP_SYMBOL);
     if (exponent < 0) {
@@ -966,6 +966,7 @@ class NumberFormat {
     _finalGroupingSize = 0;
   }
 
+  @override
   String toString() => 'NumberFormat($_locale, $_pattern)';
 }
 
@@ -1025,7 +1026,7 @@ class _NumberParser {
   int get _zero => NumberFormat._zero;
   int get _localeZero => format._localeZero;
 
-  ///  Create a new [_NumberParser] on which we can call parse().
+  ///  Create a [_NumberParser] on which we can call parse().
   _NumberParser(this.format, this.text) : input = _Stream(text) {
     scale = format._internalMultiplier;
     value = parse();
@@ -1034,7 +1035,7 @@ class _NumberParser {
   ///  The strings we might replace with functions that return the replacement
   /// values. They are functions because we might need to check something
   /// in the context. Note that the ordering is important here. For example,
-  /// `symbols.PERCENT` might be " %", and we must handle that before we
+  /// `symbols.PERCENT` might be ' %', and we must handle that before we
   /// look at an individual space.
   Map<String, Function> get replacements =>
       _replacements ??= _initializeReplacements();
@@ -1235,7 +1236,7 @@ class _NumberFormatParser {
   /// default.
   final int decimalDigits;
 
-  /// Create a new [_NumberFormatParser] for a particular [NumberFormat] and
+  /// Create a [_NumberFormatParser] for a particular [NumberFormat] and
   /// [input] pattern.
   _NumberFormatParser(
       this.format, input, this.currencySymbol, this.decimalDigits)
@@ -1345,7 +1346,7 @@ class _NumberFormatParser {
   var digitRightCount = 0;
   var groupingCount = -1;
 
-  /// Parse the "trunk" portion of the pattern, the piece that doesn't include
+  /// Parse the 'trunk' portion of the pattern, the piece that doesn't include
   /// positive or negative prefixes or suffixes.
   String _parseTrunk() {
     var loop = true;
@@ -1427,7 +1428,7 @@ class _NumberFormatParser {
         break;
       case _PATTERN_ZERO_DIGIT:
         if (digitRightCount > 0) {
-          throw FormatException('Unexpected "0" in pattern "${pattern.input}');
+          throw FormatException('Unexpected "0" in pattern "${pattern.input}"');
         }
         zeroDigitCount++;
         if (groupingCount >= 0 && decimalPos < 0) {
@@ -1498,6 +1499,7 @@ Iterator<String> _iterator(String s) => _StringIterator(s);
 /// Provides an Iterable that wraps [_iterator] so it can be used in a `for`
 /// loop.
 class _StringIterable extends IterableBase<String> {
+  @override
   final Iterator<String> iterator;
 
   _StringIterable(String s) : iterator = _iterator(s);
@@ -1512,8 +1514,10 @@ class _StringIterator implements Iterator<String> {
 
   _StringIterator(input) : input = _validate(input);
 
+  @override
   String get current => _current;
 
+  @override
   bool moveNext() {
     if (nextIndex >= input.length) {
       _current = null;
@@ -1601,6 +1605,7 @@ class _MicroMoney implements MicroMoney {
 
   int toInt() => _integerPart.toInt();
 
+  @override
   String toString() {
     var beforeDecimal = '$_integerPart';
     var decimalPart = '';

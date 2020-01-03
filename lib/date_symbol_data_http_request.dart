@@ -38,6 +38,6 @@ Future<void> initializeDateFormatting(String locale, String url) {
   });
 }
 
-/// Defines how new date symbol entries are created.
+/// Defines how date symbol entries are created.
 DateSymbols _createDateSymbol(Map<dynamic, dynamic> map) =>
     DateSymbols.deserializeFromMap(map);

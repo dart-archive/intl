@@ -29,7 +29,7 @@ enum PluralCase { ZERO, ONE, TWO, FEW, MANY, OTHER }
 /// The default rule in case we don't have anything more specific for a locale.
 PluralCase _default_rule() => OTHER;
 
-/// This must be called before evaluating a new rule, because we're using
+/// This must be called before evaluating a rule, because we're using
 /// library-global state to both keep the rules terse and minimize space.
 void startRuleEvaluation(num howMany, [int precision = 0]) {
   _n = howMany;

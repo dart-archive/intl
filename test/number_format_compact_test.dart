@@ -27,11 +27,11 @@ void main() {
   // testdata35.compactNumberTestData.forEach(validate);
   // more_testdata.cldr35CompactNumTests.forEach(validateFancy);
 
-  test("Patterns are consistent across locales", () {
+  test('Patterns are consistent across locales', () {
     patterns.compactNumberSymbols.forEach((locale, patterns) {
       expect(patterns.COMPACT_DECIMAL_SHORT_PATTERN.keys,
           orderedEquals([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]),
-          reason: "Precision algorithm expects no gaps in pattern magnitudes");
+          reason: 'Precision algorithm expects no gaps in pattern magnitudes');
     });
   });
 
@@ -210,7 +210,7 @@ void validate(String locale, List<List<String>> expected) {
 /// formatting and parsing.
 void validateShort(String locale, List<List<String>> expected) {
   if (problemLocalesShort.contains(locale)) {
-    print("Skipping problem locale '$locale' for SHORT compact number tests");
+    print('Skipping problem locale "$locale" for SHORT compact number tests');
     return;
   }
   var shortFormat = NumberFormat.compact(locale: locale);
@@ -227,7 +227,7 @@ void validateShort(String locale, List<List<String>> expected) {
 
 void validateLong(String locale, List<List<String>> expected) {
   if (problemLocalesLong.contains(locale)) {
-    print("Skipping problem locale '$locale' for LONG compact number tests");
+    print('Skipping problem locale "$locale" for LONG compact number tests');
     return;
   }
   var longFormat = NumberFormat.compactLong(locale: locale);
@@ -313,19 +313,25 @@ bool _oneSpaceOnlyDifference(String result, String expected) {
 }
 
 void validateFancy(more_testdata.CompactRoundingTestCase t) {
-  var shortFormat = new NumberFormat.compact(locale: 'en');
-  if (t.maximumIntegerDigits != null)
+  var shortFormat = NumberFormat.compact(locale: 'en');
+  if (t.maximumIntegerDigits != null) {
     shortFormat.maximumIntegerDigits = t.maximumIntegerDigits;
-  if (t.minimumIntegerDigits != null)
+  }
+  if (t.minimumIntegerDigits != null) {
     shortFormat.minimumIntegerDigits = t.minimumIntegerDigits;
-  if (t.maximumFractionDigits != null)
+  }
+  if (t.maximumFractionDigits != null) {
     shortFormat.maximumFractionDigits = t.maximumFractionDigits;
-  if (t.minimumFractionDigits != null)
+  }
+  if (t.minimumFractionDigits != null) {
     shortFormat.minimumFractionDigits = t.minimumFractionDigits;
-  if (t.minimumExponentDigits != null)
+  }
+  if (t.minimumExponentDigits != null) {
     shortFormat.minimumExponentDigits = t.minimumExponentDigits;
-  if (t.significantDigits != null)
+  }
+  if (t.significantDigits != null) {
     shortFormat.significantDigits = t.significantDigits;
+  }
 
   test(t.toString(), () {
     expect(shortFormat.format(t.number), t.expected);

@@ -41,7 +41,7 @@ class LazyLocaleData {
   /// [keys] lists the set of remotely available locale names so we know which
   /// things can be fetched without having to check remotely.
   LazyLocaleData(this._reader, this._creationFunction, this.availableLocales) {
-    map = Map();
+    map = <dynamic, dynamic>{};
     availableLocaleSet = Set.from(availableLocales);
   }
 

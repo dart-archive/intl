@@ -32,6 +32,7 @@ abstract class _DateFormatField {
 
   String fullPattern() => pattern;
 
+  @override
   String toString() => pattern;
 
   /// Format date according to our specification and return the result.
@@ -95,10 +96,12 @@ abstract class _DateFormatField {
 class _DateFormatLiteralField extends _DateFormatField {
   _DateFormatLiteralField(pattern, parent) : super(pattern, parent);
 
+  @override
   void parse(_Stream input, _DateBuilder dateFields) {
     parseLiteral(input);
   }
 
+  @override
   void parseLoose(_Stream input, _DateBuilder dateFields) =>
       parseLiteralLoose(input);
 }
@@ -108,6 +111,7 @@ class _DateFormatLiteralField extends _DateFormatField {
 class _DateFormatQuotedField extends _DateFormatField {
   String _fullPattern;
 
+  @override
   String fullPattern() => _fullPattern;
 
   _DateFormatQuotedField(pattern, parent)
@@ -115,10 +119,12 @@ class _DateFormatQuotedField extends _DateFormatField {
     _fullPattern = pattern;
   }
 
+  @override
   void parse(_Stream input, _DateBuilder dateFields) {
     parseLiteral(input);
   }
 
+  @override
   void parseLoose(_Stream input, _DateBuilder dateFields) =>
       parseLiteralLoose(input);
 
@@ -144,6 +150,7 @@ class _LoosePatternField extends _DateFormatPatternField {
 
   /// Parse from a list of possibilities, but case-insensitively.
   /// Assumes that input is lower case.
+  @override
   int parseEnumeratedString(_Stream input, List<String> possibilities) {
     var lowercasePossibilities =
         possibilities.map((x) => x.toLowerCase()).toList();
@@ -156,6 +163,7 @@ class _LoosePatternField extends _DateFormatPatternField {
 
   /// Parse a month name, case-insensitively, and set it in [dateFields].
   /// Assumes that [input] is lower case.
+  @override
   void parseMonth(input, dateFields) {
     if (width <= 2) {
       handleNumericField(input, dateFields.setMonth);
@@ -174,6 +182,7 @@ class _LoosePatternField extends _DateFormatPatternField {
 
   /// Parse a standalone day name, case-insensitively.
   /// Assumes that input is lower case. Doesn't do anything
+  @override
   void parseStandaloneDay(input) {
     // This is ignored, but we still have to skip over it the correct amount.
     if (width <= 2) {
@@ -194,6 +203,7 @@ class _LoosePatternField extends _DateFormatPatternField {
 
   /// Parse a standalone month name, case-insensitively, and set it in
   /// [dateFields]. Assumes that input is lower case.
+  @override
   void parseStandaloneMonth(input, dateFields) {
     if (width <= 2) {
       handleNumericField(input, dateFields.setMonth);
@@ -215,6 +225,7 @@ class _LoosePatternField extends _DateFormatPatternField {
 
   /// Parse a day of the week name, case-insensitively.
   /// Assumes that input is lower case. Doesn't do anything
+  @override
   void parseDayOfWeek(_Stream input) {
     // This is IGNORED, but we still have to skip over it the correct amount.
     if (width <= 2) {
@@ -240,12 +251,14 @@ class _DateFormatPatternField extends _DateFormatField {
   _DateFormatPatternField(pattern, parent) : super(pattern, parent);
 
   /// Format date according to our specification and return the result.
+  @override
   String format(DateTime date) {
     return formatField(date);
   }
 
   /// Parse the date according to our specification and put the result
   /// into the correct place in dateFields.
+  @override
   void parse(_Stream input, _DateBuilder dateFields) {
     parseField(input, dateFields);
   }
@@ -253,6 +266,7 @@ class _DateFormatPatternField extends _DateFormatField {
   /// Parse the date according to our specification and put the result
   /// into the correct place in dateFields. Allow looser parsing, accepting
   /// case-insensitive input and skipped delimiters.
+  @override
   void parseLoose(_Stream input, _DateBuilder dateFields) {
     _LoosePatternField(pattern, parent).parse(input, dateFields);
   }
@@ -266,6 +280,7 @@ class _DateFormatPatternField extends _DateFormatField {
   /// e.g. 'yyyy' for a four-digit year. This hard-codes all the pattern
   /// characters that pertain to dates. The remaining characters, 'ahHkKms' are
   /// all time-related. See e.g. [formatField]
+  @override
   bool get forDate => _forDate ??= 'cdDEGLMQvyZz'.contains(pattern[0]);
 
   /// Parse a field representing part of a date pattern. Note that we do not

@@ -16,6 +16,7 @@ class HttpRequestDataReader implements LocaleDataReader {
   String url;
   HttpRequestDataReader(this.url);
 
+  @override
   Future<String> read(String locale) {
     var request = HttpRequest();
     request.timeout = 5000;

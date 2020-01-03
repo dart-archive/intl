@@ -696,9 +696,8 @@ class DateFormat {
   /// Should we use native digits for printing DateTime, or ASCII.
   ///
   /// The default for this can be set using [useNativeDigitsByDefaultFor].
-  bool get useNativeDigits => _useNativeDigits == null
-      ? _useNativeDigits = shouldUseNativeDigitsByDefaultFor(locale)
-      : _useNativeDigits;
+  bool get useNativeDigits =>
+      _useNativeDigits ?? shouldUseNativeDigitsByDefaultFor(locale);
 
   /// Should we use native digits for printing DateTime, or ASCII.
   set useNativeDigits(bool native) {
@@ -731,17 +730,15 @@ class DateFormat {
   int _localeZeroCodeUnit;
 
   /// For performance, keep the code unit of the zero digit available.
-  int get localeZeroCodeUnit => _localeZeroCodeUnit == null
-      ? _localeZeroCodeUnit = localeZero.codeUnitAt(0)
-      : _localeZeroCodeUnit;
+  int get localeZeroCodeUnit => _localeZeroCodeUnit ?? localeZero.codeUnitAt(0);
+
   static final int _asciiZeroCodeUnit = '0'.codeUnitAt(0);
 
   String _localeZero;
 
   /// For performance, keep the zero digit available.
-  String get localeZero => _localeZero == null
-      ? _localeZero = useNativeDigits ? dateSymbols.ZERODIGIT ?? '0' : '0'
-      : _localeZero;
+  String get localeZero =>
+      _localeZero ?? useNativeDigits ? dateSymbols.ZERODIGIT ?? '0' : '0';
 
   // Does this use non-ASCII digits, e.g. Eastern Arabic.
   bool get usesNativeDigits =>

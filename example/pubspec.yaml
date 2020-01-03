@@ -1,0 +1,15 @@
+name: example
+description: Example of a Flutter app using the intl library services.
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl:
+
+dev_dependencies:
+  intl_translation:
+
+flutter:
+  uses-material-design: true

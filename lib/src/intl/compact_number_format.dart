@@ -41,10 +41,14 @@ class _CompactStyleWithNegative extends _CompactStyleBase {
   _CompactStyleWithNegative(this.positiveStyle, this.negativeStyle);
   final _CompactStyle positiveStyle;
   final _CompactStyle negativeStyle;
+  @override
   _CompactStyle styleForSign(number) =>
       number < 0 ? negativeStyle : positiveStyle;
+  @override
   int get totalDigits => positiveStyle.totalDigits;
+  @override
   int get divisor => positiveStyle.divisor;
+  @override
   List<_CompactStyle> get allStyles => [positiveStyle, negativeStyle];
 }
 
@@ -57,7 +61,7 @@ class _CompactStyleWithNegative extends _CompactStyleBase {
 ///       4: '00K'
 /// which matches
 ///
-///      new _CompactStyle(pattern: '00K', normalizedExponent: 4, divisor: 1000,
+///      _CompactStyle(pattern: '00K', normalizedExponent: 4, divisor: 1000,
 ///      expectedDigits: 1, prefix: '', suffix: 'K');
 ///
 /// where expectedDigits is the number of zeros.
@@ -86,6 +90,7 @@ class _CompactStyle extends _CompactStyleBase {
 
   /// What should we divide the number by in order to print. Normally is either
   /// 10^normalizedExponent or 1 if we shouldn't divide at all.
+  @override
   int divisor;
 
   /// How many integer digits do we expect to print - the number of zeros in the
@@ -108,6 +113,7 @@ class _CompactStyle extends _CompactStyleBase {
   /// number. We will scale by 1000 and expect 2 integer digits remaining, so we
   /// get something like '12K'. This is used to find the closest pattern for a
   /// number.
+  @override
   int get totalDigits => normalizedExponent + expectedDigits - 1;
 
   /// Return true if this is the fallback compact pattern, printing the number
@@ -127,7 +133,9 @@ class _CompactStyle extends _CompactStyleBase {
   bool get printsAsIs =>
       isFallback || pattern.replaceAll(RegExp('[0\u00a0\u00a4]'), '').isEmpty;
 
+  @override
   _CompactStyle styleForSign(number) => this;
+  @override
   List<_CompactStyle> get allStyles => [this];
 }
 
@@ -242,6 +250,7 @@ class _CompactNumberFormat extends NumberFormat {
   /// This is a temporary variable that is only valid within a call to format.
   _CompactStyle _style;
 
+  @override
   String format(number) {
     _style = _styleFor(number);
     var divisor = _style.printsAsIs ? 1 : _style.divisor;
@@ -266,6 +275,7 @@ class _CompactNumberFormat extends NumberFormat {
 
   /// How many digits after the decimal place should we display, given that
   /// there are [remainingSignificantDigits] left to show.
+  @override
   int _fractionDigitsAfter(int remainingSignificantDigits) {
     var newFractionDigits =
         super._fractionDigitsAfter(remainingSignificantDigits);
@@ -330,6 +340,7 @@ class _CompactNumberFormat extends NumberFormat {
   Iterable<_CompactStyle> get _stylesForSearching =>
       _styles.reversed.expand((x) => x.allStyles);
 
+  @override
   num parse(String text) {
     for (var style in _stylesForSearching) {
       if (text.startsWith(style.prefix) && text.endsWith(style.suffix)) {

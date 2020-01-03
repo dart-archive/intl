@@ -51,7 +51,7 @@ part 'src/intl/number_format.dart';
 ///          args: [date],
 ///          desc: 'Indicate the current date',
 ///          examples: const {'date' : 'June 8, 2012'});
-///      print(today(new DateTime.now().toString());
+///      print(today(DateTime.now().toString());
 ///
 ///      howManyPeople(numberOfPeople, place) => Intl.plural(numberOfPeople,
 ///            zero: 'I see no one at all in $place.',
@@ -75,7 +75,7 @@ part 'src/intl/number_format.dart';
 ///
 /// To temporarily use a locale other than the default, use the `withLocale`
 /// function.
-///       var todayString = new DateFormat('pt_BR').format(new DateTime.now());
+///       var todayString = DateFormat('pt_BR').format(DateTime.now());
 ///       print(withLocale('pt_BR', () => today(todayString));
 ///
 /// See `tests/message_format_test.dart` for more examples.
@@ -87,7 +87,7 @@ class Intl {
   String _locale;
 
   /// The default locale. This defaults to being set from systemLocale, but
-  /// can also be set explicitly, and will then apply to any new instances where
+  /// can also be set explicitly, and will then apply to any instances where
   /// the locale isn't specified. Note that a locale parameter to
   /// [Intl.withLocale]
   /// will supercede this value while that operation is active. Using
@@ -95,7 +95,7 @@ class Intl {
   /// in the same application.
   static String get defaultLocale {
     var zoneLocale = Zone.current[#Intl.locale] as String;
-    return zoneLocale == null ? _defaultLocale : zoneLocale;
+    return zoneLocale ?? _defaultLocale;
   }
 
   static set defaultLocale(String newLocale) {
@@ -110,7 +110,7 @@ class Intl {
   /// intl_browser.dart or intl_standalone.dart and calling findSystemLocale().
   static String systemLocale = 'en_US';
 
-  /// Return a new date format using the specified [pattern].
+  /// Return a date format using the specified [pattern].
   /// If [desiredLocale] is not specified, then we default to [locale].
   DateFormat date([String pattern, String desiredLocale]) {
     var actualLocale = (desiredLocale == null) ? locale : desiredLocale;
@@ -122,7 +122,7 @@ class Intl {
   /// Dart is running on the client, we can infer from the browser/client
   /// preferences).
   Intl([String aLocale]) {
-    _locale = aLocale != null ? aLocale : getCurrentLocale();
+    _locale = aLocale ?? getCurrentLocale();
   }
 
   /// Use this for a message that will be translated for different locales. The
@@ -367,7 +367,7 @@ class Intl {
 
     // This is for backward compatibility.
     // We interpret the presence of [precision] parameter as an "opt-in" to
-    // the new behavior, since [precision] did not exist before.
+    // the behavior, since [precision] did not exist before.
     // For an English example: if the precision is 2 then the formatted string
     // would not map to 'one' (for example "1.00 miles")
     if (precision == null || precision == 0) {
@@ -476,9 +476,9 @@ class Intl {
     }
     switch (targetGender) {
       case 'female':
-        return female == null ? other : female;
+        return female ?? other;
       case 'male':
-        return male == null ? other : male;
+        return male ?? other;
       default:
         return other;
     }
@@ -517,8 +517,12 @@ class Intl {
     // Look up our translation, but pass in a null message so we don't have to
     // eagerly evaluate calls that may not be necessary.
     var stringChoice = choice is String ? choice : '$choice'.split('.').last;
-    var modifiedArgs =
-        args == null ? null : (<Object>[stringChoice]..addAll(args.skip(1)));
+    var modifiedArgs = args == null
+        ? null
+        : [
+            <Object>[stringChoice],
+            ...args.skip(1),
+          ];
     var translated = _message(null, locale, name, modifiedArgs, meaning);
 
     /// If there's a translation, return it, otherwise evaluate with our
@@ -559,7 +563,7 @@ class Intl {
   ///
   /// For example
   ///
-  ///       Intl.withLocale('fr', () => new NumberFormat.format(123456));
+  ///       Intl.withLocale('fr', () => NumberFormat.format(123456));
   ///
   /// or
   ///
@@ -568,7 +572,7 @@ class Intl {
   ///           name: 'hello',
   ///           args: [name],
   ///           desc: 'Say Hello');
-  ///       Intl.withLocale('zh', new Timer(new Duration(milliseconds:10),
+  ///       Intl.withLocale('zh', Timer(Duration(milliseconds:10),
   ///           () => print(hello('World')));
   static dynamic withLocale<T>(String locale, T Function() function) {
     // TODO(alanknight): Make this return T. This requires work because T might
@@ -586,6 +590,7 @@ class Intl {
     return defaultLocale;
   }
 
+  @override
   String toString() => 'Intl($locale)';
 }
 

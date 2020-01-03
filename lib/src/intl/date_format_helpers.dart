@@ -215,7 +215,7 @@ class _DateBuilder {
     // Check for the UTC failure. Are we expecting to produce a local time, but
     // the result is UTC. However, the local time might happen to be the same as
     // UTC. To be thorough, check if either the hour/day don't agree with what
-    // we expect, or is a new DateTime in a non-UTC timezone.
+    // we expect, or is a DateTime in a non-UTC timezone.
     if (!utc &&
         result.isUtc &&
         (result.hour != hour24 ||

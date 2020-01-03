@@ -6,7 +6,7 @@
 ///
 /// The subtag must already be lowercase.
 ///
-/// TODO(b/127689510): write a new script for updating this list from CLDR data.
+/// TODO(b/127689510): write a script for updating this list from CLDR data.
 String replaceDeprecatedLanguageSubtag(String languageCode) {
   return _deprecatedLanguageTagReplacements[languageCode] ?? languageCode;
 }
@@ -100,7 +100,7 @@ const Map<String, String> _deprecatedLanguageTagReplacements = {
 ///
 /// The subtag must already be uppercase.
 ///
-/// TODO(b/127689510): write a new script for updating this list from CLDR data.
+/// TODO(b/127689510): write a script for updating this list from CLDR data.
 String replaceDeprecatedRegionSubtag(String regionCode) {
   return _deprecatedRegionTagReplacements[regionCode] ?? regionCode;
 }

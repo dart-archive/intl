@@ -35,9 +35,8 @@ void main() {
   });
 
   test('testSimpleReplacement', () {
-    var fmt = MessageFormat('New York in {SEASON} is nice.');
-    expect(fmt.format({'SEASON': 'the Summer'}),
-        'New York in the Summer is nice.');
+    var fmt = MessageFormat('York in {SEASON} is nice.');
+    expect(fmt.format({'SEASON': 'the Summer'}), 'York in the Summer is nice.');
   });
 
   test('testSimpleSelect', () {
