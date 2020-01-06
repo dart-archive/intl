@@ -5,6 +5,7 @@
 /// behaviour across platforms.
 @TestOn("!browser")
 @Tags(['ffi'])
+@Skip("currently failing (see issue https://github.com/dart-lang/intl/issues/240)")
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:test/test.dart';
