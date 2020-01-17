@@ -37,6 +37,7 @@ class _DateBuilder {
   int year = 1970,
       month = 1,
       day = 1,
+      dayOfYear = 0,
       hour = 0,
       minute = 0,
       second = 0,
@@ -92,6 +93,14 @@ class _DateBuilder {
     day = x;
   }
 
+  void setDayOfYear(x) {
+    dayOfYear = x;
+  }
+
+  /// If [dayOfYear] has been set, return it, otherwise return [day], indicating
+  /// the day of the month.
+  int get dayOrDayOfYear => dayOfYear == 0 ? day : dayOfYear;
+
   void setHour(x) {
     hour = x;
   }
@@ -132,12 +141,13 @@ class _DateBuilder {
     // cases.
     var minimumDate = _dateOnly && date.hour == 1 ? 0 : date.hour;
     _verify(hour24, minimumDate, date.hour, 'hour', s, date);
-    if (day > 31) {
+    if (dayOfYear > 0) {
       // We have an ordinal date, compute the corresponding date for the result
       // and compare to that.
       var leapYear = _isLeapYear(date);
       var correspondingDay = _dayOfYear(date.month, date.day, leapYear);
-      _verify(day, correspondingDay, correspondingDay, 'day', s, date);
+      _verify(
+          dayOfYear, correspondingDay, correspondingDay, 'dayOfYear', s, date);
     } else {
       // We have the day of the month, compare directly.
       _verify(day, date.day, date.day, 'day', s, date);
@@ -169,11 +179,11 @@ class _DateBuilder {
     if (_date != null) return _date;
 
     if (utc) {
-      _date = _dateTimeConstructor(
-          year, month, day, hour24, minute, second, fractionalSecond, utc);
+      _date = _dateTimeConstructor(year, month, dayOrDayOfYear, hour24, minute,
+          second, fractionalSecond, utc);
     } else {
-      var preliminaryResult = _dateTimeConstructor(
-          year, month, day, hour24, minute, second, fractionalSecond, utc);
+      var preliminaryResult = _dateTimeConstructor(year, month, dayOrDayOfYear,
+          hour24, minute, second, fractionalSecond, utc);
       _date = _correctForErrors(preliminaryResult, retries);
     }
     return _date;
@@ -236,7 +246,8 @@ class _DateBuilder {
       }
 
       // Trying again didn't work, try to force the offset.
-      var expectedDayOfYear = _dayOfYear(month, day, leapYear);
+      var expectedDayOfYear =
+          dayOfYear == 0 ? _dayOfYear(month, day, leapYear) : dayOfYear;
 
       // If we're _dateOnly, then hours should be zero, but might have been
       // offset to e.g. 11:00pm the previous day. Add that time back in. This

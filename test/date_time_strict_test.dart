@@ -39,7 +39,13 @@ void main() {
     check('09/31/2014');
     check('10/32/2014');
     check('2/29/2014');
+    check('1/32/2014');
     expect(format.parseStrict('2/29/2016'), DateTime(2016, 2, 29));
+  });
+
+  test('Valid ordinal date is not rejected', () {
+    var dayOfYearFormat = DateFormat('MM/DD/yyyy');
+    expect(dayOfYearFormat.parseStrict('1/32/2014'), DateTime(2014, 2, 1));
   });
 
   test('Invalid times am/pm', () {

@@ -284,7 +284,7 @@ class _DateFormatPatternField extends _DateFormatField {
           break; // day
         // Day of year. Setting month=January with any day of the year works
         case 'D':
-          handleNumericField(input, builder.setDay);
+          handleNumericField(input, builder.setDayOfYear);
           break; // dayofyear
         case 'E':
           parseDayOfWeek(input);
