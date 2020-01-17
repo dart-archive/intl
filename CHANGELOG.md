@@ -1,3 +1,7 @@
+## 0.16.2
+ * Fix bug with dates in January being treated as ordinal. e.g. 2020-01-32 would
+   be accepted as valid and the day treated as day-of-year.
+
 ## 0.16.1
  * Add an analysis_options.yaml and fix or suppress all the complaints from it.
  * Add unit tests using dart:ffi to compare formatting output to ICU.
