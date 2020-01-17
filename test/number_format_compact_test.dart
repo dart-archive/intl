@@ -67,6 +67,7 @@ void main() {
   testCurrency('en_US', 12, r'$12.00', r'$10');
   testCurrency('en_US', 12.3, r'$12.30', r'$10');
   testCurrency('en_US', 123, r'$123', r'$100');
+  testCurrency('en_US', 1000, r'$1K', r'$1K');
   testCurrency('en_US', 1234, r'$1.23K', r'$1K');
   testCurrency('en_US', 12345, r'$12.3K', r'$10K');
   testCurrency('en_US', 123456, r'$123K', r'$100K');

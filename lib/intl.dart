@@ -174,7 +174,7 @@ class Intl {
   @pragma('dart2js:tryInline')
   // We want dart2js to try to inline these messages, but not inline the
   // internal messages, so it will eliminate the descriptions and other
-  // information not needed at runtime.
+  // information not neeeded at runtime.
   static String message(String messageText,
           {String desc = '',
           Map<String, Object> examples,

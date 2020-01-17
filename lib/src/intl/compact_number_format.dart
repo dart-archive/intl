@@ -244,8 +244,8 @@ class _CompactNumberFormat extends NumberFormat {
 
   String format(number) {
     _style = _styleFor(number);
-    var divisor = _style.printsAsIs ? 1 : _style.divisor;
-    var numberToFormat = _divide(number, divisor);
+    final divisor = _style.printsAsIs ? 1 : _style.divisor;
+    final numberToFormat = _divide(number, divisor);
     var formatted = super.format(numberToFormat);
     var prefix = _style.prefix;
     var suffix = _style.suffix;
@@ -259,7 +259,7 @@ class _CompactNumberFormat extends NumberFormat {
       prefix = prefix.replaceFirst('\u00a4', currencySymbol);
       suffix = suffix.replaceFirst('\u00a4', currencySymbol);
     }
-    var withExtras = '$prefix$formatted$suffix';
+    final withExtras = '$prefix$formatted$suffix';
     _style = null;
     return withExtras;
   }
@@ -267,7 +267,7 @@ class _CompactNumberFormat extends NumberFormat {
   /// How many digits after the decimal place should we display, given that
   /// there are [remainingSignificantDigits] left to show.
   int _fractionDigitsAfter(int remainingSignificantDigits) {
-    var newFractionDigits =
+    final newFractionDigits =
         super._fractionDigitsAfter(remainingSignificantDigits);
     // For non-currencies, or for currencies if the numbers are large enough to
     // compact, always use the number of significant digits and ignore
@@ -281,6 +281,19 @@ class _CompactNumberFormat extends NumberFormat {
       return decimalDigits;
     } else {
       return min(newFractionDigits, decimalDigits);
+    }
+  }
+
+  /// Defines minimumFractionDigits based on current style being formatted.
+  @override
+  int get minimumFractionDigits {
+    if (!_isForCurrency ||
+        !significantDigitsInUse ||
+        _style == null ||
+        _style.isFallback) {
+      return super.minimumFractionDigits;
+    } else {
+      return 0;
     }
   }
 
