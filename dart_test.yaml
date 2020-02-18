@@ -1,0 +1,19 @@
+define_platforms:
+  chrome_beta:
+    name: Chrome Beta
+    extends: chrome
+    settings:
+      executable: google-chrome-beta
+
+  chrome_unstable:
+    name: Chrome Unstable
+    extends: chrome
+    settings:
+      executable: google-chrome-unstable
+
+tags:
+  # Due to depending on
+  # https://github.com/tc39/proposal-unified-intl-numberformat, these tests pass
+  # on Chrome 77.0.3860.5 dev, whereas they don't pass on Chrome 76, and appear
+  # to not yet pass on Chrome 77.0.3824.6.
+  unifiedNumberFormat: {test_on: "chrome_unstable || chrome_beta"}

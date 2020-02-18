@@ -1,14 +1,12 @@
-// Copyright (c) 2017, the Dart project authors.
-// Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code
-// is governed by a
+// Copyright (c) 2017, the Dart project authors. Please see the AUTHORS file for
+// details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
 /// API to allow setting Date/Time formatting in a custom way.
 ///
 /// It does not actually provide any data - that's left to the user of the API.
-import "date_symbols.dart";
-import "src/date_format_internal.dart";
+import 'date_symbols.dart';
+import 'src/date_format_internal.dart';
 
 /// This should be called for at least one [locale] before any date
 /// formatting methods are called.
@@ -23,13 +21,16 @@ void initializeDateFormattingCustom(
     {String locale, DateSymbols symbols, Map<String, String> patterns}) {
   initializeDateSymbols(_emptySymbols);
   initializeDatePatterns(_emptyPatterns);
-  if (symbols == null)
-    throw new ArgumentError("Missing DateTime formatting symbols");
-  if (patterns == null)
-    throw new ArgumentError("Missing DateTime formatting patterns");
-  if (locale != symbols.NAME)
-    throw new ArgumentError.value(
-        [locale, symbols.NAME], "Locale does not match symbols.NAME");
+  if (symbols == null) {
+    throw ArgumentError('Missing DateTime formatting symbols');
+  }
+  if (patterns == null) {
+    throw ArgumentError('Missing DateTime formatting patterns');
+  }
+  if (locale != symbols.NAME) {
+    throw ArgumentError.value(
+        [locale, symbols.NAME], 'Locale does not match symbols.NAME');
+  }
   dateTimeSymbols[symbols.NAME] = symbols;
   dateTimePatterns[symbols.NAME] = patterns;
 }

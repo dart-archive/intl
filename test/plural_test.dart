@@ -160,7 +160,7 @@ var expectedSr = '''
 25:Other
 ''';
 
-plural(n, locale) => Intl.plural(n,
+String plural(n, locale) => Intl.plural(n,
     locale: locale,
     name: 'plural',
     desc: 'A simple plural test case',
@@ -172,7 +172,7 @@ plural(n, locale) => Intl.plural(n,
     many: '$n:Many',
     other: '$n:Other');
 
-pluralNoZero(n, locale) => Intl.plural(n,
+String pluralNoZero(n, locale) => Intl.plural(n,
     locale: locale,
     name: 'plural',
     desc: 'A simple plural test case',
@@ -183,26 +183,55 @@ pluralNoZero(n, locale) => Intl.plural(n,
     many: '$n:Many',
     other: '$n:Other');
 
-main() {
+void main() {
   verify(expectedRu, 'ru', plural);
   verify(expectedRu, 'ru_RU', plural);
   verify(expectedEn, 'en', plural);
   verify(expectedRo, 'ro', pluralNoZero);
   verify(expectedSr, 'sr', pluralNoZero);
 
-  test("Check null howMany", () {
-    expect(plural(0, null), "0:Zero");
+  test('Check null howMany', () {
+    expect(plural(0, null), '0:Zero');
     expect(() => plural(null, null), throwsArgumentError);
-    expect(() => plural(null, "ru"), throwsArgumentError);
+    expect(() => plural(null, 'ru'), throwsArgumentError);
   });
+
+  verifyWithPrecision('1 dollar', 'en', 1, 0);
+  // This would not work in back-compatibility for one vs. =1 in plurals,
+  // because of this test in intl.dart:
+  //    if (howMany == 1 && one != null) return one;
+  // That one will ignore the precision and always return one, while the
+  // test below requires the result to be 'other'
+  // verify_with_precision('1.00 dollars', 'en', 1, 2);
+
+  verifyWithPrecision('1 dollar', 'en', 1.2, 0);
+  verifyWithPrecision('1.20 dollars', 'en', 1.2, 2);
+
+  verifyWithPrecision('3 dollars', 'en', 3.14, 0);
+  verifyWithPrecision('3.14 dollars', 'en', 3.14, 2);
 }
 
-verify(String expectedValues, String locale, pluralFunction) {
+void verify(String expectedValues, String locale, pluralFunction) {
   var lines = expectedValues.split('\n').where((x) => x.isNotEmpty).toList();
   for (var i = 0; i < lines.length; i++) {
     test(lines[i], () {
       var number = int.parse(lines[i].split(':').first);
       expect(pluralFunction(number, locale), lines[i]);
+      var float = number.toDouble();
+      var lineWithFloat = lines[i].replaceFirst('$number', '$float');
+      expect(pluralFunction(float, locale), lineWithFloat);
     });
   }
+}
+
+void verifyWithPrecision(String expected, String locale, num n, int precision) {
+  test('verify_with_precision(howMany: $n, precision: $precision)', () {
+    var nString = n.toStringAsFixed(precision);
+    var actual = Intl.plural(n,
+        locale: locale,
+        precision: precision,
+        one: '$nString dollar',
+        other: '$nString dollars');
+    expect(actual, expected);
+  });
 }

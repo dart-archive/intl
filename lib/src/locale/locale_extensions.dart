@@ -59,8 +59,9 @@ class LocaleExtensions {
         otherExtensions == null ||
             otherExtensions.entries.every((e) {
               if (!_otherExtensionsValidKeysRE.hasMatch(e.key)) return false;
-              if (!_otherExtensionsValidValuesRE.hasMatch(e.value))
+              if (!_otherExtensionsValidValuesRE.hasMatch(e.value)) {
                 return false;
+              }
               return true;
             }),
         'otherExtensions keys must match '
@@ -149,21 +150,21 @@ class LocaleExtensions {
   /// are stored under normalized (lowercased) `key`. See
   /// http://www.unicode.org/reports/tr35/#unicode_locale_extensions for
   /// details.
-  Map<String, String> _uExtensions;
+  final Map<String, String> _uExtensions;
 
   /// `-t-` extension, with keys in sorted order. tlang attributes are stored
   /// under the zero-length string as key. See
   /// http://www.unicode.org/reports/tr35/#transformed_extensions for
   /// details.
-  Map<String, String> _tExtensions;
+  final Map<String, String> _tExtensions;
 
   /// Other extensions, with keys in sorted order. See
   /// http://www.unicode.org/reports/tr35/#other_extensions for details.
-  Map<String, String> _otherExtensions;
+  final Map<String, String> _otherExtensions;
 
   /// -x- extension values. See
   /// http://www.unicode.org/reports/tr35/#pu_extensions for details.
-  String _xExtensions;
+  final String _xExtensions;
 
   /// List of subtags in the [Unicode Locale
   /// Identifier](https://www.unicode.org/reports/tr35/#Unicode_locale_identifier)
@@ -177,11 +178,11 @@ class LocaleExtensions {
   /// unicode_language_id and '-' as delimiter to provide a UTS #35 compliant
   /// normalized Locale Identifier.
   List<String> get subtags {
-    final List<String> result = [];
-    final List<String> resultVWYZ = [];
+    final result = <String>[];
+    final resultVWYZ = <String>[];
 
     _otherExtensions.forEach((singleton, value) {
-      final int letter = (singleton.codeUnitAt(0) - 0x61) & 0xFFFF;
+      final letter = (singleton.codeUnitAt(0) - 0x61) & 0xFFFF;
       // 't', 'u' and 'x' are handled by other members.
       assert(letter < 26 && letter != 19 && letter != 20 && letter != 23);
       if (letter < 19) {
@@ -209,7 +210,7 @@ class LocaleExtensions {
       result.addAll(resultVWYZ);
     }
     if (_xExtensions != null) {
-      result.add('x-${_xExtensions}');
+      result.add('x-$_xExtensions');
     }
     return result;
   }
@@ -220,7 +221,7 @@ Map<String, String> _sortedUnmodifiable(Map<String, String> unsorted) {
   if (unsorted == null) {
     return const {};
   }
-  Map<String, String> map = {};
+  var map = <String, String>{};
   for (var key in unsorted.keys.toList()..sort()) {
     map[key] = unsorted[key];
   }

@@ -14,11 +14,14 @@
 /// modification must be documented in this section, and should be
 /// removed after those changes land to CLDR.
 
+// MANUAL EDIT TO SUPPRESS WARNINGS IN GENERATED CODE
+// ignore_for_file: unnecessary_new, prefer_single_quotes, prefer_const_constructors
 library number_symbol_data;
 
 import "number_symbols.dart";
 
-Map numberFormatSymbols = <String, NumberSymbols>{
+/// Map from locale to [NumberSymbols] used for that locale.
+Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
   // Number formatting symbols for locale af.
   "af": new NumberSymbols(
       NAME: "af",

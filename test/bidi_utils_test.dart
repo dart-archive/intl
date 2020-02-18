@@ -7,8 +7,10 @@ library bidi_utils_test;
 import 'package:intl/intl.dart';
 import 'package:test/test.dart';
 
+// ignore_for_file: non_constant_identifier_names
+
 /// Tests the bidi utilities library.
-main() {
+void main() {
   var LRE = '\u202A';
   var RLE = '\u202B';
   var PDF = '\u202C';
@@ -99,55 +101,55 @@ main() {
   });
 
   test('guardBracketInHtml', () {
-    var strWithRtl = "asc \u05d0 (\u05d0\u05d0\u05d0)";
+    var strWithRtl = 'asc \u05d0 (\u05d0\u05d0\u05d0)';
     expect(Bidi.guardBracketInHtml(strWithRtl),
-        equals("asc \u05d0 <span dir=rtl>(\u05d0\u05d0\u05d0)</span>"));
+        equals('asc \u05d0 <span dir=rtl>(\u05d0\u05d0\u05d0)</span>'));
     expect(Bidi.guardBracketInHtml(strWithRtl, true),
-        equals("asc \u05d0 <span dir=rtl>(\u05d0\u05d0\u05d0)</span>"));
+        equals('asc \u05d0 <span dir=rtl>(\u05d0\u05d0\u05d0)</span>'));
     expect(Bidi.guardBracketInHtml(strWithRtl, false),
-        equals("asc \u05d0 <span dir=ltr>(\u05d0\u05d0\u05d0)</span>"));
+        equals('asc \u05d0 <span dir=ltr>(\u05d0\u05d0\u05d0)</span>'));
 
-    var strWithRtl2 = "\u05d0 a (asc:))";
+    var strWithRtl2 = '\u05d0 a (asc:))';
     expect(Bidi.guardBracketInHtml(strWithRtl2),
-        equals("\u05d0 a <span dir=rtl>(asc:))</span>"));
+        equals('\u05d0 a <span dir=rtl>(asc:))</span>'));
     expect(Bidi.guardBracketInHtml(strWithRtl2, true),
-        equals("\u05d0 a <span dir=rtl>(asc:))</span>"));
+        equals('\u05d0 a <span dir=rtl>(asc:))</span>'));
     expect(Bidi.guardBracketInHtml(strWithRtl2, false),
-        equals("\u05d0 a <span dir=ltr>(asc:))</span>"));
+        equals('\u05d0 a <span dir=ltr>(asc:))</span>'));
 
-    var strWithoutRtl = "a (asc) {{123}}";
+    var strWithoutRtl = 'a (asc) {{123}}';
     expect(Bidi.guardBracketInHtml(strWithoutRtl),
-        equals("a <span dir=ltr>(asc)</span> <span dir=ltr>{{123}}</span>"));
+        equals('a <span dir=ltr>(asc)</span> <span dir=ltr>{{123}}</span>'));
     expect(Bidi.guardBracketInHtml(strWithoutRtl, true),
-        equals("a <span dir=rtl>(asc)</span> <span dir=rtl>{{123}}</span>"));
+        equals('a <span dir=rtl>(asc)</span> <span dir=rtl>{{123}}</span>'));
     expect(Bidi.guardBracketInHtml(strWithoutRtl, false),
-        equals("a <span dir=ltr>(asc)</span> <span dir=ltr>{{123}}</span>"));
+        equals('a <span dir=ltr>(asc)</span> <span dir=ltr>{{123}}</span>'));
   });
 
   test('guardBracketInText', () {
-    var strWithRtl = "asc \u05d0 (\u05d0\u05d0\u05d0)";
+    var strWithRtl = 'asc \u05d0 (\u05d0\u05d0\u05d0)';
     expect(Bidi.guardBracketInText(strWithRtl),
-        equals("asc \u05d0 \u200f(\u05d0\u05d0\u05d0)\u200f"));
+        equals('asc \u05d0 \u200f(\u05d0\u05d0\u05d0)\u200f'));
     expect(Bidi.guardBracketInText(strWithRtl, true),
-        equals("asc \u05d0 \u200f(\u05d0\u05d0\u05d0)\u200f"));
+        equals('asc \u05d0 \u200f(\u05d0\u05d0\u05d0)\u200f'));
     expect(Bidi.guardBracketInText(strWithRtl, false),
-        equals("asc \u05d0 \u200e(\u05d0\u05d0\u05d0)\u200e"));
+        equals('asc \u05d0 \u200e(\u05d0\u05d0\u05d0)\u200e'));
 
-    var strWithRtl2 = "\u05d0 a (asc:))";
+    var strWithRtl2 = '\u05d0 a (asc:))';
     expect(Bidi.guardBracketInText(strWithRtl2),
-        equals("\u05d0 a \u200f(asc:))\u200f"));
+        equals('\u05d0 a \u200f(asc:))\u200f'));
     expect(Bidi.guardBracketInText(strWithRtl2, true),
-        equals("\u05d0 a \u200f(asc:))\u200f"));
+        equals('\u05d0 a \u200f(asc:))\u200f'));
     expect(Bidi.guardBracketInText(strWithRtl2, false),
-        equals("\u05d0 a \u200e(asc:))\u200e"));
+        equals('\u05d0 a \u200e(asc:))\u200e'));
 
-    var strWithoutRtl = "a (asc) {{123}}";
+    var strWithoutRtl = 'a (asc) {{123}}';
     expect(Bidi.guardBracketInText(strWithoutRtl),
-        equals("a \u200e(asc)\u200e \u200e{{123}}\u200e"));
+        equals('a \u200e(asc)\u200e \u200e{{123}}\u200e'));
     expect(Bidi.guardBracketInText(strWithoutRtl, true),
-        equals("a \u200f(asc)\u200f \u200f{{123}}\u200f"));
+        equals('a \u200f(asc)\u200f \u200f{{123}}\u200f'));
     expect(Bidi.guardBracketInText(strWithoutRtl, false),
-        equals("a \u200e(asc)\u200e \u200e{{123}}\u200e"));
+        equals('a \u200e(asc)\u200e \u200e{{123}}\u200e'));
   });
 
   test('enforceRtlInHtml', () {
@@ -200,8 +202,7 @@ main() {
     expect(Bidi.estimateDirectionOfText('http://foo/bar/', isHtml: false).value,
         equals(TextDirection.LTR.value));
     expect(
-        Bidi
-            .estimateDirectionOfText(
+        Bidi.estimateDirectionOfText(
                 'http://foo/bar/?s=\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0'
                 '\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0\u05d0'
                 '\u05d0\u05d0\u05d0\u05d0\u05d0')
@@ -210,20 +211,17 @@ main() {
     expect(Bidi.estimateDirectionOfText('\u05d0', isHtml: false).value,
         equals(TextDirection.RTL.value));
     expect(
-        Bidi
-            .estimateDirectionOfText('9 \u05d0 -> 17.5, 23, 45, 19',
+        Bidi.estimateDirectionOfText('9 \u05d0 -> 17.5, 23, 45, 19',
                 isHtml: false)
             .value,
         equals(TextDirection.RTL.value));
     expect(
-        Bidi
-            .estimateDirectionOfText(
+        Bidi.estimateDirectionOfText(
                 'http://foo/bar/ \u05d0 http://foo2/bar2/ http://foo3/bar3/')
             .value,
         equals(TextDirection.RTL.value));
     expect(
-        Bidi
-            .estimateDirectionOfText(
+        Bidi.estimateDirectionOfText(
                 '\u05d0\u05d9\u05df \u05de\u05de\u05e9 \u05de\u05d4 \u05dc\u05e8\u05d0'
                 '\u05d5\u05ea: \u05dc\u05d0 \u05e6\u05d9\u05dc\u05de\u05ea\u05d9 \u05d4'
                 '\u05e8\u05d1\u05d4 \u05d5\u05d2\u05dd \u05d0\u05dd \u05d4\u05d9\u05d9'
@@ -232,8 +230,7 @@ main() {
             .value,
         equals(TextDirection.RTL.value));
     expect(
-        Bidi
-            .estimateDirectionOfText(
+        Bidi.estimateDirectionOfText(
                 '\u05db\u05d0 - http://geek.co.il/gallery/v/2007-06 - \u05d0\u05d9'
                 '\u05df \u05de\u05de\u05e9 \u05de\u05d4 \u05dc\u05e8\u05d0\u05d5\u05ea:'
                 ' \u05dc\u05d0 \u05e6\u05d9\u05dc\u05de\u05ea\u05d9 \u05d4\u05e8\u05d1 '
@@ -250,15 +247,13 @@ main() {
             .value,
         equals(TextDirection.RTL.value));
     expect(
-        Bidi
-            .estimateDirectionOfText(
+        Bidi.estimateDirectionOfText(
                 'CAPTCHA \u05de\u05e9\u05d5\u05db\u05dc\u05dc '
                 '\u05de\u05d3\u05d9?')
             .value,
         equals(TextDirection.RTL.value));
     expect(
-        Bidi
-            .estimateDirectionOfText(
+        Bidi.estimateDirectionOfText(
                 'Yes Prime Minister \u05e2\u05d3\u05db\u05d5\u05df. \u05e9\u05d0\u05dc'
                 '\u05d5 \u05d0\u05d5\u05ea\u05d9 \u05de\u05d4 \u05d0\u05e0\u05d9 '
                 '\u05e8\u05d5\u05e6\u05d4 \u05de\u05ea\u05e0\u05d4 \u05dc\u05d7'
@@ -266,47 +261,40 @@ main() {
             .value,
         equals(TextDirection.RTL.value));
     expect(
-        Bidi
-            .estimateDirectionOfText(
+        Bidi.estimateDirectionOfText(
                 '17.4.02 \u05e9\u05e2\u05d4:13-20 .15-00 .\u05dc\u05d0 \u05d4\u05d9'
                 '\u05d9\u05ea\u05d9 \u05db\u05d0\u05df.')
             .value,
         equals(TextDirection.RTL.value));
     expect(
-        Bidi
-            .estimateDirectionOfText(
+        Bidi.estimateDirectionOfText(
                 '5710 5720 5730. \u05d4\u05d3\u05dc\u05ea. \u05d4\u05e0\u05e9\u05d9'
                 '\u05e7\u05d4',
                 isHtml: false)
             .value,
         equals(TextDirection.RTL.value));
     expect(
-        Bidi
-            .estimateDirectionOfText(
+        Bidi.estimateDirectionOfText(
                 '\u05d4\u05d3\u05dc\u05ea http://www.google.com '
                 'http://www.gmail.com')
             .value,
         equals(TextDirection.RTL.value));
     expect(
-        Bidi
-            .estimateDirectionOfText(
+        Bidi.estimateDirectionOfText(
                 '\u05d4\u05d3\u05dc <some quite nasty html mark up>')
             .value,
         equals(TextDirection.LTR.value));
     expect(
-        Bidi
-            .estimateDirectionOfText(
+        Bidi.estimateDirectionOfText(
                 '\u05d4\u05d3\u05dc <some quite nasty html mark up>')
             .value,
         equals(TextDirection.LTR.value));
     expect(
-        Bidi
-            .estimateDirectionOfText('\u05d4\u05d3\u05dc\u05ea &amp; &lt; &gt;')
+        Bidi.estimateDirectionOfText('\u05d4\u05d3\u05dc\u05ea &amp; &lt; &gt;')
             .value,
         equals(TextDirection.LTR.value));
     expect(
-        Bidi
-            .estimateDirectionOfText('\u05d4\u05d3\u05dc\u05ea &amp; &lt; &gt;',
+        Bidi.estimateDirectionOfText('\u05d4\u05d3\u05dc\u05ea &amp; &lt; &gt;',
                 isHtml: true)
             .value,
         equals(TextDirection.RTL.value));
@@ -314,10 +302,10 @@ main() {
 
   test('detectRtlDirectionality', () {
     var bidiText = [];
-    var item = new SampleItem('Pure Ascii content');
+    var item = SampleItem('Pure Ascii content');
     bidiText.add(item);
 
-    item = new SampleItem(
+    item = SampleItem(
         '\u05d0\u05d9\u05df \u05de\u05de\u05e9 \u05de\u05d4'
         ' \u05dc\u05e8\u05d0\u05d5\u05ea: \u05dc\u05d0 \u05e6\u05d9\u05dc'
         '\u05de\u05ea\u05d9 \u05d4\u05e8\u05d1\u05d4 \u05d5\u05d2\u05dd '
@@ -326,7 +314,7 @@ main() {
         true);
     bidiText.add(item);
 
-    item = new SampleItem(
+    item = SampleItem(
         '\u05db\u05d0\u05df - http://geek.co.il/gallery/v/'
         '2007-06 - \u05d0\u05d9\u05df \u05de\u05de\u05e9 \u05de\u05d4 \u05dc'
         '\u05e8\u05d0\u05d5\u05ea: \u05dc\u05d0 \u05e6\u05d9\u05dc\u05de\u05ea'
@@ -343,13 +331,13 @@ main() {
         true);
     bidiText.add(item);
 
-    item = new SampleItem(
+    item = SampleItem(
         'CAPTCHA \u05de\u05e9\u05d5\u05db\u05dc\u05dc '
         '\u05de\u05d3\u05d9?',
         true);
     bidiText.add(item);
 
-    item = new SampleItem(
+    item = SampleItem(
         'Yes Prime Minister \u05e2\u05d3\u05db\u05d5\u05df. '
         '\u05e9\u05d0\u05dc\u05d5 \u05d0\u05d5\u05ea\u05d9 \u05de\u05d4 \u05d0'
         '\u05e0\u05d9 \u05e8\u05d5\u05e6\u05d4 \u05de\u05ea\u05e0\u05d4 '
@@ -357,28 +345,28 @@ main() {
         true);
     bidiText.add(item);
 
-    item = new SampleItem(
+    item = SampleItem(
         '17.4.02 \u05e9\u05e2\u05d4:13-20 .15-00 .\u05dc'
         '\u05d0 \u05d4\u05d9\u05d9\u05ea\u05d9 \u05db\u05d0\u05df.',
         true);
     bidiText.add(item);
 
-    item = new SampleItem(
+    item = SampleItem(
         '5710 5720 5730. \u05d4\u05d3\u05dc\u05ea. \u05d4'
         '\u05e0\u05e9\u05d9\u05e7\u05d4',
         true);
     bidiText.add(item);
 
-    item = new SampleItem(
+    item = SampleItem(
         '\u05d4\u05d3\u05dc\u05ea http://www.google.com '
         'http://www.gmail.com',
         true);
     bidiText.add(item);
 
-    item = new SampleItem('&gt;\u05d4&lt;', true, true);
+    item = SampleItem('&gt;\u05d4&lt;', true, true);
     bidiText.add(item);
 
-    item = new SampleItem('&gt;\u05d4&lt;', false);
+    item = SampleItem('&gt;\u05d4&lt;', false);
     bidiText.add(item);
 
     for (var i = 0; i < bidiText.length; i++) {
@@ -399,8 +387,5 @@ class SampleItem {
   String text;
   bool isRtl;
   bool isHtml;
-  SampleItem([someText = '', someIsRtl = false, isHtml = false])
-      : this.text = someText,
-        this.isRtl = someIsRtl,
-        this.isHtml = isHtml;
+  SampleItem([this.text = '', this.isRtl = false, this.isHtml = false]);
 }

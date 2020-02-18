@@ -10,70 +10,75 @@ library date_time_strict_test;
 import 'package:intl/intl.dart';
 import 'package:test/test.dart';
 
-main() {
-  test("All input consumed", () {
-    var format = new DateFormat.yMMMd();
-    var date = new DateTime(2014, 9, 3);
+void main() {
+  test('All input consumed', () {
+    var format = DateFormat.yMMMd();
+    var date = DateTime(2014, 9, 3);
     var formatted = 'Sep 3, 2014';
     expect(format.format(date), formatted);
     var parsed = format.parseStrict(formatted);
     expect(parsed, date);
 
-    check(String s) {
+    void check(String s) {
       expect(() => format.parseStrict(s), throwsFormatException);
       expect(format.parse(s), date);
     }
 
-    check(formatted + ",");
-    check(formatted + "abc");
-    check(formatted + "   ");
+    check('$formatted,');
+    check('${formatted}abc');
+    check('$formatted   ');
   });
 
-  test("Invalid dates", () {
-    var format = new DateFormat.yMd();
-    check(s) => expect(() => format.parseStrict(s), throwsFormatException);
-    check("0/3/2014");
-    check("13/3/2014");
-    check("9/0/2014");
-    check("9/31/2014");
-    check("09/31/2014");
-    check("10/32/2014");
-    check("2/29/2014");
-    expect(format.parseStrict("2/29/2016"), new DateTime(2016, 2, 29));
+  test('Invalid dates', () {
+    var format = DateFormat.yMd();
+    void check(s) => expect(() => format.parseStrict(s), throwsFormatException);
+    check('0/3/2014');
+    check('13/3/2014');
+    check('9/0/2014');
+    check('9/31/2014');
+    check('09/31/2014');
+    check('10/32/2014');
+    check('2/29/2014');
+    check('1/32/2014');
+    expect(format.parseStrict('2/29/2016'), DateTime(2016, 2, 29));
   });
 
-  test("Invalid times am/pm", () {
-    var format = new DateFormat.jms();
-    check(s) => expect(() => format.parseStrict(s), throwsFormatException);
-    check("-1:15:00 AM");
-    expect(format.parseStrict("0:15:00 AM"), new DateTime(1970, 1, 1, 0, 15));
-    check("24:00:00 PM");
-    check("24:00:00 AM");
-    check("25:00:00 PM");
-    check("0:-1:00 AM");
-    check("0:60:00 AM");
-    expect(format.parseStrict("0:59:00 AM"), new DateTime(1970, 1, 1, 0, 59));
-    check("0:0:-1 AM");
-    check("0:0:60 AM");
-    check("2:0:60 PM");
-    expect(
-        format.parseStrict("2:0:59 PM"), new DateTime(1970, 1, 1, 14, 0, 59));
+  test('Valid ordinal date is not rejected', () {
+    var dayOfYearFormat = DateFormat('MM/DD/yyyy');
+    expect(dayOfYearFormat.parseStrict('1/32/2014'), DateTime(2014, 2, 1));
   });
 
-  test("Invalid times 24 hour", () {
-    var format = new DateFormat.Hms();
+  test('Invalid times am/pm', () {
+    var format = DateFormat.jms();
+    void check(s) => expect(() => format.parseStrict(s), throwsFormatException);
+    check('-1:15:00 AM');
+    expect(format.parseStrict('0:15:00 AM'), DateTime(1970, 1, 1, 0, 15));
+    check('24:00:00 PM');
+    check('24:00:00 AM');
+    check('25:00:00 PM');
+    check('0:-1:00 AM');
+    check('0:60:00 AM');
+    expect(format.parseStrict('0:59:00 AM'), DateTime(1970, 1, 1, 0, 59));
+    check('0:0:-1 AM');
+    check('0:0:60 AM');
+    check('2:0:60 PM');
+    expect(format.parseStrict('2:0:59 PM'), DateTime(1970, 1, 1, 14, 0, 59));
+  });
+
+  test('Invalid times 24 hour', () {
+    var format = DateFormat.Hms();
     check(s) => expect(() => format.parseStrict(s), throwsFormatException);
-    check("-1:15:00");
-    expect(format.parseStrict("0:15:00"), new DateTime(1970, 1, 1, 0, 15));
-    check("24:00:00");
-    check("24:00:00");
-    check("25:00:00");
-    check("0:-1:00");
-    check("0:60:00");
-    expect(format.parseStrict("0:59:00"), new DateTime(1970, 1, 1, 0, 59));
-    check("0:0:-1");
-    check("0:0:60");
-    check("14:0:60");
-    expect(format.parseStrict("14:0:59"), new DateTime(1970, 1, 1, 14, 0, 59));
+    check('-1:15:00');
+    expect(format.parseStrict('0:15:00'), DateTime(1970, 1, 1, 0, 15));
+    check('24:00:00');
+    check('24:00:00');
+    check('25:00:00');
+    check('0:-1:00');
+    check('0:60:00');
+    expect(format.parseStrict('0:59:00'), DateTime(1970, 1, 1, 0, 59));
+    check('0:0:-1');
+    check('0:0:60');
+    check('14:0:60');
+    expect(format.parseStrict('14:0:59'), DateTime(1970, 1, 1, 14, 0, 59));
   });
 }

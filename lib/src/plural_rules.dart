@@ -16,7 +16,12 @@
 /// * t	- visible fractional digits in n, without trailing zeros.
 library plural_rules;
 
-typedef PluralCase PluralRule();
+// Suppress naming issues as changing them might be breaking.
+// ignore_for_file: constant_identifier_names, non_constant_identifier_names
+
+import 'dart:math' as math;
+
+typedef PluralRule = PluralCase Function();
 
 /// The possible cases used in a plural rule.
 enum PluralCase { ZERO, ONE, TWO, FEW, MANY, OTHER }
@@ -26,8 +31,12 @@ PluralCase _default_rule() => OTHER;
 
 /// This must be called before evaluating a new rule, because we're using
 /// library-global state to both keep the rules terse and minimize space.
-startRuleEvaluation(int howMany) {
+void startRuleEvaluation(num howMany, [int precision = 0]) {
   _n = howMany;
+  _precision = precision;
+  _i = _n.round();
+  _updateVF(_n, _precision);
+  _updateWT(_f, _v);
 }
 
 /// The number whose [PluralCase] we are trying to find.
@@ -37,27 +46,81 @@ startRuleEvaluation(int howMany) {
 // not introduce a subclass per locale or have instance tear-offs which
 // we can't cache. This is fine as long as these methods aren't async, which
 // they should never be.
-int _n;
+num _n;
 
-/// The integer part of [_n] - since we only support integers, it's the same as
-/// [_n].
-int get _i => _n;
-int opt_precision; // Not currently used.
+/// The integer part of [_n]
+int _i;
+int _precision;
 
-/// Number of visible fraction digits. Always zero since we only support int.
-int get _v => 0;
+/// Returns the number of digits in the fractional part of a number
+/// (3.1416 => 4)
+///
+/// Takes the item count [n] and a [precision].
+/// That's because a just looking at the value of a number is not enough to
+/// decide the plural form. For example "1 dollar" vs "1.00 dollars", the
+/// value is 1, but how it is formatted also matters.
+int _decimals(num n, int precision) {
+  var str = _precision == null ? '$n' : n.toStringAsFixed(precision);
+  var result = str.indexOf('.');
+  return (result == -1) ? 0 : str.length - result - 1;
+}
 
-/// Number of visible fraction digits without trailing zeros. Always zero
-/// since we only support int.
-//int get _w => 0;
+/// Calculates and sets the _v and _f as per CLDR plural rules.
+///
+/// The short names for parameters / return match the CLDR syntax and UTS #35
+///     (https://unicode.org/reports/tr35/tr35-numbers.html#Plural_rules_syntax)
+/// Takes the item count [n] and a [precision].
+void _updateVF(num n, int precision) {
+  var defaultDigits = 3;
 
-/// The visible fraction digits in n, with trailing zeros. Always zero since
-/// we only support int.
-int get _f => 0;
+  _v = precision ?? math.min(_decimals(n, precision), defaultDigits);
 
-/// The visible fraction digits in n, without trailing zeros. Always zero since
-/// we only support int.
-int get _t => 0;
+  int base = math.pow(10, _v);
+  _f = (n * base).floor() % base;
+}
+
+/// Calculates and sets _w and _t as per CLDR plural rules.
+///
+/// The short names for parameters / return match the CLDR syntax and UTS #35
+///     (https://unicode.org/reports/tr35/tr35-numbers.html#Plural_rules_syntax)
+/// @param v Calculated previously.
+/// @param f Calculated previously.
+void _updateWT(int v, int f) {
+  if (f == 0) {
+    // Unused, for now _w = 0;
+    _t = 0;
+    return;
+  }
+
+  while ((f % 10) == 0) {
+    f = (f / 10).floor();
+    v--;
+  }
+
+  // Unused, for now _w = v;
+  _t = f;
+}
+
+/// Number of visible fraction digits.
+int _v = 0;
+
+/// Number of visible fraction digits without trailing zeros.
+// Unused, for now int _w = 0;
+
+/// The visible fraction digits in n, with trailing zeros.
+int _f = 0;
+
+/// The visible fraction digits in n, without trailing zeros.
+int _t = 0;
+
+// An example, for precision n = 3.1415 and precision = 7)
+//   n  : 3.1415
+// str n: 3.1415000 (the "formatted" n, 7 fractional digits)
+//   i  : 3         (the integer part of n)
+//   f  :   1415000 (the fractional part of n)
+//   v  : 7         (how many digits in f)
+//   t  :   1415    (f, without trailing 0s)
+//   w  : 4         (how many digits in t)
 
 PluralCase get ZERO => PluralCase.ZERO;
 PluralCase get ONE => PluralCase.ONE;

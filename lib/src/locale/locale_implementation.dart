@@ -27,8 +27,8 @@ class LocaleImplementation extends Locale {
         'countryCode must match RegExp/${_normalizedRegionRE.pattern}/ '
         'but is "$countryCode".');
     assert(
-        variants is List &&
-            variants.every((v) => _normalizedVariantRE.hasMatch(v)),
+        variants is List<String> &&
+            variants.every(_normalizedVariantRE.hasMatch),
         'each variant must match RegExp/${_normalizedVariantRE.pattern}/ '
         'but variants are "$variants".');
   }
@@ -55,8 +55,7 @@ class LocaleImplementation extends Locale {
   /// [variants], does not imply subtags are valid as per Unicode LDML spec!
   //
   // Must be static to get tree-shaken away in production code.
-  static final _normalizedVariantRE =
-      RegExp(r'^[a-z\d]{5,8}$|^\d[a-z\d]{3}$');
+  static final _normalizedVariantRE = RegExp(r'^[a-z\d]{5,8}$|^\d[a-z\d]{3}$');
 
   /// Simple factory which assumes parameters are syntactically correct.
   ///
@@ -173,7 +172,7 @@ class LocaleImplementation extends Locale {
   /// Returns the canonical Unicode BCP47 Locale Identifier for this locale.
   String toLanguageTag() {
     if (_languageTag == null) {
-      final List<String> out = [languageCode];
+      final out = [languageCode];
       if (scriptCode != null) out.add(scriptCode);
       if (countryCode != null) out.add(countryCode);
       out.addAll(variants);

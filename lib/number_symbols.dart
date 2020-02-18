@@ -3,6 +3,9 @@
 // BSD-style license that can be found in the LICENSE file.
 library number_symbols;
 
+// Suppress naming issues as changes would be breaking.
+// ignore_for_file: avoid_types_as_parameter_names, non_constant_identifier_names
+
 /// This holds onto information about how a particular locale formats
 /// numbers. It contains strings for things like the decimal separator, digit to
 /// use for "0" and infinity. We expect the data for instances to be generated
@@ -43,9 +46,13 @@ class NumberSymbols {
       this.CURRENCY_PATTERN,
       this.DEF_CURRENCY_CODE});
 
-  toString() => NAME;
+  String toString() => NAME;
 }
 
+/// A container class for SHORT, LONG, and SHORT CURRENCY patterns.
+///
+/// (This class' members contain more than just symbols: they contain the full
+/// number formatting pattern.)
 class CompactNumberSymbols {
   final Map<int, String> COMPACT_DECIMAL_SHORT_PATTERN;
   final Map<int, String> COMPACT_DECIMAL_LONG_PATTERN;

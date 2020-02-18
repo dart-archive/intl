@@ -4,12 +4,12 @@
 
 /// Number format tests for the web - excludes numbers too big to compile for
 /// the web.
-@TestOn("browser")
+@TestOn('browser')
 library number_format_web_test;
 
 import 'package:test/test.dart';
 import 'number_format_test_core.dart' as core;
 
-main() {
+void main() {
   core.runTests(core.testNumbers);
 }

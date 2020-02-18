@@ -1,5 +1,27 @@
+## 0.16.2
+ * Fix bug with dates in January being treated as ordinal. e.g. 2020-01-32 would
+   be accepted as valid and the day treated as day-of-year.
+
+## 0.16.1
+ * Add an analysis_options.yaml and fix or suppress all the complaints from it.
+ * Add unit tests using dart:ffi to compare formatting output to ICU.
+ * Bump SDK requirements up to 2.5.0 for dart:ffi availability.
+ * Attempt to compensate for erratic errors in DateTime creation better, and add
+   tests for the compensation.
+ * Add a MessageFormat class. It can prepares strings for display to users,
+   with optional arguments (variables/placeholders). Common data types will
+   be formatted properly for the given locale. It handles both pluralization
+   and gender. Think of it as "internationalization aware printf."
+ * Change plural behavior with floating point howMany argument so that doubles
+   that are equal to integers print the same as the integer 1. That is, '1
+   dollar', rather than '1.0 dollars'.
+ * Add package:intl/locale.dart that exports a standards-compliant Locale class.
+
 ## 0.16.0
  * Fix 'k' formatting (1 to 24 hours) which incorrectly showed 0 to 23.
+ * Tighten up types in a couple of places.
+ * Add dart2js pragmas for inlining to help remove descriptions and other
+   compile-time information from the output.
 
 ## 0.15.8
  * Add return type to some internal methods to improve dart2js output.

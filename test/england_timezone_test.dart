@@ -17,6 +17,6 @@
 import 'package:test/test.dart';
 import 'timezone_test_core.dart';
 
-main() {
+void main() {
   testTimezone('Europe/London', expectedUtcOffset: 0);
 }

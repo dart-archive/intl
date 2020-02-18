@@ -20,7 +20,7 @@
 import 'package:test/test.dart';
 import 'timezone_test_core.dart';
 
-main() {
+void main() {
   // The test date is Jan 1, so Brazilian Summer Time will be in effect.
   testTimezone('America/Sao_Paulo', expectedUtcOffset: -2);
 }
