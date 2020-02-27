@@ -1,3 +1,6 @@
+## 0.16.2+1
+ * Update ruble sign
+
 ## 0.16.2
  * Fix bug with dates in January being treated as ordinal. e.g. 2020-01-32 would
    be accepted as valid and the day treated as day-of-year.
