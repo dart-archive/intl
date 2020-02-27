@@ -456,7 +456,7 @@ class NumberFormat {
     'MYR': 'RM',
     'SAR': 'Riyal',
     'BYR': 'BYR',
-    'RUB': 'руб.',
+    'RUB': '\u20BD',
     'MUR': 'Rs',
     'SCR': 'SCR',
     'LKR': 'Rs',
