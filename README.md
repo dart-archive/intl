@@ -136,7 +136,7 @@ message string, for plurals and genders.
               other: 'There are $howMany emails left for $userName.')}''',
         name: 'remainingEmailsMessage',
         args: [howMany, userName],
-        desc: How many emails remain after archiving.',
+        desc: 'How many emails remain after archiving.',
         examples: const {'howMany': 42, 'userName': 'Fred'});
 
       print(remainingEmailsMessage(1, 'Fred'));
