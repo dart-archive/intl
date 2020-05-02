@@ -177,6 +177,15 @@ class NumberFormat {
   factory NumberFormat([String newPattern, String locale]) =>
       NumberFormat._forPattern(locale, (x) => newPattern);
 
+  /// Create a number format that prints using [newPattern] as it applies in
+  /// [locale] and [decimalDigits].
+  /// If [decimalDigits] is specified, numbers will format with that many digits
+  /// after the decimal place. If it's not, they will use the default.
+  NumberFormat.decimalNumberPattern(
+      {String newPattern, String locale, int decimalDigits})
+      : this._forPattern(locale, (x) => newPattern,
+            decimalDigits: decimalDigits);
+
   /// Create a number format that prints as DECIMAL_PATTERN.
   NumberFormat.decimalPattern([String locale])
       : this._forPattern(locale, (x) => x.DECIMAL_PATTERN);
