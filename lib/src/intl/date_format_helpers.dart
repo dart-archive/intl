@@ -81,19 +81,19 @@ class _DateBuilder {
 
   // Functions that exist just to be closurized so we can pass them to a general
   // method.
-  void setYear(x) {
+  void setYear(int x) {
     year = x;
   }
 
-  void setMonth(x) {
+  void setMonth(int x) {
     month = x;
   }
 
-  void setDay(x) {
+  void setDay(int x) {
     day = x;
   }
 
-  void setDayOfYear(x) {
+  void setDayOfYear(int x) {
     dayOfYear = x;
   }
 
@@ -101,19 +101,19 @@ class _DateBuilder {
   /// the day of the month.
   int get dayOrDayOfYear => dayOfYear == 0 ? day : dayOfYear;
 
-  void setHour(x) {
+  void setHour(int x) {
     hour = x;
   }
 
-  void setMinute(x) {
+  void setMinute(int x) {
     minute = x;
   }
 
-  void setSecond(x) {
+  void setSecond(int x) {
     second = x;
   }
 
-  void setFractionalSecond(x) {
+  void setFractionalSecond(int x) {
     fractionalSecond = x;
   }
 
@@ -336,7 +336,7 @@ class _Stream {
 
   /// Find the index of the first element for which [f] returns true.
   /// Advances the stream to that position.
-  int findIndex(Function f) {
+  int findIndex(bool Function(dynamic) f) {
     while (!atEnd()) {
       if (f(next())) return index - 1;
     }
@@ -345,7 +345,7 @@ class _Stream {
 
   /// Find the indexes of all the elements for which [f] returns true.
   /// Leaves the stream positioned at the end.
-  List<dynamic> findIndexes(Function f) {
+  List<dynamic> findIndexes(bool Function(dynamic) f) {
     var results = [];
     while (!atEnd()) {
       if (f(next())) results.add(index - 1);

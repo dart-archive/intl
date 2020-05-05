@@ -68,7 +68,12 @@ class UninitializedLocaleData<F> implements MessageLookup {
 
   List<String> get keys => _throwException() as List<String>;
 
-  bool containsKey(String key) => _isFallback(key) ? true : _throwException();
+  bool containsKey(String key) {
+    if (!_isFallback(key)) {
+      _throwException();
+    }
+    return true;
+  }
 
   F _throwException() {
     throw LocaleDataException('Locale data has not been initialized'

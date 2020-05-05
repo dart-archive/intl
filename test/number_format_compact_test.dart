@@ -314,19 +314,30 @@ bool _oneSpaceOnlyDifference(String result, String expected) {
 }
 
 void validateFancy(more_testdata.CompactRoundingTestCase t) {
-  var shortFormat = new NumberFormat.compact(locale: 'en');
-  if (t.maximumIntegerDigits != null)
+  var shortFormat = NumberFormat.compact(locale: 'en');
+  if (t.maximumIntegerDigits != null) {
     shortFormat.maximumIntegerDigits = t.maximumIntegerDigits;
-  if (t.minimumIntegerDigits != null)
+  }
+
+  if (t.minimumIntegerDigits != null) {
     shortFormat.minimumIntegerDigits = t.minimumIntegerDigits;
-  if (t.maximumFractionDigits != null)
+  }
+
+  if (t.maximumFractionDigits != null) {
     shortFormat.maximumFractionDigits = t.maximumFractionDigits;
-  if (t.minimumFractionDigits != null)
+  }
+
+  if (t.minimumFractionDigits != null) {
     shortFormat.minimumFractionDigits = t.minimumFractionDigits;
-  if (t.minimumExponentDigits != null)
+  }
+
+  if (t.minimumExponentDigits != null) {
     shortFormat.minimumExponentDigits = t.minimumExponentDigits;
-  if (t.significantDigits != null)
+  }
+
+  if (t.significantDigits != null) {
     shortFormat.significantDigits = t.significantDigits;
+  }
 
   test(t.toString(), () {
     expect(shortFormat.format(t.number), t.expected);

@@ -75,7 +75,7 @@ void _updateVF(num n, int precision) {
 
   _v = precision ?? math.min(_decimals(n, precision), defaultDigits);
 
-  int base = math.pow(10, _v);
+  var base = math.pow(10, _v) as int;
   _f = (n * base).floor() % base;
 }
 
@@ -444,7 +444,7 @@ PluralCase _ak_rule() {
 }
 
 /// Selected Plural rules by locale.
-final Map pluralRules = {
+final pluralRules = {
   'af': _es_rule,
   'am': _hi_rule,
   'ar': _ar_rule,

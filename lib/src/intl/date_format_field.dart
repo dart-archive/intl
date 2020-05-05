@@ -414,7 +414,7 @@ class _DateFormatPatternField extends _DateFormatField {
   ///
   /// This method handles reading any of the numeric fields. The [offset]
   /// argument allows us to compensate for zero-based versus one-based values.
-  void handleNumericField(_Stream input, void Function(num) setter,
+  void handleNumericField(_Stream input, void Function(int) setter,
       [int offset = 0]) {
     var result = input.nextInteger(
         digitMatcher: parent.digitMatcher,
@@ -456,7 +456,7 @@ class _DateFormatPatternField extends _DateFormatField {
     }
   }
 
-  void parseMonth(input, dateFields) {
+  void parseMonth(_Stream input, _DateBuilder dateFields) {
     List<String> possibilities;
     switch (width) {
       case 5:
