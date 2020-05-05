@@ -51,7 +51,7 @@ part 'src/intl/number_format.dart';
 ///          args: [date],
 ///          desc: 'Indicate the current date',
 ///          examples: const {'date' : 'June 8, 2012'});
-///      print(today(new DateTime.now().toString());
+///      print(today(DateTime.now().toString());
 ///
 ///      howManyPeople(numberOfPeople, place) => Intl.plural(numberOfPeople,
 ///            zero: 'I see no one at all in $place.',
@@ -75,7 +75,7 @@ part 'src/intl/number_format.dart';
 ///
 /// To temporarily use a locale other than the default, use the `withLocale`
 /// function.
-///       var todayString = new DateFormat('pt_BR').format(new DateTime.now());
+///       var todayString = DateFormat('pt_BR').format(DateTime.now());
 ///       print(withLocale('pt_BR', () => today(todayString));
 ///
 /// See `tests/message_format_test.dart` for more examples.
@@ -566,7 +566,7 @@ class Intl {
   ///
   /// For example
   ///
-  ///       Intl.withLocale('fr', () => new NumberFormat.format(123456));
+  ///       Intl.withLocale('fr', () => NumberFormat.format(123456));
   ///
   /// or
   ///
@@ -575,7 +575,7 @@ class Intl {
   ///           name: 'hello',
   ///           args: [name],
   ///           desc: 'Say Hello');
-  ///       Intl.withLocale('zh', new Timer(new Duration(milliseconds:10),
+  ///       Intl.withLocale('zh', Timer(Duration(milliseconds:10),
   ///           () => print(hello('World')));
   static dynamic withLocale<T>(String locale, T Function() function) {
     // TODO(alanknight): Make this return T. This requires work because T might

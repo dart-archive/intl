@@ -57,8 +57,8 @@ class _CompactStyleWithNegative extends _CompactStyleBase {
 ///       4: '00K'
 /// which matches
 ///
-///      new _CompactStyle(pattern: '00K', normalizedExponent: 4, divisor: 1000,
-///      expectedDigits: 1, prefix: '', suffix: 'K');
+///       _CompactStyle(pattern: '00K', normalizedExponent: 4, divisor: 1000,
+///           expectedDigits: 1, prefix: '', suffix: 'K');
 ///
 /// where expectedDigits is the number of zeros.
 class _CompactStyle extends _CompactStyleBase {

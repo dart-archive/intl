@@ -23,7 +23,7 @@ part of intl;
 /// initialization. e.g.
 ///
 /// ```dart
-/// print(new DateFormat.yMMMd().format(new DateTime.now()));
+/// print(DateFormat.yMMMd().format(DateTime.now()));
 /// ```
 ///
 /// But for other locales, the formatting data for the locale must be
@@ -120,12 +120,12 @@ part of intl;
 ///
 ///      Pattern                           Result
 ///      ----------------                  -------
-///      new DateFormat.yMd()             -> 7/10/1996
-///      new DateFormat('yMd')            -> 7/10/1996
-///      new DateFormat.yMMMMd('en_US')   -> July 10, 1996
-///      new DateFormat.jm()              -> 5:08 PM
-///      new DateFormat.yMd().add_jm()    -> 7/10/1996 5:08 PM
-///      new DateFormat.Hm()              -> 17:08 // force 24 hour time
+///      DateFormat.yMd()                 -> 7/10/1996
+///      DateFormat('yMd')                -> 7/10/1996
+///      DateFormat.yMMMMd('en_US')       -> July 10, 1996
+///      DateFormat.jm()                  -> 5:08 PM
+///      DateFormat.yMd().add_jm()        -> 7/10/1996 5:08 PM
+///      DateFormat.Hm()                  -> 17:08 // force 24 hour time
 ///
 /// Explicit Pattern Syntax: Formats can also be specified with a pattern
 /// string.  This can be used for formats that don't have a skeleton available,
@@ -224,13 +224,13 @@ class DateFormat {
   /// For example, in an en_US locale, specifying the skeleton
   ///
   /// ```dart
-  /// new DateFormat.yMEd();
+  /// DateFormat.yMEd();
   /// ```
   ///
   /// or the explicit
   ///
   /// ```dart
-  /// new DateFormat('EEE, M/d/y');
+  /// DateFormat('EEE, M/d/y');
   /// ```
   ///
   /// would produce the same result, a date of the form 'Wed, 6/27/2012'.
@@ -319,14 +319,14 @@ class DateFormat {
   ///
   /// For example, this will accept
   ///
-  ///       new DateFormat.yMMMd('en_US').parseLoose('SEp   3 2014');
-  ///       new DateFormat.yMd('en_US').parseLoose('09    03/2014');
-  ///       new DateFormat.yMd('en_US').parseLoose('09 / 03 / 2014');
+  ///       DateFormat.yMMMd('en_US').parseLoose('SEp   3 2014');
+  ///       DateFormat.yMd('en_US').parseLoose('09    03/2014');
+  ///       DateFormat.yMd('en_US').parseLoose('09 / 03 / 2014');
   ///
   /// It will NOT accept
   ///
-  ///      // 'Sept' is not a valid month name.
-  ///      new DateFormat.yMMMd('en_US').parseLoose('Sept 3, 2014');
+  ///       // 'Sept' is not a valid month name.
+  ///       DateFormat.yMMMd('en_US').parseLoose('Sept 3, 2014');
   DateTime parseLoose(String inputString, [bool utc = false]) {
     try {
       return _parse(inputString, utc: utc, strict: true);
@@ -418,20 +418,20 @@ class DateFormat {
   /// So,
   ///
   /// ```dart
-  /// new DateFormat.yMd('en_US')
+  /// DateFormat.yMd('en_US')
   /// ```
   ///
   /// is equivalent to
   ///
   /// ```dart
-  /// new DateFormat('yMd', 'en_US')
+  /// DateFormat('yMd', 'en_US')
   /// ```
   ///
   /// To create a compound format you can use these constructors in combination
   /// with the 'add_*' methods below. e.g.
   ///
   /// ```dart
-  /// new DateFormat.yMd().add_Hms();
+  /// DateFormat.yMd().add_Hms();
   /// ```
   ///
   /// If the optional [locale] is omitted, the format will be created using the
@@ -483,7 +483,7 @@ class DateFormat {
   /// useful for creating compound formats. For example
   ///
   /// ```dart
-  /// new DateFormat.yMd().add_Hms();
+  /// DateFormat.yMd().add_Hms();
   /// ```
   ///
   /// would create a date format that prints both the date and the time.
