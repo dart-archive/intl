@@ -324,7 +324,7 @@ class _DateFormatPatternField extends _DateFormatField {
         case 'v':
           break; // time zone id
         case 'y':
-          handleNumericField(input, builder.setYear);
+          parseYear(input, builder);
           break;
         case 'z':
           break; // time zone
@@ -441,6 +441,11 @@ class _DateFormatPatternField extends _DateFormatField {
     var longestResult = results.last;
     input.read(possibilities[longestResult].length);
     return longestResult;
+  }
+
+  void parseYear(_Stream input, _DateBuilder builder) {
+    handleNumericField(input, builder.setYear);
+    builder.setHasAmbiguousCentury(width == 2);
   }
 
   String formatMonth(DateTime date) {

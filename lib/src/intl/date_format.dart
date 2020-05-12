@@ -201,12 +201,13 @@ part of intl;
 /// DateFormat must interpret the abbreviated year relative to some
 /// century. It does this by adjusting dates to be within 80 years before and 20
 /// years after the time the parse function is called. For example, using a
-/// pattern of 'MM/dd/yy' and a DateParse instance created on Jan 1, 1997,
+/// pattern of 'MM/dd/yy' and a DateFormat instance created on Jan 1, 1997,
 /// the string '01/11/12' would be interpreted as Jan 11, 2012 while the string
 /// '05/04/64' would be interpreted as May 4, 1964. During parsing, only
 /// strings consisting of exactly two digits will be parsed into the default
 /// century. Any other numeric string, such as a one digit string, a three or
-/// more digit string will be interpreted as its face value.
+/// more digit string will be interpreted as its face value. Tests that parse
+/// two-digit years can control the current date with package:clock.
 ///
 /// If the year pattern does not have exactly two 'y' characters, the year is
 /// interpreted literally, regardless of the number of digits. So using the

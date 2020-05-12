@@ -45,6 +45,11 @@ class _DateBuilder {
   bool pm = false;
   bool utc = false;
 
+  /// Whether the century portion of [year] is ambiguous.
+  ///
+  /// Ignored if `year < 0` or `year >= 100`.
+  bool _hasAmbiguousCentury = false;
+
   /// The locale, kept for logging purposes when there's an error.
   final String _locale;
 
@@ -83,6 +88,12 @@ class _DateBuilder {
   // method.
   void setYear(int x) {
     year = x;
+  }
+
+  /// Sets whether [year] should be treated as ambiguous because it lacks a
+  /// century.
+  void setHasAmbiguousCentury(bool isAmbiguous) {
+    _hasAmbiguousCentury = isAmbiguous;
   }
 
   void setMonth(int x) {
@@ -171,6 +182,22 @@ class _DateBuilder {
     }
   }
 
+  /// Offsets a [DateTime] by a specified number of years.
+  ///
+  /// All other fields of the [DateTime] normally will remain unaffected.  An
+  /// exception is if the resulting [DateTime] otherwise would represent an
+  /// invalid date (e.g. February 29 of a non-leap year).
+  DateTime _offsetYear(DateTime dateTime, int offsetYears) =>
+      _dateTimeConstructor(
+          dateTime.year + offsetYears,
+          dateTime.month,
+          dateTime.day,
+          dateTime.hour,
+          dateTime.minute,
+          dateTime.second,
+          dateTime.millisecond,
+          dateTime.isUtc);
+
   /// Return a date built using our values. If no date portion is set,
   /// use the 'Epoch' of January 1, 1970.
   DateTime asDate({int retries = 3}) {
@@ -178,12 +205,47 @@ class _DateBuilder {
     // can crash the VM, e.g. large month values.
     if (_date != null) return _date;
 
-    if (utc) {
-      _date = _dateTimeConstructor(year, month, dayOrDayOfYear, hour24, minute,
-          second, fractionalSecond, utc);
-    } else {
-      var preliminaryResult = _dateTimeConstructor(year, month, dayOrDayOfYear,
+    DateTime preliminaryResult;
+    final hasCentury = !_hasAmbiguousCentury || year < 0 || year >= 100;
+    if (hasCentury) {
+      preliminaryResult = _dateTimeConstructor(year, month, dayOrDayOfYear,
           hour24, minute, second, fractionalSecond, utc);
+    } else {
+      var now = clock.now();
+      if (utc) {
+        now = now.toUtc();
+      }
+
+      const lookBehindYears = 80;
+      var lowerDate = _offsetYear(now, -lookBehindYears);
+      var upperDate = _offsetYear(now, 100 - lookBehindYears);
+      var lowerCentury = (lowerDate.year ~/ 100) * 100;
+      var upperCentury = (upperDate.year ~/ 100) * 100;
+      preliminaryResult = _dateTimeConstructor(upperCentury + year, month,
+          dayOrDayOfYear, hour24, minute, second, fractionalSecond, utc);
+
+      // Our interval must be half-open since there otherwise could be ambiguity
+      // for a date that is exactly 20 years in the future or exactly 80 years
+      // in the past (mod 100).  We'll treat the lower-bound date as the
+      // exclusive bound because:
+      // * It's farther away from the present, and we're less likely to care
+      //   about it.
+      // * By the time this function exits, time will have advanced to favor
+      //   the upper-bound date.
+      //
+      // We don't actually need to check both bounds.
+      if (preliminaryResult.compareTo(upperDate) <= 0) {
+        // Within range.
+        assert(preliminaryResult.compareTo(lowerDate) > 0);
+      } else {
+        preliminaryResult = _dateTimeConstructor(lowerCentury + year, month,
+            dayOrDayOfYear, hour24, minute, second, fractionalSecond, utc);
+      }
+    }
+
+    if (utc && hasCentury) {
+      _date = preliminaryResult;
+    } else {
       _date = _correctForErrors(preliminaryResult, retries);
     }
     return _date;

@@ -8,6 +8,7 @@
 
 library date_time_format_tests;
 
+import 'package:clock/clock.dart';
 import 'package:intl/intl.dart';
 import 'package:test/test.dart';
 import 'date_time_format_test_data.dart';
@@ -207,6 +208,28 @@ void runDateTests(SubsetFuncType subsetFunc) {
         orderedEquals(['hh', ':', 'mm', ':', 'ss']));
     expect(dateFormat.parsePattern('hh:mm:ss').map((x) => x.pattern).toList(),
         orderedEquals(['hh', ':', 'mm', ':', 'ss']));
+  });
+
+  test('Two-digit years', () {
+    withClock(Clock.fixed(DateTime(2000, 1, 1)), () {
+      var dateFormat = DateFormat('yy');
+      expect(dateFormat.parse('99'), DateTime(1999));
+      expect(dateFormat.parse('00'), DateTime(2000));
+      expect(dateFormat.parse('19'), DateTime(2019));
+      expect(dateFormat.parse('20'), DateTime(2020));
+      expect(dateFormat.parse('21'), DateTime(1921));
+
+      expect(dateFormat.parse('2000'), DateTime(2000));
+
+      dateFormat = DateFormat('MM-dd-yy');
+      expect(dateFormat.parse('12-31-19'), DateTime(2019, 12, 31));
+      expect(dateFormat.parse('1-1-20'), DateTime(2020, 1, 1));
+      expect(dateFormat.parse('1-2-20'), DateTime(1920, 1, 2));
+
+      expect(DateFormat('y').parse('99'), DateTime(99));
+      expect(DateFormat('yyy').parse('99'), DateTime(99));
+      expect(DateFormat('yyyy').parse('99'), DateTime(99));
+    });
   });
 
   test('Test ALL the supported formats on representative locales', () {
