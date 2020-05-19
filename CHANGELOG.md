@@ -5,6 +5,8 @@
    returning a value between 80 years in the past and 20 years in the future.
  * Use package:clock to get the current date/time.
  * Fix some more analysis complaints.
+ * Update documentation to indicate that time zone specifiers are not yet
+   implemented [#264][].
 
 ## 0.16.2
  * Fix bug with dates in January being treated as ordinal. e.g. 2020-01-32 would
@@ -363,3 +365,4 @@
 * Allow complex string literals in arguments (e.g. multi-line)
 
 [#123]: https://github.com/dart-lang/intl/issues/123
+[#264]: https://github.com/dart-lang/intl/issues/264

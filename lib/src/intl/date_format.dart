@@ -108,13 +108,15 @@ part of intl;
 ///      HOUR                         j
 ///      HOUR_MINUTE                  jm
 ///      HOUR_MINUTE_SECOND           jms
-///      HOUR_MINUTE_GENERIC_TZ       jmv
-///      HOUR_MINUTE_TZ               jmz
-///      HOUR_GENERIC_TZ              jv
-///      HOUR_TZ                      jz
+///      HOUR_MINUTE_GENERIC_TZ       jmv   (not yet implemented)
+///      HOUR_MINUTE_TZ               jmz   (not yet implemented)
+///      HOUR_GENERIC_TZ              jv    (not yet implemented)
+///      HOUR_TZ                      jz    (not yet implemented)
 ///      MINUTE                       m
 ///      MINUTE_SECOND                ms
 ///      SECOND                       s
+//
+// TODO(https://github.com/dart-lang/intl/issues/74): Update table above.
 ///
 /// Examples Using the US Locale:
 ///
@@ -156,12 +158,19 @@ part of intl;
 ///     a        am/pm marker           (Text)             PM
 ///     k        hour in day (1~24)     (Number)           24
 ///     K        hour in am/pm (0~11)   (Number)           0
-///     z        time zone              (Text)             Pacific Standard Time
-///     Z        time zone (RFC 822)    (Number)           -0800
-///     v        time zone (generic)    (Text)             Pacific Time
 ///     Q        quarter                (Text)             Q3
 ///     '        escape for text        (Delimiter)        'Date='
 ///     ''       single quote           (Literal)          'o''clock'
+///
+//  TODO(https://github.com/dart-lang/intl/issues/74): Merge tables.
+//
+/// The following characters are reserved and currently are unimplemented:
+///
+///     Symbol   Meaning                Presentation       Example
+///     ------   -------                ------------       -------
+///     z        time zone              (Text)             Pacific Standard Time
+///     Z        time zone (RFC 822)    (Number)           -0800
+///     v        time zone (generic)    (Text)             Pacific Time
 ///
 /// The count of pattern letters determine the format.
 ///
@@ -190,12 +199,17 @@ part of intl;
 ///
 ///     Format Pattern                    Result
 ///     --------------                    -------
-///     'yyyy.MM.dd G 'at' HH:mm:ss vvvv' 1996.07.10 AD at 15:08:56 Pacific Time
 ///     'EEE, MMM d, ''yy'                Wed, Jul 10, '96
 ///     'h:mm a'                          12:08 PM
-///     'hh 'o''clock' a, zzzz'           12 o'clock PM, Pacific Daylight Time
-///     'K:mm a, vvv'                     0:00 PM, PT
 ///     'yyyyy.MMMMM.dd GGG hh:mm aaa'    01996.July.10 AD 12:08 PM
+//
+// TODO(https://github.com/dart-lang/intl/issues/74): Merge tables.
+//
+//      NOT YET IMPLEMENTED
+//      -------------------
+//      'yyyy.MM.dd G 'at' HH:mm:ss vvvv' 1996.07.10 AD at 15:08:56 Pacific Time
+//      'hh 'o''clock' a, zzzz'           12 o'clock PM, Pacific Daylight Time
+//      'K:mm a, vvv'                     0:00 PM, PT
 ///
 /// When parsing a date string using the abbreviated year pattern ('yy'),
 /// DateFormat must interpret the abbreviated year relative to some
@@ -357,7 +371,7 @@ class DateFormat {
   ///
   /// If [inputString] does not match our format, throws a [FormatException].
   /// This will reject dates whose values are not strictly valid, even if the
-  /// DateTime constructor will accept them. It will also rejct strings with
+  /// DateTime constructor will accept them. It will also reject strings with
   /// additional characters (including whitespace) after a valid date. For
   /// looser parsing, use [parse].
   DateTime parseStrict(String inputString, [bool utc = false]) =>
@@ -471,9 +485,17 @@ class DateFormat {
   DateFormat.j([locale]) : this('j', locale);
   DateFormat.jm([locale]) : this('jm', locale);
   DateFormat.jms([locale]) : this('jms', locale);
+  /// NOT YET IMPLEMENTED.
+  // TODO(https://github.com/dart-lang/intl/issues/74)
   DateFormat.jmv([locale]) : this('jmv', locale);
+  /// NOT YET IMPLEMENTED.
+  // TODO(https://github.com/dart-lang/intl/issues/74)
   DateFormat.jmz([locale]) : this('jmz', locale);
+  /// NOT YET IMPLEMENTED.
+  // TODO(https://github.com/dart-lang/intl/issues/74)
   DateFormat.jv([locale]) : this('jv', locale);
+  /// NOT YET IMPLEMENTED.
+  // TODO(https://github.com/dart-lang/intl/issues/74)
   DateFormat.jz([locale]) : this('jz', locale);
   DateFormat.m([locale]) : this('m', locale);
   DateFormat.ms([locale]) : this('ms', locale);
@@ -522,9 +544,17 @@ class DateFormat {
   DateFormat add_j() => addPattern('j');
   DateFormat add_jm() => addPattern('jm');
   DateFormat add_jms() => addPattern('jms');
+  /// NOT YET IMPLEMENTED.
+  // TODO(https://github.com/dart-lang/intl/issues/74)
   DateFormat add_jmv() => addPattern('jmv');
+  /// NOT YET IMPLEMENTED.
+  // TODO(https://github.com/dart-lang/intl/issues/74)
   DateFormat add_jmz() => addPattern('jmz');
+  /// NOT YET IMPLEMENTED.
+  // TODO(https://github.com/dart-lang/intl/issues/74)
   DateFormat add_jv() => addPattern('jv');
+  /// NOT YET IMPLEMENTED.
+  // TODO(https://github.com/dart-lang/intl/issues/74)
   DateFormat add_jz() => addPattern('jz');
   DateFormat add_m() => addPattern('m');
   DateFormat add_ms() => addPattern('ms');
@@ -566,9 +596,17 @@ class DateFormat {
   static const String HOUR = 'j';
   static const String HOUR_MINUTE = 'jm';
   static const String HOUR_MINUTE_SECOND = 'jms';
+  /// NOT YET IMPLEMENTED.
+  // TODO(https://github.com/dart-lang/intl/issues/74)
   static const String HOUR_MINUTE_GENERIC_TZ = 'jmv';
+  /// NOT YET IMPLEMENTED.
+  // TODO(https://github.com/dart-lang/intl/issues/74)
   static const String HOUR_MINUTE_TZ = 'jmz';
+  /// NOT YET IMPLEMENTED.
+  // TODO(https://github.com/dart-lang/intl/issues/74)
   static const String HOUR_GENERIC_TZ = 'jv';
+  /// NOT YET IMPLEMENTED.
+  // TODO(https://github.com/dart-lang/intl/issues/74)
   static const String HOUR_TZ = 'jz';
   static const String MINUTE = 'm';
   static const String MINUTE_SECOND = 'ms';
