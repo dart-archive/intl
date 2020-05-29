@@ -67,7 +67,7 @@ void main() {
 
   test('Invalid times 24 hour', () {
     var format = DateFormat.Hms();
-    check(s) => expect(() => format.parseStrict(s), throwsFormatException);
+    void check(s) => expect(() => format.parseStrict(s), throwsFormatException);
     check('-1:15:00');
     expect(format.parseStrict('0:15:00'), DateTime(1970, 1, 1, 0, 15));
     check('24:00:00');

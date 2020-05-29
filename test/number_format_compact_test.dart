@@ -67,6 +67,7 @@ void main() {
   testCurrency('en_US', 12, r'$12.00', r'$10');
   testCurrency('en_US', 12.3, r'$12.30', r'$10');
   testCurrency('en_US', 123, r'$123', r'$100');
+  testCurrency('en_US', 1000, r'$1K', r'$1K');
   testCurrency('en_US', 1234, r'$1.23K', r'$1K');
   testCurrency('en_US', 12345, r'$12.3K', r'$10K');
   testCurrency('en_US', 123456, r'$123K', r'$100K');
@@ -313,19 +314,30 @@ bool _oneSpaceOnlyDifference(String result, String expected) {
 }
 
 void validateFancy(more_testdata.CompactRoundingTestCase t) {
-  var shortFormat = new NumberFormat.compact(locale: 'en');
-  if (t.maximumIntegerDigits != null)
+  var shortFormat = NumberFormat.compact(locale: 'en');
+  if (t.maximumIntegerDigits != null) {
     shortFormat.maximumIntegerDigits = t.maximumIntegerDigits;
-  if (t.minimumIntegerDigits != null)
+  }
+
+  if (t.minimumIntegerDigits != null) {
     shortFormat.minimumIntegerDigits = t.minimumIntegerDigits;
-  if (t.maximumFractionDigits != null)
+  }
+
+  if (t.maximumFractionDigits != null) {
     shortFormat.maximumFractionDigits = t.maximumFractionDigits;
-  if (t.minimumFractionDigits != null)
+  }
+
+  if (t.minimumFractionDigits != null) {
     shortFormat.minimumFractionDigits = t.minimumFractionDigits;
-  if (t.minimumExponentDigits != null)
+  }
+
+  if (t.minimumExponentDigits != null) {
     shortFormat.minimumExponentDigits = t.minimumExponentDigits;
-  if (t.significantDigits != null)
+  }
+
+  if (t.significantDigits != null) {
     shortFormat.significantDigits = t.significantDigits;
+  }
 
   test(t.toString(), () {
     expect(shortFormat.format(t.number), t.expected);
