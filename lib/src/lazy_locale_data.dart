@@ -41,7 +41,7 @@ class LazyLocaleData {
   /// [keys] lists the set of remotely available locale names so we know which
   /// things can be fetched without having to check remotely.
   LazyLocaleData(this._reader, this._creationFunction, this.availableLocales) {
-    map = Map();
+    map = {};
     availableLocaleSet = Set.from(availableLocales);
   }
 
@@ -58,7 +58,7 @@ class LazyLocaleData {
   /// [localeName] then throw an exception with a different message.
   dynamic operator [](String localeName) {
     if (containsKey(localeName)) {
-      var data = map[localeName];
+      dynamic data = map[localeName];
       if (data == null) {
         throw LocaleDataException('Locale $localeName has not been initialized.'
             ' Call initializeDateFormatting($localeName, <data url>) first');
@@ -72,7 +72,7 @@ class LazyLocaleData {
 
   /// Throw an exception indicating that the locale has no data available,
   /// either locally or remotely.
-  void unsupportedLocale(localeName) {
+  void unsupportedLocale(String localeName) {
     throw LocaleDataException('Locale $localeName has no data available');
   }
 

@@ -324,7 +324,7 @@ class _DateFormatPatternField extends _DateFormatField {
         case 'v':
           break; // time zone id
         case 'y':
-          handleNumericField(input, builder.setYear);
+          parseYear(input, builder);
           break;
         case 'z':
           break; // time zone
@@ -414,7 +414,7 @@ class _DateFormatPatternField extends _DateFormatField {
   ///
   /// This method handles reading any of the numeric fields. The [offset]
   /// argument allows us to compensate for zero-based versus one-based values.
-  void handleNumericField(_Stream input, void Function(num) setter,
+  void handleNumericField(_Stream input, void Function(int) setter,
       [int offset = 0]) {
     var result = input.nextInteger(
         digitMatcher: parent.digitMatcher,
@@ -443,6 +443,11 @@ class _DateFormatPatternField extends _DateFormatField {
     return longestResult;
   }
 
+  void parseYear(_Stream input, _DateBuilder builder) {
+    handleNumericField(input, builder.setYear);
+    builder.setHasAmbiguousCentury(width == 2);
+  }
+
   String formatMonth(DateTime date) {
     switch (width) {
       case 5:
@@ -456,7 +461,7 @@ class _DateFormatPatternField extends _DateFormatField {
     }
   }
 
-  void parseMonth(input, dateFields) {
+  void parseMonth(_Stream input, _DateBuilder dateFields) {
     List<String> possibilities;
     switch (width) {
       case 5:

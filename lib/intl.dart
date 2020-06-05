@@ -23,6 +23,8 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:clock/clock.dart';
+
 import 'date_symbols.dart';
 import 'number_symbols.dart';
 import 'number_symbols_data.dart';
@@ -51,7 +53,7 @@ part 'src/intl/number_format.dart';
 ///          args: [date],
 ///          desc: 'Indicate the current date',
 ///          examples: const {'date' : 'June 8, 2012'});
-///      print(today(new DateTime.now().toString());
+///      print(today(DateTime.now().toString());
 ///
 ///      howManyPeople(numberOfPeople, place) => Intl.plural(numberOfPeople,
 ///            zero: 'I see no one at all in $place.',
@@ -75,7 +77,7 @@ part 'src/intl/number_format.dart';
 ///
 /// To temporarily use a locale other than the default, use the `withLocale`
 /// function.
-///       var todayString = new DateFormat('pt_BR').format(new DateTime.now());
+///       var todayString = DateFormat('pt_BR').format(DateTime.now());
 ///       print(withLocale('pt_BR', () => today(todayString));
 ///
 /// See `tests/message_format_test.dart` for more examples.
@@ -174,7 +176,7 @@ class Intl {
   @pragma('dart2js:tryInline')
   // We want dart2js to try to inline these messages, but not inline the
   // internal messages, so it will eliminate the descriptions and other
-  // information not neeeded at runtime.
+  // information not needed at runtime.
   static String message(String messageText,
           {String desc = '',
           Map<String, Object> examples,
@@ -567,7 +569,7 @@ class Intl {
   ///
   /// For example
   ///
-  ///       Intl.withLocale('fr', () => new NumberFormat.format(123456));
+  ///       Intl.withLocale('fr', () => NumberFormat.format(123456));
   ///
   /// or
   ///
@@ -576,7 +578,7 @@ class Intl {
   ///           name: 'hello',
   ///           args: [name],
   ///           desc: 'Say Hello');
-  ///       Intl.withLocale('zh', new Timer(new Duration(milliseconds:10),
+  ///       Intl.withLocale('zh', Timer(Duration(milliseconds:10),
   ///           () => print(hello('World')));
   static dynamic withLocale<T>(String locale, T Function() function) {
     // TODO(alanknight): Make this return T. This requires work because T might

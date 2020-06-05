@@ -604,10 +604,7 @@ class MessageFormat {
       argumentName = match.group(1);
       return '';
     });
-    // The lint complaints about "Omit type annotations for local variables"
-    // But if I make this `var` then it assumes that the value is a
-    // always a string, but it is not.
-    Map<String, Object> result = {'argumentName': argumentName};
+    var result = <String, Object>{'argumentName': argumentName};
 
     var parts = _extractParts(pattern);
     // Looking for (key block)+ sequence. One of the keys has to be "other".

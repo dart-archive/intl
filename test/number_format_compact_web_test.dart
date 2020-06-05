@@ -8,7 +8,7 @@
 /// We use @Tags rather than @TestOn to be able to specify something that can be
 /// ignored when using a build system that can't read dart_test.yaml. This
 /// depends on https://github.com/tc39/proposal-unified-intl-numberformat.
-@Tags(const ['unifiedNumberFormat'])
+@Tags(['unifiedNumberFormat'])
 
 import 'package:intl/intl.dart' as intl;
 import 'package:js/js_util.dart' as js;
@@ -17,7 +17,7 @@ import 'package:test/test.dart';
 import 'compact_number_test_data.dart' as testdata35;
 import 'more_compact_number_test_data.dart' as more_testdata;
 
-main() {
+void main() {
   testdata35.compactNumberTestData.forEach(validate);
   more_testdata.cldr35CompactNumTests.forEach(validateMore);
 
@@ -62,14 +62,12 @@ main() {
 }
 
 String ecmaFormatNumber(String locale, num number,
-    {String style: null,
-    String currency: null,
-    String notation: null,
-    String compactDisplay: null}) {
+    {String style, String currency, String notation, String compactDisplay}) {
   var options = js.newObject();
   if (notation != null) js.setProperty(options, 'notation', notation);
-  if (compactDisplay != null)
+  if (compactDisplay != null) {
     js.setProperty(options, 'compactDisplay', compactDisplay);
+  }
   if (style != null) js.setProperty(options, 'style', style);
   if (currency != null) js.setProperty(options, 'currency', currency);
   return js.callMethod(number, 'toLocaleString', [locale, options]);
@@ -131,16 +129,26 @@ void validateLong(String locale, List<List<String>> expected) {
 void validateMore(more_testdata.CompactRoundingTestCase t) {
   var options = js.newObject();
   js.setProperty(options, 'notation', 'compact');
-  if (t.maximumIntegerDigits != null)
+  if (t.maximumIntegerDigits != null) {
     js.setProperty(options, 'maximumIntegerDigits', t.maximumIntegerDigits);
-  if (t.minimumIntegerDigits != null)
+  }
+
+  if (t.minimumIntegerDigits != null) {
     js.setProperty(options, 'minimumIntegerDigits', t.minimumIntegerDigits);
-  if (t.maximumFractionDigits != null)
+  }
+
+  if (t.maximumFractionDigits != null) {
     js.setProperty(options, 'maximumFractionDigits', t.maximumFractionDigits);
-  if (t.minimumFractionDigits != null)
+  }
+
+  if (t.minimumFractionDigits != null) {
     js.setProperty(options, 'minimumFractionDigits', t.minimumFractionDigits);
-  if (t.minimumExponentDigits != null)
+  }
+
+  if (t.minimumExponentDigits != null) {
     js.setProperty(options, 'minimumExponentDigits', t.minimumExponentDigits);
+  }
+
   if (t.significantDigits != null) {
     js.setProperty(options, 'minimumSignificantDigits', t.significantDigits);
     js.setProperty(options, 'maximumSignificantDigits', t.significantDigits);

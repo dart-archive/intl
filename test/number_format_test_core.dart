@@ -130,7 +130,7 @@ void runTests(Map<String, num> allTestNumbers) {
       '9,876,543,210',
     ];
     for (var i = 0; i < expected.length; i++) {
-      var f = new NumberFormat.decimalPattern();
+      var f = NumberFormat.decimalPattern();
       f.maximumIntegerDigits = i;
       expect(f.format(9876543210), expected[i],
           reason: 'maximumIntegerDigits: $i');
@@ -148,7 +148,7 @@ void runTests(Map<String, num> allTestNumbers) {
       '1.000000',
     ];
     for (var i = 0; i < 6; i++) {
-      var f = new NumberFormat.decimalPattern();
+      var f = NumberFormat.decimalPattern();
       f.minimumFractionDigits = i;
       if (i > f.maximumFractionDigits) f.maximumFractionDigits = i;
       expect(f.format(1), expected[i],
@@ -173,7 +173,7 @@ void runTests(Map<String, num> allTestNumbers) {
       '9.123456789',
     ];
     for (var i = 0; i < expected.length; i++) {
-      var f = new NumberFormat.decimalPattern();
+      var f = NumberFormat.decimalPattern();
       f.maximumFractionDigits = i;
       expect(f.format(9.123456789), expected[i],
           reason: 'maximumFractionDigits: $i');
@@ -198,7 +198,7 @@ void runTests(Map<String, num> allTestNumbers) {
       '3.21E003',
     ];
     for (var i = 0; i < expected.length; i++) {
-      var f = new NumberFormat("#.###E0");
+      var f = NumberFormat("#.###E0");
       f.minimumExponentDigits = i;
       expect(f.format(3210), expected[i], reason: 'minimumExponentDigits: $i');
     }
@@ -222,7 +222,7 @@ void runTests(Map<String, num> allTestNumbers) {
       '9,876,543.21012',
     ];
     for (var i = 0; i < expected.length; i++) {
-      var f = new NumberFormat.decimalPattern();
+      var f = NumberFormat.decimalPattern();
       f.significantDigits = i;
       expect(f.format(9876543.21012), expected[i],
           reason: 'significantDigits: $i');
