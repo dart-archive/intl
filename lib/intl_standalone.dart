@@ -23,7 +23,9 @@ import 'intl.dart';
 /// the [Intl.systemLocale] variable.
 Future<String> findSystemLocale() {
   try {
-    Intl.systemLocale = Intl.canonicalizedLocale(Platform.localeName);
+    // Workaround https://github.com/flutter/flutter/issues/59144
+    var name = Platform.localeName == "null" ? null : Platform.localeName;
+    Intl.systemLocale = Intl.canonicalizedLocale(name);
   } catch (e) {
     return Future.value();
   }
