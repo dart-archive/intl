@@ -1593,7 +1593,7 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       PERCENT_PATTERN: '#,##0%',
       // MANUAL EDIT TO FIX PORTUGUESE CURRENCY PATTERN TO CONFRONT EUR PATTERN.
       CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
-      // MANUAL EDIT TO FIX PORTUGUESE DEFAULT CURRENCY FROM BLN TO EUR.
+      // MANUAL EDIT TO FIX PORTUGUESE DEFAULT CURRENCY FROM BRL TO EUR.
       DEF_CURRENCY_CODE: 'EUR'),
   // Number formatting symbols for locale pt_BR.
   "pt_BR": new NumberSymbols(
