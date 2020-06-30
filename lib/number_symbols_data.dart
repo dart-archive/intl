@@ -1591,8 +1591,8 @@ Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
       DECIMAL_PATTERN: '#,##0.###',
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
-      CURRENCY_PATTERN: '\u00A4\u00A0#,##0.00',
-      DEF_CURRENCY_CODE: 'BRL'),
+      CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
+      DEF_CURRENCY_CODE: 'EUR'),
   // Number formatting symbols for locale pt_BR.
   "pt_BR": new NumberSymbols(
       NAME: "pt_BR",
