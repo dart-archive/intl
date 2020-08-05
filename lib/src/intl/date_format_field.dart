@@ -302,7 +302,7 @@ class _DateFormatPatternField extends _DateFormatField {
           handleNumericField(input, builder.setHour);
           break; //hour 0-11
         case 'k':
-          handleNumericField(input, builder.setHour, -1);
+          handleNumericField(input, builder.setHour, offset: -1);
           break; //hr 1-24
         case 'L':
           parseStandaloneMonth(input, builder);
@@ -316,7 +316,10 @@ class _DateFormatPatternField extends _DateFormatField {
         case 'Q':
           break; // quarter
         case 'S':
-          handleNumericField(input, builder.setFractionalSecond);
+          // Since fractionalSecond is an integer it is not possible to express
+          // the fractional value so we take the floored value
+          handleNumericField(input, builder.setFractionalSecond,
+              fixedLength: 3);
           break;
         case 's':
           handleNumericField(input, builder.setSecond);
@@ -415,11 +418,23 @@ class _DateFormatPatternField extends _DateFormatField {
   /// This method handles reading any of the numeric fields. The [offset]
   /// argument allows us to compensate for zero-based versus one-based values.
   void handleNumericField(_Stream input, void Function(int) setter,
-      [int offset = 0]) {
+      {int offset = 0, int fixedLength}) {
     var result = input.nextInteger(
         digitMatcher: parent.digitMatcher,
         zeroDigit: parent.localeZeroCodeUnit);
     if (result == null) throwFormatException(input);
+    if (fixedLength != null) {
+      var resultStr = result.toString();
+      var fixedLengthResultStr = '';
+      for (var i = 0; i < fixedLength; i += 1) {
+        if (i < resultStr.length) {
+          fixedLengthResultStr += resultStr[i];
+        } else {
+          fixedLengthResultStr += '0';
+        }
+        result = int.parse(fixedLengthResultStr);
+      }
+    }
     setter(result + offset);
   }
 
