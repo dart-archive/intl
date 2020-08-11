@@ -12,7 +12,8 @@
 /// WARNING: These tests are NOT consistent with ICU. Compact number formatting
 /// has changed, needing some more involved Dart code changes to determine
 /// significant digits and decimal digits. Manual edits were made to pair up
-/// CLDR ver. 35 formats with old digit handling.
+/// CLDR ver. 35 formats with old digit handling. A small number of further
+/// manual edits were made as needed.
 
 // MANUAL EDIT TO SUPPRESS WARNINGS IN GENERATED CODE
 // ignore_for_file: prefer_single_quotes
@@ -288,7 +289,7 @@ Map<String, List<List<String>>> compactNumberTestData = {
     ["87654321", "৮.৮ কো", "৮.৮ কোটি"],
     ["987654321", "৯৯ কো", "৯৯ কোটি"],
     ["1087654321", "১০৯ কো", "১০৯ কোটি"],
-    ["11987654321", "১১৯৯ কো", "১১৯৯ কোটি"],
+    ["11987654321", "১২শত কো", "১১৯৯ কোটি"],
     ["129987654321", "১২,৯৯৯ কো", "১২,৯৯৯ কোটি"],
     ["1398987654321", "১.৪ লা.কো.", "১.৪ লাখ কোটি"],
     ["14987987654321", "১৫ লা.কো.", "১৫ লাখ কোটি"],
@@ -991,9 +992,9 @@ Map<String, List<List<String>>> compactNumberTestData = {
     ["7654321", "7.7 M", "7.7 millones"],
     ["87654321", "88 M", "88 millones"],
     ["987654321", "988 M", "988 millones"],
-    ["1087654321", "1.1k M", "1.1 mil millones"],
-    ["11987654321", "12k M", "12 mil millones"],
-    ["129987654321", "130k M", "130 mil millones"],
+    ["1087654321", "1088 M", "1.1 mil millones"],
+    ["11987654321", "12 mil M", "12 mil millones"],
+    ["129987654321", "130 mil M", "130 mil millones"],
     ["1398987654321", "1.4 B", "1.4 billón"],
     ["14987987654321", "15 B", "15 billones"],
     ["159876987654321", "160 B", "160 billones"],
@@ -1011,7 +1012,7 @@ Map<String, List<List<String>>> compactNumberTestData = {
     ["999444", "999 k", "999 mil"],
     ["9994444", "10 M", "10 millones"],
     ["999444444", "999 M", "999 millones"],
-    ["9994444444", "10k M", "10 mil millones"],
+    ["9994444444", "9994 M", "10 mil millones"],
   ],
   "es_ES": [
     ["1", "1", "1"],
@@ -3362,9 +3363,9 @@ Map<String, List<List<String>>> compactNumberTestData = {
     ["1087654321", "11亿", "11亿"],
     ["11987654321", "120亿", "120亿"],
     ["129987654321", "1300亿", "1300亿"],
-    ["1398987654321", "1.4兆", "1.4兆"],
-    ["14987987654321", "15兆", "15兆"],
-    ["159876987654321", "160兆", "160兆"],
+    ["1398987654321", "1.4万亿", "1.4万亿"],
+    ["14987987654321", "15万亿", "15万亿"],
+    ["159876987654321", "160万亿", "160万亿"],
     ["9", "9", "9"],
     ["99", "99", "99"],
     ["999", "999", "999"],
@@ -3394,9 +3395,9 @@ Map<String, List<List<String>>> compactNumberTestData = {
     ["1087654321", "11亿", "11亿"],
     ["11987654321", "120亿", "120亿"],
     ["129987654321", "1300亿", "1300亿"],
-    ["1398987654321", "1.4兆", "1.4兆"],
-    ["14987987654321", "15兆", "15兆"],
-    ["159876987654321", "160兆", "160兆"],
+    ["1398987654321", "1.4万亿", "1.4万亿"],
+    ["14987987654321", "15万亿", "15万亿"],
+    ["159876987654321", "160万亿", "160万亿"],
     ["9", "9", "9"],
     ["99", "99", "99"],
     ["999", "999", "999"],
