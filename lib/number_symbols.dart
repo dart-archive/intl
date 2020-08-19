@@ -1,7 +1,6 @@
 // Copyright (c) 2012, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
-// @dart=2.9
 library number_symbols;
 
 // Suppress naming issues as changes would be breaking.
@@ -30,22 +29,22 @@ class NumberSymbols {
       DEF_CURRENCY_CODE;
 
   const NumberSymbols(
-      {this.NAME,
-      this.DECIMAL_SEP,
-      this.GROUP_SEP,
-      this.PERCENT,
-      this.ZERO_DIGIT,
-      this.PLUS_SIGN,
-      this.MINUS_SIGN,
-      this.EXP_SYMBOL,
-      this.PERMILL,
-      this.INFINITY,
-      this.NAN,
-      this.DECIMAL_PATTERN,
-      this.SCIENTIFIC_PATTERN,
-      this.PERCENT_PATTERN,
-      this.CURRENCY_PATTERN,
-      this.DEF_CURRENCY_CODE});
+      {required this.NAME,
+      required this.DECIMAL_SEP,
+      required this.GROUP_SEP,
+      required this.PERCENT,
+      required this.ZERO_DIGIT,
+      required this.PLUS_SIGN,
+      required this.MINUS_SIGN,
+      required this.EXP_SYMBOL,
+      required this.PERMILL,
+      required this.INFINITY,
+      required this.NAN,
+      required this.DECIMAL_PATTERN,
+      required this.SCIENTIFIC_PATTERN,
+      required this.PERCENT_PATTERN,
+      required this.CURRENCY_PATTERN,
+      required this.DEF_CURRENCY_CODE});
 
   String toString() => NAME;
 }
@@ -56,10 +55,10 @@ class NumberSymbols {
 /// number formatting pattern.)
 class CompactNumberSymbols {
   final Map<int, String> COMPACT_DECIMAL_SHORT_PATTERN;
-  final Map<int, String> COMPACT_DECIMAL_LONG_PATTERN;
+  final Map<int, String>? COMPACT_DECIMAL_LONG_PATTERN;
   final Map<int, String> COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN;
   CompactNumberSymbols(
-      {this.COMPACT_DECIMAL_SHORT_PATTERN,
+      {required this.COMPACT_DECIMAL_SHORT_PATTERN,
       this.COMPACT_DECIMAL_LONG_PATTERN,
-      this.COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN});
+      required this.COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN});
 }
