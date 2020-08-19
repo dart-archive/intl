@@ -4,6 +4,7 @@
 /// consistency when the bug is fixed. Also fix documentation and perhaps
 /// merge tests: these tests currently also touch non-compact currency
 /// formatting.
+// @dart=2.9
 
 /// We use @Tags rather than @TestOn to be able to specify something that can be
 /// ignored when using a build system that can't read dart_test.yaml. This
