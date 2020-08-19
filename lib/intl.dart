@@ -174,9 +174,10 @@ class Intl {
   /// messages during development whose text aren't finalized yet without having
   /// the placeholder automatically translated.
   @pragma('dart2js:tryInline')
-  // We want dart2js to try to inline these messages, but not inline the
-  // internal messages, so it will eliminate the descriptions and other
-  // information not needed at runtime.
+  @pragma('vm:prefer-inline')
+  // We want to try to inline these messages, but not inline the internal
+  // messages, so it will eliminate the descriptions and other information
+  // not needed at runtime.
   static String message(String messageText,
           {String desc = '',
           Map<String, Object> examples,
@@ -286,6 +287,7 @@ class Intl {
   /// For an explanation of plurals and the [zero], [one], [two], [few], [many]
   /// categories see http://cldr.unicode.org/index/cldr-spec/plural-rules
   @pragma('dart2js:tryInline')
+  @pragma('vm:prefer-inline')
   static String plural(num howMany,
       {String zero,
       String one,
@@ -432,6 +434,7 @@ class Intl {
 
   /// Format a message differently depending on [targetGender].
   @pragma('dart2js:tryInline')
+  @pragma('vm:prefer-inline')
   static String gender(String targetGender,
       {String female,
       String male,
@@ -508,6 +511,7 @@ class Intl {
   ///
   /// The first argument in [args] must correspond to the [choice] Object.
   @pragma('dart2js:tryInline')
+  @pragma('vm:prefer-inline')
   static String select(Object choice, Map<Object, String> cases,
       {String desc,
       Map<String, Object> examples,
