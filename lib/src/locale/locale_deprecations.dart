@@ -1,7 +1,6 @@
 // Copyright (c) 2019, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
-// @dart=2.9
 
 /// Replaces deprecated language subtags.
 ///
@@ -102,7 +101,7 @@ const Map<String, String> _deprecatedLanguageTagReplacements = {
 /// The subtag must already be uppercase.
 ///
 /// TODO(b/127689510): write a new script for updating this list from CLDR data.
-String replaceDeprecatedRegionSubtag(String regionCode) {
+String? replaceDeprecatedRegionSubtag(String? regionCode) {
   return _deprecatedRegionTagReplacements[regionCode] ?? regionCode;
 }
 
