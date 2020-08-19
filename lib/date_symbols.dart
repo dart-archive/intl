@@ -1,7 +1,6 @@
 // Copyright (c) 2012, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
-// @dart=2.9
 library date_symbols;
 
 // Suppress naming lints, as changes would be breaking.
@@ -88,7 +87,7 @@ class DateSymbols {
 
       /// The ways date and time formats can be combined for this locale.
       DATETIMEFORMATS;
-  Map<String, String> AVAILABLEFORMATS;
+  Map<String, String>? AVAILABLEFORMATS;
 
   /// The first day of the week, in ISO 8601 style, where the first day of the
   /// week, i.e. index 0, is Monday.
@@ -100,70 +99,72 @@ class DateSymbols {
   List<int> WEEKENDRANGE;
   int FIRSTWEEKCUTOFFDAY;
 
-  String ZERODIGIT;
+  String? ZERODIGIT;
 
   DateSymbols(
-      {this.NAME,
-      this.ERAS,
-      this.ERANAMES,
-      this.NARROWMONTHS,
-      this.STANDALONENARROWMONTHS,
-      this.MONTHS,
-      this.STANDALONEMONTHS,
-      this.SHORTMONTHS,
-      this.STANDALONESHORTMONTHS,
-      this.WEEKDAYS,
-      this.STANDALONEWEEKDAYS,
-      this.SHORTWEEKDAYS,
-      this.STANDALONESHORTWEEKDAYS,
-      this.NARROWWEEKDAYS,
-      this.STANDALONENARROWWEEKDAYS,
-      this.SHORTQUARTERS,
-      this.QUARTERS,
-      this.AMPMS,
+      {required this.NAME,
+      required this.ERAS,
+      required this.ERANAMES,
+      required this.NARROWMONTHS,
+      required this.STANDALONENARROWMONTHS,
+      required this.MONTHS,
+      required this.STANDALONEMONTHS,
+      required this.SHORTMONTHS,
+      required this.STANDALONESHORTMONTHS,
+      required this.WEEKDAYS,
+      required this.STANDALONEWEEKDAYS,
+      required this.SHORTWEEKDAYS,
+      required this.STANDALONESHORTWEEKDAYS,
+      required this.NARROWWEEKDAYS,
+      required this.STANDALONENARROWWEEKDAYS,
+      required this.SHORTQUARTERS,
+      required this.QUARTERS,
+      required this.AMPMS,
       this.ZERODIGIT,
       // TODO(alanknight): These formats are taken from Closure,
       // where there's only a fixed set of available formats.
       // Here we have the patterns separately. These should
       // either be used, or removed.
-      this.DATEFORMATS,
-      this.TIMEFORMATS,
+      required this.DATEFORMATS,
+      required this.TIMEFORMATS,
       this.AVAILABLEFORMATS,
-      this.FIRSTDAYOFWEEK,
-      this.WEEKENDRANGE,
-      this.FIRSTWEEKCUTOFFDAY,
-      this.DATETIMEFORMATS});
+      required this.FIRSTDAYOFWEEK,
+      required this.WEEKENDRANGE,
+      required this.FIRSTWEEKCUTOFFDAY,
+      required this.DATETIMEFORMATS});
 
   // TODO(alanknight): Replace this with use of a more general serialization
   // facility once one is available. Issue 4926.
-  DateSymbols.deserializeFromMap(Map<dynamic, dynamic> map) {
+  factory DateSymbols.deserializeFromMap(Map<dynamic, dynamic> map) {
     List<String> _getStringList(String name) => List<String>.from(map[name]);
-    NAME = map['NAME'];
-    ERAS = _getStringList('ERAS');
-    ERANAMES = _getStringList('ERANAMES');
-    NARROWMONTHS = _getStringList('NARROWMONTHS');
-    STANDALONENARROWMONTHS = _getStringList('STANDALONENARROWMONTHS');
-    MONTHS = _getStringList('MONTHS');
-    STANDALONEMONTHS = _getStringList('STANDALONEMONTHS');
-    SHORTMONTHS = _getStringList('SHORTMONTHS');
-    STANDALONESHORTMONTHS = _getStringList('STANDALONESHORTMONTHS');
-    WEEKDAYS = _getStringList('WEEKDAYS');
-    STANDALONEWEEKDAYS = _getStringList('STANDALONEWEEKDAYS');
-    SHORTWEEKDAYS = _getStringList('SHORTWEEKDAYS');
-    STANDALONESHORTWEEKDAYS = _getStringList('STANDALONESHORTWEEKDAYS');
-    NARROWWEEKDAYS = _getStringList('NARROWWEEKDAYS');
-    STANDALONENARROWWEEKDAYS = _getStringList('STANDALONENARROWWEEKDAYS');
-    SHORTQUARTERS = _getStringList('SHORTQUARTERS');
-    QUARTERS = _getStringList('QUARTERS');
-    AMPMS = _getStringList('AMPMS');
-    ZERODIGIT = map['ZERODIGIT'];
-    DATEFORMATS = _getStringList('DATEFORMATS');
-    TIMEFORMATS = _getStringList('TIMEFORMATS');
-    AVAILABLEFORMATS = Map<String, String>.from(map['AVAILABLEFORMATS'] ?? {});
-    FIRSTDAYOFWEEK = map['FIRSTDAYOFWEEK'];
-    WEEKENDRANGE = List<int>.from(map['WEEKENDRANGE']);
-    FIRSTWEEKCUTOFFDAY = map['FIRSTWEEKCUTOFFDAY'];
-    DATETIMEFORMATS = _getStringList('DATETIMEFORMATS');
+    return DateSymbols(
+      NAME: map['NAME'],
+      ERAS: _getStringList('ERAS'),
+      ERANAMES: _getStringList('ERANAMES'),
+      NARROWMONTHS: _getStringList('NARROWMONTHS'),
+      STANDALONENARROWMONTHS: _getStringList('STANDALONENARROWMONTHS'),
+      MONTHS: _getStringList('MONTHS'),
+      STANDALONEMONTHS: _getStringList('STANDALONEMONTHS'),
+      SHORTMONTHS: _getStringList('SHORTMONTHS'),
+      STANDALONESHORTMONTHS: _getStringList('STANDALONESHORTMONTHS'),
+      WEEKDAYS: _getStringList('WEEKDAYS'),
+      STANDALONEWEEKDAYS: _getStringList('STANDALONEWEEKDAYS'),
+      SHORTWEEKDAYS: _getStringList('SHORTWEEKDAYS'),
+      STANDALONESHORTWEEKDAYS: _getStringList('STANDALONESHORTWEEKDAYS'),
+      NARROWWEEKDAYS: _getStringList('NARROWWEEKDAYS'),
+      STANDALONENARROWWEEKDAYS: _getStringList('STANDALONENARROWWEEKDAYS'),
+      SHORTQUARTERS: _getStringList('SHORTQUARTERS'),
+      QUARTERS: _getStringList('QUARTERS'),
+      AMPMS: _getStringList('AMPMS'),
+      ZERODIGIT: map['ZERODIGIT'],
+      DATEFORMATS: _getStringList('DATEFORMATS'),
+      TIMEFORMATS: _getStringList('TIMEFORMATS'),
+      AVAILABLEFORMATS: Map<String, String>.from(map['AVAILABLEFORMATS'] ?? {}),
+      FIRSTDAYOFWEEK: map['FIRSTDAYOFWEEK'],
+      WEEKENDRANGE: List<int>.from(map['WEEKENDRANGE']),
+      FIRSTWEEKCUTOFFDAY: map['FIRSTWEEKCUTOFFDAY'],
+      DATETIMEFORMATS: _getStringList('DATETIMEFORMATS'),
+    );
   }
 
   Map<String, dynamic> serializeToMap() {
