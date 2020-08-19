@@ -1,7 +1,6 @@
 // Copyright (c) 2019, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
-// @dart=2.9
 
 /// Locale extensions as defined for [Unicode Locale
 /// Identifiers](http://www.unicode.org/reports/tr35/#Unicode_locale_identifier).
@@ -15,9 +14,9 @@ class LocaleExtensions {
   /// Keys in each of the maps passed to this contructor must be syntactically
   /// valid extension keys, and must already be normalized (correct case).
   LocaleExtensions(
-      Map<String, String> uExtensions,
-      Map<String, String> tExtensions,
-      Map<String, String> otherExtensions,
+      Map<String, String>? uExtensions,
+      Map<String, String>? tExtensions,
+      Map<String, String>? otherExtensions,
       this._xExtensions)
       : _uExtensions = _sortedUnmodifiable(uExtensions),
         _tExtensions = _sortedUnmodifiable(tExtensions),
@@ -71,7 +70,7 @@ class LocaleExtensions {
         'RegExp/${_otherExtensionsValidValuesRE.pattern}. '
         'Entries: ${otherExtensions.entries}.');
     assert(
-        _xExtensions == null || _validXExtensionsRE.hasMatch(_xExtensions),
+        _xExtensions == null || _validXExtensionsRE.hasMatch(_xExtensions!),
         '_xExtensions must match RegExp/${_validXExtensionsRE.pattern}/ '
         'but is "$_xExtensions".');
   }
@@ -165,7 +164,7 @@ class LocaleExtensions {
 
   /// -x- extension values. See
   /// http://www.unicode.org/reports/tr35/#pu_extensions for details.
-  final String _xExtensions;
+  final String? _xExtensions;
 
   /// List of subtags in the [Unicode Locale
   /// Identifier](https://www.unicode.org/reports/tr35/#Unicode_locale_identifier)
@@ -218,13 +217,13 @@ class LocaleExtensions {
 }
 
 /// Creates an unmodifiable and sorted version of `unsorted`.
-Map<String, String> _sortedUnmodifiable(Map<String, String> unsorted) {
+Map<String, String> _sortedUnmodifiable(Map<String, String>? unsorted) {
   if (unsorted == null) {
     return const {};
   }
   var map = <String, String>{};
   for (var key in unsorted.keys.toList()..sort()) {
-    map[key] = unsorted[key];
+    map[key] = unsorted[key]!;
   }
   return Map.unmodifiable(map);
 }
