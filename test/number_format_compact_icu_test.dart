@@ -3,9 +3,11 @@
 /// These tests check that the test cases match what ICU produces. They are not
 /// testing the package:intl implementation, they only help verify consistent
 /// behaviour across platforms.
+// @dart=2.9
 @TestOn("!browser")
 @Tags(['ffi'])
-@Skip("currently failing (see issue https://github.com/dart-lang/intl/issues/240)")
+@Skip(
+    "currently failing (see issue https://github.com/dart-lang/intl/issues/240)")
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:test/test.dart';
