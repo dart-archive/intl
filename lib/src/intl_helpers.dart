@@ -7,7 +7,6 @@
 
 library intl_helpers;
 
-import 'dart:async';
 import 'package:intl/intl.dart';
 
 /// Type for the callback action when a message translation is not found.
