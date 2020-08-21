@@ -3,7 +3,17 @@
 // BSD-style license that can be found in the LICENSE file.
 // @dart=2.9
 
-part of intl;
+import 'package:intl/date_symbols.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/src/date_format_internal.dart';
+
+import 'constants.dart' as constants;
+import 'date_builder.dart';
+import 'date_computation.dart' as date_computation;
+import 'intl_stream.dart';
+import 'regexp.dart' as regexp;
+
+part 'date_format_field.dart';
 
 // Suppress naming issues as changes would breaking.
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names
@@ -353,9 +363,9 @@ class DateFormat {
 
   DateTime _parseLoose(String inputString, bool utc) {
     var dateFields =
-        _DateBuilder(locale ?? Intl.defaultLocale, dateTimeConstructor);
+        DateBuilder(locale ?? Intl.defaultLocale, dateTimeConstructor);
     if (utc) dateFields.utc = true;
-    var stream = _Stream(inputString);
+    var stream = IntlStream(inputString);
     for (var field in _formatFields) {
       field.parseLoose(stream, dateFields);
     }
@@ -382,10 +392,10 @@ class DateFormat {
     // TODO(alanknight): The Closure code refers to special parsing of numeric
     // values with no delimiters, which we currently don't do. Should we?
     var dateFields =
-        _DateBuilder(locale ?? Intl.defaultLocale, dateTimeConstructor);
+        DateBuilder(locale ?? Intl.defaultLocale, dateTimeConstructor);
     if (utc) dateFields.utc = true;
-    dateFields._dateOnly = dateOnly;
-    var stream = _Stream(inputString);
+    dateFields.dateOnly = dateOnly;
+    var stream = IntlStream(inputString);
     for (var field in _formatFields) {
       field.parse(stream, dateFields);
     }
@@ -777,16 +787,12 @@ class DateFormat {
     return _digitMatcher;
   }
 
-  /// Hard-code the most common matcher, which has special RegExp syntax.
-  static final RegExp _asciiDigitMatcher = RegExp(r'^\d+');
-
   int _localeZeroCodeUnit;
 
   /// For performance, keep the code unit of the zero digit available.
   int get localeZeroCodeUnit => _localeZeroCodeUnit == null
       ? _localeZeroCodeUnit = localeZero.codeUnitAt(0)
       : _localeZeroCodeUnit;
-  static final int _asciiZeroCodeUnit = '0'.codeUnitAt(0);
 
   String _localeZero;
 
@@ -797,7 +803,7 @@ class DateFormat {
 
   // Does this use non-ASCII digits, e.g. Eastern Arabic.
   bool get usesNativeDigits =>
-      useNativeDigits && _localeZeroCodeUnit != _asciiZeroCodeUnit;
+      useNativeDigits && _localeZeroCodeUnit != constants.asciiZeroCodeUnit;
 
   /// Does this use ASCII digits
   bool get usesAsciiDigits => !usesNativeDigits;
@@ -809,7 +815,8 @@ class DateFormat {
     var newDigits = List<int>(numberString.length);
     var oldDigits = numberString.codeUnits;
     for (var i = 0; i < numberString.length; i++) {
-      newDigits[i] = oldDigits[i] + localeZeroCodeUnit - _asciiZeroCodeUnit;
+      newDigits[i] =
+          oldDigits[i] + localeZeroCodeUnit - constants.asciiZeroCodeUnit;
     }
     return String.fromCharCodes(newDigits);
   }
@@ -817,7 +824,7 @@ class DateFormat {
   /// A regular expression that matches for digits in a particular
   /// locale, defined by the digit for zero in that locale.
   RegExp _initDigitMatcher() {
-    if (usesAsciiDigits) return _asciiDigitMatcher;
+    if (usesAsciiDigits) return regexp.asciiDigitMatcher;
     var localeDigits = Iterable.generate(10, (i) => i)
         .map((i) => localeZeroCodeUnit + i)
         .toList();

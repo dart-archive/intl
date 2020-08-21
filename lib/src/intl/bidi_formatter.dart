@@ -3,7 +3,10 @@
 // BSD-style license that can be found in the LICENSE file.
 // @dart=2.9
 
-part of intl;
+import 'dart:convert';
+
+import 'bidi.dart';
+import 'text_direction.dart';
 
 // Suppress naming issues as changing them would be breaking.
 // ignore_for_file: non_constant_identifier_names
