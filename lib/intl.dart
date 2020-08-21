@@ -20,27 +20,17 @@
 library intl;
 
 import 'dart:async';
-import 'dart:collection';
-import 'dart:convert';
-import 'dart:math';
 
-import 'package:clock/clock.dart';
-
-import 'date_symbols.dart';
-import 'number_symbols.dart';
-import 'number_symbols_data.dart';
-import 'src/date_format_internal.dart';
 import 'src/global_state.dart' as global_state;
+import 'src/intl/date_format.dart' show DateFormat;
 import 'src/intl_helpers.dart' as helpers;
 import 'src/plural_rules.dart' as plural_rules;
 
-part 'src/intl/bidi_formatter.dart';
-part 'src/intl/bidi_utils.dart';
-part 'src/intl/compact_number_format.dart';
-part 'src/intl/date_format.dart';
-part 'src/intl/date_format_field.dart';
-part 'src/intl/date_format_helpers.dart';
-part 'src/intl/number_format.dart';
+export 'src/intl/bidi.dart' show Bidi;
+export 'src/intl/bidi_formatter.dart' show BidiFormatter;
+export 'src/intl/date_format.dart' show DateFormat;
+export 'src/intl/number_format.dart' show NumberFormat, MicroMoney;
+export 'src/intl/text_direction.dart' show TextDirection;
 
 /// The Intl class provides a common entry point for internationalization
 /// related tasks. An Intl instance can be created for a particular locale
