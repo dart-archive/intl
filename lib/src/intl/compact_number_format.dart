@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 // @dart=2.9
 
-part of intl;
+part of 'number_format.dart';
 
 // Suppress naming issues as changes would be breaking.
 // ignore_for_file: constant_identifier_names

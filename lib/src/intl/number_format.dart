@@ -3,7 +3,16 @@
 // BSD-style license that can be found in the LICENSE file.
 // @dart=2.9
 
-part of intl;
+import 'dart:collection';
+import 'dart:math';
+
+import 'package:intl/intl.dart';
+import 'package:intl/number_symbols.dart';
+import 'package:intl/number_symbols_data.dart';
+
+import 'intl_stream.dart';
+
+part 'compact_number_format.dart';
 
 // ignore_for_file: constant_identifier_names
 
@@ -985,7 +994,7 @@ class _NumberParser {
   final String text;
 
   /// What we use to iterate over the input text.
-  final _Stream input;
+  final IntlStream input;
 
   /// The result of parsing [text] according to [format]. Automatically
   /// populated in the constructor.
@@ -1030,7 +1039,7 @@ class _NumberParser {
   int get _localeZero => format._localeZero;
 
   ///  Create a new [_NumberParser] on which we can call parse().
-  _NumberParser(this.format, this.text) : input = _Stream(text) {
+  _NumberParser(this.format, this.text) : input = IntlStream(text) {
     scale = format._internalMultiplier;
     value = parse();
   }
@@ -1183,7 +1192,7 @@ class _NumberParser {
 
   /// Parse the number portion of the input, i.e. not any prefixes or suffixes,
   /// and assuming NaN and Infinity are already handled.
-  num parseNumber(_Stream input) {
+  num parseNumber(IntlStream input) {
     if (gotNegative) {
       _normalized.write('-');
     }

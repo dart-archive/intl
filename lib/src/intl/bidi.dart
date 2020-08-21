@@ -3,50 +3,18 @@
 // BSD-style license that can be found in the LICENSE file.
 // @dart=2.9
 
-part of intl;
-
-// Suppress naming issues as changing them would be breaking.
-// ignore_for_file: constant_identifier_names
-
 /// Bidi stands for Bi-directional text.  According to
 /// http://en.wikipedia.org/wiki/Bi-directional_text: Bi-directional text is
 /// text containing text in both text directionalities, both right-to-left (RTL)
 /// and left-to-right (LTR). It generally involves text containing different
 /// types of alphabets, but may also refer to boustrophedon, which is changing
 /// text directionality in each row.
-///
-/// This file provides some utility classes for determining directionality of
-/// text, switching CSS layout from LTR to RTL, and other normalizing utilities
-/// needed when switching between RTL and LTR formatting.
-///
-/// It defines the TextDirection class which is used to represent directionality
-/// of text,
-/// In most cases, it is preferable to use bidi_formatter.dart, which provides
-/// bidi functionality in the given directional context, instead of using
-/// bidi_utils.dart directly.
-class TextDirection {
-  static const LTR = TextDirection._('LTR', 'ltr');
-  static const RTL = TextDirection._('RTL', 'rtl');
-  // If the directionality of the text cannot be determined and we are not using
-  // the context direction (or if the context direction is unknown), then the
-  // text falls back on the more common ltr direction.
-  static const UNKNOWN = TextDirection._('UNKNOWN', 'ltr');
 
-  /// Textual representation of the directionality constant. One of
-  /// 'LTR', 'RTL', or 'UNKNOWN'.
-  final String value;
+import '../global_state.dart' as global_state;
+import 'text_direction.dart';
 
-  /// Textual representation of the directionality when used in span tag.
-  final String spanText;
-
-  const TextDirection._(this.value, this.spanText);
-
-  /// Returns true if [otherDirection] is known to be different from this
-  /// direction.
-  bool isDirectionChange(TextDirection otherDirection) =>
-      otherDirection != TextDirection.UNKNOWN && this != otherDirection;
-}
-
+// Suppress naming issues as changing them would be breaking.
+// ignore_for_file: constant_identifier_names
 // ignore: avoid_classes_with_only_static_members
 /// This provides utility methods for working with bidirectional text. All
 /// of the methods are static, and are organized into a class primarily to
@@ -170,7 +138,7 @@ class Bidi {
   /// Sindhi (sd) and Uyghur (ug).  The presence of other subtags of the
   /// language code, e.g. regions like EG (Egypt), is ignored.
   static bool isRtlLanguage([String languageString]) {
-    var language = languageString ?? Intl.getCurrentLocale();
+    var language = languageString ?? global_state.getCurrentLocale();
     if (_lastLocaleCheckedForRtl != language) {
       _lastLocaleCheckedForRtl = language;
       _lastRtlCheck = _rtlLocaleRegex.hasMatch(language);
