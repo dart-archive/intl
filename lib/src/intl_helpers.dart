@@ -1,7 +1,6 @@
 // Copyright (c) 2012, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
-// @dart=2.9
 
 /// A library for general helper code associated with the intl library
 /// rather than confined to specific parts of it.
@@ -9,7 +8,8 @@
 library intl_helpers;
 
 import 'dart:async';
-import 'package:intl/intl.dart';
+
+import 'global_state.dart' as global_state;
 
 /// Type for the callback action when a message translation is not found.
 typedef MessageIfAbsent = String Function(
@@ -23,7 +23,7 @@ class UninitializedLocaleData<F> implements MessageLookup {
   final F fallbackData;
   UninitializedLocaleData(this.message, this.fallbackData);
 
-  bool _isFallback(String key) => Intl.canonicalizedLocale(key) == 'en_US';
+  bool _isFallback(String key) => canonicalizedLocale(key) == 'en_US';
 
   F operator [](String key) =>
       _isFallback(key) ? fallbackData : _throwException();
@@ -54,18 +54,19 @@ class UninitializedLocaleData<F> implements MessageLookup {
   String get _uninitializedMessages =>
       (_badMessages.toSet().toList()..sort()).join('\n    ');
 
-  String lookupMessage(String messageText, String locale, String name,
-      List<Object> args, String meaning,
-      {MessageIfAbsent ifAbsent}) {
+  String? lookupMessage(String? messageText, String? locale, String? name,
+      List<Object>? args, String? meaning,
+      {MessageIfAbsent? ifAbsent}) {
     if (throwOnFallback) {
-      _badMessages.add(name ?? messageText);
+      _badMessages.add((name ?? messageText)!);
     }
     return messageText;
   }
 
   /// Given an initial locale or null, returns the locale that will be used
   /// for messages.
-  String findLocale(String locale) => locale ?? Intl.getCurrentLocale();
+  String findLocale(String? locale) =>
+      locale ?? global_state.getCurrentLocale();
 
   List<String> get keys => _throwException() as List<String>;
 
@@ -85,9 +86,9 @@ class UninitializedLocaleData<F> implements MessageLookup {
 }
 
 abstract class MessageLookup {
-  String lookupMessage(String messageText, String locale, String name,
-      List<Object> args, String meaning,
-      {MessageIfAbsent ifAbsent});
+  String? lookupMessage(String? messageText, String? locale, String? name,
+      List<Object>? args, String? meaning,
+      {MessageIfAbsent? ifAbsent});
   void addLocale(String localeName, Function findLocale);
 }
 
@@ -122,7 +123,25 @@ void initializeInternalMessageLookup(Function lookupFunction) {
 /// If a message is a string literal without interpolation, compute
 /// a name based on that and the meaning, if present.
 // NOTE: THIS LOGIC IS DUPLICATED IN intl_translation AND THE TWO MUST MATCH.
-String computeMessageName(String name, String text, String meaning) {
+String computeMessageName(String? name, String text, String? meaning) {
   if (name != null && name != '') return name;
   return meaning == null ? text : '${text}_$meaning';
+}
+
+String canonicalizedLocale(String? aLocale) {
+// Locales of length < 5 are presumably two-letter forms, or else malformed.
+// We return them unmodified and if correct they will be found.
+// Locales longer than 6 might be malformed, but also do occur. Do as
+// little as possible to them, but make the '-' be an '_' if it's there.
+// We treat C as a special case, and assume it wants en_ISO for formatting.
+// TODO(alanknight): en_ISO is probably not quite right for the C/Posix
+// locale for formatting. Consider adding C to the formats database.
+  if (aLocale == null) return global_state.getCurrentLocale();
+  if (aLocale == 'C') return 'en_ISO';
+  if (aLocale.length < 5) return aLocale;
+  if (aLocale[2] != '-' && (aLocale[2] != '_')) return aLocale;
+  var region = aLocale.substring(3);
+// If it's longer than three it's something odd, so don't touch it.
+  if (region.length <= 3) region = region.toUpperCase();
+  return '${aLocale[0]}${aLocale[1]}_$region';
 }

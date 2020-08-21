@@ -30,12 +30,12 @@ import 'date_symbols.dart';
 import 'number_symbols.dart';
 import 'number_symbols_data.dart';
 import 'src/date_format_internal.dart';
-import 'src/intl_helpers.dart';
+import 'src/global_state.dart' as global_state;
+import 'src/intl_helpers.dart' as helpers;
 import 'src/plural_rules.dart' as plural_rules;
 
 part 'src/intl/bidi_formatter.dart';
 part 'src/intl/bidi_utils.dart';
-
 part 'src/intl/compact_number_format.dart';
 part 'src/intl/date_format.dart';
 part 'src/intl/date_format_field.dart';
@@ -96,22 +96,17 @@ class Intl {
   /// will supercede this value while that operation is active. Using
   /// [Intl.withLocale] may be preferable if you are using different locales
   /// in the same application.
-  static String get defaultLocale {
-    var zoneLocale = Zone.current[#Intl.locale] as String;
-    return zoneLocale == null ? _defaultLocale : zoneLocale;
-  }
+  static String get defaultLocale => global_state.defaultLocale;
 
-  static set defaultLocale(String newLocale) {
-    _defaultLocale = newLocale;
-  }
-
-  static String _defaultLocale;
+  static set defaultLocale(String newLocale) =>
+      global_state.defaultLocale = newLocale;
 
   /// The system's locale, as obtained from the window.navigator.language
   /// or other operating system mechanism. Note that due to system limitations
   /// this is not automatically set, and must be set by importing one of
   /// intl_browser.dart or intl_standalone.dart and calling findSystemLocale().
-  static String systemLocale = 'en_US';
+  static String get systemLocale => global_state.systemLocale;
+  static set systemLocale(String locale) => global_state.systemLocale = locale;
 
   /// Return a new date format using the specified [pattern].
   /// If [desiredLocale] is not specified, then we default to [locale].
@@ -193,8 +188,8 @@ class Intl {
   @pragma('dart2js:noInline')
   static String _message(String messageText, String locale, String name,
       List<Object> args, String meaning) {
-    return messageLookup.lookupMessage(
-        messageText, locale, name, args, meaning);
+    return helpers.messageLookup
+        .lookupMessage(messageText, locale, name, args, meaning);
   }
 
   /// Return the locale for this instance. If none was set, the locale will
@@ -259,23 +254,8 @@ class Intl {
   /// in the wrong case or with a hyphen instead of an underscore. If
   /// [aLocale] is null, for example, if you tried to get it from IE,
   /// return the current system locale.
-  static String canonicalizedLocale(String aLocale) {
-    // Locales of length < 5 are presumably two-letter forms, or else malformed.
-    // We return them unmodified and if correct they will be found.
-    // Locales longer than 6 might be malformed, but also do occur. Do as
-    // little as possible to them, but make the '-' be an '_' if it's there.
-    // We treat C as a special case, and assume it wants en_ISO for formatting.
-    // TODO(alanknight): en_ISO is probably not quite right for the C/Posix
-    // locale for formatting. Consider adding C to the formats database.
-    if (aLocale == null) return getCurrentLocale();
-    if (aLocale == 'C') return 'en_ISO';
-    if (aLocale.length < 5) return aLocale;
-    if (aLocale[2] != '-' && (aLocale[2] != '_')) return aLocale;
-    var region = aLocale.substring(3);
-    // If it's longer than three it's something odd, so don't touch it.
-    if (region.length <= 3) region = region.toUpperCase();
-    return '${aLocale[0]}${aLocale[1]}_$region';
-  }
+  static String canonicalizedLocale(String aLocale) =>
+      helpers.canonicalizedLocale(aLocale);
 
   /// Formats a message differently depending on [howMany].
   ///
