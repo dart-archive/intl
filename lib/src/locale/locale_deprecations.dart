@@ -101,7 +101,7 @@ const Map<String, String> _deprecatedLanguageTagReplacements = {
 /// The subtag must already be uppercase.
 ///
 /// TODO(b/127689510): write a new script for updating this list from CLDR data.
-String? replaceDeprecatedRegionSubtag(String? regionCode) {
+String replaceDeprecatedRegionSubtag(String regionCode) {
   return _deprecatedRegionTagReplacements[regionCode] ?? regionCode;
 }
 
