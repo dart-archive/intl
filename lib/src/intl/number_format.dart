@@ -60,10 +60,10 @@ typedef _PatternGetter = String Function(NumberSymbols);
 /// equivalent to "#E0" and does not take into account significant digits.
 class NumberFormat {
   /// Variables to determine how number printing behaves.
-  String _negativePrefix;
-  String _positivePrefix;
-  String _negativeSuffix;
-  String _positiveSuffix;
+  final String _negativePrefix;
+  final String _positivePrefix;
+  final String _negativeSuffix;
+  final String _positiveSuffix;
 
   /// How many numbers in a group when using punctuation to group digits in
   /// large numbers. e.g. in en_US: "1,000,000" has a grouping size of 3 digits
@@ -75,15 +75,15 @@ class NumberFormat {
   int _finalGroupingSize;
 
   /// Set to true if the format has explicitly set the grouping size.
-  bool _decimalSeparatorAlwaysShown;
-  bool _useSignForPositiveExponent;
-  bool _useExponentialNotation;
+  final bool _decimalSeparatorAlwaysShown;
+  final bool _useSignForPositiveExponent;
+  final bool _useExponentialNotation;
 
   /// Explicitly store if we are a currency format, and so should use the
   /// appropriate number of decimal digits for a currency.
   // TODO(alanknight): Handle currency formats which are specified in a raw
   /// pattern, not using one of the currency constructors.
-  bool _isForCurrency;
+  final bool _isForCurrency;
 
   int maximumIntegerDigits;
   int minimumIntegerDigits;
@@ -106,20 +106,20 @@ class NumberFormat {
 
   /// For percent and permille, what are we multiplying by in order to
   /// get the printed value, e.g. 100 for percent.
-  int _multiplier;
+  final int _multiplier;
 
   /// How many digits are there in the [_multiplier].
-  int _multiplierDigits;
+  final int _multiplierDigits;
 
   /// Stores the pattern used to create this format. This isn't used, but
   /// is helpful in debugging.
-  String _pattern;
+  final String _pattern;
 
   /// The locale in which we print numbers.
   final String _locale;
 
   /// Caches the symbols used for our locale.
-  NumberSymbols _symbols;
+  final NumberSymbols _symbols;
 
   /// The name of the currency to print, in ISO 4217 form.
   String currencyName;
@@ -127,12 +127,7 @@ class NumberFormat {
   /// The symbol to be used when formatting this as currency.
   ///
   /// For example, "$", "US$", or "€".
-  String _currencySymbol;
-
-  /// The symbol to be used when formatting this as currency.
-  ///
-  /// For example, "$", "US$", or "€".
-  String get currencySymbol => _currencySymbol;
+  final String currencySymbol;
 
   /// The number of decimal places to use when formatting.
   ///
@@ -149,9 +144,7 @@ class NumberFormat {
   ///       NumberFormat.currency(locale: 'en_US')
   /// will format with two, which is the default for that locale.
   ///
-  int get decimalDigits => _decimalDigits;
-
-  int _decimalDigits;
+  final int decimalDigits;
 
   /// Transient internal state in which to build up the result of the format
   /// operation. We can have this be just an instance variable because Dart is
@@ -166,21 +159,22 @@ class NumberFormat {
       NumberFormat._forPattern(locale, (x) => newPattern);
 
   /// Create a number format that prints as DECIMAL_PATTERN.
-  NumberFormat.decimalPattern([String locale])
-      : this._forPattern(locale, (x) => x.DECIMAL_PATTERN);
+  factory NumberFormat.decimalPattern([String locale]) =>
+      NumberFormat._forPattern(locale, (x) => x.DECIMAL_PATTERN);
 
   /// Create a number format that prints as PERCENT_PATTERN.
-  NumberFormat.percentPattern([String locale])
-      : this._forPattern(locale, (x) => x.PERCENT_PATTERN);
+  factory NumberFormat.percentPattern([String locale]) =>
+      NumberFormat._forPattern(locale, (x) => x.PERCENT_PATTERN);
 
   /// Create a number format that prints as PERCENT_PATTERN.
-  NumberFormat.decimalPercentPattern({String locale, int decimalDigits})
-      : this._forPattern(locale, (x) => x.PERCENT_PATTERN,
-            decimalDigits: decimalDigits);
+  factory NumberFormat.decimalPercentPattern(
+          {String locale, int decimalDigits}) =>
+      NumberFormat._forPattern(locale, (x) => x.PERCENT_PATTERN,
+          decimalDigits: decimalDigits);
 
   /// Create a number format that prints as SCIENTIFIC_PATTERN.
-  NumberFormat.scientificPattern([String locale])
-      : this._forPattern(locale, (x) => x.SCIENTIFIC_PATTERN);
+  factory NumberFormat.scientificPattern([String locale]) =>
+      NumberFormat._forPattern(locale, (x) => x.SCIENTIFIC_PATTERN);
 
   /// A regular expression to validate currency names are exactly three
   /// alphabetic characters.
@@ -242,17 +236,18 @@ class NumberFormat {
   /// format. This is useful if you have your own locale data which includes
   /// unsupported formats (e.g. accounting format for currencies.)
   // TODO(alanknight): Should we allow decimalDigits on other numbers.
-  NumberFormat.currency(
-      {String locale,
-      String name,
-      String symbol,
-      int decimalDigits,
-      String customPattern})
-      : this._forPattern(locale, (x) => customPattern ?? x.CURRENCY_PATTERN,
-            name: name,
-            currencySymbol: symbol,
-            decimalDigits: decimalDigits,
-            isForCurrency: true);
+  factory NumberFormat.currency(
+          {String locale,
+          String name,
+          String symbol,
+          int decimalDigits,
+          String customPattern}) =>
+      NumberFormat._forPattern(
+          locale, (x) => customPattern ?? x.CURRENCY_PATTERN,
+          name: name,
+          currencySymbol: symbol,
+          decimalDigits: decimalDigits,
+          isForCurrency: true);
 
   /// Creates a [NumberFormat] for currencies, using the simple symbol for the
   /// currency if one is available (e.g. $, €), so it should only be used if the
@@ -483,57 +478,64 @@ class NumberFormat {
   /// The [currencySymbol] can either be specified directly, or we can pass a
   /// function [computeCurrencySymbol] that will compute it later, given other
   /// information, typically the verified locale.
-  NumberFormat._forPattern(String locale, _PatternGetter getPattern,
+  factory NumberFormat._forPattern(String locale, _PatternGetter getPattern,
       {String name,
       String currencySymbol,
       int decimalDigits,
       bool lookupSimpleCurrencySymbol = false,
-      bool isForCurrency = false})
-      : _locale = Intl.verifiedLocale(locale, localeExists),
-        _isForCurrency = isForCurrency {
-    _symbols = numberFormatSymbols[_locale];
-    _localeZero = _symbols.ZERO_DIGIT.codeUnitAt(0);
-    _zeroOffset = _localeZero - _zero;
-    currencyName = name ?? _symbols.DEF_CURRENCY_CODE;
-
-    _currencySymbol = currencySymbol;
-    if (_currencySymbol == null && lookupSimpleCurrencySymbol) {
-      _currencySymbol = _simpleCurrencySymbols[currencyName];
+      bool isForCurrency = false}) {
+    locale = Intl.verifiedLocale(locale, localeExists);
+    var symbols = numberFormatSymbols[locale];
+    var localeZero = symbols.ZERO_DIGIT.codeUnitAt(0);
+    var zeroOffset = localeZero - _zero;
+    name ??= symbols.DEF_CURRENCY_CODE;
+    if (currencySymbol == null && lookupSimpleCurrencySymbol) {
+      currencySymbol = _simpleCurrencySymbols[name];
     }
-    _currencySymbol ??= currencyName;
+    currencySymbol ??= name;
 
     var pattern = getPattern(symbols);
 
-    // Save pattern with spaces converted to hard spaces, just for debugging.
-    _pattern = pattern?.replaceAll(' ', '\u00a0');
-
-    var result = _NumberFormatParser.parse(symbols, pattern, _isForCurrency,
-        _currencySymbol, currencyName, decimalDigits);
-
-    _positivePrefix = result.positivePrefix;
-    _negativePrefix = result.negativePrefix;
-    _positiveSuffix = result.positiveSuffix;
-    _negativeSuffix = result.negativeSuffix;
-
-    _multiplier = result.multiplier;
-    _multiplierDigits = result.multiplierDigits;
-
-    _useExponentialNotation = result.useExponentialNotation;
-    minimumExponentDigits = result.minimumExponentDigits;
-
-    maximumIntegerDigits = result.maximumIntegerDigits;
-    minimumIntegerDigits = result.minimumIntegerDigits;
-    maximumFractionDigits = result.maximumFractionDigits;
-    minimumFractionDigits = result.minimumFractionDigits;
-
-    _groupingSize = result.groupingSize;
-    _finalGroupingSize = result.finalGroupingSize;
-
-    _useSignForPositiveExponent = result.useSignForPositiveExponent;
-    _decimalSeparatorAlwaysShown = result.decimalSeparatorAlwaysShown;
-
-    _decimalDigits = result.decimalDigits;
+    return NumberFormat._(
+        name,
+        currencySymbol,
+        isForCurrency,
+        locale,
+        localeZero,
+        pattern,
+        symbols,
+        zeroOffset,
+        _NumberFormatParser.parse(symbols, pattern, isForCurrency,
+            currencySymbol, name, decimalDigits));
   }
+
+  NumberFormat._(
+      this.currencyName,
+      this.currencySymbol,
+      this._isForCurrency,
+      this._locale,
+      this._localeZero,
+      this._pattern,
+      this._symbols,
+      this._zeroOffset,
+      _NumberFormatParseResult result)
+      : _positivePrefix = result.positivePrefix,
+        _negativePrefix = result.negativePrefix,
+        _positiveSuffix = result.positiveSuffix,
+        _negativeSuffix = result.negativeSuffix,
+        _multiplier = result.multiplier,
+        _multiplierDigits = result.multiplierDigits,
+        _useExponentialNotation = result.useExponentialNotation,
+        minimumExponentDigits = result.minimumExponentDigits,
+        maximumIntegerDigits = result.maximumIntegerDigits,
+        minimumIntegerDigits = result.minimumIntegerDigits,
+        maximumFractionDigits = result.maximumFractionDigits,
+        minimumFractionDigits = result.minimumFractionDigits,
+        _groupingSize = result.groupingSize,
+        _finalGroupingSize = result.finalGroupingSize,
+        _useSignForPositiveExponent = result.useSignForPositiveExponent,
+        _decimalSeparatorAlwaysShown = result.decimalSeparatorAlwaysShown,
+        decimalDigits = result.decimalDigits;
 
   /// A number format for compact representations, e.g. "1.2M" instead
   /// of "1,200,000".
@@ -947,13 +949,13 @@ class NumberFormat {
   /// The code point for the locale's zero digit.
   ///
   ///  Initialized when the locale is set.
-  int _localeZero = 0;
+  final int _localeZero;
 
   /// The difference between our zero and '0'.
   ///
   /// In other words, a constant _localeZero - _zero. Initialized when
   /// the locale is set.
-  int _zeroOffset = 0;
+  final int _zeroOffset;
 
   /// Returns the prefix for [x] based on whether it's positive or negative.
   /// In en_US this would be '' and '-' respectively.
