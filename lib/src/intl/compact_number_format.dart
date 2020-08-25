@@ -151,14 +151,14 @@ class _CompactNumberFormat extends NumberFormat {
       String name,
       String currencySymbol,
       String Function(NumberSymbols) getPattern = _forDecimal,
-      String Function(NumberFormat) computeCurrencySymbol,
       int decimalDigits,
+      bool lookupSimpleCurrencySymbol = false,
       bool isForCurrency = false})
       : super._forPattern(locale, getPattern,
             name: name,
             currencySymbol: currencySymbol,
-            computeCurrencySymbol: computeCurrencySymbol,
             decimalDigits: decimalDigits,
+            lookupSimpleCurrencySymbol: lookupSimpleCurrencySymbol,
             isForCurrency: isForCurrency) {
     significantDigits = 3;
     turnOffGrouping();
