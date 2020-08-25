@@ -29,7 +29,8 @@ import 'src/plural_rules.dart' as plural_rules;
 export 'src/intl/bidi.dart' show Bidi;
 export 'src/intl/bidi_formatter.dart' show BidiFormatter;
 export 'src/intl/date_format.dart' show DateFormat;
-export 'src/intl/number_format.dart' show NumberFormat, MicroMoney;
+export 'src/intl/micro_money.dart' show MicroMoney;
+export 'src/intl/number_format.dart' show NumberFormat;
 export 'src/intl/text_direction.dart' show TextDirection;
 
 /// The Intl class provides a common entry point for internationalization
