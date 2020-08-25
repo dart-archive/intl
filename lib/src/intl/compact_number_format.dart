@@ -130,91 +130,17 @@ class _CompactStyle extends _CompactStyleBase {
 
   _CompactStyle styleForSign(number) => this;
   List<_CompactStyle> get allStyles => [this];
-}
 
-/// Enumerates the different formats supported.
-enum _CompactFormatType {
-  COMPACT_DECIMAL_SHORT_PATTERN,
-  COMPACT_DECIMAL_LONG_PATTERN,
-  COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN
-}
+  static final _regex = RegExp('([^0]*)(0+)(.*)');
 
-class _CompactNumberFormat extends NumberFormat {
-  /// A default, using the decimal pattern, for the `getPattern` constructor parameter.
-  static String _forDecimal(NumberSymbols symbols) => symbols.DECIMAL_PATTERN;
-
-  List<_CompactStyleBase> _styles = [];
-
-  _CompactNumberFormat(
-      {String locale,
-      _CompactFormatType formatType,
-      String name,
-      String currencySymbol,
-      String Function(NumberSymbols) getPattern = _forDecimal,
-      int decimalDigits,
-      bool lookupSimpleCurrencySymbol = false,
-      bool isForCurrency = false})
-      : super._forPattern(locale, getPattern,
-            name: name,
-            currencySymbol: currencySymbol,
-            decimalDigits: decimalDigits,
-            lookupSimpleCurrencySymbol: lookupSimpleCurrencySymbol,
-            isForCurrency: isForCurrency) {
-    significantDigits = 3;
-    turnOffGrouping();
-
-    /// Map from magnitude to formatting pattern for that magnitude.
-    ///
-    /// The magnitude is the exponent when using the normalized scientific
-    /// notation (so numbers from 1000 to 9999 correspond to magnitude 3).
-    ///
-    /// These patterns are taken from the appropriate CompactNumberSymbols
-    /// instance's COMPACT_DECIMAL_SHORT_PATTERN, COMPACT_DECIMAL_LONG_PATTERN,
-    /// or COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN members.
-    Map<int, String> _patterns;
-
-    switch (formatType) {
-      case _CompactFormatType.COMPACT_DECIMAL_SHORT_PATTERN:
-        _patterns = _compactSymbols.COMPACT_DECIMAL_SHORT_PATTERN;
-        break;
-      // TODO(alanknight): Long formats may have different forms for different
-      // plural cases (e.g. million/millions).
-      case _CompactFormatType.COMPACT_DECIMAL_LONG_PATTERN:
-        _patterns = _compactSymbols.COMPACT_DECIMAL_LONG_PATTERN ??
-            _compactSymbols.COMPACT_DECIMAL_SHORT_PATTERN;
-        break;
-      case _CompactFormatType.COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN:
-        _patterns = _compactSymbols.COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN;
-        break;
-      default:
-        throw ArgumentError.notNull('formatType');
-    }
-    _patterns.forEach((int exponent, String pattern) {
-      if (pattern.contains(';')) {
-        var patterns = pattern.split(';');
-        _styles.add(_CompactStyleWithNegative(
-            _createStyle(patterns.first, exponent),
-            _createStyle(patterns.last, exponent)));
-      } else {
-        _styles.add(_createStyle(pattern, exponent));
-      }
-    });
-
-    // Reverse the styles so that we look through them from largest to smallest.
-    _styles = _styles.reversed.toList();
-    // Add a fallback style that just prints the number.
-    _styles.add(_CompactStyle());
-  }
-
-  final _regex = RegExp('([^0]*)(0+)(.*)');
-
-  final _justZeros = RegExp(r'^0*$');
+  static final _justZeros = RegExp(r'^0*$');
 
   /// Does pattern have any additional characters or is it just zeros.
-  bool _hasNonZeroContent(String pattern) => !_justZeros.hasMatch(pattern);
+  static bool _hasNonZeroContent(String pattern) =>
+      !_justZeros.hasMatch(pattern);
 
   /// Creates a [_CompactStyle] instance for pattern with [normalizedExponent].
-  _CompactStyle _createStyle(String pattern, int normalizedExponent) {
+  static _CompactStyle createStyle(String pattern, int normalizedExponent) {
     var match = _regex.firstMatch(pattern);
     var integerDigits = match.group(2).length;
     var prefix = match.group(1);
@@ -236,6 +162,121 @@ class _CompactNumberFormat extends NumberFormat {
         prefix: prefix,
         suffix: suffix,
         divisor: divisor);
+  }
+}
+
+/// Enumerates the different formats supported.
+enum _CompactFormatType {
+  COMPACT_DECIMAL_SHORT_PATTERN,
+  COMPACT_DECIMAL_LONG_PATTERN,
+  COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN
+}
+
+class _CompactNumberFormat extends NumberFormat {
+  /// A default, using the decimal pattern, for the `getPattern` constructor parameter.
+  static String _forDecimal(NumberSymbols symbols) => symbols.DECIMAL_PATTERN;
+
+  final List<_CompactStyleBase> _styles;
+
+  factory _CompactNumberFormat(
+      {String locale,
+      _CompactFormatType formatType,
+      String name,
+      String currencySymbol,
+      String Function(NumberSymbols) getPattern = _forDecimal,
+      int decimalDigits,
+      bool lookupSimpleCurrencySymbol = false,
+      bool isForCurrency = false}) {
+    // Initialization copied from `NumberFormat` constructor.
+    // TODO(davidmorgan): deduplicate.
+    locale = Intl.verifiedLocale(locale, NumberFormat.localeExists);
+    var symbols = numberFormatSymbols[locale];
+    var localeZero = symbols.ZERO_DIGIT.codeUnitAt(0);
+    var zeroOffset = localeZero - NumberFormat._zero;
+    name ??= symbols.DEF_CURRENCY_CODE;
+    if (currencySymbol == null && lookupSimpleCurrencySymbol) {
+      currencySymbol = NumberFormat._simpleCurrencySymbols[name];
+    }
+    currencySymbol ??= name;
+    var pattern = getPattern(symbols);
+
+    // CompactNumberFormat initialization.
+
+    /// Map from magnitude to formatting pattern for that magnitude.
+    ///
+    /// The magnitude is the exponent when using the normalized scientific
+    /// notation (so numbers from 1000 to 9999 correspond to magnitude 3).
+    ///
+    /// These patterns are taken from the appropriate CompactNumberSymbols
+    /// instance's COMPACT_DECIMAL_SHORT_PATTERN, COMPACT_DECIMAL_LONG_PATTERN,
+    /// or COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN members.
+    Map<int, String> patterns;
+
+    var compactSymbols = compactNumberSymbols[locale];
+
+    var styles = <_CompactStyleBase>[];
+    switch (formatType) {
+      case _CompactFormatType.COMPACT_DECIMAL_SHORT_PATTERN:
+        patterns = compactSymbols.COMPACT_DECIMAL_SHORT_PATTERN;
+        break;
+      // TODO(alanknight): Long formats may have different forms for different
+      // plural cases (e.g. million/millions).
+      case _CompactFormatType.COMPACT_DECIMAL_LONG_PATTERN:
+        patterns = compactSymbols.COMPACT_DECIMAL_LONG_PATTERN ??
+            compactSymbols.COMPACT_DECIMAL_SHORT_PATTERN;
+        break;
+      case _CompactFormatType.COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN:
+        patterns = compactSymbols.COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN;
+        break;
+      default:
+        throw ArgumentError.notNull('formatType');
+    }
+    patterns.forEach((int exponent, String pattern) {
+      if (pattern.contains(';')) {
+        var patterns = pattern.split(';');
+        styles.add(_CompactStyleWithNegative(
+            _CompactStyle.createStyle(patterns.first, exponent),
+            _CompactStyle.createStyle(patterns.last, exponent)));
+      } else {
+        styles.add(_CompactStyle.createStyle(pattern, exponent));
+      }
+    });
+
+    // Reverse the styles so that we look through them from largest to smallest.
+    styles = styles.reversed.toList();
+    // Add a fallback style that just prints the number.
+    styles.add(_CompactStyle());
+
+    return _CompactNumberFormat._(
+        name,
+        currencySymbol,
+        isForCurrency,
+        locale,
+        localeZero,
+        pattern,
+        symbols,
+        zeroOffset,
+        _NumberFormatParser.parse(symbols, pattern, isForCurrency,
+            currencySymbol, name, decimalDigits),
+        styles);
+  }
+
+  _CompactNumberFormat._(
+      String currencyName,
+      String currencySymbol,
+      bool isForCurrency,
+      String locale,
+      int localeZero,
+      String pattern,
+      NumberSymbols symbols,
+      int zeroOffset,
+      _NumberFormatParseResult result,
+      // Fields introduced in this class.
+      this._styles)
+      : super._(currencyName, currencySymbol, isForCurrency, locale, localeZero,
+            pattern, symbols, zeroOffset, result) {
+    significantDigits = 3;
+    turnOffGrouping();
   }
 
   /// The style in which we will format a particular number.
@@ -367,8 +408,4 @@ class _CompactNumberFormat extends NumberFormat {
       return null;
     }
   }
-
-  /// The [CompactNumberSymbols] instance that corresponds to the [_locale] this
-  /// [NumberFormat] instance was configured for.
-  CompactNumberSymbols get _compactSymbols => compactNumberSymbols[_locale];
 }
