@@ -1,7 +1,6 @@
 // Copyright (c) 2012, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
-// @dart=2.9
 
 /// Bidi stands for Bi-directional text.  According to
 /// http://en.wikipedia.org/wiki/Bi-directional_text: Bi-directional text is
@@ -113,8 +112,8 @@ class Bidi {
       r'($|-|_)',
       caseSensitive: false);
 
-  static String _lastLocaleCheckedForRtl;
-  static bool _lastRtlCheck;
+  static String? _lastLocaleCheckedForRtl;
+  static bool? _lastRtlCheck;
 
   /// Check if a BCP 47 / III [languageString] indicates an RTL language.
   ///
@@ -137,13 +136,13 @@ class Bidi {
   /// http://www.iana.org/assignments/language-subtag-registry, as well as
   /// Sindhi (sd) and Uyghur (ug).  The presence of other subtags of the
   /// language code, e.g. regions like EG (Egypt), is ignored.
-  static bool isRtlLanguage([String languageString]) {
+  static bool isRtlLanguage([String? languageString]) {
     var language = languageString ?? global_state.getCurrentLocale();
     if (_lastLocaleCheckedForRtl != language) {
       _lastLocaleCheckedForRtl = language;
       _lastRtlCheck = _rtlLocaleRegex.hasMatch(language);
     }
-    return _lastRtlCheck;
+    return _lastRtlCheck!;
   }
 
   /// Enforce the [html] snippet in RTL directionality regardless of overall
@@ -185,7 +184,7 @@ class Bidi {
     if (html.startsWith('<')) {
       var buffer = StringBuffer();
       var startIndex = 0;
-      Match match = RegExp('<\\w+').firstMatch(html);
+      var match = RegExp('<\\w+').firstMatch(html);
       if (match != null) {
         buffer
           ..write(html.substring(startIndex, match.end))
@@ -202,7 +201,7 @@ class Bidi {
   /// problem of messy bracket display that frequently happens in RTL layout.
   /// If [isRtlContext] is true, then we explicitly want to wrap in a span of
   /// RTL directionality, regardless of the estimated directionality.
-  static String guardBracketInHtml(String str, [bool isRtlContext]) {
+  static String guardBracketInHtml(String str, [bool? isRtlContext]) {
     var useRtl = isRtlContext == null ? hasAnyRtl(str) : isRtlContext;
     var matchingBrackets =
         RegExp(r'(\(.*?\)+)|(\[.*?\]+)|(\{.*?\}+)|(&lt;.*?(&gt;)+)');
@@ -216,7 +215,7 @@ class Bidi {
   /// as good as guardBracketInHtml. If [isRtlContext] is true, then we
   /// explicitly want to wrap in a span of RTL directionality, regardless of the
   /// estimated directionality.
-  static String guardBracketInText(String str, [bool isRtlContext]) {
+  static String guardBracketInText(String str, [bool? isRtlContext]) {
     var useRtl = isRtlContext == null ? hasAnyRtl(str) : isRtlContext;
     var mark = useRtl ? RLM : LRM;
     return _guardBracketHelper(
@@ -230,7 +229,7 @@ class Bidi {
   /// would return 'firehydrant!'.  // TODO(efortuna): Get rid of this once this
   /// is implemented in Dart.  // See Issue 2979.
   static String _guardBracketHelper(String str, RegExp regexp,
-      [String before, String after]) {
+      [String? before, String? after]) {
     var buffer = StringBuffer();
     var startIndex = 0;
     for (var match in regexp.allMatches(str)) {
