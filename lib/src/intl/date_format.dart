@@ -1,11 +1,10 @@
 // Copyright (c) 2012, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
-// @dart=2.9
 
 import 'package:intl/date_symbols.dart';
-import 'package:intl/intl.dart';
 import 'package:intl/src/date_format_internal.dart';
+import 'package:intl/src/intl_helpers.dart' as helpers;
 
 import 'constants.dart' as constants;
 import 'date_builder.dart';
@@ -266,13 +265,13 @@ class DateFormat {
   ///
   /// If [locale] does not exist in our set of supported locales then an
   /// [ArgumentError] is thrown.
-  DateFormat([String newPattern, String locale]) {
+  DateFormat([String? newPattern, String? locale])
+      : _locale = helpers.verifiedLocale(locale, localeExists, null) {
     // TODO(alanknight): It should be possible to specify multiple skeletons eg
     // date, time, timezone all separately. Adding many or named parameters to
     // the constructor seems awkward, especially with the possibility of
     // confusion with the locale. A 'fluent' interface with cascading on an
     // instance might work better? A list of patterns is also possible.
-    _locale = Intl.verifiedLocale(locale, localeExists);
     addPattern(newPattern);
   }
 
@@ -362,8 +361,7 @@ class DateFormat {
   }
 
   DateTime _parseLoose(String inputString, bool utc) {
-    var dateFields =
-        DateBuilder(locale ?? Intl.defaultLocale, dateTimeConstructor);
+    var dateFields = DateBuilder(locale, dateTimeConstructor);
     if (utc) dateFields.utc = true;
     var stream = IntlStream(inputString);
     for (var field in _formatFields) {
@@ -391,8 +389,7 @@ class DateFormat {
   DateTime _parse(String inputString, {bool utc = false, bool strict = false}) {
     // TODO(alanknight): The Closure code refers to special parsing of numeric
     // values with no delimiters, which we currently don't do. Should we?
-    var dateFields =
-        DateBuilder(locale ?? Intl.defaultLocale, dateTimeConstructor);
+    var dateFields = DateBuilder(locale, dateTimeConstructor);
     if (utc) dateFields.utc = true;
     dateFields.dateOnly = dateOnly;
     var stream = IntlStream(inputString);
@@ -411,7 +408,7 @@ class DateFormat {
   ///
   /// For example, 'yyyy-MM-dd' would be true, but 'dd hh:mm' would be false.
   bool get dateOnly => _dateOnly ??= _checkDateOnly;
-  bool _dateOnly;
+  bool? _dateOnly;
   bool get _checkDateOnly => _formatFields.every((each) => each.forDate);
 
   /// Given user input, attempt to parse the [inputString] into the anticipated
@@ -641,20 +638,20 @@ class DateFormat {
   /// The full template string. This may have been specified directly, or
   /// it may have been derived from a skeleton and the locale information
   /// on how to interpret that skeleton.
-  String _pattern;
+  String? _pattern;
 
   /// We parse the format string into individual [_DateFormatField] objects
   /// that are used to do the actual formatting and parsing. Do not use
   /// this variable directly, use the getter [_formatFields].
-  List<_DateFormatField> _formatFieldsPrivate;
+  List<_DateFormatField>? _formatFieldsPrivate;
 
   /// Getter for [_formatFieldsPrivate] that lazily initializes it.
   List<_DateFormatField> get _formatFields {
     if (_formatFieldsPrivate == null) {
       if (_pattern == null) _useDefaultPattern();
-      _formatFieldsPrivate = parsePattern(_pattern);
+      _formatFieldsPrivate = parsePattern(_pattern!);
     }
-    return _formatFieldsPrivate;
+    return _formatFieldsPrivate!;
   }
 
   /// We are being asked to do formatting without having set any pattern.
@@ -694,7 +691,7 @@ class DateFormat {
   /// known skeletons.  If it's found there, then use the corresponding pattern
   /// for this locale.  If it's not, then treat [inputPattern] as an explicit
   /// pattern.
-  DateFormat addPattern(String inputPattern, [String separator = ' ']) {
+  DateFormat addPattern(String? inputPattern, [String separator = ' ']) {
     // TODO(alanknight): This is an expensive operation. Caching recently used
     // formats, or possibly introducing an entire 'locale' object that would
     // cache patterns for that locale could be a good optimization.
@@ -710,7 +707,7 @@ class DateFormat {
   }
 
   /// Return the pattern that we use to format dates.
-  String get pattern => _pattern;
+  String? get pattern => _pattern;
 
   /// Return the skeletons for our current locale.
   Map<dynamic, dynamic> get _availableSkeletons => dateTimePatterns[locale];
@@ -719,14 +716,15 @@ class DateFormat {
   ///
   /// This can be useful to find lists like the names of weekdays or months in a
   /// locale, but the structure of this data may change, and it's generally
-  /// better to go through the [format] and [parse] APIs. If the locale isn't
-  /// present, or is uninitialized, returns null.
+  /// better to go through the [format] and [parse] APIs.
+  ///
+  /// If the locale isn't present, or is uninitialized, throws.
   DateSymbols get dateSymbols {
     if (_locale != lastDateSymbolLocale) {
       lastDateSymbolLocale = _locale;
       cachedDateSymbols = dateTimeSymbols[_locale];
     }
-    return cachedDateSymbols;
+    return cachedDateSymbols!;
   }
 
   static final Map<String, bool> _useNativeDigitsByDefault = {};
@@ -753,14 +751,14 @@ class DateFormat {
     _useNativeDigitsByDefault[locale] = value;
   }
 
-  bool _useNativeDigits;
+  bool? _useNativeDigits;
 
   /// Should we use native digits for printing DateTime, or ASCII.
   ///
   /// The default for this can be set using [useNativeDigitsByDefaultFor].
   bool get useNativeDigits => _useNativeDigits == null
       ? _useNativeDigits = shouldUseNativeDigitsByDefaultFor(locale)
-      : _useNativeDigits;
+      : _useNativeDigits!;
 
   /// Should we use native digits for printing DateTime, or ASCII.
   set useNativeDigits(bool native) {
@@ -778,28 +776,28 @@ class DateFormat {
   /// locale.
   static final Map<String, RegExp> _digitMatchers = {};
 
-  RegExp _digitMatcher;
+  RegExp? _digitMatcher;
 
   /// A regular expression which matches against digits for this locale.
   RegExp get digitMatcher {
-    if (_digitMatcher != null) return _digitMatcher;
+    if (_digitMatcher != null) return _digitMatcher!;
     _digitMatcher = _digitMatchers.putIfAbsent(localeZero, _initDigitMatcher);
-    return _digitMatcher;
+    return _digitMatcher!;
   }
 
-  int _localeZeroCodeUnit;
+  int? _localeZeroCodeUnit;
 
   /// For performance, keep the code unit of the zero digit available.
   int get localeZeroCodeUnit => _localeZeroCodeUnit == null
       ? _localeZeroCodeUnit = localeZero.codeUnitAt(0)
-      : _localeZeroCodeUnit;
+      : _localeZeroCodeUnit!;
 
-  String _localeZero;
+  String? _localeZero;
 
   /// For performance, keep the zero digit available.
   String get localeZero => _localeZero == null
       ? _localeZero = useNativeDigits ? dateSymbols.ZERODIGIT ?? '0' : '0'
-      : _localeZero;
+      : _localeZero!;
 
   // Does this use non-ASCII digits, e.g. Eastern Arabic.
   bool get usesNativeDigits =>
@@ -812,7 +810,7 @@ class DateFormat {
   /// locale digits.
   String _localizeDigits(String numberString) {
     if (usesAsciiDigits) return numberString;
-    var newDigits = List<int>(numberString.length);
+    var newDigits = List<int>.filled(numberString.length, 0);
     var oldDigits = numberString.codeUnits;
     for (var i = 0; i < numberString.length; i++) {
       newDigits[i] =
@@ -848,7 +846,6 @@ class DateFormat {
 
   /// Parse the template pattern and return a list of field objects.
   List<_DateFormatField> parsePattern(String pattern) {
-    if (pattern == null) return null;
     return _parsePatternHelper(pattern).reversed.toList();
   }
 
@@ -866,12 +863,12 @@ class DateFormat {
   }
 
   /// Find elements in a string that are patterns for specific fields.
-  _DateFormatField _match(String pattern) {
+  _DateFormatField? _match(String pattern) {
     for (var i = 0; i < _matchers.length; i++) {
       var regex = _matchers[i];
       var match = regex.firstMatch(pattern);
       if (match != null) {
-        return _fieldConstructors[i](match.group(0), this);
+        return _fieldConstructors[i](match.group(0)!, this);
       }
     }
     return null;

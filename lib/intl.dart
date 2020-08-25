@@ -202,43 +202,12 @@ class Intl {
   /// Note that null is interpreted as meaning the default locale, so if
   /// [newLocale] is null the default locale will be returned.
   static String verifiedLocale(
-      String newLocale, bool Function(String) localeExists,
-      {String Function(String) onFailure = _throwLocaleError}) {
-    // TODO(alanknight): Previously we kept a single verified locale on the Intl
-    // object, but with different verification for different uses, that's more
-    // difficult. As a result, we call this more often. Consider keeping
-    // verified locales for each purpose if it turns out to be a performance
-    // issue.
-    if (newLocale == null) {
-      return verifiedLocale(getCurrentLocale(), localeExists,
-          onFailure: onFailure);
-    }
-    if (localeExists(newLocale)) {
-      return newLocale;
-    }
-    for (var each in [
-      canonicalizedLocale(newLocale),
-      shortLocale(newLocale),
-      'fallback'
-    ]) {
-      if (localeExists(each)) {
-        return each;
-      }
-    }
-    return onFailure(newLocale);
-  }
-
-  /// The default action if a locale isn't found in verifiedLocale. Throw
-  /// an exception indicating the locale isn't correct.
-  static String _throwLocaleError(String localeName) {
-    throw ArgumentError('Invalid locale "$localeName"');
-  }
+          String newLocale, bool Function(String) localeExists,
+          {String Function(String) onFailure}) =>
+      helpers.verifiedLocale(newLocale, localeExists, onFailure);
 
   /// Return the short version of a locale name, e.g. 'en_US' => 'en'
-  static String shortLocale(String aLocale) {
-    if (aLocale.length < 2) return aLocale;
-    return aLocale.substring(0, 2).toLowerCase();
-  }
+  static String shortLocale(String aLocale) => helpers.shortLocale(aLocale);
 
   /// Return the name [aLocale] turned into xx_YY where it might possibly be
   /// in the wrong case or with a hyphen instead of an underscore. If

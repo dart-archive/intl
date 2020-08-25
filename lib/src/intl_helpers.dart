@@ -10,6 +10,7 @@ library intl_helpers;
 import 'dart:async';
 
 import 'global_state.dart' as global_state;
+import 'intl_helpers.dart' as helpers;
 
 /// Type for the callback action when a message translation is not found.
 typedef MessageIfAbsent = String Function(
@@ -144,4 +145,42 @@ String canonicalizedLocale(String? aLocale) {
 // If it's longer than three it's something odd, so don't touch it.
   if (region.length <= 3) region = region.toUpperCase();
   return '${aLocale[0]}${aLocale[1]}_$region';
+}
+
+String verifiedLocale(String? newLocale, bool Function(String) localeExists,
+    String Function(String)? onFailure) {
+// TODO(alanknight): Previously we kept a single verified locale on the Intl
+// object, but with different verification for different uses, that's more
+// difficult. As a result, we call this more often. Consider keeping
+// verified locales for each purpose if it turns out to be a performance
+// issue.
+  if (newLocale == null) {
+    return verifiedLocale(
+        global_state.getCurrentLocale(), localeExists, onFailure);
+  }
+  if (localeExists(newLocale)) {
+    return newLocale;
+  }
+  for (var each in [
+    helpers.canonicalizedLocale(newLocale),
+    helpers.shortLocale(newLocale),
+    'fallback'
+  ]) {
+    if (localeExists(each)) {
+      return each;
+    }
+  }
+  return (onFailure ?? _throwLocaleError)(newLocale);
+}
+
+/// The default action if a locale isn't found in verifiedLocale. Throw
+/// an exception indicating the locale isn't correct.
+String _throwLocaleError(String localeName) {
+  throw ArgumentError('Invalid locale "$localeName"');
+}
+
+/// Return the short version of a locale name, e.g. 'en_US' => 'en'
+String shortLocale(String aLocale) {
+  if (aLocale.length < 2) return aLocale;
+  return aLocale.substring(0, 2).toLowerCase();
 }
