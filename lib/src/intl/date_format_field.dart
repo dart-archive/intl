@@ -1,7 +1,6 @@
 // Copyright (c) 2012, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
-// @dart=2.9
 
 part of 'date_format.dart';
 
@@ -17,11 +16,10 @@ abstract class _DateFormatField {
   DateFormat parent;
 
   /// Trimmed version of [pattern].
-  String _trimmedPattern;
+  final String _trimmedPattern;
 
-  _DateFormatField(this.pattern, this.parent) {
-    _trimmedPattern = pattern.trim();
-  }
+  _DateFormatField(this.pattern, this.parent)
+      : _trimmedPattern = pattern.trim();
 
   /// Does this field potentially represent part of a Date, i.e. is not
   /// time-specific.
@@ -84,7 +82,7 @@ abstract class _DateFormatField {
   }
 
   /// Throw a format exception with an error message indicating the position.
-  void throwFormatException(IntlStream stream) {
+  Never throwFormatException(IntlStream stream) {
     throw FormatException('Trying to read $this from ${stream.contents} '
         'at position ${stream.index}');
   }
@@ -94,7 +92,8 @@ abstract class _DateFormatField {
 /// change according to the date's data. As such, the implementation
 /// is extremely simple.
 class _DateFormatLiteralField extends _DateFormatField {
-  _DateFormatLiteralField(pattern, parent) : super(pattern, parent);
+  _DateFormatLiteralField(String pattern, DateFormat parent)
+      : super(pattern, parent);
 
   void parse(IntlStream input, DateBuilder dateFields) {
     parseLiteral(input);
@@ -107,14 +106,13 @@ class _DateFormatLiteralField extends _DateFormatField {
 /// Represents a literal field with quoted characters in it. This is
 /// only slightly more complex than a _DateFormatLiteralField.
 class _DateFormatQuotedField extends _DateFormatField {
-  String _fullPattern;
+  final String _fullPattern;
 
   String fullPattern() => _fullPattern;
 
-  _DateFormatQuotedField(pattern, parent)
-      : super(_patchQuotes(pattern), parent) {
-    _fullPattern = pattern;
-  }
+  _DateFormatQuotedField(String pattern, DateFormat parent)
+      : _fullPattern = pattern,
+        super(_patchQuotes(pattern), parent);
 
   void parse(IntlStream input, DateBuilder dateFields) {
     parseLiteral(input);
@@ -258,7 +256,7 @@ class _DateFormatPatternField extends _DateFormatField {
     _LoosePatternField(pattern, parent).parse(input, dateFields);
   }
 
-  bool _forDate;
+  bool? _forDate;
 
   /// Is this field involved in computing the date portion, as opposed to the
   /// time.

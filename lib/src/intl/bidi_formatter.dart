@@ -1,7 +1,6 @@
 // Copyright (c) 2012, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -71,13 +70,13 @@ class BidiFormatter {
   /// should always use a `span` tag, even when the input directionality is
   /// neutral or matches the context, so that the DOM structure of the output
   /// does not depend on the combination of directionalities.
-  BidiFormatter.LTR([alwaysSpan = false])
+  BidiFormatter.LTR([bool alwaysSpan = false])
       : contextDirection = TextDirection.LTR,
         _alwaysSpan = alwaysSpan;
-  BidiFormatter.RTL([alwaysSpan = false])
+  BidiFormatter.RTL([bool alwaysSpan = false])
       : contextDirection = TextDirection.RTL,
         _alwaysSpan = alwaysSpan;
-  BidiFormatter.UNKNOWN([alwaysSpan = false])
+  BidiFormatter.UNKNOWN([bool alwaysSpan = false])
       : contextDirection = TextDirection.UNKNOWN,
         _alwaysSpan = alwaysSpan;
 
@@ -100,7 +99,7 @@ class BidiFormatter {
   /// a trailing unicode BiDi mark matching the context directionality is
   /// appended (LRM or RLM). If [isHtml] is false, we HTML-escape the [text].
   String wrapWithSpan(String text,
-      {bool isHtml = false, bool resetDir = true, TextDirection direction}) {
+      {bool isHtml = false, bool resetDir = true, TextDirection? direction}) {
     direction ??= estimateDirection(text, isHtml: isHtml);
     String result;
     if (!isHtml) text = const HtmlEscape().convert(text);
@@ -135,7 +134,7 @@ class BidiFormatter {
   /// [isHtml]. [isHtml] is used to designate if the text contains HTML (escaped
   /// or unescaped).
   String wrapWithUnicode(String text,
-      {bool isHtml = false, bool resetDir = true, TextDirection direction}) {
+      {bool isHtml = false, bool resetDir = true, TextDirection? direction}) {
     direction ??= estimateDirection(text, isHtml: isHtml);
     var result = text;
     if (contextDirection.isDirectionChange(direction)) {
