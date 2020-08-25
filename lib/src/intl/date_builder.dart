@@ -1,7 +1,6 @@
 // Copyright (c) 2012, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
-// @dart=2.9
 
 import 'package:clock/clock.dart';
 
@@ -35,7 +34,7 @@ class DateBuilder {
   ///
   /// Kept as a field to cache the result and to reduce the possibility of error
   /// after we've verified.
-  DateTime _date;
+  DateTime? _date;
 
   /// The number of times we've retried, for error reporting.
   int _retried = 0;
@@ -146,7 +145,7 @@ class DateBuilder {
   }
 
   void _verify(int value, int min, int max, String desc, String originalInput,
-      [DateTime parsed]) {
+      [DateTime? parsed]) {
     if (value < min || value > max) {
       var parsedDescription = parsed == null ? '' : ' Date parsed as $parsed.';
       var errorDescription =
@@ -182,7 +181,7 @@ class DateBuilder {
   DateTime asDate({int retries = 3}) {
     // TODO(alanknight): Validate the date, especially for things which
     // can crash the VM, e.g. large month values.
-    if (_date != null) return _date;
+    if (_date != null) return _date!;
 
     DateTime preliminaryResult;
     final hasCentury = !_hasAmbiguousCentury || year < 0 || year >= 100;
@@ -227,7 +226,7 @@ class DateBuilder {
     } else {
       _date = _correctForErrors(preliminaryResult, retries);
     }
-    return _date;
+    return _date!;
   }
 
   /// Given a local DateTime, check for errors and try to compensate for them if
