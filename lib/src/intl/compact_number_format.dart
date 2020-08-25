@@ -192,10 +192,10 @@ class _CompactNumberFormat extends NumberFormat {
     locale = Intl.verifiedLocale(locale, NumberFormat.localeExists);
     var symbols = numberFormatSymbols[locale];
     var localeZero = symbols.ZERO_DIGIT.codeUnitAt(0);
-    var zeroOffset = localeZero - NumberFormat._zero;
+    var zeroOffset = localeZero - constants.asciiZeroCodeUnit;
     name ??= symbols.DEF_CURRENCY_CODE;
     if (currencySymbol == null && lookupSimpleCurrencySymbol) {
-      currencySymbol = NumberFormat._simpleCurrencySymbols[name];
+      currencySymbol = constants.simpleCurrencySymbols[name];
     }
     currencySymbol ??= name;
     var pattern = getPattern(symbols);
@@ -256,7 +256,7 @@ class _CompactNumberFormat extends NumberFormat {
         pattern,
         symbols,
         zeroOffset,
-        _NumberFormatParser.parse(symbols, pattern, isForCurrency,
+        NumberFormatParser.parse(symbols, pattern, isForCurrency,
             currencySymbol, name, decimalDigits),
         styles);
   }
@@ -270,7 +270,7 @@ class _CompactNumberFormat extends NumberFormat {
       String pattern,
       NumberSymbols symbols,
       int zeroOffset,
-      _NumberFormatParseResult result,
+      NumberFormatParseResult result,
       // Fields introduced in this class.
       this._styles)
       : super._(currencyName, currencySymbol, isForCurrency, locale, localeZero,
