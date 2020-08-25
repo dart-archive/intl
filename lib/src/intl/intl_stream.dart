@@ -1,7 +1,6 @@
 // Copyright (c) 2020, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
-// @dart=2.9
 
 import 'dart:math';
 
@@ -60,7 +59,7 @@ class IntlStream {
 
   /// Find the index of the first element for which [f] returns true.
   /// Advances the stream to that position.
-  int findIndex(bool Function(dynamic) f) {
+  int? findIndex(bool Function(dynamic) f) {
     while (!atEnd()) {
       if (f(next())) return index - 1;
     }
@@ -83,14 +82,14 @@ class IntlStream {
   /// For non-ascii digits, the optional arguments are a regular expression
   /// [digitMatcher] to find the next integer, and the codeUnit of the local
   /// zero [zeroDigit].
-  int nextInteger({RegExp digitMatcher, int zeroDigit}) {
+  int? nextInteger({RegExp? digitMatcher, int? zeroDigit}) {
     var string = (digitMatcher ?? regexp.asciiDigitMatcher).stringMatch(rest());
     if (string == null || string.isEmpty) return null;
     read(string.length);
     if (zeroDigit != null && zeroDigit != constants.asciiZeroCodeUnit) {
       // Trying to optimize this, as it might get called a lot.
       var oldDigits = string.codeUnits;
-      var newDigits = List<int>(string.length);
+      var newDigits = List<int>.filled(string.length, 0);
       for (var i = 0; i < string.length; i++) {
         newDigits[i] = oldDigits[i] - zeroDigit + constants.asciiZeroCodeUnit;
       }
