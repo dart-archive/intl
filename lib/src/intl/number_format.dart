@@ -60,42 +60,37 @@ typedef _PatternGetter = String Function(NumberSymbols);
 /// equivalent to "#E0" and does not take into account significant digits.
 class NumberFormat {
   /// Variables to determine how number printing behaves.
-  // TODO(alanknight): If these remain as variables and are set based on the
-  // pattern, can we make them final?
-  String _negativePrefix = '-';
-  String _positivePrefix = '';
-  String _negativeSuffix = '';
-  String _positiveSuffix = '';
+  String _negativePrefix;
+  String _positivePrefix;
+  String _negativeSuffix;
+  String _positiveSuffix;
 
   /// How many numbers in a group when using punctuation to group digits in
   /// large numbers. e.g. in en_US: "1,000,000" has a grouping size of 3 digits
   /// between commas.
-  int _groupingSize = 3;
+  int _groupingSize;
 
   /// In some formats the last grouping size may be different than previous
   /// ones, e.g. Hindi.
-  int _finalGroupingSize = 3;
+  int _finalGroupingSize;
 
   /// Set to true if the format has explicitly set the grouping size.
-  bool _groupingSizeSetExplicitly = false;
-  bool _decimalSeparatorAlwaysShown = false;
-  bool _useSignForPositiveExponent = false;
-  bool _useExponentialNotation = false;
+  bool _decimalSeparatorAlwaysShown;
+  bool _useSignForPositiveExponent;
+  bool _useExponentialNotation;
 
   /// Explicitly store if we are a currency format, and so should use the
   /// appropriate number of decimal digits for a currency.
   // TODO(alanknight): Handle currency formats which are specified in a raw
   /// pattern, not using one of the currency constructors.
-  bool _isForCurrency = false;
+  bool _isForCurrency;
 
-  int maximumIntegerDigits = 40;
-  int minimumIntegerDigits = 1;
-  int maximumFractionDigits = 3;
-  int minimumFractionDigits = 0;
-  int minimumExponentDigits = 0;
-  int _significantDigits = 0;
-
-  static final _ln10 = log(10);
+  int maximumIntegerDigits;
+  int minimumIntegerDigits;
+  int maximumFractionDigits;
+  int minimumFractionDigits;
+  int minimumExponentDigits;
+  int _significantDigits;
 
   ///  How many significant digits should we print.
   ///
@@ -111,16 +106,10 @@ class NumberFormat {
 
   /// For percent and permille, what are we multiplying by in order to
   /// get the printed value, e.g. 100 for percent.
-  int get _multiplier => _internalMultiplier;
-  set _multiplier(int x) {
-    _internalMultiplier = x;
-    _multiplierDigits = (log(_multiplier) / _ln10).round();
-  }
-
-  int _internalMultiplier = 1;
+  int _multiplier;
 
   /// How many digits are there in the [_multiplier].
-  int _multiplierDigits = 0;
+  int _multiplierDigits;
 
   /// Stores the pattern used to create this format. This isn't used, but
   /// is helpful in debugging.
@@ -143,7 +132,7 @@ class NumberFormat {
   /// The symbol to be used when formatting this as currency.
   ///
   /// For example, "$", "US$", or "€".
-  String get currencySymbol => _currencySymbol ?? currencyName;
+  String get currencySymbol => _currencySymbol;
 
   /// The number of decimal places to use when formatting.
   ///
@@ -163,17 +152,6 @@ class NumberFormat {
   int get decimalDigits => _decimalDigits;
 
   int _decimalDigits;
-
-  /// For currencies, the default number of decimal places to use in
-  /// formatting. Defaults to two for non-currencies or currencies where it's
-  /// not specified.
-  int get _defaultDecimalDigits =>
-      currencyFractionDigits[currencyName.toUpperCase()] ??
-      currencyFractionDigits['DEFAULT'];
-
-  /// If we have a currencyName, use the decimal digits for that currency,
-  /// unless we've explicitly specified some other number.
-  bool get _overridesDecimalDigits => decimalDigits != null || _isForCurrency;
 
   /// Transient internal state in which to build up the result of the format
   /// operation. We can have this be just an instance variable because Dart is
@@ -303,9 +281,8 @@ class NumberFormat {
       {String locale, String name, int decimalDigits}) {
     return NumberFormat._forPattern(locale, (x) => x.CURRENCY_PATTERN,
         name: name,
-        computeCurrencySymbol: (format) =>
-            _simpleCurrencySymbols[format.currencyName] ?? format.currencyName,
         decimalDigits: decimalDigits,
+        lookupSimpleCurrencySymbol: true,
         isForCurrency: true);
   }
 
@@ -509,22 +486,53 @@ class NumberFormat {
   NumberFormat._forPattern(String locale, _PatternGetter getPattern,
       {String name,
       String currencySymbol,
-      String Function(NumberFormat) computeCurrencySymbol,
       int decimalDigits,
+      bool lookupSimpleCurrencySymbol = false,
       bool isForCurrency = false})
       : _locale = Intl.verifiedLocale(locale, localeExists),
         _isForCurrency = isForCurrency {
-    _currencySymbol = currencySymbol;
-    _decimalDigits = decimalDigits;
     _symbols = numberFormatSymbols[_locale];
     _localeZero = _symbols.ZERO_DIGIT.codeUnitAt(0);
     _zeroOffset = _localeZero - _zero;
-    _negativePrefix = _symbols.MINUS_SIGN;
     currencyName = name ?? _symbols.DEF_CURRENCY_CODE;
-    if (_currencySymbol == null && computeCurrencySymbol != null) {
-      _currencySymbol = computeCurrencySymbol(this);
+
+    _currencySymbol = currencySymbol;
+    if (_currencySymbol == null && lookupSimpleCurrencySymbol) {
+      _currencySymbol = _simpleCurrencySymbols[currencyName];
     }
-    _setPattern(getPattern(_symbols));
+    _currencySymbol ??= currencyName;
+
+    var pattern = getPattern(symbols);
+
+    // Save pattern with spaces converted to hard spaces, just for debugging.
+    _pattern = pattern?.replaceAll(' ', '\u00a0');
+
+    var result = _NumberFormatParser.parse(symbols, pattern, _isForCurrency,
+        _currencySymbol, currencyName, decimalDigits);
+
+    _positivePrefix = result.positivePrefix;
+    _negativePrefix = result.negativePrefix;
+    _positiveSuffix = result.positiveSuffix;
+    _negativeSuffix = result.negativeSuffix;
+
+    _multiplier = result.multiplier;
+    _multiplierDigits = result.multiplierDigits;
+
+    _useExponentialNotation = result.useExponentialNotation;
+    minimumExponentDigits = result.minimumExponentDigits;
+
+    maximumIntegerDigits = result.maximumIntegerDigits;
+    minimumIntegerDigits = result.minimumIntegerDigits;
+    maximumFractionDigits = result.maximumFractionDigits;
+    minimumFractionDigits = result.minimumFractionDigits;
+
+    _groupingSize = result.groupingSize;
+    _finalGroupingSize = result.finalGroupingSize;
+
+    _useSignForPositiveExponent = result.useSignForPositiveExponent;
+    _decimalSeparatorAlwaysShown = result.decimalSeparatorAlwaysShown;
+
+    _decimalDigits = result.decimalDigits;
   }
 
   /// A number format for compact representations, e.g. "1.2M" instead
@@ -554,9 +562,8 @@ class NumberFormat {
         formatType: _CompactFormatType.COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN,
         name: name,
         getPattern: (symbols) => symbols.CURRENCY_PATTERN,
-        computeCurrencySymbol: (format) =>
-            _simpleCurrencySymbols[format.currencyName] ?? format.currencyName,
         decimalDigits: decimalDigits,
+        lookupSimpleCurrencySymbol: true,
         isForCurrency: true);
   }
 
@@ -956,20 +963,6 @@ class NumberFormat {
   /// In en_US there are no suffixes for positive or negative.
   String _signSuffix(x) => x.isNegative ? _negativeSuffix : _positiveSuffix;
 
-  void _setPattern(String newPattern) {
-    if (newPattern == null) return;
-    // Make spaces non-breaking
-    _pattern = newPattern.replaceAll(' ', '\u00a0');
-    var parser =
-        _NumberFormatParser(this, newPattern, currencySymbol, decimalDigits);
-    parser.parse();
-    if (_overridesDecimalDigits) {
-      _decimalDigits ??= _defaultDecimalDigits;
-      minimumFractionDigits = _decimalDigits;
-      maximumFractionDigits = _decimalDigits;
-    }
-  }
-
   /// Explicitly turn off any grouping (e.g. by thousands) in this format.
   ///
   /// This is used in compact number formatting, where we
@@ -1040,7 +1033,7 @@ class _NumberParser {
 
   ///  Create a new [_NumberParser] on which we can call parse().
   _NumberParser(this.format, this.text) : input = IntlStream(text) {
-    scale = format._internalMultiplier;
+    scale = format._multiplier;
     value = parse();
   }
 
@@ -1214,6 +1207,40 @@ class _NumberParser {
   }
 }
 
+/// Output of [_NumberFormatParser.parse].
+///
+/// Everything needed to initialize a [NumberFormat].
+class _NumberFormatParseResult {
+  String negativePrefix;
+  String positivePrefix = '';
+  String negativeSuffix = '';
+  String positiveSuffix = '';
+
+  int multiplier = 1;
+  int get multiplierDigits => (log(multiplier) / _ln10).round();
+
+  int minimumExponentDigits = 0;
+
+  int maximumIntegerDigits = 40;
+  int minimumIntegerDigits = 1;
+  int maximumFractionDigits = 3;
+  int minimumFractionDigits = 0;
+
+  int groupingSize = 3;
+  int finalGroupingSize = 3;
+
+  bool decimalSeparatorAlwaysShown = false;
+  bool useSignForPositiveExponent = false;
+  bool useExponentialNotation = false;
+
+  int decimalDigits;
+
+  // [decimalDigits] is both input and output of parsing.
+  _NumberFormatParseResult(NumberSymbols symbols, this.decimalDigits) {
+    negativePrefix = symbols.MINUS_SIGN;
+  }
+}
+
 /// Private class that parses the numeric formatting pattern and sets the
 /// variables in [format] to appropriate values. Instances of this are
 /// transient and store parsing state in instance variables, so can only be used
@@ -1236,39 +1263,66 @@ class _NumberFormatParser {
   static const _PATTERN_PLUS = '+';
 
   /// The format whose state we are setting.
-  final NumberFormat format;
+  final NumberSymbols symbols;
 
   /// The pattern we are parsing.
   final _StringIterator pattern;
 
-  /// We can be passed a specific currency symbol, regardless of the locale.
-  String currencySymbol;
+  /// Whether this is a currency.
+  final bool isForCurrency;
 
-  /// We can be given a specific number of decimal places, overriding the
-  /// default.
-  final int decimalDigits;
+  /// We can be passed a specific currency symbol, regardless of the locale.
+  final String currencySymbol;
+
+  final String currencyName;
+
+  // The result being constructed.
+  final _NumberFormatParseResult result;
+
+  bool groupingSizeSetExplicitly = false;
 
   /// Create a new [_NumberFormatParser] for a particular [NumberFormat] and
   /// [input] pattern.
-  _NumberFormatParser(
-      this.format, input, this.currencySymbol, this.decimalDigits)
-      : pattern = _iterator(input) {
+  ///
+  /// [decimalDigits] is optional, if specified it overrides the default.
+  _NumberFormatParser(this.symbols, String input, this.isForCurrency,
+      this.currencySymbol, this.currencyName, int decimalDigits)
+      : result = _NumberFormatParseResult(symbols, decimalDigits),
+        pattern = _iterator(input) {
     pattern.moveNext();
   }
 
-  /// The [NumberSymbols] for the locale in which our [format] prints.
-  NumberSymbols get symbols => format.symbols;
+  static _NumberFormatParseResult parse(
+          NumberSymbols symbols,
+          String input,
+          bool isForCurrency,
+          String currencySymbol,
+          String currencyName,
+          int decimalDigits) =>
+      input == null
+          ? _NumberFormatParseResult(symbols, decimalDigits)
+          : (_NumberFormatParser(symbols, input, isForCurrency, currencySymbol,
+                  currencyName, decimalDigits)
+                .._parse())
+              .result;
 
-  /// Parse the input pattern and set the values.
-  void parse() {
-    format._positivePrefix = _parseAffix();
+  /// For currencies, the default number of decimal places to use in
+  /// formatting. Defaults to two for non-currencies or currencies where it's
+  /// not specified.
+  int get _defaultDecimalDigits =>
+      currencyFractionDigits[currencyName.toUpperCase()] ??
+      currencyFractionDigits['DEFAULT'];
+
+  /// Parse the input pattern and update [result].
+  void _parse() {
+    result.positivePrefix = _parseAffix();
     var trunk = _parseTrunk();
-    format._positiveSuffix = _parseAffix();
+    result.positiveSuffix = _parseAffix();
     // If we have separate positive and negative patterns, now parse the
     // the negative version.
     if (pattern.current == _NumberFormatParser._PATTERN_SEPARATOR) {
       pattern.moveNext();
-      format._negativePrefix = _parseAffix();
+      result.negativePrefix = _parseAffix();
       // Skip over the negative trunk, verifying that it's identical to the
       // positive trunk.
       for (var each in _iterable(trunk)) {
@@ -1278,11 +1332,19 @@ class _NumberFormatParser {
         }
         pattern.moveNext();
       }
-      format._negativeSuffix = _parseAffix();
+      result.negativeSuffix = _parseAffix();
     } else {
       // If no negative affix is specified, they share the same positive affix.
-      format._negativePrefix = format._negativePrefix + format._positivePrefix;
-      format._negativeSuffix = format._positiveSuffix + format._negativeSuffix;
+      result.negativePrefix = result.negativePrefix + result.positivePrefix;
+      result.negativeSuffix = result.positiveSuffix + result.negativeSuffix;
+    }
+
+    if (isForCurrency) {
+      result.decimalDigits ??= _defaultDecimalDigits;
+    }
+    if (result.decimalDigits != null) {
+      result.minimumFractionDigits = result.decimalDigits;
+      result.maximumFractionDigits = result.decimalDigits;
     }
   }
 
@@ -1330,18 +1392,17 @@ class _NumberFormatParser {
           affix.write(currencySymbol);
           break;
         case _PATTERN_PERCENT:
-          if (format._multiplier != 1 && format._multiplier != _PERCENT_SCALE) {
-            throw FormatException('Too many percent/permill', format);
+          if (result.multiplier != 1 && result.multiplier != _PERCENT_SCALE) {
+            throw const FormatException('Too many percent/permill');
           }
-          format._multiplier = _PERCENT_SCALE;
+          result.multiplier = _PERCENT_SCALE;
           affix.write(symbols.PERCENT);
           break;
         case _PATTERN_PER_MILLE:
-          if (format._multiplier != 1 &&
-              format._multiplier != _PER_MILLE_SCALE) {
-            throw FormatException('Too many percent/permill', format);
+          if (result.multiplier != 1 && result.multiplier != _PER_MILLE_SCALE) {
+            throw const FormatException('Too many percent/permill');
           }
-          format._multiplier = _PER_MILLE_SCALE;
+          result.multiplier = _PER_MILLE_SCALE;
           affix.write(symbols.PERMILL);
           break;
         default:
@@ -1386,13 +1447,13 @@ class _NumberFormatParser {
     }
     var totalDigits = digitLeftCount + zeroDigitCount + digitRightCount;
 
-    format.maximumFractionDigits =
+    result.maximumFractionDigits =
         decimalPos >= 0 ? totalDigits - decimalPos : 0;
     if (decimalPos >= 0) {
-      format.minimumFractionDigits =
+      result.minimumFractionDigits =
           digitLeftCount + zeroDigitCount - decimalPos;
-      if (format.minimumFractionDigits < 0) {
-        format.minimumFractionDigits = 0;
+      if (result.minimumFractionDigits < 0) {
+        result.minimumFractionDigits = 0;
       }
     }
 
@@ -1400,23 +1461,23 @@ class _NumberFormatParser {
     // if there is no decimal. Note that if decimalPos<0, then digitTotalCount
     // == digitLeftCount + zeroDigitCount.
     var effectiveDecimalPos = decimalPos >= 0 ? decimalPos : totalDigits;
-    format.minimumIntegerDigits = effectiveDecimalPos - digitLeftCount;
-    if (format._useExponentialNotation) {
-      format.maximumIntegerDigits =
-          digitLeftCount + format.minimumIntegerDigits;
+    result.minimumIntegerDigits = effectiveDecimalPos - digitLeftCount;
+    if (result.useExponentialNotation) {
+      result.maximumIntegerDigits =
+          digitLeftCount + result.minimumIntegerDigits;
 
       // In exponential display, we need to at least show something.
-      if (format.maximumFractionDigits == 0 &&
-          format.minimumIntegerDigits == 0) {
-        format.minimumIntegerDigits = 1;
+      if (result.maximumFractionDigits == 0 &&
+          result.minimumIntegerDigits == 0) {
+        result.minimumIntegerDigits = 1;
       }
     }
 
-    format._finalGroupingSize = max(0, groupingCount);
-    if (!format._groupingSizeSetExplicitly) {
-      format._groupingSize = format._finalGroupingSize;
+    result.finalGroupingSize = max(0, groupingCount);
+    if (!groupingSizeSetExplicitly) {
+      result.groupingSize = result.finalGroupingSize;
     }
-    format._decimalSeparatorAlwaysShown =
+    result.decimalSeparatorAlwaysShown =
         decimalPos == 0 || decimalPos == totalDigits;
 
     return trunk.toString();
@@ -1449,8 +1510,8 @@ class _NumberFormatParser {
         break;
       case _PATTERN_GROUPING_SEPARATOR:
         if (groupingCount > 0) {
-          format._groupingSizeSetExplicitly = true;
-          format._groupingSize = groupingCount;
+          groupingSizeSetExplicitly = true;
+          result.groupingSize = groupingCount;
         }
         groupingCount = 0;
         break;
@@ -1463,12 +1524,12 @@ class _NumberFormatParser {
         break;
       case _PATTERN_EXPONENT:
         trunk.write(ch);
-        if (format._useExponentialNotation) {
+        if (result.useExponentialNotation) {
           throw FormatException(
               'Multiple exponential symbols in pattern "$pattern"');
         }
-        format._useExponentialNotation = true;
-        format.minimumExponentDigits = 0;
+        result.useExponentialNotation = true;
+        result.minimumExponentDigits = 0;
 
         // exponent pattern can have a optional '+'.
         pattern.moveNext();
@@ -1476,7 +1537,7 @@ class _NumberFormatParser {
         if (nextChar == _PATTERN_PLUS) {
           trunk.write(pattern.current);
           pattern.moveNext();
-          format._useSignForPositiveExponent = true;
+          result.useSignForPositiveExponent = true;
         }
 
         // Use lookahead to parse out the exponential part
@@ -1484,11 +1545,11 @@ class _NumberFormatParser {
         while (pattern.current == _PATTERN_ZERO_DIGIT) {
           trunk.write(pattern.current);
           pattern.moveNext();
-          format.minimumExponentDigits++;
+          result.minimumExponentDigits++;
         }
 
         if ((digitLeftCount + zeroDigitCount) < 1 ||
-            format.minimumExponentDigits < 1) {
+            result.minimumExponentDigits < 1) {
           throw FormatException('Malformed exponential pattern "$pattern"');
         }
         return false;
@@ -1624,3 +1685,5 @@ class _MicroMoney implements MicroMoney {
     return '$beforeDecimal$decimalPart';
   }
 }
+
+final _ln10 = log(10);
