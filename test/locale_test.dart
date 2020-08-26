@@ -1,7 +1,6 @@
 // Copyright (c) 2019, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
-// @dart=2.9
 
 /// Tests for the Locale class.
 ///
@@ -40,7 +39,7 @@ void main() {
 
   group('Locale.fromSubtags() FormatExceptions:', () {
     void testExceptionForSubtags(
-        String language, String script, String region) {
+        String language, String? script, String? region) {
       test('fromSubtags: "$language / $script / $region"', () {
         expect(
             () => Locale.fromSubtags(
@@ -175,7 +174,7 @@ void main() {
 
   test('Locale cannot be modified via the variants field', () {
     var l = Locale.parse('en-scotland');
-    List<String> v = l.variants;
+    var v = l.variants as List<String>;
     var good = false;
     try {
       v.add('basiceng');
@@ -205,12 +204,12 @@ void main() {
 
 void testFromSubtags(
     String language,
-    String script,
-    String region,
-    String expectedLanguage,
-    String expectedScript,
-    String expectedRegion,
-    String expectedTag) {
+    String? script,
+    String? region,
+    String? expectedLanguage,
+    String? expectedScript,
+    String? expectedRegion,
+    String? expectedTag) {
   test('Locale.fromSubtags(...) with $language, $script, $region', () {
     var l = Locale.fromSubtags(
         languageCode: language, scriptCode: script, countryCode: region);
@@ -225,10 +224,10 @@ void testFromSubtags(
 void testParse(
     String bcp47Tag,
     String expectedLanguage,
-    String expectedScript,
-    String expectedRegion,
+    String? expectedScript,
+    String? expectedRegion,
     Iterable<String> expectedVariants,
-    String expectedTag) {
+    String? expectedTag) {
   test('Locale.parse("$bcp47Tag");', () {
     var l = Locale.parse(bcp47Tag);
     expect(l.languageCode, expectedLanguage);
