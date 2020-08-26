@@ -1,13 +1,12 @@
 // Copyright (c) 2012, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
-// @dart=2.9
 
 import 'dart:math';
 
-import 'package:intl/intl.dart';
 import 'package:intl/number_symbols.dart';
 import 'package:intl/number_symbols_data.dart';
+import 'package:intl/src/intl_helpers.dart' as helpers;
 
 import 'constants.dart' as constants;
 import 'number_format_parser.dart';
@@ -19,7 +18,7 @@ part 'compact_number_format.dart';
 
 /// The function that we pass internally to NumberFormat to get
 /// the appropriate pattern (e.g. currency)
-typedef _PatternGetter = String Function(NumberSymbols);
+typedef _PatternGetter = String? Function(NumberSymbols);
 
 /// Provides the ability to format a number in a locale-specific way.
 ///
@@ -91,14 +90,14 @@ class NumberFormat {
   int maximumFractionDigits;
   int minimumFractionDigits;
   int minimumExponentDigits;
-  int _significantDigits;
+  int? _significantDigits;
 
   ///  How many significant digits should we print.
   ///
   ///  Note that if significantDigitsInUse is the default false, this
   ///  will be ignored.
-  int get significantDigits => _significantDigits;
-  set significantDigits(int x) {
+  int? get significantDigits => _significantDigits;
+  set significantDigits(int? x) {
     _significantDigits = x;
     significantDigitsInUse = true;
   }
@@ -114,7 +113,7 @@ class NumberFormat {
 
   /// Stores the pattern used to create this format. This isn't used, but
   /// is helpful in debugging.
-  final String _pattern;
+  final String? _pattern;
 
   /// The locale in which we print numbers.
   final String _locale;
@@ -123,7 +122,7 @@ class NumberFormat {
   final NumberSymbols _symbols;
 
   /// The name of the currency to print, in ISO 4217 form.
-  String currencyName;
+  String? currencyName;
 
   /// The symbol to be used when formatting this as currency.
   ///
@@ -145,7 +144,7 @@ class NumberFormat {
   ///       NumberFormat.currency(locale: 'en_US')
   /// will format with two, which is the default for that locale.
   ///
-  final int decimalDigits;
+  final int? decimalDigits;
 
   /// Transient internal state in which to build up the result of the format
   /// operation. We can have this be just an instance variable because Dart is
@@ -156,25 +155,25 @@ class NumberFormat {
 
   /// Create a number format that prints using [newPattern] as it applies in
   /// [locale].
-  factory NumberFormat([String newPattern, String locale]) =>
+  factory NumberFormat([String? newPattern, String? locale]) =>
       NumberFormat._forPattern(locale, (x) => newPattern);
 
   /// Create a number format that prints as DECIMAL_PATTERN.
-  factory NumberFormat.decimalPattern([String locale]) =>
+  factory NumberFormat.decimalPattern([String? locale]) =>
       NumberFormat._forPattern(locale, (x) => x.DECIMAL_PATTERN);
 
   /// Create a number format that prints as PERCENT_PATTERN.
-  factory NumberFormat.percentPattern([String locale]) =>
+  factory NumberFormat.percentPattern([String? locale]) =>
       NumberFormat._forPattern(locale, (x) => x.PERCENT_PATTERN);
 
   /// Create a number format that prints as PERCENT_PATTERN.
   factory NumberFormat.decimalPercentPattern(
-          {String locale, int decimalDigits}) =>
+          {String? locale, int? decimalDigits}) =>
       NumberFormat._forPattern(locale, (x) => x.PERCENT_PATTERN,
           decimalDigits: decimalDigits);
 
   /// Create a number format that prints as SCIENTIFIC_PATTERN.
-  factory NumberFormat.scientificPattern([String locale]) =>
+  factory NumberFormat.scientificPattern([String? locale]) =>
       NumberFormat._forPattern(locale, (x) => x.SCIENTIFIC_PATTERN);
 
   /// A regular expression to validate currency names are exactly three
@@ -190,7 +189,7 @@ class NumberFormat {
   ///           .currencyPattern(Intl.defaultLocale, "€");
   @Deprecated('Use NumberFormat.currency')
   factory NumberFormat.currencyPattern(
-      [String locale, String currencyNameOrSymbol]) {
+      [String? locale, String? currencyNameOrSymbol]) {
     // If it looks like an iso4217 name, pass as name, otherwise as symbol.
     if (currencyNameOrSymbol != null &&
         _checkCurrencyName.hasMatch(currencyNameOrSymbol)) {
@@ -238,11 +237,11 @@ class NumberFormat {
   /// unsupported formats (e.g. accounting format for currencies.)
   // TODO(alanknight): Should we allow decimalDigits on other numbers.
   factory NumberFormat.currency(
-          {String locale,
-          String name,
-          String symbol,
-          int decimalDigits,
-          String customPattern}) =>
+          {String? locale,
+          String? name,
+          String? symbol,
+          int? decimalDigits,
+          String? customPattern}) =>
       NumberFormat._forPattern(
           locale, (x) => customPattern ?? x.CURRENCY_PATTERN,
           name: name,
@@ -274,7 +273,7 @@ class NumberFormat {
   ///       NumberFormat.simpleCurrency(locale: 'en_US')
   /// will format with two, which is the default for that locale.
   factory NumberFormat.simpleCurrency(
-      {String locale, String name, int decimalDigits}) {
+      {String? locale, String? name, int? decimalDigits}) {
     return NumberFormat._forPattern(locale, (x) => x.CURRENCY_PATTERN,
         name: name,
         decimalDigits: decimalDigits,
@@ -304,14 +303,14 @@ class NumberFormat {
   /// The [currencySymbol] can either be specified directly, or we can pass a
   /// function [computeCurrencySymbol] that will compute it later, given other
   /// information, typically the verified locale.
-  factory NumberFormat._forPattern(String locale, _PatternGetter getPattern,
-      {String name,
-      String currencySymbol,
-      int decimalDigits,
+  factory NumberFormat._forPattern(String? locale, _PatternGetter getPattern,
+      {String? name,
+      String? currencySymbol,
+      int? decimalDigits,
       bool lookupSimpleCurrencySymbol = false,
       bool isForCurrency = false}) {
-    locale = Intl.verifiedLocale(locale, localeExists);
-    var symbols = numberFormatSymbols[locale];
+    locale = helpers.verifiedLocale(locale, localeExists, null);
+    var symbols = numberFormatSymbols[locale] as NumberSymbols;
     var localeZero = symbols.ZERO_DIGIT.codeUnitAt(0);
     var zeroOffset = localeZero - constants.asciiZeroCodeUnit;
     name ??= symbols.DEF_CURRENCY_CODE;
@@ -365,7 +364,7 @@ class NumberFormat {
 
   /// A number format for compact representations, e.g. "1.2M" instead
   /// of "1,200,000".
-  factory NumberFormat.compact({String locale}) {
+  factory NumberFormat.compact({String? locale}) {
     return _CompactNumberFormat(
         locale: locale,
         formatType: _CompactFormatType.COMPACT_DECIMAL_SHORT_PATTERN);
@@ -373,7 +372,7 @@ class NumberFormat {
 
   /// A number format for "long" compact representations, e.g. "1.2 million"
   /// instead of of "1,200,000".
-  factory NumberFormat.compactLong({String locale}) {
+  factory NumberFormat.compactLong({String? locale}) {
     return _CompactNumberFormat(
         locale: locale,
         formatType: _CompactFormatType.COMPACT_DECIMAL_LONG_PATTERN);
@@ -384,7 +383,7 @@ class NumberFormat {
   /// based on the currency name or the locale. See
   /// [NumberFormat.simpleCurrency].
   factory NumberFormat.compactSimpleCurrency(
-      {String locale, String name, int decimalDigits}) {
+      {String? locale, String? name, int? decimalDigits}) {
     return _CompactNumberFormat(
         locale: locale,
         formatType: _CompactFormatType.COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN,
@@ -398,7 +397,7 @@ class NumberFormat {
   /// A number format for compact currency representations, e.g. "$1.2M" instead
   /// of "$1,200,000".
   factory NumberFormat.compactCurrency(
-      {String locale, String name, String symbol, int decimalDigits}) {
+      {String? locale, String? name, String? symbol, int? decimalDigits}) {
     return _CompactNumberFormat(
         locale: locale,
         formatType: _CompactFormatType.COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN,
@@ -439,7 +438,7 @@ class NumberFormat {
 
   /// Parse the number represented by the string. If it's not
   /// parseable, throws a [FormatException].
-  num parse(String text) => NumberParser(this, text).value;
+  num parse(String text) => NumberParser(this, text).value!;
 
   /// Format the main part of the number in the form dictated by the pattern.
   void _formatNumber(number) {
@@ -604,6 +603,7 @@ class NumberFormat {
       /// If we have significant digits, recalculate the number of fraction
       /// digits based on that.
       if (significantDigitsInUse) {
+        var significantDigits = this.significantDigits!;
         var integerLength = numberOfIntegerDigits(integerPart);
         var remainingSignificantDigits =
             significantDigits - _multiplierDigits - integerLength;
@@ -614,7 +614,7 @@ class NumberFormat {
           integerPart = (integerPart / divideBy).round() * divideBy;
         }
       }
-      power = pow(10, fractionDigits);
+      power = pow(10, fractionDigits) as int;
       digitMultiplier = power * multiplier;
 
       // Multiply out to the number of decimal places and the percent, then
@@ -684,9 +684,9 @@ class NumberFormat {
   String _mainIntegerDigits(integer) {
     if (integer == 0) return '';
     var digits = integer.toString();
-    if (significantDigitsInUse && digits.length > significantDigits) {
+    if (significantDigitsInUse && digits.length > significantDigits!) {
       digits = digits.substring(0, significantDigits) +
-          ''.padLeft(digits.length - significantDigits, '0');
+          ''.padLeft(digits.length - significantDigits!, '0');
     }
     // If we have a fixed-length int representation, it can have a negative
     // number whose negation is also negative, e.g. 2^-63 in 64-bit.

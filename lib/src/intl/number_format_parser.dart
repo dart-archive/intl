@@ -1,7 +1,6 @@
 // Copyright (c) 2020, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
-// @dart=2.9
 import 'dart:math';
 
 import 'package:intl/number_symbols.dart';
@@ -37,12 +36,11 @@ class NumberFormatParseResult {
   bool useSignForPositiveExponent = false;
   bool useExponentialNotation = false;
 
-  int decimalDigits;
+  int? decimalDigits;
 
   // [decimalDigits] is both input and output of parsing.
-  NumberFormatParseResult(NumberSymbols symbols, this.decimalDigits) {
-    negativePrefix = symbols.MINUS_SIGN;
-  }
+  NumberFormatParseResult(NumberSymbols symbols, this.decimalDigits)
+      : negativePrefix = symbols.MINUS_SIGN;
 }
 
 /// Private class that parses the numeric formatting pattern and sets the
@@ -90,7 +88,7 @@ class NumberFormatParser {
   ///
   /// [decimalDigits] is optional, if specified it overrides the default.
   NumberFormatParser(this.symbols, String input, this.isForCurrency,
-      this.currencySymbol, this.currencyName, int decimalDigits)
+      this.currencySymbol, this.currencyName, int? decimalDigits)
       : result = NumberFormatParseResult(symbols, decimalDigits),
         pattern = StringIterator(input) {
     pattern.moveNext();
@@ -98,11 +96,11 @@ class NumberFormatParser {
 
   static NumberFormatParseResult parse(
           NumberSymbols symbols,
-          String input,
+          String? input,
           bool isForCurrency,
           String currencySymbol,
           String currencyName,
-          int decimalDigits) =>
+          int? decimalDigits) =>
       input == null
           ? NumberFormatParseResult(symbols, decimalDigits)
           : (NumberFormatParser(symbols, input, isForCurrency, currencySymbol,
@@ -115,7 +113,7 @@ class NumberFormatParser {
   /// not specified.
   int get _defaultDecimalDigits =>
       currencyFractionDigits[currencyName.toUpperCase()] ??
-      currencyFractionDigits['DEFAULT'];
+      currencyFractionDigits['DEFAULT']!;
 
   /// Parse the input pattern and update [result].
   void _parse() {
@@ -129,7 +127,9 @@ class NumberFormatParser {
       result.negativePrefix = _parseAffix();
       // Skip over the negative trunk, verifying that it's identical to the
       // positive trunk.
-      for (var each in StringIterable(trunk)) {
+      var trunkIterator = StringIterator(trunk);
+      while (trunkIterator.moveNext()) {
+        var each = trunkIterator.current;
         if (pattern.current != each && pattern.current != null) {
           throw FormatException(
               'Positive and negative trunks must be the same', trunk);
@@ -147,8 +147,8 @@ class NumberFormatParser {
       result.decimalDigits ??= _defaultDecimalDigits;
     }
     if (result.decimalDigits != null) {
-      result.minimumFractionDigits = result.decimalDigits;
-      result.maximumFractionDigits = result.decimalDigits;
+      result.minimumFractionDigits = result.decimalDigits!;
+      result.maximumFractionDigits = result.decimalDigits!;
     }
   }
 
