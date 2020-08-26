@@ -4,7 +4,6 @@
 /// consistency when the bug is fixed. Also fix documentation and perhaps
 /// merge tests: these tests currently also touch non-compact currency
 /// formatting.
-// @dart=2.9
 
 /// We use @Tags rather than @TestOn to be able to specify something that can be
 /// ignored when using a build system that can't read dart_test.yaml. This
@@ -63,7 +62,10 @@ void main() {
 }
 
 String ecmaFormatNumber(String locale, num number,
-    {String style, String currency, String notation, String compactDisplay}) {
+    {String? style,
+    String? currency,
+    String? notation,
+    String? compactDisplay}) {
   var options = js.newObject();
   if (notation != null) js.setProperty(options, 'notation', notation);
   if (compactDisplay != null) {
