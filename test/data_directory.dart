@@ -12,15 +12,36 @@
 ///   run things by default
 library data_directory;
 
-import 'package:dart.testing/google3_test_util.dart' show runfilesDir;
+import 'dart:io';
 import 'package:path/path.dart' as path;
 
 String get dataDirectory {
   return path.join(intlDirectory, datesRelativeToIntl);
 }
 
-// NOTE(tjblasi): Google3-specific code for locating the directory.
-String get intlDirectory =>
-    path.join(runfilesDir, 'google3', 'third_party', 'dart', 'intl');
+/// Returns whether [dir] is the root of the `intl` package. We validate that it
+/// is by looking for a pubspec file with the entry `name: intl`.
+bool _isIntlRoot(String dir) {
+  var file = File(path.join(dir, 'pubspec.yaml'));
+  if (!file.existsSync()) return false;
+  return file.readAsStringSync().contains('name: intl\n');
+}
+
+String get intlDirectory {
+  // Try the current directory.
+  if (_isIntlRoot(Directory.current.path)) return Directory.current.path;
+
+  // Search upwards from the script location.
+  var dir = path.fromUri(Platform.script);
+  var root = path.rootPrefix(dir);
+
+  while (dir != root) {
+    if (_isIntlRoot(dir)) return dir;
+    dir = path.dirname(dir);
+  }
+
+  throw UnsupportedError(
+      'Cannot find the root directory of the `intl` package.');
+}
 
 String get datesRelativeToIntl => path.join('lib', 'src', 'data', 'dates');
