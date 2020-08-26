@@ -1,7 +1,6 @@
 // Copyright (c) 2016, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
-// @dart=2.9
 
 /// Test plurals without translation.
 ///
@@ -193,10 +192,8 @@ void main() {
 
   test('Check null howMany', () {
     expect(plural(0, null), '0:Zero');
-    expect(() => plural(null, null),
-        anyOf(throwsArgumentError, throwsA(isA<AssertionError>())));
-    expect(() => plural(null, 'ru'),
-        anyOf(throwsArgumentError, throwsA(isA<AssertionError>())));
+    expect(() => plural(null, null), throwsA(isA<Error>()));
+    expect(() => plural(null, 'ru'), throwsA(isA<Error>()));
   });
 
   verifyWithPrecision('1 dollar', 'en', 1, 0);

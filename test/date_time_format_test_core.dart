@@ -1,7 +1,6 @@
 // Copyright (c) 2012, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
-// @dart=2.9
 
 /// Tests the DateFormat library in dart. This file contains core tests that are
 /// run regardless of where the locale data is found, so it doesn't expect to be
@@ -174,19 +173,19 @@ void testRoundTripParsing(String localeName, DateTime date,
 List<String> allLocales() => DateFormat.allLocalesWithSymbols();
 
 typedef SubsetFuncType = List<String> Function();
-SubsetFuncType _subsetFunc;
+SubsetFuncType? _subsetFunc;
 
-List<String> _subsetValue;
+List<String>? _subsetValue;
 
 List<String> get subset {
-  return _subsetValue ??= _subsetFunc();
+  return _subsetValue ??= _subsetFunc!();
 }
 
 // TODO(alanknight): Run specific tests for the en_ISO locale which isn't
 // included in CLDR, and check that our patterns for it are correct (they
 // very likely aren't).
 void runDateTests(SubsetFuncType subsetFunc) {
-  assert(subsetFunc != null);
+  ArgumentError.checkNotNull(subsetFunc);
   _subsetFunc = subsetFunc;
 
   test('Multiple patterns', () {
