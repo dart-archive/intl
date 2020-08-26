@@ -68,9 +68,6 @@ part 'date_format_field.dart';
 /// initializeDateFormatting('pt_BR', null).then((_) => runMyCode());
 /// ```
 ///
-/// The code in example/basic/basic_example.dart shows a full example of
-/// using this mechanism.
-///
 /// Once we have the locale data, we need to specify the particular format.
 /// This library uses the ICU/JDK date/time pattern specification both for
 /// complete format specifications and also the abbreviated 'skeleton' form
