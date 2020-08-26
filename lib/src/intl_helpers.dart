@@ -14,7 +14,7 @@ import 'intl_helpers.dart' as helpers;
 
 /// Type for the callback action when a message translation is not found.
 typedef MessageIfAbsent = String Function(
-    String messageText, List<Object> args);
+    String? messageText, List<Object>? args);
 
 /// This is used as a marker for a locale data map that hasn't been initialized,
 /// and will throw an exception on any usage that isn't the fallback
@@ -124,7 +124,7 @@ void initializeInternalMessageLookup(Function lookupFunction) {
 /// If a message is a string literal without interpolation, compute
 /// a name based on that and the meaning, if present.
 // NOTE: THIS LOGIC IS DUPLICATED IN intl_translation AND THE TWO MUST MATCH.
-String computeMessageName(String? name, String text, String? meaning) {
+String? computeMessageName(String? name, String? text, String? meaning) {
   if (name != null && name != '') return name;
   return meaning == null ? text : '${text}_$meaning';
 }
