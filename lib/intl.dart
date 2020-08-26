@@ -12,10 +12,6 @@
 /// For things that require locale or other data, there are multiple different
 /// ways of making that data available, which may require importing different
 /// libraries. See the class comments for more details.
-///
-/// There is also a simple example application that can be found in the
-/// [example/basic](https://github.com/dart-lang/intl/tree/master/example/basic)
-/// directory.
 library intl;
 
 import 'dart:async';
