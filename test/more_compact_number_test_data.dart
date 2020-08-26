@@ -1,7 +1,6 @@
 // Copyright (c) 2019, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
-// @dart=2.9
 
 class CompactRoundingTestCase {
   CompactRoundingTestCase(this.number, this.expected,
@@ -14,12 +13,12 @@ class CompactRoundingTestCase {
 
   num number;
   String expected;
-  int maximumIntegerDigits;
-  int minimumIntegerDigits;
-  int maximumFractionDigits;
-  int minimumFractionDigits;
-  int minimumExponentDigits;
-  int significantDigits;
+  int? maximumIntegerDigits;
+  int? minimumIntegerDigits;
+  int? maximumFractionDigits;
+  int? minimumFractionDigits;
+  int? minimumExponentDigits;
+  int? significantDigits;
 
   String toString() => "CompactRoundingTestCase for $number, "
       "maxIntDig: $maximumIntegerDigits, "

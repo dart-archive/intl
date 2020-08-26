@@ -1,7 +1,6 @@
 // Copyright (c) 2012, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
-// @dart=2.9
 
 /// Test date formatting and parsing using locale data which is available
 /// directly in the program as a constant.
@@ -37,8 +36,10 @@ List<String> evenLocales() {
   return allLocales().where((x) => !(i++).isOdd).toList();
 }
 
-void runWith(TestListFunc getSubset, String dir,
+void runWith(TestListFunc getSubset, String? dir,
     InitializeDateFormattingFunc initFunction) {
+  var notNullDir = dir ?? '';
+
   // Initialize one locale just so we know what the list is.
   // Also, note that we take the list of locales as a function so that we don't
   // evaluate it until after we know that all the locales are available.
@@ -49,9 +50,10 @@ void runWith(TestListFunc getSubset, String dir,
     if (initialized) {
       return null;
     }
-    return initFunction('en_US', dir).then((_) {
-      return Future.forEach(DateFormat.allLocalesWithSymbols(), (locale) {
-        return initFunction(locale, dir);
+    return initFunction('en_US', notNullDir).then((_) {
+      return Future.forEach(DateFormat.allLocalesWithSymbols(),
+          (String locale) {
+        return initFunction(locale, notNullDir);
       });
     }).then((_) {
       initialized = true;
