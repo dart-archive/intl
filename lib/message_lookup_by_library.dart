@@ -1,7 +1,6 @@
 // Copyright (c) 2012, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
-// @dart=2.9
 
 /// Message/plural format library with locale support. This can have different
 /// implementations based on the mechanism for finding the localized versions of
@@ -29,17 +28,17 @@ class CompositeMessageLookup implements MessageLookup {
   ///
   ///  If this locale matches the new one then we can skip looking up the
   ///  messages and assume they will be the same as last time.
-  String _lastLocale;
+  String? _lastLocale;
 
   /// Caches the last messages that we found
-  MessageLookupByLibrary _lastLookup;
+  MessageLookupByLibrary? _lastLookup;
 
   /// Look up the message with the given [name] and [locale] and return the
   /// translated version with the values in [args] interpolated.  If nothing is
   /// found, return the result of [ifAbsent] or [messageText].
-  String lookupMessage(String messageText, String locale, String name,
-      List<dynamic> args, String meaning,
-      {MessageIfAbsent ifAbsent}) {
+  String? lookupMessage(String? messageText, String? locale, String? name,
+      List<Object>? args, String? meaning,
+      {MessageIfAbsent? ifAbsent}) {
     // If passed null, use the default.
     var knownLocale = locale ?? Intl.getCurrentLocale();
     var messages = (knownLocale == _lastLocale)
@@ -55,7 +54,7 @@ class CompositeMessageLookup implements MessageLookup {
   }
 
   /// Find the right message lookup for [locale].
-  MessageLookupByLibrary _lookupMessageCatalog(String locale) {
+  MessageLookupByLibrary? _lookupMessageCatalog(String locale) {
     var verifiedLocale = Intl.verifiedLocale(locale, localeExists,
         onFailure: (locale) => locale);
     _lastLocale = locale;
@@ -98,15 +97,15 @@ abstract class MessageLookupByLibrary {
   /// Ultimately, the information about the enclosing function and its arguments
   /// will be extracted automatically but for the time being it must be passed
   /// explicitly in the [name] and [args] arguments.
-  String lookupMessage(String messageText, String locale, String name,
-      List<dynamic> args, String meaning,
-      {MessageIfAbsent ifAbsent}) {
-    var notFound = false;
+  String? lookupMessage(String? messageText, String? locale, String? name,
+      List<Object>? args, String? meaning,
+      {MessageIfAbsent? ifAbsent}) {
     var actualName = computeMessageName(name, messageText, meaning);
-    if (actualName == null) notFound = true;
-    var translation = this[actualName];
-    notFound = notFound || (translation == null);
-    if (notFound) {
+    Object? translation;
+    if (actualName != null) {
+      translation = this[actualName];
+    }
+    if (translation == null) {
       return ifAbsent == null ? messageText : ifAbsent(messageText, args);
     } else {
       args = args ?? const [];

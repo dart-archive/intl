@@ -1,7 +1,6 @@
 // Copyright (c) 2020, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
-// @dart=2.9
 
 import 'package:intl/number_symbols.dart';
 
@@ -26,7 +25,7 @@ class NumberParser {
 
   /// The result of parsing [text] according to [format]. Automatically
   /// populated in the constructor.
-  num value;
+  num? value;
 
   /// The symbols used by our format.
   NumberSymbols get symbols => format.symbols;
@@ -79,7 +78,7 @@ class NumberParser {
   Map<String, Function> get replacements =>
       _replacements ??= _initializeReplacements();
 
-  Map<String, Function> _replacements;
+  Map<String, Function>? _replacements;
 
   Map<String, Function> _initializeReplacements() => {
         symbols.DECIMAL_SEP: () => '.',
@@ -119,7 +118,7 @@ class NumberParser {
 
   /// Turn [char] into a number representing a digit, or null if it doesn't
   /// represent a digit in this locale.
-  int asDigit(String char) {
+  int? asDigit(String char) {
     var charCode = char.codeUnitAt(0);
     var digitValue = charCode - _localeZero;
     if (digitValue >= 0 && digitValue < 10) {
@@ -181,7 +180,7 @@ class NumberParser {
 
     for (var key in replacements.keys) {
       if (input.startsWith(key)) {
-        _normalized.write(replacements[key]());
+        _normalized.write(replacements[key]!());
         input.read(key.length);
         return;
       }
@@ -235,7 +234,7 @@ class NumberParser {
     }
 
     var normalizedText = _normalized.toString();
-    num parsed = int.tryParse(normalizedText);
+    num? parsed = int.tryParse(normalizedText);
     parsed ??= double.parse(normalizedText);
     return parsed / scale;
   }

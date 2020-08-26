@@ -1,7 +1,6 @@
 // Copyright (c) 2017, the Dart project authors. Please see the AUTHORS file for
 // details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
-// @dart=2.9
 
 /// API to allow setting Date/Time formatting in a custom way.
 ///
@@ -19,7 +18,7 @@ import 'src/date_format_internal.dart';
 ///
 /// If data for this locale has already been initialized it will be overwritten.
 void initializeDateFormattingCustom(
-    {String locale, DateSymbols symbols, Map<String, String> patterns}) {
+    {String? locale, DateSymbols? symbols, Map<String, String>? patterns}) {
   initializeDateSymbols(_emptySymbols);
   initializeDatePatterns(_emptyPatterns);
   if (symbols == null) {

@@ -1,7 +1,6 @@
 // Copyright (c) 2012, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
-// @dart=2.9
 
 /// This defines a class for loading locale data incrementally from
 /// an external source as JSON. The external sources expected are either
@@ -41,10 +40,9 @@ class LazyLocaleData {
   /// from the remote data (which typically comes in as a Map). The
   /// [keys] lists the set of remotely available locale names so we know which
   /// things can be fetched without having to check remotely.
-  LazyLocaleData(this._reader, this._creationFunction, this.availableLocales) {
-    map = {};
-    availableLocaleSet = Set.from(availableLocales);
-  }
+  LazyLocaleData(this._reader, this._creationFunction, this.availableLocales)
+      : map = {},
+        availableLocaleSet = Set.from(availableLocales);
 
   ///  Tests if we have data for the locale available. Note that this returns
   /// true even if the data is known to be available remotely but not yet
@@ -81,6 +79,7 @@ class LazyLocaleData {
   /// initializeDateFormatting instead.
   Future<void> initLocale(String localeName) {
     var data = _reader.read(localeName);
+    // ignore: void_checks
     return jsonData(data).then((input) {
       map[localeName] = _creationFunction(input);
     });
