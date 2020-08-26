@@ -3,7 +3,6 @@
 // for details. All rights reserved. Use of this source code
 // is governed by a
 // BSD-style license that can be found in the LICENSE file.
-// @dart=2.9
 
 /// Date/time formatting symbols for all locales.
 ///
@@ -30,10 +29,10 @@ import "dart:async";
 /// formatting methods are called. It sets up the lookup for date
 /// symbols. Both the [locale] and [ignored] parameter are ignored, as
 /// the data for all locales is directly available.
-Future<void> initializeDateFormatting([String locale, String ignored]) {
+Future<void> initializeDateFormatting([String? locale, String? ignored]) {
   initializeDateSymbols(dateTimeSymbolMap);
   initializeDatePatterns(dateTimePatternMap);
-  return new Future.value(null);
+  return new Future.value();
 }
 
 /// Returns a Map from locale names to the DateSymbols instance for
@@ -41,7 +40,7 @@ Future<void> initializeDateFormatting([String locale, String ignored]) {
 /// instead.
 Map<dynamic, dynamic> dateTimeSymbolMap() => {
       // Date/time formatting symbols for locale en_ISO.
-      "en_ISO": new DateSymbols(
+      "en_ISO": DateSymbols(
           NAME: 'en_ISO',
           ERAS: const ['BC', 'AD'],
           ERANAMES: const ['Before Christ', 'Anno Domini'],
