@@ -1,9 +1,8 @@
 // Copyright (c) 2019, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
-// @dart=2.9
 
-/// `MessageFormat` is a "locale aware printf", with plural / gender support.
+// `MessageFormat` is a "locale aware printf", with plural / gender support.
 ///
 /// `MessageFormat` prepares strings for display to users, with optional
 /// arguments (variables/placeholders). The arguments can occur in any order,
@@ -109,22 +108,22 @@ import 'intl.dart';
 class MessageFormat {
   /// The locale to use for plural, ordinal, decisions,
   /// number / date / time formatting
-  String _locale;
+  final String _locale;
 
   /// The pattern we parse and apply positional parameters to.
-  String _pattern;
+  String? _pattern;
 
   /// All encountered literals during parse stage.
-  Queue<String> _initialLiterals;
+  Queue<String>? _initialLiterals;
 
   /// Working list with all encountered literals during parse and format stages.
-  Queue<String> _literals;
+  Queue<String>? _literals;
 
   /// Input pattern gets parsed into objects for faster formatting.
-  Queue<_BlockTypeAndVal> _parsedPattern;
+  Queue<_BlockTypeAndVal>? _parsedPattern;
 
   /// Locale aware number formatter.
-  NumberFormat _numberFormat;
+  final NumberFormat _numberFormat;
 
   /// Literal strings, including '', are replaced with \uFDDF_x_ for parsing.
   ///
@@ -146,11 +145,10 @@ class MessageFormat {
   /// It does parameter substitutions in a locale-aware way.
   /// The syntax is similar to the one used by ICU and is described in the
   /// grammar above.
-  MessageFormat(String pattern, {String locale = 'en'}) {
-    _locale = locale;
-    _pattern = pattern;
-    _numberFormat = NumberFormat.decimalPattern(locale);
-  }
+  MessageFormat(String pattern, {String locale = 'en'})
+      : _locale = locale,
+        _pattern = pattern,
+        _numberFormat = NumberFormat.decimalPattern(locale);
 
   /// Returns a formatted message, treating '#' as a special placeholder.
   ///
@@ -163,7 +161,7 @@ class MessageFormat {
   /// `NUM_PEOPLE` parameter could mean 5 people, which could influence plural
   /// format, and `NAME` parameter is just a data to be printed out in proper
   /// position.
-  String format([Map<String, Object> namedParameters]) {
+  String format([Map<String, Object>? namedParameters]) {
     return _format(false, namedParameters);
   }
 
@@ -176,7 +174,7 @@ class MessageFormat {
   /// `NUM_PEOPLE` parameter could mean 5 people, which could influence plural
   /// format, and `NAME` parameter is just a data to be printed out in proper
   /// position.
-  String formatIgnoringPound([Map<String, Object> namedParameters]) {
+  String formatIgnoringPound([Map<String, Object>? namedParameters]) {
     return _format(true, namedParameters);
   }
 
@@ -192,13 +190,13 @@ class MessageFormat {
   /// If [ignorePound] is true, treat '#' in plural messages as a
   /// literal character, else treat it as an ICU syntax character, resolving
   /// to the number (plural_variable - offset).
-  String _format(bool ignorePound, [Map<String, Object> namedParameters]) {
+  String _format(bool ignorePound, [Map<String, Object>? namedParameters]) {
     _init();
-    if (_parsedPattern == null || _parsedPattern.isEmpty) {
+    if (_parsedPattern == null || _parsedPattern!.isEmpty) {
       return '';
     }
     // Clone, we don't want to damage the original
-    _literals = Queue<String>()..addAll(_initialLiterals);
+    _literals = Queue<String>()..addAll(_initialLiterals!);
 
     // Implementation notes: this seems inefficient, we could in theory do the
     // replace + join in one go.
@@ -221,16 +219,16 @@ class MessageFormat {
     // If we think printf, how many arguments are common?
     // Probably less than 5 or so.
     var messageParts = Queue<String>();
-    _formatBlock(_parsedPattern, namedParameters, ignorePound, messageParts);
+    _formatBlock(_parsedPattern!, namedParameters!, ignorePound, messageParts);
     var message = messageParts.join('');
 
     if (!ignorePound) {
       _checkAndThrow(!message.contains('#'), 'Not all # were replaced.');
     }
 
-    while (_literals.isNotEmpty) {
+    while (_literals!.isNotEmpty) {
       message = message.replaceFirst(
-          _buildPlaceholder(_literals), _literals.removeLast());
+          _buildPlaceholder(_literals!), _literals!.removeLast());
     }
 
     return message;
@@ -259,24 +257,25 @@ class MessageFormat {
           'The type should be a block type: $patternType');
       switch (patternType) {
         case _BlockType.string:
-          result.add(patternValue);
+          result.add(patternValue as String);
           break;
         case _BlockType.simple:
-          _formatSimplePlaceholder(patternValue, namedParameters, result);
+          _formatSimplePlaceholder(
+              patternValue as String, namedParameters, result);
           break;
         case _BlockType.select:
           _checkAndThrow(patternValue is Map<String, Object>,
               'The value should be a map: $patternValue');
-          Map<String, Object> mapPattern = patternValue;
+          var mapPattern = patternValue as Map<String, Object>;
           _formatSelectBlock(mapPattern, namedParameters, ignorePound, result);
           break;
         case _BlockType.plural:
-          _formatPluralOrdinalBlock(patternValue, namedParameters,
-              _PluralRules.select, ignorePound, result);
+          _formatPluralOrdinalBlock(patternValue as Map<String, Object>,
+              namedParameters, _PluralRules.select, ignorePound, result);
           break;
         case _BlockType.ordinal:
-          _formatPluralOrdinalBlock(patternValue, namedParameters,
-              _OrdinalRules.select, ignorePound, result);
+          _formatPluralOrdinalBlock(patternValue as Map<String, Object>,
+              namedParameters, _OrdinalRules.select, ignorePound, result);
           break;
         default:
           _checkAndThrow(false, 'Unrecognized block type: $patternType');
@@ -307,8 +306,8 @@ class MessageFormat {
     } else {
       strValue = value.toString();
     }
-    _literals.add(strValue);
-    result.add(_buildPlaceholder(_literals));
+    _literals!.add(strValue);
+    result.add(_buildPlaceholder(_literals!));
   }
 
   /// Formats select block. Only one option is selected.
@@ -331,14 +330,15 @@ class MessageFormat {
       return;
     }
 
-    var option = parsedBlocks[namedParameters[argumentName]];
+    var option =
+        parsedBlocks[namedParameters[argumentName]] as Queue<_BlockTypeAndVal>?;
     if (!_isDef(option)) {
-      option = parsedBlocks[_other];
+      option = parsedBlocks[_other] as Queue<_BlockTypeAndVal>?;
       _checkAndThrow(option != null,
           'Invalid option or missing other option for select block.');
     }
 
-    _formatBlock(option, namedParameters, ignorePound, result);
+    _formatBlock(option!, namedParameters, ignorePound, result);
   }
 
   /// Formats `plural` / `selectordinal` block, selects an option, replaces `#`
@@ -377,7 +377,7 @@ class MessageFormat {
 
     var numArgumentOffset = argumentOffset is num
         ? argumentOffset
-        : double.tryParse(argumentOffset);
+        : double.tryParse(argumentOffset as String);
     if (numArgumentOffset == null) {
       result.add('Invalid offset - $argumentOffset');
       return;
@@ -386,19 +386,21 @@ class MessageFormat {
     var diff = numPluralValue - numArgumentOffset;
 
     // Check if there is an exact match.
-    var option = parsedBlocks[namedParameters[argumentName]];
+    var option =
+        parsedBlocks[namedParameters[argumentName]] as Queue<_BlockTypeAndVal>?;
     if (!_isDef(option)) {
-      option = parsedBlocks[namedParameters[argumentName].toString()];
+      option = parsedBlocks[namedParameters[argumentName].toString()]
+          as Queue<_BlockTypeAndVal>?;
     }
     if (!_isDef(option)) {
       var item = pluralSelector(diff.abs(), _locale);
       _checkAndThrow(item is String, 'Invalid plural key.');
 
-      option = parsedBlocks[item];
+      option = parsedBlocks[item] as Queue<_BlockTypeAndVal>?;
 
       // If option is not provided fall back to "other".
       if (!_isDef(option)) {
-        option = parsedBlocks[_other];
+        option = parsedBlocks[_other] as Queue<_BlockTypeAndVal>?;
       }
 
       _checkAndThrow(option != null,
@@ -406,7 +408,7 @@ class MessageFormat {
     }
 
     var pluralResult = Queue<String>();
-    _formatBlock(option, namedParameters, ignorePound, pluralResult);
+    _formatBlock(option!, namedParameters, ignorePound, pluralResult);
     var plural = pluralResult.join('');
     _checkAndThrow(plural is String, 'Empty block in plural.');
     if (ignorePound) {
@@ -425,7 +427,7 @@ class MessageFormat {
   void _init() {
     if (_pattern != null) {
       _initialLiterals = Queue<String>();
-      var pattern = _insertPlaceholders(_pattern);
+      var pattern = _insertPlaceholders(_pattern!);
 
       _parsedPattern = _parseBlock(pattern);
       _pattern = null;
@@ -438,7 +440,7 @@ class MessageFormat {
   /// set of characters not containing '
   /// Builds a dictionary so we can recover literals during format phase.
   String _insertPlaceholders(String pattern) {
-    var literals = _initialLiterals;
+    var literals = _initialLiterals!;
     var buildPlaceholder = _buildPlaceholder;
 
     // First replace '' with single quote placeholder since they can be found
@@ -450,7 +452,7 @@ class MessageFormat {
 
     pattern = pattern.replaceAllMapped(_regexLiteral, (match) {
       // match, text
-      var text = match.group(1);
+      var text = match.group(1)!;
       literals.add(text);
       return buildPlaceholder(literals);
     });
@@ -470,7 +472,7 @@ class MessageFormat {
     for (match in braces.allMatches(pattern)) {
       var pos = match.start;
       if (match[0] == '}') {
-        String brace;
+        String? brace;
         try {
           brace = braceStack.removeLast();
         } on StateError {
@@ -556,7 +558,7 @@ class MessageFormat {
     var result = Queue<_BlockTypeAndVal>();
     var parts = _extractParts(pattern);
     for (var thePart in parts) {
-      _BlockTypeAndVal block;
+      _BlockTypeAndVal? block;
       if (_ElementType.string == thePart._type) {
         block = _BlockTypeAndVal(_BlockType.string, thePart._value);
       } else if (_ElementType.block == thePart._type) {
@@ -587,7 +589,7 @@ class MessageFormat {
       } else {
         _checkAndThrow(false, 'Unknown part of the pattern.');
       }
-      result.add(block);
+      result.add(block!);
     }
 
     return result;
@@ -602,7 +604,7 @@ class MessageFormat {
     var replaceRegex = _selectBlockRe;
     pattern = pattern.replaceFirstMapped(replaceRegex, (match) {
       // string, name
-      argumentName = match.group(1);
+      argumentName = match.group(1)!;
       return '';
     });
     var result = <String, Object>{'argumentName': argumentName};
@@ -620,13 +622,13 @@ class MessageFormat {
           pos < parts.length, 'Missing or invalid select value element.');
       thePart = parts.elementAt(pos);
 
-      Queue<_BlockTypeAndVal> value;
+      Queue<_BlockTypeAndVal>? value;
       if (_ElementType.block == thePart._type) {
         value = _parseBlock(thePart._value);
       } else {
         _checkAndThrow(false, 'Expected block type.');
       }
-      result[key.replaceAll(RegExp('\\s'), '')] = value;
+      result[key.replaceAll(RegExp('\\s'), '')] = value!;
       pos++;
     }
 
@@ -645,9 +647,9 @@ class MessageFormat {
     var replaceRegex = _pluralBlockRe;
     pattern = pattern.replaceFirstMapped(replaceRegex, (match) {
       // string, name, offset
-      argumentName = match.group(1);
+      argumentName = match.group(1)!;
       if (_isDef(match.group(2))) {
-        argumentOffset = int.parse(match.group(2));
+        argumentOffset = int.parse(match.group(2)!);
       }
       return '';
     });
@@ -670,7 +672,7 @@ class MessageFormat {
           pos < parts.length, 'Missing or invalid plural value element.');
       thePart = parts.elementAt(pos);
 
-      Queue<_BlockTypeAndVal> value;
+      Queue<_BlockTypeAndVal>? value;
       if (_ElementType.block == thePart._type) {
         value = _parseBlock(thePart._value);
       } else {
@@ -679,7 +681,7 @@ class MessageFormat {
       key = key.replaceFirstMapped(RegExp('\\s*(?:=)?(\\w+)\\s*'), (match) {
         return match.group(1).toString();
       });
-      result[key] = value;
+      result[key] = value!;
       pos++;
     }
 
@@ -709,7 +711,7 @@ class MessageFormat {
     var replaceRegex = _ordinalBlockRe;
     pattern = pattern.replaceFirstMapped(replaceRegex, (match) {
       // string, name
-      argumentName = match.group(1);
+      argumentName = match.group(1)!;
       return '';
     });
 
@@ -728,7 +730,7 @@ class MessageFormat {
           pos < parts.length, 'Missing or invalid ordinal value element.');
       thePart = parts.elementAt(pos);
 
-      Queue<_BlockTypeAndVal> value;
+      Queue<_BlockTypeAndVal>? value;
       if (_ElementType.block == thePart._type) {
         value = _parseBlock(thePart._value);
       } else {
@@ -737,7 +739,7 @@ class MessageFormat {
       key = key.replaceFirstMapped(RegExp('\\s*(?:=)?(\\w+)\\s*'), (match) {
         return match.group(1).toString();
       });
-      result[key] = value;
+      result[key] = value!;
       pos++;
     }
 
@@ -762,7 +764,7 @@ class MessageFormat {
 //========== EXTRAS: temporary, to help the move from JS to Dart ==========
 
 // Simple goog.isDef replacement, will probably remove it
-bool _isDef(Object obj) {
+bool _isDef(Object? obj) {
   return obj != null;
 }
 

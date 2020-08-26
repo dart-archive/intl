@@ -1,7 +1,6 @@
 // Copyright (c) 2012, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
-// @dart=2.9
 
 /// This library provides internationalization and localization. This includes
 /// message formatting and replacement, date and number formatting and parsing,
@@ -78,7 +77,7 @@ export 'src/intl/text_direction.dart' show TextDirection;
 class Intl {
   /// String indicating the locale code with which the message is to be
   /// formatted (such as en-CA).
-  String _locale;
+  final String _locale;
 
   /// The default locale. This defaults to being set from systemLocale, but
   /// can also be set explicitly, and will then apply to any new instances where
@@ -87,9 +86,9 @@ class Intl {
   /// will supercede this value while that operation is active. Using
   /// [Intl.withLocale] may be preferable if you are using different locales
   /// in the same application.
-  static String get defaultLocale => global_state.defaultLocale;
+  static String? get defaultLocale => global_state.defaultLocale;
 
-  static set defaultLocale(String newLocale) =>
+  static set defaultLocale(String? newLocale) =>
       global_state.defaultLocale = newLocale;
 
   /// The system's locale, as obtained from the window.navigator.language
@@ -101,7 +100,7 @@ class Intl {
 
   /// Return a new date format using the specified [pattern].
   /// If [desiredLocale] is not specified, then we default to [locale].
-  DateFormat date([String pattern, String desiredLocale]) {
+  DateFormat date([String? pattern, String? desiredLocale]) {
     var actualLocale = (desiredLocale == null) ? locale : desiredLocale;
     return DateFormat(pattern, actualLocale);
   }
@@ -110,9 +109,8 @@ class Intl {
   /// locale to be used, otherwise, we will attempt to infer it (acceptable if
   /// Dart is running on the client, we can infer from the browser/client
   /// preferences).
-  Intl([String aLocale]) {
-    _locale = aLocale != null ? aLocale : getCurrentLocale();
-  }
+  Intl([String? aLocale])
+      : _locale = aLocale != null ? aLocale : getCurrentLocale();
 
   /// Use this for a message that will be translated for different locales. The
   /// expected usage is that this is inside an enclosing function that only
@@ -166,19 +164,19 @@ class Intl {
   // messages, so it will eliminate the descriptions and other information
   // not needed at runtime.
   static String message(String messageText,
-          {String desc = '',
-          Map<String, Object> examples,
-          String locale,
-          String name,
-          List<Object> args,
-          String meaning,
-          bool skip}) =>
-      _message(messageText, locale, name, args, meaning);
+          {String? desc = '',
+          Map<String, Object>? examples,
+          String? locale,
+          String? name,
+          List<Object>? args,
+          String? meaning,
+          bool? skip}) =>
+      _message(messageText, locale, name, args, meaning)!;
 
   /// Omit the compile-time only parameters so dart2js can see to drop them.
   @pragma('dart2js:noInline')
-  static String _message(String messageText, String locale, String name,
-      List<Object> args, String meaning) {
+  static String? _message(String? messageText, String? locale, String? name,
+      List<Object>? args, String? meaning) {
     return helpers.messageLookup
         .lookupMessage(messageText, locale, name, args, meaning);
   }
@@ -203,8 +201,8 @@ class Intl {
   /// Note that null is interpreted as meaning the default locale, so if
   /// [newLocale] is null the default locale will be returned.
   static String verifiedLocale(
-          String newLocale, bool Function(String) localeExists,
-          {String Function(String) onFailure}) =>
+          String? newLocale, bool Function(String) localeExists,
+          {String Function(String)? onFailure}) =>
       helpers.verifiedLocale(newLocale, localeExists, onFailure);
 
   /// Return the short version of a locale name, e.g. 'en_US' => 'en'
@@ -214,7 +212,7 @@ class Intl {
   /// in the wrong case or with a hyphen instead of an underscore. If
   /// [aLocale] is null, for example, if you tried to get it from IE,
   /// return the current system locale.
-  static String canonicalizedLocale(String aLocale) =>
+  static String canonicalizedLocale(String? aLocale) =>
       helpers.canonicalizedLocale(aLocale);
 
   /// Formats a message differently depending on [howMany].
@@ -230,20 +228,20 @@ class Intl {
   @pragma('dart2js:tryInline')
   @pragma('vm:prefer-inline')
   static String plural(num howMany,
-      {String zero,
-      String one,
-      String two,
-      String few,
-      String many,
-      String other,
-      String desc,
-      Map<String, Object> examples,
-      String locale,
-      int precision,
-      String name,
-      List<Object> args,
-      String meaning,
-      bool skip}) {
+      {String? zero,
+      String? one,
+      String? two,
+      String? few,
+      String? many,
+      required String other,
+      String? desc,
+      Map<String, Object>? examples,
+      String? locale,
+      int? precision,
+      String? name,
+      List<Object>? args,
+      String? meaning,
+      bool? skip}) {
     // Call our internal method, dropping examples and desc because they're not
     // used at runtime and we want them to be optimized away.
     return _plural(howMany,
@@ -262,17 +260,17 @@ class Intl {
 
   @pragma('dart2js:noInline')
   static String _plural(num howMany,
-      {String zero,
-      String one,
-      String two,
-      String few,
-      String many,
-      String other,
-      String locale,
-      int precision,
-      String name,
-      List<Object> args,
-      String meaning}) {
+      {String? zero,
+      String? one,
+      String? two,
+      String? few,
+      String? many,
+      required String other,
+      String? locale,
+      int? precision,
+      String? name,
+      List<Object>? args,
+      String? meaning}) {
     // Look up our translation, but pass in a null message so we don't have to
     // eagerly evaluate calls that may not be necessary.
     var translated = _message(null, locale, name, args, meaning);
@@ -294,21 +292,17 @@ class Intl {
   /// Internal: Implements the logic for plural selection - use [plural] for
   /// normal messages.
   static T pluralLogic<T>(num howMany,
-      {T zero,
-      T one,
-      T two,
-      T few,
-      T many,
-      T other,
-      String locale,
-      int precision,
-      String meaning}) {
-    if (other == null) {
-      throw ArgumentError("The 'other' named argument must be provided");
-    }
-    if (howMany == null) {
-      throw ArgumentError('The howMany argument to plural cannot be null');
-    }
+      {T? zero,
+      T? one,
+      T? two,
+      T? few,
+      T? many,
+      required T other,
+      String? locale,
+      int? precision,
+      String? meaning}) {
+    ArgumentError.checkNotNull(other, 'other');
+    ArgumentError.checkNotNull(howMany, 'howMany');
     // If we haven't specified precision and we have a float that is an integer
     // value, turn it into an integer. This gives us the behavior that 1.0 and 1
     // produce the same output, e.g. 1 dollar.
@@ -355,21 +349,21 @@ class Intl {
     }
   }
 
-  static plural_rules.PluralRule _cachedPluralRule;
-  static String _cachedPluralLocale;
+  static plural_rules.PluralRule? _cachedPluralRule;
+  static String? _cachedPluralLocale;
 
   static plural_rules.PluralRule _pluralRule(
-      String locale, num howMany, int precision) {
+      String? locale, num howMany, int? precision) {
     plural_rules.startRuleEvaluation(howMany, precision);
     var verifiedLocale = Intl.verifiedLocale(
         locale, plural_rules.localeHasPluralRules,
         onFailure: (locale) => 'default');
     if (_cachedPluralLocale == verifiedLocale) {
-      return _cachedPluralRule;
+      return _cachedPluralRule!;
     } else {
       _cachedPluralRule = plural_rules.pluralRules[verifiedLocale];
       _cachedPluralLocale = verifiedLocale;
-      return _cachedPluralRule;
+      return _cachedPluralRule!;
     }
   }
 
@@ -377,16 +371,16 @@ class Intl {
   @pragma('dart2js:tryInline')
   @pragma('vm:prefer-inline')
   static String gender(String targetGender,
-      {String female,
-      String male,
-      String other,
-      String desc,
-      Map<String, Object> examples,
-      String locale,
-      String name,
-      List<Object> args,
-      String meaning,
-      bool skip}) {
+      {String? female,
+      String? male,
+      required String other,
+      String? desc,
+      Map<String, Object>? examples,
+      String? locale,
+      String? name,
+      List<Object>? args,
+      String? meaning,
+      bool? skip}) {
     // Call our internal method, dropping args and desc because they're not used
     // at runtime and we want them to be optimized away.
     return _gender(targetGender,
@@ -401,14 +395,13 @@ class Intl {
 
   @pragma('dart2js:noInline')
   static String _gender(String targetGender,
-      {String female,
-      String male,
-      String other,
-      String desc,
-      String locale,
-      String name,
-      List<Object> args,
-      String meaning}) {
+      {String? female,
+      String? male,
+      required String other,
+      String? locale,
+      String? name,
+      List<Object>? args,
+      String? meaning}) {
     // Look up our translation, but pass in a null message so we don't have to
     // eagerly evaluate calls that may not be necessary.
     var translated = _message(null, locale, name, args, meaning);
@@ -423,10 +416,8 @@ class Intl {
   /// Internal: Implements the logic for gender selection - use [gender] for
   /// normal messages.
   static T genderLogic<T>(String targetGender,
-      {T female, T male, T other, String locale}) {
-    if (other == null) {
-      throw ArgumentError("The 'other' named argument must be specified");
-    }
+      {T? female, T? male, required T other, String? locale}) {
+    ArgumentError.checkNotNull(other, 'other');
     switch (targetGender) {
       case 'female':
         return female == null ? other : female;
@@ -454,20 +445,20 @@ class Intl {
   @pragma('dart2js:tryInline')
   @pragma('vm:prefer-inline')
   static String select(Object choice, Map<Object, String> cases,
-      {String desc,
-      Map<String, Object> examples,
-      String locale,
-      String name,
-      List<Object> args,
-      String meaning,
-      bool skip}) {
+      {String? desc,
+      Map<String, Object>? examples,
+      String? locale,
+      String? name,
+      List<Object>? args,
+      String? meaning,
+      bool? skip}) {
     return _select(choice, cases,
         locale: locale, name: name, args: args, meaning: meaning);
   }
 
   @pragma('dart2js:noInline')
   static String _select(Object choice, Map<Object, String> cases,
-      {String locale, String name, List<Object> args, String meaning}) {
+      {String? locale, String? name, List<Object>? args, String? meaning}) {
     // Look up our translation, but pass in a null message so we don't have to
     // eagerly evaluate calls that may not be necessary.
     var stringChoice = choice is String ? choice : '$choice'.split('.').last;
@@ -524,7 +515,7 @@ class Intl {
   ///           desc: 'Say Hello');
   ///       Intl.withLocale('zh', Timer(Duration(milliseconds:10),
   ///           () => print(hello('World')));
-  static dynamic withLocale<T>(String locale, T Function() function) {
+  static dynamic withLocale<T>(String? locale, T Function() function) {
     // TODO(alanknight): Make this return T. This requires work because T might
     // be Future and the caller could get an unawaited Future.  Which is
     // probably an error in their code, but the change is semi-breaking.
@@ -536,8 +527,7 @@ class Intl {
   /// unless for some reason this gets called inside a message that resets the
   /// locale.
   static String getCurrentLocale() {
-    defaultLocale ??= systemLocale;
-    return defaultLocale;
+    return defaultLocale ??= systemLocale;
   }
 
   String toString() => 'Intl($locale)';
@@ -550,7 +540,7 @@ class Intl {
 /// many locales, and we have the option to extend this to handle more cases
 /// without changing the API for clients. It also hard-codes the case of
 /// dotted i in Turkish and Azeri.
-String toBeginningOfSentenceCase(String input, [String locale]) {
+String? toBeginningOfSentenceCase(String? input, [String? locale]) {
   if (input == null || input.isEmpty) return input;
   return '${_upperCaseLetter(input[0], locale)}${input.substring(1)}';
 }
@@ -564,7 +554,7 @@ String toBeginningOfSentenceCase(String input, [String locale]) {
 // See http://www.unicode.org/Public/UNIDATA/SpecialCasing.txt
 // TODO(alanknight): Alternatively, consider toLocaleUpperCase in browsers.
 // See also https://github.com/dart-lang/sdk/issues/6706
-String _upperCaseLetter(String input, String locale) {
+String _upperCaseLetter(String input, String? locale) {
   // Hard-code the important edge case of i->İ
   if (locale != null) {
     if (input == 'i' && locale.startsWith('tr') || locale.startsWith('az')) {

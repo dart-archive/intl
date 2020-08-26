@@ -193,8 +193,10 @@ void main() {
 
   test('Check null howMany', () {
     expect(plural(0, null), '0:Zero');
-    expect(() => plural(null, null), throwsArgumentError);
-    expect(() => plural(null, 'ru'), throwsArgumentError);
+    expect(() => plural(null, null),
+        anyOf(throwsArgumentError, throwsA(isA<AssertionError>())));
+    expect(() => plural(null, 'ru'),
+        anyOf(throwsArgumentError, throwsA(isA<AssertionError>())));
   });
 
   verifyWithPrecision('1 dollar', 'en', 1, 0);
