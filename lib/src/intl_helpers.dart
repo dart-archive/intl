@@ -7,8 +7,6 @@
 
 library intl_helpers;
 
-import 'dart:async';
-
 import 'global_state.dart' as global_state;
 import 'intl_helpers.dart' as helpers;
 
