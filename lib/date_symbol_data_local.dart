@@ -23,7 +23,6 @@ library date_symbol_data_local;
 import "date_symbols.dart";
 import "src/date_format_internal.dart";
 import "date_time_patterns.dart";
-import "dart:async";
 
 /// This should be called for at least one [locale] before any date
 /// formatting methods are called. It sets up the lookup for date
