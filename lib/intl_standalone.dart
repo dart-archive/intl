@@ -9,7 +9,6 @@
 
 library intl_standalone;
 
-import 'dart:async';
 import 'dart:io';
 import 'intl.dart';
 

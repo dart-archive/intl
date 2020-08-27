@@ -7,8 +7,6 @@
 
 library date_symbol_data_file;
 
-import 'dart:async';
-
 import 'package:path/path.dart' as path;
 
 import 'date_symbols.dart';
