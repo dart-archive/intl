@@ -8,7 +8,6 @@
 
 library lazy_locale_data;
 
-import 'dart:async';
 import 'dart:convert';
 import 'intl_helpers.dart';
 
