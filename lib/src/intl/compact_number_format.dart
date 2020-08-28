@@ -188,7 +188,7 @@ class _CompactNumberFormat extends NumberFormat {
       bool isForCurrency = false}) {
     // Initialization copied from `NumberFormat` constructor.
     // TODO(davidmorgan): deduplicate.
-    locale = helpers.verifiedLocale(locale, NumberFormat.localeExists, null);
+    locale = helpers.verifiedLocale(locale, NumberFormat.localeExists, null)!;
     var symbols = numberFormatSymbols[locale] as NumberSymbols;
     var localeZero = symbols.ZERO_DIGIT.codeUnitAt(0);
     var zeroOffset = localeZero - constants.asciiZeroCodeUnit;
