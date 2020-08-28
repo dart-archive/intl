@@ -263,7 +263,7 @@ class DateFormat {
   /// If [locale] does not exist in our set of supported locales then an
   /// [ArgumentError] is thrown.
   DateFormat([String? newPattern, String? locale])
-      : _locale = helpers.verifiedLocale(locale, localeExists, null) {
+      : _locale = helpers.verifiedLocale(locale, localeExists, null)! {
     // TODO(alanknight): It should be possible to specify multiple skeletons eg
     // date, time, timezone all separately. Adding many or named parameters to
     // the constructor seems awkward, especially with the possibility of

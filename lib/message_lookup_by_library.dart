@@ -114,7 +114,7 @@ abstract class MessageLookupByLibrary {
   }
 
   /// Evaluate the translated message and return the translated string.
-  String evaluateMessage(translation, List<dynamic> args) {
+  String? evaluateMessage(translation, List<dynamic> args) {
     return Function.apply(translation, args);
   }
 

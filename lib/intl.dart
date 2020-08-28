@@ -196,9 +196,12 @@ class Intl {
   ///
   /// Note that null is interpreted as meaning the default locale, so if
   /// [newLocale] is null the default locale will be returned.
-  static String verifiedLocale(
+  ///
+  /// Can return `null` only if verification fails and `onFailure` returns
+  /// null. Otherwise, throws instead.
+  static String? verifiedLocale(
           String? newLocale, bool Function(String) localeExists,
-          {String Function(String)? onFailure}) =>
+          {String? Function(String)? onFailure}) =>
       helpers.verifiedLocale(newLocale, localeExists, onFailure);
 
   /// Return the short version of a locale name, e.g. 'en_US' => 'en'
