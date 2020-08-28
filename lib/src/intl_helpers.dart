@@ -145,8 +145,8 @@ String canonicalizedLocale(String? aLocale) {
   return '${aLocale[0]}${aLocale[1]}_$region';
 }
 
-String verifiedLocale(String? newLocale, bool Function(String) localeExists,
-    String Function(String)? onFailure) {
+String? verifiedLocale(String? newLocale, bool Function(String) localeExists,
+    String? Function(String)? onFailure) {
 // TODO(alanknight): Previously we kept a single verified locale on the Intl
 // object, but with different verification for different uses, that's more
 // difficult. As a result, we call this more often. Consider keeping
