@@ -3,7 +3,6 @@
 /// These tests check that the test cases match what ICU produces. They are not
 /// testing the package:intl implementation, they only help verify consistent
 /// behaviour across platforms.
-// @dart=2.9
 
 @TestOn("!browser")
 @Tags(['ffi'])
@@ -28,9 +27,7 @@ main() {
 }
 
 void runICUTests(
-    {int systemIcuVersion = null,
-    String specialIcuLib = null,
-    List<String> skipLocales = null}) {
+    {int? systemIcuVersion, String? specialIcuLib, List<String>? skipLocales}) {
   if (!setupICU(
       systemIcuVersion: systemIcuVersion, specialIcuLibPath: specialIcuLib)) {
     return;
@@ -38,7 +35,7 @@ void runICUTests(
 
   print("Skipping problem locales $skipLocales.");
   testdata35.compactNumberTestData
-      .removeWhere((k, v) => skipLocales.contains(k));
+      .removeWhere((k, v) => skipLocales!.contains(k));
   testdata35.compactNumberTestData.forEach(validate);
   more_testdata.cldr35CompactNumTests.forEach(validateFancy);
 
@@ -74,17 +71,17 @@ void validateFancy(more_testdata.CompactRoundingTestCase t) {
   var locale = 'en';
   var skel = 'compact-short';
   if (t.minimumIntegerDigits != null) {
-    skel += ' integer-width/+' + '0' * t.minimumIntegerDigits;
+    skel += ' integer-width/+' + '0' * t.minimumIntegerDigits!;
   }
   if (t.significantDigits != null) {
-    skel += ' ' + '@' * t.significantDigits;
+    skel += ' ' + '@' * t.significantDigits!;
   }
   if (t.minimumFractionDigits != null) {
-    skel += ' .' + '0' * t.minimumFractionDigits;
+    skel += ' .' + '0' * t.minimumFractionDigits!;
     var maxFD = t.maximumFractionDigits ?? 3;
-    skel += '#' * (maxFD - t.minimumFractionDigits);
+    skel += '#' * (maxFD - t.minimumFractionDigits!);
   } else if (t.maximumFractionDigits != null) {
-    skel += ' .' + '#' * t.maximumFractionDigits;
+    skel += ' .' + '#' * t.maximumFractionDigits!;
   }
   test(t.toString(), () {
     expect(FormatWithUnumf(locale, skel, t.number), t.expected,
@@ -92,14 +89,14 @@ void validateFancy(more_testdata.CompactRoundingTestCase t) {
   });
 }
 
-UErrorNameOp u_errorName;
-UnumfOpenForSkeletonAndLocaleOp unumf_openForSkeletonAndLocale;
-UnumfOpenResultOp unumf_openResult;
-UnumfFormatDoubleOp unumf_formatDouble;
-UnumfFormatIntOp unumf_formatInt;
-UnumfResultToStringOp unumf_resultToString;
-UnumfCloseOp unumf_close;
-UnumfCloseResultOp unumf_closeResult;
+UErrorNameOp? u_errorName;
+UnumfOpenForSkeletonAndLocaleOp? unumf_openForSkeletonAndLocale;
+UnumfOpenResultOp? unumf_openResult;
+UnumfFormatDoubleOp? unumf_formatDouble;
+UnumfFormatIntOp? unumf_formatInt;
+UnumfResultToStringOp? unumf_resultToString;
+UnumfCloseOp? unumf_close;
+UnumfCloseResultOp? unumf_closeResult;
 
 /// Sets up dart:ffi functions.
 ///
@@ -109,7 +106,7 @@ UnumfCloseResultOp unumf_closeResult;
 ///
 /// If [systemIcuVersion] is unspecified, we expect to find all functions in a
 /// library with filename [specialIcuLibPath].
-bool setupICU({int systemIcuVersion = null, String specialIcuLibPath = null}) {
+bool setupICU({int? systemIcuVersion, String? specialIcuLibPath}) {
   DynamicLibrary libicui18n;
   String icuVersionSuffix;
   if (systemIcuVersion != null) {
@@ -126,7 +123,7 @@ bool setupICU({int systemIcuVersion = null, String specialIcuLibPath = null}) {
     }
   } else {
     icuVersionSuffix = '';
-    libicui18n = DynamicLibrary.open(specialIcuLibPath);
+    libicui18n = DynamicLibrary.open(specialIcuLibPath!);
     u_errorName = libicui18n.lookupFunction<NativeUErrorNameOp, UErrorNameOp>(
         "u_errorName$icuVersionSuffix");
   }
@@ -167,29 +164,29 @@ String FormatWithUnumf(String locale, String skeleton, num number) {
   final cErrorCode = allocate<Int32>(count: 1);
   cErrorCode.value = 0;
   final uformatter =
-      unumf_openForSkeletonAndLocale(cSkeleton, -1, cLocale, cErrorCode);
+      unumf_openForSkeletonAndLocale!(cSkeleton, -1, cLocale, cErrorCode);
   free(cSkeleton);
   free(cLocale);
   var errorCode = cErrorCode.value;
   expect(errorCode, lessThanOrEqualTo(0),
-      reason: u_errorName(errorCode).toString());
-  final uresult = unumf_openResult(cErrorCode);
+      reason: u_errorName!(errorCode).toString());
+  final uresult = unumf_openResult!(cErrorCode);
   errorCode = cErrorCode.value;
   // Try to improve this once dart:ffi has extension methods:
   expect(errorCode, lessThanOrEqualTo(0),
-      reason: u_errorName(errorCode).toString());
+      reason: u_errorName!(errorCode).toString());
 
   // // Format a double:
   // unumf_formatDouble(uformatter, 5142.3, uresult, &ec);
   // if (U_FAILURE(ec)) { return; }
   if (number is double) {
-    unumf_formatDouble(uformatter, number, uresult, cErrorCode);
+    unumf_formatDouble!(uformatter, number, uresult, cErrorCode);
   } else {
-    unumf_formatInt(uformatter, number, uresult, cErrorCode);
+    unumf_formatInt!(uformatter, number as int, uresult, cErrorCode);
   }
   errorCode = cErrorCode.value;
   expect(errorCode, lessThanOrEqualTo(0),
-      reason: u_errorName(errorCode).toString());
+      reason: u_errorName!(errorCode).toString());
 
   // // Export the string to a malloc'd buffer:
   // int32_t len = unumf_resultToString(uresult, NULL, 0, &ec);
@@ -199,24 +196,24 @@ String FormatWithUnumf(String locale, String skeleton, num number) {
   // unumf_resultToString(uresult, buffer, len+1, &ec);
   // if (U_FAILURE(ec)) { return; }
   // // buffer should equal "5,142"
-  final reqLen = unumf_resultToString(uresult, nullptr.cast(), 0, cErrorCode);
+  final reqLen = unumf_resultToString!(uresult, nullptr.cast(), 0, cErrorCode);
   errorCode = cErrorCode.value;
   expect(errorCode, equals(15), // U_BUFFER_OVERFLOW_ERROR
-      reason: u_errorName(errorCode).toString());
+      reason: u_errorName!(errorCode).toString());
   cErrorCode.value = 0;
   final buffer = allocate<Utf16>(count: reqLen + 1);
-  unumf_resultToString(uresult, buffer, reqLen + 1, cErrorCode);
+  unumf_resultToString!(uresult, buffer, reqLen + 1, cErrorCode);
   errorCode = cErrorCode.value;
   expect(errorCode, lessThanOrEqualTo(0),
-      reason: u_errorName(errorCode).toString());
+      reason: u_errorName!(errorCode).toString());
   final result = buffer.toString();
 
   // // Cleanup:
   // unumf_close(uformatter);
   // unumf_closeResult(uresult);
   // free(buffer);
-  unumf_close(uformatter);
-  unumf_closeResult(uresult);
+  unumf_close!(uformatter);
+  unumf_closeResult!(uresult);
   free(buffer);
   free(cErrorCode);
 
