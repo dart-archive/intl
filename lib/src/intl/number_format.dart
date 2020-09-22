@@ -30,7 +30,7 @@ typedef _PatternGetter = String Function(NumberSymbols);
 ///
 /// For example,
 ///
-///       var f = new NumberFormat("###.0#", "en_US");
+///       var f = NumberFormat("###.0#", "en_US");
 ///       print(f.format(12.345));
 ///           ==> 12.34
 ///
@@ -41,8 +41,8 @@ typedef _PatternGetter = String Function(NumberSymbols);
 /// There are also standard patterns available via the special constructors.
 /// e.g.
 ///
-///       var percent = new NumberFormat.percentPattern("ar"); var
-///       eurosInUSFormat = new NumberFormat.currency(locale: "en_US",
+///       var percent = NumberFormat.percentPattern("ar"); var
+///       eurosInUSFormat = NumberFormat.currency(locale: "en_US",
 ///           symbol: "€");
 ///
 /// There are several such constructors available, though some of them are
@@ -142,12 +142,12 @@ class NumberFormat {
   /// otherwise we use the value from the pattern for the locale.
   ///
   /// So, for example,
-  ///      new NumberFormat.currency(name: 'USD', decimalDigits: 7)
+  ///       NumberFormat.currency(name: 'USD', decimalDigits: 7)
   /// will format with 7 decimal digits, because that's what we asked for. But
-  ///       new NumberFormat.currency(locale: 'en_US', name: 'JPY')
+  ///       NumberFormat.currency(locale: 'en_US', name: 'JPY')
   /// will format with zero, because that's the default for JPY, and the
   /// currency's default takes priority over the locale's default.
-  ///       new NumberFormat.currency(locale: 'en_US')
+  ///       NumberFormat.currency(locale: 'en_US')
   /// will format with two, which is the default for that locale.
   ///
   int get decimalDigits => _decimalDigits;
@@ -203,8 +203,8 @@ class NumberFormat {
   ///
   /// If provided,
   /// use [currencyNameOrSymbol] in place of the default currency name. e.g.
-  ///        var eurosInCurrentLocale = new NumberFormat
-  ///            .currencyPattern(Intl.defaultLocale, "€");
+  ///       var eurosInCurrentLocale = NumberFormat
+  ///           .currencyPattern(Intl.defaultLocale, "€");
   @Deprecated('Use NumberFormat.currency')
   factory NumberFormat.currencyPattern(
       [String locale, String currencyNameOrSymbol]) {
@@ -226,28 +226,28 @@ class NumberFormat {
   /// Otherwise we will use the default currency name for the current locale. If
   /// no [symbol] is specified, we will use the currency name in the formatted
   /// result. e.g.
-  ///      var f = new NumberFormat.currency(locale: 'en_US', name: 'EUR')
+  ///       var f = NumberFormat.currency(locale: 'en_US', name: 'EUR')
   /// will format currency like "EUR1.23". If we did not specify the name, it
   /// would format like "USD1.23".
   ///
   /// If [symbol] is used, then that symbol will be used in formatting instead
   /// of the name. e.g.
-  ///      var eurosInCurrentLocale = new NumberFormat.currency(symbol: "€");
+  ///       var eurosInCurrentLocale = NumberFormat.currency(symbol: "€");
   /// will format like "€1.23". Otherwise it will use the currency name.
   /// If this is not explicitly specified in the constructor, then for
   /// currencies we use the default value for the currency if the name is given,
-  ///  otherwise we use the value from the pattern for the locale.
+  /// otherwise we use the value from the pattern for the locale.
   ///
   /// If [decimalDigits] is specified, numbers will format with that many digits
   /// after the decimal place. If it's not, they will use the default for the
   /// currency in [name], and the default currency for [locale] if the currency
   /// name is not specified. e.g.
-  ///       new NumberFormat.currency(name: 'USD', decimalDigits: 7)
+  ///       NumberFormat.currency(name: 'USD', decimalDigits: 7)
   /// will format with 7 decimal digits, because that's what we asked for. But
-  ///       new NumberFormat.currency(locale: 'en_US', name: 'JPY')
+  ///       NumberFormat.currency(locale: 'en_US', name: 'JPY')
   /// will format with zero, because that's the default for JPY, and the
   /// currency's default takes priority over the locale's default.
-  ///       new NumberFormat.currency(locale: 'en_US')
+  ///       NumberFormat.currency(locale: 'en_US')
   /// will format with two, which is the default for that locale.
   ///
   /// The [customPattern] parameter can be used to specify a particular
@@ -282,12 +282,12 @@ class NumberFormat {
   /// after the decimal place. If it's not, they will use the default for the
   /// currency in [name], and the default currency for [locale] if the currency
   /// name is not specified. e.g.
-  ///       new NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 7)
+  ///       NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 7)
   /// will format with 7 decimal digits, because that's what we asked for. But
-  ///       new NumberFormat.simpleCurrency(locale: 'en_US', name: 'JPY')
+  ///       NumberFormat.simpleCurrency(locale: 'en_US', name: 'JPY')
   /// will format with zero, because that's the default for JPY, and the
   /// currency's default takes priority over the locale's default.
-  ///       new NumberFormat.simpleCurrency(locale: 'en_US')
+  ///       NumberFormat.simpleCurrency(locale: 'en_US')
   /// will format with two, which is the default for that locale.
   factory NumberFormat.simpleCurrency(
       {String locale, String name, int decimalDigits}) {

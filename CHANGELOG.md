@@ -1,9 +1,21 @@
-## 0.16.2+1
+## 0.17.0+1
  * Update ruble sign
+
+## 0.17.0
+ * **Breaking Change** [#123][]: Fix parsing of two-digit years to match the
+   documented behavior. Previously a two-digit year would be parsed to a value
+   in the range [0, 99]. Now it is parsed relative to the current date,
+   returning a value between 80 years in the past and 20 years in the future.
+ * Use package:clock to get the current date/time.
+ * Fix some more analysis complaints.
+ * Update documentation to indicate that time zone specifiers are not yet
+   implemented [#264][].
 
 ## 0.16.2
  * Fix bug with dates in January being treated as ordinal. e.g. 2020-01-32 would
    be accepted as valid and the day treated as day-of-year.
+ * Compact currency formats will avoid displaying unecessary trailing zeros
+   in compact formats for currencies which specify decimal places.
 
 ## 0.16.1
  * Add an analysis_options.yaml and fix or suppress all the complaints from it.
@@ -354,3 +366,6 @@
 * Handle two different messages with the same text.
 
 * Allow complex string literals in arguments (e.g. multi-line)
+
+[#123]: https://github.com/dart-lang/intl/issues/123
+[#264]: https://github.com/dart-lang/intl/issues/264

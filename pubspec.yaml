@@ -1,5 +1,5 @@
 name: intl
-version: 0.16.2+1-dev
+version: 0.17.1-dev
 author: Dart Team <misc@dartlang.org>
 homepage: https://github.com/dart-lang/intl
 description: >-
@@ -11,6 +11,7 @@ environment:
   sdk: '>=2.5.0 <3.0.0'
 
 dependencies:
+  clock: ^1.0.1
   path: '>=0.9.0 <2.0.0'
 dev_dependencies:
   fixnum: '>=0.9.0 <0.11.0'
