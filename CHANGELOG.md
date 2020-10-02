@@ -1,5 +1,7 @@
-## 0.17.0+1
- * Add `@pragma('vm:prefer-inline')` to `Intl` methods that already have
+## 0.17.0-nullsafety-dev
+
+* Migrate to null safety.
+* Add `@pragma('vm:prefer-inline')` to `Intl` methods that already have
    `@pragma('dart2js:tryInline')`, for the same reason: to help omit message
    descriptions from compiled output.
 
