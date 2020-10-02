@@ -1,6 +1,5 @@
 name: intl
 version: 0.17.0-dev
-author: Dart Team <misc@dartlang.org>
 homepage: https://github.com/dart-lang/intl
 description: >-
   Contains code to deal with internationalized/localized messages, date and
@@ -8,11 +7,13 @@ description: >-
   internationalization issues.
 
 environment:
-  sdk: '>=2.5.0 <3.0.0'
+  # This must remain a tight constraint until nnbd is stable
+  sdk: '>=2.10.0-0 <2.11.0'
 
 dependencies:
   clock: ^1.0.1
-  path: '>=0.9.0 <2.0.0'
+  path: ^1.8.0-nullsafety.1
+
 dev_dependencies:
   fixnum: '>=0.9.0 <0.11.0'
-  test: ^1.2.0
+  test: ^1.16.0-nullsafety.4
