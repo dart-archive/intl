@@ -8,7 +8,7 @@ jobs:
   - script: pub run --enable-experiment=non-nullable test
   - script: pub run --enable-experiment=non-nullable test -p chrome
   - dart_task:
-      dartfmt -n .
+      dartfmt
   - dart_task:
       dartanalyzer: --enable-experiment=non-nullable --fatal-infos --fatal-warnings .
 
