@@ -17,3 +17,9 @@ dependencies:
 dev_dependencies:
   fixnum: '>=0.9.0 <0.11.0'
   test: ^1.16.0-nullsafety.4
+
+dependency_overrides:
+  clock:
+    git: https://github.com/dart-lang/clock
+  fixnum:
+    git: https://github.com/dart-lang/fixnum
