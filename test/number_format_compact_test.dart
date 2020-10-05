@@ -74,7 +74,7 @@ void main() {
   testCurrency('en_US', 1234567, r'$1.23M', r'$1M');
 
   // Check for order of currency symbol when currency is a suffix.
-  testCurrency('ru', 4420, '4,42\u00A0тыс.\u00A0руб.', '4\u00A0тыс.\u00A0руб.');
+  testCurrency('ru', 4420, '4,42\u00A0тыс.\u00A0\u20BD', '4\u00A0тыс.\u00A0\u20BD');
 
   // Locales which don't have a suffix for thousands.
   testCurrency('it', 442, '442\u00A0€', '400\u00A0€');
@@ -116,7 +116,7 @@ void testCurrency(
     var symbols = {
       'ja': '¥',
       'en_US': r'$',
-      'ru': 'руб.',
+      'ru': '\u20BD',
       'it': '€',
       'he': '₪',
       'CAD': r'$',
