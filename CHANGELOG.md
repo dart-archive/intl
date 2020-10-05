@@ -1,5 +1,5 @@
 ## 0.17.0+1
- * Update ruble sign
+ * Update ruble sign and update corresponding test
 
 ## 0.17.0
  * **Breaking Change** [#123][]: Fix parsing of two-digit years to match the
