@@ -326,7 +326,7 @@ BidiFormatter.RTL().wrapWithSpan('xyz');
 ```
 
 [intl_lib]: https://pub.dev/documentation/intl/latest/intl/intl-library.html
-[Intl]: https://pub.dev/documentation/intl
+[Intl]: https://pub.dev/documentation/intl/latest/intl/Intl-class.html
 [DateFormat]: https://pub.dev/documentation/intl/latest/intl/DateFormat-class.html
 [NumberFormat]: https://pub.dev/documentation/intl/latest/intl/NumberFormat-class.html
 [withLocale]: https://pub.dev/documentation/intl/latest/intl/Intl/withLocale.html
