@@ -6,9 +6,6 @@
 /// message formatting and replacement, date and number formatting and parsing,
 /// and utilities for working with Bidirectional text.
 ///
-/// This is part of the [intl package]
-/// (https://pub.dartlang.org/packages/intl).
-///
 /// For things that require locale or other data, there are multiple different
 /// ways of making that data available, which may require importing different
 /// libraries. See the class comments for more details.
