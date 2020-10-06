@@ -284,7 +284,7 @@ DateFormat('Hms', 'en_US').parse('14:23:01');
 Skeletons can be combined, the main use being to print a full date and
 time, e.g.
 
-```
+```dart
 DateFormat.yMEd().add_jms().format(DateTime.now());
   ==> 'Thu, 5/23/2013 10:21:47 AM'
 ```
