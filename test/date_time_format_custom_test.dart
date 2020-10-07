@@ -5,8 +5,6 @@
 /// Test date formatting and parsing using custom locale data, which we get
 /// from the local copy.
 
-import 'dart:async';
-
 import 'package:intl/date_symbol_data_local.dart' as local_symbols;
 import 'package:intl/date_time_patterns.dart' as local_patterns;
 import 'package:intl/date_symbol_data_custom.dart';
@@ -17,7 +15,7 @@ void main() {
   var symbols = local_symbols.dateTimeSymbolMap();
   var patterns = local_patterns.dateTimePatternMap();
   var locales = <String>[];
-  symbols.keys.take(10).forEach(locales.add);
+  symbols.keys.take(10).forEach((locale) => locales.add(locale));
   // Force inclusion of locales that are hard-coded in tests.
   var requiredLocales = ['en_US', 'de', 'fr', 'ja', 'el', 'de_AT'];
   locales.addAll(requiredLocales);
@@ -29,4 +27,4 @@ void main() {
   runWith(() => locales, null, nullInitialization);
 }
 
-Future<void> nullInitialization(String a, String b) => Future.value(null);
+Future<void> nullInitialization(String a, String b) => Future.value();

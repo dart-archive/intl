@@ -13,12 +13,12 @@ class CompactRoundingTestCase {
 
   num number;
   String expected;
-  int maximumIntegerDigits;
-  int minimumIntegerDigits;
-  int maximumFractionDigits;
-  int minimumFractionDigits;
-  int minimumExponentDigits;
-  int significantDigits;
+  int? maximumIntegerDigits;
+  int? minimumIntegerDigits;
+  int? maximumFractionDigits;
+  int? minimumFractionDigits;
+  int? minimumExponentDigits;
+  int? significantDigits;
 
   String toString() => "CompactRoundingTestCase for $number, "
       "maxIntDig: $maximumIntegerDigits, "

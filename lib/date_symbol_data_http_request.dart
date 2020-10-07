@@ -6,8 +6,6 @@
 /// locale data via http requests to a web server..
 library date_symbol_data_http_request;
 
-import 'dart:async';
-
 import 'date_symbols.dart';
 import 'intl.dart';
 import 'src/data/dates/locale_list.dart';

@@ -93,7 +93,7 @@ void runTests(Map<String, num> allTestNumbers) {
       if (!testNumbersWeCannotReadBack.containsKey(x)) {
         var readBack = number.parse(formatted);
         // Even among ones we can read back, we can't test NaN for equality.
-        if (allTestNumbers[x].isNaN) {
+        if (allTestNumbers[x]!.isNaN) {
           expect(readBack.isNaN, isTrue);
         } else {
           expect(readBack, allTestNumbers[x]);

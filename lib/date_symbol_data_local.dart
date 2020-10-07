@@ -23,16 +23,15 @@ library date_symbol_data_local;
 import "date_symbols.dart";
 import "src/date_format_internal.dart";
 import "date_time_patterns.dart";
-import "dart:async";
 
 /// This should be called for at least one [locale] before any date
 /// formatting methods are called. It sets up the lookup for date
 /// symbols. Both the [locale] and [ignored] parameter are ignored, as
 /// the data for all locales is directly available.
-Future<void> initializeDateFormatting([String locale, String ignored]) {
+Future<void> initializeDateFormatting([String? locale, String? ignored]) {
   initializeDateSymbols(dateTimeSymbolMap);
   initializeDatePatterns(dateTimePatternMap);
-  return new Future.value(null);
+  return new Future.value();
 }
 
 /// Returns a Map from locale names to the DateSymbols instance for
@@ -40,7 +39,7 @@ Future<void> initializeDateFormatting([String locale, String ignored]) {
 /// instead.
 Map<dynamic, dynamic> dateTimeSymbolMap() => {
       // Date/time formatting symbols for locale en_ISO.
-      "en_ISO": new DateSymbols(
+      "en_ISO": DateSymbols(
           NAME: 'en_ISO',
           ERAS: const ['BC', 'AD'],
           ERANAMES: const ['Before Christ', 'Anno Domini'],

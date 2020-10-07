@@ -1,3 +1,10 @@
+## 0.17.0-nullsafety-dev
+
+* Migrate to null safety.
+* Add `@pragma('vm:prefer-inline')` to `Intl` methods that already have
+   `@pragma('dart2js:tryInline')`, for the same reason: to help omit message
+   descriptions from compiled output.
+
 ## 0.17.0
  * **Breaking Change** [#123][]: Fix parsing of two-digit years to match the
    documented behavior. Previously a two-digit year would be parsed to a value

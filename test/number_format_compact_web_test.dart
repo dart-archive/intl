@@ -62,7 +62,10 @@ void main() {
 }
 
 String ecmaFormatNumber(String locale, num number,
-    {String style, String currency, String notation, String compactDisplay}) {
+    {String? style,
+    String? currency,
+    String? notation,
+    String? compactDisplay}) {
   var options = js.newObject();
   if (notation != null) js.setProperty(options, 'notation', notation);
   if (compactDisplay != null) {

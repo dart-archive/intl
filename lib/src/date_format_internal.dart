@@ -12,8 +12,6 @@
 
 library date_format_internal;
 
-import 'dart:async';
-
 import '../date_symbols.dart';
 import 'intl_helpers.dart';
 
@@ -42,10 +40,10 @@ dynamic _dateTimeSymbols =
     UninitializedLocaleData('initializeDateFormatting(<locale>)', en_USSymbols);
 
 /// Cache the last used symbols to reduce repeated lookups.
-DateSymbols cachedDateSymbols;
+DateSymbols? cachedDateSymbols;
 
 /// Which locale was last used for symbol lookup.
-String lastDateSymbolLocale;
+String? lastDateSymbolLocale;
 
 /// This holds the patterns used for date/time formatting, indexed
 /// by locale. Note that it will be set differently during initialization,

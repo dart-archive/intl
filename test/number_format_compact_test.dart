@@ -100,7 +100,7 @@ void main() {
 /// output of the formatters with significantDigits set to `1`.
 void testCurrency(
     String locale, num number, String expected, String expectedShort,
-    {String currency, String reason}) {
+    {String? currency, String? reason}) {
   test('Compact simple currency for $locale, $number', () {
     var format =
         NumberFormat.compactSimpleCurrency(locale: locale, name: currency);
@@ -219,7 +219,7 @@ void validateShort(String locale, List<List<String>> expected) {
     for (var data in expected) {
       var number = num.parse(data.first);
       validateNumber(number, shortFormat, data[1]);
-      var int64Number = Int64(number);
+      var int64Number = Int64(number as int);
       validateNumber(int64Number, shortFormat, data[1]);
       // TODO(alanknight): Make this work for MicroMoney
     }
@@ -258,7 +258,7 @@ void validateNumber(number, NumberFormat format, String expected) {
 /// 999999 may print as 1M.
 num roundForPrinting(number, NumberFormat format) {
   var originalLength = NumberFormat.numberOfIntegerDigits(number);
-  var additionalDigits = originalLength - format.significantDigits;
+  var additionalDigits = originalLength - format.significantDigits!;
   if (additionalDigits > 0) {
     var divisor = pow(10, additionalDigits);
     // If we have an Int64, value speed over precision and make it double.
@@ -316,23 +316,23 @@ bool _oneSpaceOnlyDifference(String result, String expected) {
 void validateFancy(more_testdata.CompactRoundingTestCase t) {
   var shortFormat = NumberFormat.compact(locale: 'en');
   if (t.maximumIntegerDigits != null) {
-    shortFormat.maximumIntegerDigits = t.maximumIntegerDigits;
+    shortFormat.maximumIntegerDigits = t.maximumIntegerDigits!;
   }
 
   if (t.minimumIntegerDigits != null) {
-    shortFormat.minimumIntegerDigits = t.minimumIntegerDigits;
+    shortFormat.minimumIntegerDigits = t.minimumIntegerDigits!;
   }
 
   if (t.maximumFractionDigits != null) {
-    shortFormat.maximumFractionDigits = t.maximumFractionDigits;
+    shortFormat.maximumFractionDigits = t.maximumFractionDigits!;
   }
 
   if (t.minimumFractionDigits != null) {
-    shortFormat.minimumFractionDigits = t.minimumFractionDigits;
+    shortFormat.minimumFractionDigits = t.minimumFractionDigits!;
   }
 
   if (t.minimumExponentDigits != null) {
-    shortFormat.minimumExponentDigits = t.minimumExponentDigits;
+    shortFormat.minimumExponentDigits = t.minimumExponentDigits!;
   }
 
   if (t.significantDigits != null) {

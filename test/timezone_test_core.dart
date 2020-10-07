@@ -15,7 +15,7 @@ final dart = Platform.executable;
 /// Test for a particular timezone. In order to verify that we are in fact
 /// running in that time zone, verify that the DateTime offset is one of the
 /// expected values.
-void testTimezone(String timezoneName, {int expectedUtcOffset}) {
+void testTimezone(String timezoneName, {int? expectedUtcOffset}) {
   // Define the environment variable 'PACKAGE_DIR=<directory>' to indicate the
   // root of the Intl package. If it is not provided, we assume that the root of
   // the Intl package is the current directory.

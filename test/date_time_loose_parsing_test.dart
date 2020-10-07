@@ -14,7 +14,7 @@ import 'package:intl/intl.dart';
 import 'package:test/test.dart';
 
 void main() {
-  DateFormat format;
+  late DateFormat format;
 
   var date = DateTime(2014, 9, 3);
 

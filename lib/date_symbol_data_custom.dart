@@ -18,7 +18,7 @@ import 'src/date_format_internal.dart';
 ///
 /// If data for this locale has already been initialized it will be overwritten.
 void initializeDateFormattingCustom(
-    {String locale, DateSymbols symbols, Map<String, String> patterns}) {
+    {String? locale, DateSymbols? symbols, Map<String, String>? patterns}) {
   initializeDateSymbols(_emptySymbols);
   initializeDatePatterns(_emptyPatterns);
   if (symbols == null) {
