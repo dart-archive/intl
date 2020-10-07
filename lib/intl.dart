@@ -31,41 +31,39 @@ export 'src/intl/text_direction.dart' show TextDirection;
 /// on this class are also used in message formatting.
 ///
 /// Examples:
-///      today(date) => Intl.message(
-///          'Today's date is $date',
-///          name: 'today',
-///          args: [date],
-///          desc: 'Indicate the current date',
-///          examples: const {'date' : 'June 8, 2012'});
-///      print(today(DateTime.now().toString());
 ///
-///      howManyPeople(numberOfPeople, place) => Intl.plural(numberOfPeople,
-///            zero: 'I see no one at all in $place.',
-///            one: 'I see $numberOfPeople other person in $place.',
-///            other: 'I see $numberOfPeople other people in $place.',
-///          name: 'howManyPeople',
-///          args: [numberOfPeople, place],
-///          desc: 'Description of how many people are seen in a place.',
-///          examples: const {'numberOfPeople': 3, 'place': 'London'});
+/// ```dart
+/// String today(DateTime date) => Intl.message(
+///       "Today's date is $date",
+///       name: 'today',
+///       args: [date],
+///       desc: 'Indicate the current date',
+///       examples: const {'date': 'June 8, 2012'},
+///     );
+/// print(today(DateTime.now().toString());
+///
+/// String howManyPeople(int numberOfPeople, String place) => Intl.plural(
+///       numberOfPeople,
+///       zero: 'I see no one at all in $place.',
+///       one: 'I see $numberOfPeople other person in $place.',
+///       other: 'I see $numberOfPeople other people in $place.',
+///       name: 'howManyPeople',
+///       args: [numberOfPeople, place],
+///       desc: 'Description of how many people are seen in a place.',
+///       examples: const {'numberOfPeople': 3, 'place': 'London'},
+///     );
+/// ```
 ///
 /// Calling `howManyPeople(2, 'Athens');` would
 /// produce "I see 2 other people in Athens." as output in the default locale.
 /// If run in a different locale it would produce appropriately translated
 /// output.
 ///
-/// For more detailed information on messages and localizing them see
-/// the main [package documentation](https://pub.dartlang.org/packages/intl)
-///
 /// You can set the default locale.
-///       Intl.defaultLocale = 'pt_BR';
 ///
-/// To temporarily use a locale other than the default, use the `withLocale`
-/// function.
-///       var todayString = DateFormat('pt_BR').format(DateTime.now());
-///       print(withLocale('pt_BR', () => today(todayString));
-///
-/// See `tests/message_format_test.dart` for more examples.
-//TODO(efortuna): documentation example involving the offset parameter?
+/// ```dart
+/// Intl.defaultLocale = 'pt_BR';
+/// ```
 
 class Intl {
   /// String indicating the locale code with which the message is to be
@@ -129,12 +127,15 @@ class Intl {
   /// The [examples] is a const Map of examples for each interpolated variable.
   /// For example
   ///
-  ///       hello(yourName) => Intl.message(
-  ///         'Hello, $yourName',
-  ///         name: 'hello',
-  ///         args: [yourName],
-  ///         desc: 'Say hello',
-  ///         examples: const {'yourName': 'Sparky'});
+  /// ```dart
+  /// String hello(String yourName) => Intl.message(
+  ///       'Hello, $yourName',
+  ///       name: 'hello',
+  ///       args: [yourName],
+  ///       desc: 'Say hello',
+  ///       examples: const {'yourName': 'Sparky'},
+  ///     );
+  /// ```
   ///
   /// The source code will be processed via the analyzer to extract out the
   /// message data, so only a subset of valid Dart code is accepted. In
@@ -145,7 +146,7 @@ class Intl {
   /// be used at runtime but will be extracted from the source code and used as
   /// additional data for translators. For more information see the "Messages"
   /// section of the main
-  /// [package documentation] (https://pub.dartlang.org/packages/intl).
+  /// [package documentation] (https://pub.dev/packages/intl).
   ///
   /// The [skip] arg will still validate the message, but will be filtered from
   /// the extracted message output. This can be useful to set up placeholder
