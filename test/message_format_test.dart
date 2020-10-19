@@ -2,9 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/// Tests for the MessageFormat class.
-///
-/// Currently, these tests are the ones directly ported from Closure.
+// Tests for the MessageFormat class.
+//
+// Currently, these tests are the ones directly ported from Closure.
 
 import 'package:intl/message_format.dart';
 import 'package:test/test.dart';
@@ -375,7 +375,7 @@ void main() {
     expect(fmt.format({'NUM_FLOOR': 25}), 'Other 23');
   });
 
-  ignoreTest('testSimpleOrdinal', () {
+  test('testSimpleOrdinal', () {
     // TOFIX. Ordinal not supported in Dart
     var fmt = MessageFormat('{NUM_FLOOR, selectordinal, '
         'one {Take the elevator to the #st floor.}'
@@ -391,9 +391,9 @@ void main() {
         fmt.format({'NUM_FLOOR': 23}), 'Take the elevator to the 23rd floor.');
     // Esoteric example.
     expect(fmt.format({'NUM_FLOOR': 0}), 'Take the elevator to the 0th floor.');
-  });
+  }, skip: 'Ordinal not supported in Dart');
 
-  ignoreTest('testOrdinalWithNegativeValue', () {
+  test('testOrdinalWithNegativeValue', () {
     // TOFIX. Ordinal not supported in Dart
     var fmt = MessageFormat('{NUM_FLOOR, selectordinal, '
         'one {Take the elevator to the #st floor.}'
@@ -409,9 +409,9 @@ void main() {
         fmt.format({'NUM_FLOOR': -3}), 'Take the elevator to the -3rd floor.');
     expect(
         fmt.format({'NUM_FLOOR': -4}), 'Take the elevator to the -4th floor.');
-  });
+  }, skip: 'Ordinal not supported in Dart');
 
-  ignoreTest('testSimpleOrdinalWithIgnorePound', () {
+  test('testSimpleOrdinalWithIgnorePound', () {
     // TOFIX. Ordinal not supported in Dart
     var fmt = MessageFormat('{NUM_FLOOR, selectordinal, '
         'one {Take the elevator to the #st floor.}'
@@ -423,7 +423,7 @@ void main() {
         'Take the elevator to the #th floor.');
   });
 
-  ignoreTest('testMissingOrInvalidOrdinalParameter', () {
+  test('testMissingOrInvalidOrdinalParameter', () {
     // TOFIX. Ordinal not supported in Dart
     var fmt = MessageFormat('{SOME_NUM, selectordinal, other {result}}');
 
@@ -434,11 +434,5 @@ void main() {
     // Value is not a number.
     expect(fmt.format({'SOME_NUM': 'Value'}),
         'Undefined or invalid parameter - SOME_NUM');
-  });
+  }, skip: 'Ordinal not supported in Dart');
 } // end of main
-
-// Disabling unit tests without having to comment the whole body.
-// Similar to @Ignore in JUnit
-void ignoreTest(description, body) {
-  print('\u001b[93mTest ignored: $description\u001b[m');
-}
