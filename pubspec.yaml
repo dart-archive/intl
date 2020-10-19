@@ -11,7 +11,7 @@ environment:
   sdk: '>=2.11.0-180.0.dev <2.11.0'
 
 dependencies:
-  clock: ^1.0.1
+  clock: ^1.1.0-nullsafety.1
   path: ^1.8.0-nullsafety.1
 
 dev_dependencies:
@@ -19,7 +19,5 @@ dev_dependencies:
   test: ^1.16.0-nullsafety.4
 
 dependency_overrides:
-  clock:
-    git: https://github.com/dart-lang/clock
   fixnum:
     git: https://github.com/dart-lang/fixnum
