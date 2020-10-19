@@ -165,12 +165,17 @@ class Intl {
           List<Object>? args,
           String? meaning,
           bool? skip}) =>
-      _message(messageText, locale, name, args, meaning)!;
+      _message(messageText, locale, name, args, meaning);
 
   /// Omit the compile-time only parameters so dart2js can see to drop them.
   @pragma('dart2js:noInline')
-  static String? _message(String? messageText, String? locale, String? name,
+  static String _message(String? messageText, String? locale, String? name,
       List<Object>? args, String? meaning) {
+    return _lookupMessage(messageText, locale, name, args, meaning)!;
+  }
+
+  static String? _lookupMessage(String? messageText, String? locale,
+      String? name, List<Object>? args, String? meaning) {
     return helpers.messageLookup
         .lookupMessage(messageText, locale, name, args, meaning);
   }
@@ -270,7 +275,7 @@ class Intl {
       String? meaning}) {
     // Look up our translation, but pass in a null message so we don't have to
     // eagerly evaluate calls that may not be necessary.
-    var translated = _message(null, locale, name, args, meaning);
+    var translated = _lookupMessage(null, locale, name, args, meaning);
 
     /// If there's a translation, return it, otherwise evaluate with our
     /// original text.
@@ -401,7 +406,7 @@ class Intl {
       String? meaning}) {
     // Look up our translation, but pass in a null message so we don't have to
     // eagerly evaluate calls that may not be necessary.
-    var translated = _message(null, locale, name, args, meaning);
+    var translated = _lookupMessage(null, locale, name, args, meaning);
 
     /// If there's a translation, return it, otherwise evaluate with our
     /// original text.
@@ -461,7 +466,7 @@ class Intl {
     var stringChoice = choice is String ? choice : '$choice'.split('.').last;
     var modifiedArgs =
         args == null ? null : (<Object>[stringChoice]..addAll(args.skip(1)));
-    var translated = _message(null, locale, name, modifiedArgs, meaning);
+    var translated = _lookupMessage(null, locale, name, modifiedArgs, meaning);
 
     /// If there's a translation, return it, otherwise evaluate with our
     /// original text.
