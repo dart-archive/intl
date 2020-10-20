@@ -1,15 +1,10 @@
-/// Tests for compact number formatting in pure Dart and in ECMAScript.
-///
-/// TODO(b/36488375): run all these tests against both implementations to prove
-/// consistency when the bug is fixed. Also fix documentation and perhaps
-/// merge tests: these tests currently also touch non-compact currency
-/// formatting.
-
-/// We use @Tags rather than @TestOn to be able to specify something that can be
-/// ignored when using a build system that can't read dart_test.yaml. This
-/// depends on https://github.com/tc39/proposal-unified-intl-numberformat.
-@Tags(['unifiedNumberFormat'])
-
+@TestOn('browser')
+// Tests for compact number formatting in pure Dart and in ECMAScript.
+//
+// TODO(b/36488375): run all these tests against both implementations to prove
+// consistency when the bug is fixed. Also fix documentation and perhaps
+// merge tests: these tests currently also touch non-compact currency
+// formatting.
 import 'package:intl/intl.dart' as intl;
 import 'package:js/js_util.dart' as js;
 import 'package:test/test.dart';
