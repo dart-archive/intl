@@ -1,5 +1,5 @@
 name: intl
-version: 0.17.0-nullsafety-dev
+version: 0.17.0-nullsafety
 homepage: https://github.com/dart-lang/intl
 description: >-
   Contains code to deal with internationalized/localized messages, date and
