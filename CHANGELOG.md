@@ -1,3 +1,7 @@
+## 0.17.0-nullsafety.1
+
+* Allow prereleases of the 2.12 Dart SDK.
+
 ## 0.17.0-nullsafety
 
  * Migrate to null safety.
