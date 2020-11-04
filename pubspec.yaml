@@ -1,5 +1,5 @@
 name: intl
-version: 0.17.0-nullsafety.1
+version: 0.17.0-nullsafety.2
 homepage: https://github.com/dart-lang/intl
 description: >-
   Contains code to deal with internationalized/localized messages, date and
@@ -7,8 +7,7 @@ description: >-
   internationalization issues.
 
 environment:
-  # This must remain a tight constraint until nnbd is stable
-  sdk: '>=2.11.0-180.0.dev <2.12.0'
+  sdk: '>=2.12.0-0 <3.0.0'
 
 dependencies:
   clock: ^1.1.0-nullsafety.1
