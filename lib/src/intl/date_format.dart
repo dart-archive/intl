@@ -160,7 +160,7 @@ part 'date_format_field.dart';
 ///     m        minute in hour         (Number)           30
 ///     s        second in minute       (Number)           55
 ///     S        fractional second      (Number)           978
-///     E        day of week            (Text)             Tuesday
+///     E        day of week            (Text)             Tue
 ///     D        day in year            (Number)           189
 ///     a        am/pm marker           (Text)             PM
 ///     k        hour in day (1~24)     (Number)           24
