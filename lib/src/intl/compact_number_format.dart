@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of intl;
+part of 'number_format.dart';
 
 // Suppress naming issues as changes would be breaking.
 // ignore_for_file: constant_identifier_names
@@ -73,7 +73,7 @@ class _CompactStyle extends _CompactStyleBase {
   /// The pattern on which this is based.
   ///
   /// We don't actually need this, but it makes debugging easier.
-  String pattern;
+  String? pattern;
 
   /// The normalized scientific notation exponent for which the format applies.
   ///
@@ -125,10 +125,43 @@ class _CompactStyle extends _CompactStyleBase {
   /// workaround for locales like 'it', which include patterns with no suffix
   /// for numbers >= 1000 but < 1,000,000.
   bool get printsAsIs =>
-      isFallback || pattern.replaceAll(RegExp('[0\u00a0\u00a4]'), '').isEmpty;
+      isFallback || pattern!.replaceAll(RegExp('[0\u00a0\u00a4]'), '').isEmpty;
 
   _CompactStyle styleForSign(number) => this;
   List<_CompactStyle> get allStyles => [this];
+
+  static final _regex = RegExp('([^0]*)(0+)(.*)');
+
+  static final _justZeros = RegExp(r'^0*$');
+
+  /// Does pattern have any additional characters or is it just zeros.
+  static bool _hasNonZeroContent(String pattern) =>
+      !_justZeros.hasMatch(pattern);
+
+  /// Creates a [_CompactStyle] instance for pattern with [normalizedExponent].
+  static _CompactStyle createStyle(String pattern, int normalizedExponent) {
+    var match = _regex.firstMatch(pattern);
+    var integerDigits = match!.group(2)!.length;
+    var prefix = match.group(1)!;
+    var suffix = match.group(3)!;
+    // If the pattern is just zeros, with no suffix, then we shouldn't divide
+    // by the number of digits. e.g. for 'af', the pattern for 3 is '0', but
+    // it doesn't mean that 4321 should print as 4. But if the pattern was
+    // '0K', then it should print as '4K'. So we have to check if the pattern
+    // has a suffix. This seems extremely hacky, but I don't know how else to
+    // encode that. Check what other things are doing.
+    var divisor = 1;
+    if (_hasNonZeroContent(pattern)) {
+      divisor = pow(10, normalizedExponent - integerDigits + 1) as int;
+    }
+    return _CompactStyle(
+        pattern: pattern,
+        normalizedExponent: normalizedExponent,
+        expectedDigits: integerDigits,
+        prefix: prefix,
+        suffix: suffix,
+        divisor: divisor);
+  }
 }
 
 /// Enumerates the different formats supported.
@@ -142,25 +175,31 @@ class _CompactNumberFormat extends NumberFormat {
   /// A default, using the decimal pattern, for the `getPattern` constructor parameter.
   static String _forDecimal(NumberSymbols symbols) => symbols.DECIMAL_PATTERN;
 
-  List<_CompactStyleBase> _styles = [];
+  final List<_CompactStyleBase> _styles;
 
-  _CompactNumberFormat(
-      {String locale,
-      _CompactFormatType formatType,
-      String name,
-      String currencySymbol,
-      String Function(NumberSymbols) getPattern = _forDecimal,
-      String Function(NumberFormat) computeCurrencySymbol,
-      int decimalDigits,
-      bool isForCurrency = false})
-      : super._forPattern(locale, getPattern,
-            name: name,
-            currencySymbol: currencySymbol,
-            computeCurrencySymbol: computeCurrencySymbol,
-            decimalDigits: decimalDigits,
-            isForCurrency: isForCurrency) {
-    significantDigits = 3;
-    turnOffGrouping();
+  factory _CompactNumberFormat(
+      {String? locale,
+      _CompactFormatType? formatType,
+      String? name,
+      String? currencySymbol,
+      String? Function(NumberSymbols) getPattern = _forDecimal,
+      int? decimalDigits,
+      bool lookupSimpleCurrencySymbol = false,
+      bool isForCurrency = false}) {
+    // Initialization copied from `NumberFormat` constructor.
+    // TODO(davidmorgan): deduplicate.
+    locale = helpers.verifiedLocale(locale, NumberFormat.localeExists, null)!;
+    var symbols = numberFormatSymbols[locale] as NumberSymbols;
+    var localeZero = symbols.ZERO_DIGIT.codeUnitAt(0);
+    var zeroOffset = localeZero - constants.asciiZeroCodeUnit;
+    name ??= symbols.DEF_CURRENCY_CODE;
+    if (currencySymbol == null && lookupSimpleCurrencySymbol) {
+      currencySymbol = constants.simpleCurrencySymbols[name];
+    }
+    currencySymbol ??= name;
+    var pattern = getPattern(symbols);
+
+    // CompactNumberFormat initialization.
 
     /// Map from magnitude to formatting pattern for that magnitude.
     ///
@@ -170,91 +209,94 @@ class _CompactNumberFormat extends NumberFormat {
     /// These patterns are taken from the appropriate CompactNumberSymbols
     /// instance's COMPACT_DECIMAL_SHORT_PATTERN, COMPACT_DECIMAL_LONG_PATTERN,
     /// or COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN members.
-    Map<int, String> _patterns;
+    Map<int, String> patterns;
 
+    var compactSymbols = compactNumberSymbols[locale]!;
+
+    var styles = <_CompactStyleBase>[];
     switch (formatType) {
       case _CompactFormatType.COMPACT_DECIMAL_SHORT_PATTERN:
-        _patterns = _compactSymbols.COMPACT_DECIMAL_SHORT_PATTERN;
+        patterns = compactSymbols.COMPACT_DECIMAL_SHORT_PATTERN;
         break;
       // TODO(alanknight): Long formats may have different forms for different
       // plural cases (e.g. million/millions).
       case _CompactFormatType.COMPACT_DECIMAL_LONG_PATTERN:
-        _patterns = _compactSymbols.COMPACT_DECIMAL_LONG_PATTERN ??
-            _compactSymbols.COMPACT_DECIMAL_SHORT_PATTERN;
+        patterns = compactSymbols.COMPACT_DECIMAL_LONG_PATTERN ??
+            compactSymbols.COMPACT_DECIMAL_SHORT_PATTERN;
         break;
       case _CompactFormatType.COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN:
-        _patterns = _compactSymbols.COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN;
+        patterns = compactSymbols.COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN;
         break;
       default:
         throw ArgumentError.notNull('formatType');
     }
-    _patterns.forEach((int exponent, String pattern) {
+    patterns.forEach((int exponent, String pattern) {
       if (pattern.contains(';')) {
         var patterns = pattern.split(';');
-        _styles.add(_CompactStyleWithNegative(
-            _createStyle(patterns.first, exponent),
-            _createStyle(patterns.last, exponent)));
+        styles.add(_CompactStyleWithNegative(
+            _CompactStyle.createStyle(patterns.first, exponent),
+            _CompactStyle.createStyle(patterns.last, exponent)));
       } else {
-        _styles.add(_createStyle(pattern, exponent));
+        styles.add(_CompactStyle.createStyle(pattern, exponent));
       }
     });
 
     // Reverse the styles so that we look through them from largest to smallest.
-    _styles = _styles.reversed.toList();
+    styles = styles.reversed.toList();
     // Add a fallback style that just prints the number.
-    _styles.add(_CompactStyle());
+    styles.add(_CompactStyle());
+
+    return _CompactNumberFormat._(
+        name,
+        currencySymbol,
+        isForCurrency,
+        locale,
+        localeZero,
+        pattern,
+        symbols,
+        zeroOffset,
+        NumberFormatParser.parse(symbols, pattern, isForCurrency,
+            currencySymbol, name, decimalDigits),
+        styles);
   }
 
-  final _regex = RegExp('([^0]*)(0+)(.*)');
-
-  final _justZeros = RegExp(r'^0*$');
-
-  /// Does pattern have any additional characters or is it just zeros.
-  bool _hasNonZeroContent(String pattern) => !_justZeros.hasMatch(pattern);
-
-  /// Creates a [_CompactStyle] instance for pattern with [normalizedExponent].
-  _CompactStyle _createStyle(String pattern, int normalizedExponent) {
-    var match = _regex.firstMatch(pattern);
-    var integerDigits = match.group(2).length;
-    var prefix = match.group(1);
-    var suffix = match.group(3);
-    // If the pattern is just zeros, with no suffix, then we shouldn't divide
-    // by the number of digits. e.g. for 'af', the pattern for 3 is '0', but
-    // it doesn't mean that 4321 should print as 4. But if the pattern was
-    // '0K', then it should print as '4K'. So we have to check if the pattern
-    // has a suffix. This seems extremely hacky, but I don't know how else to
-    // encode that. Check what other things are doing.
-    var divisor = 1;
-    if (_hasNonZeroContent(pattern)) {
-      divisor = pow(10, normalizedExponent - integerDigits + 1);
-    }
-    return _CompactStyle(
-        pattern: pattern,
-        normalizedExponent: normalizedExponent,
-        expectedDigits: integerDigits,
-        prefix: prefix,
-        suffix: suffix,
-        divisor: divisor);
+  _CompactNumberFormat._(
+      String currencyName,
+      String currencySymbol,
+      bool isForCurrency,
+      String locale,
+      int localeZero,
+      String? pattern,
+      NumberSymbols symbols,
+      int zeroOffset,
+      NumberFormatParseResult result,
+      // Fields introduced in this class.
+      this._styles)
+      : super._(currencyName, currencySymbol, isForCurrency, locale, localeZero,
+            pattern, symbols, zeroOffset, result) {
+    significantDigits = 3;
+    turnOffGrouping();
   }
 
   /// The style in which we will format a particular number.
   ///
   /// This is a temporary variable that is only valid within a call to format.
-  _CompactStyle _style;
+  _CompactStyle? _style;
 
   String format(number) {
-    _style = _styleFor(number);
-    final divisor = _style.printsAsIs ? 1 : _style.divisor;
+    var style = _styleFor(number);
+    _style = style;
+    final divisor = style.printsAsIs ? 1 : style.divisor;
     final numberToFormat = _divide(number, divisor);
     var formatted = super.format(numberToFormat);
-    var prefix = _style.prefix;
-    var suffix = _style.suffix;
+    var prefix = style.prefix;
+    var suffix = style.suffix;
     // If this is for a currency, then the super call will have put the currency
     // somewhere. We don't want it there, we want it where our style indicates,
     // so remove it and replace. This has the remote possibility of a false
     // positive, but it seems unlikely that e.g. USD would occur as a string in
     // a regular number.
-    if (_isForCurrency && !_style.isFallback) {
+    if (_isForCurrency && !style.isFallback) {
       formatted = formatted.replaceFirst(currencySymbol, '').trim();
       prefix = prefix.replaceFirst('\u00a4', currencySymbol);
       suffix = suffix.replaceFirst('\u00a4', currencySymbol);
@@ -273,14 +315,14 @@ class _CompactNumberFormat extends NumberFormat {
     // compact, always use the number of significant digits and ignore
     // decimalDigits. That is, $1.23K but also ¥12.3\u4E07, even though yen
     // don't normally print decimal places.
-    if (!_isForCurrency || !_style.isFallback) return newFractionDigits;
+    if (!_isForCurrency || !_style!.isFallback) return newFractionDigits;
     // If we are printing a currency and it's too small to compact, but
     // significant digits would have us only print some of the decimal digits,
     // use all of them. So $12.30, not $12.3
-    if (newFractionDigits > 0 && newFractionDigits < decimalDigits) {
-      return decimalDigits;
+    if (newFractionDigits > 0 && newFractionDigits < decimalDigits!) {
+      return decimalDigits!;
     } else {
-      return min(newFractionDigits, decimalDigits);
+      return min(newFractionDigits, decimalDigits!);
     }
   }
 
@@ -290,7 +332,7 @@ class _CompactNumberFormat extends NumberFormat {
     if (!_isForCurrency ||
         !significantDigitsInUse ||
         _style == null ||
-        _style.isFallback) {
+        _style!.isFallback) {
       return super.minimumFractionDigits;
     } else {
       return 0;
@@ -323,7 +365,7 @@ class _CompactNumberFormat extends NumberFormat {
     // that we pick the right style based on the rounded form and format 999999
     // as 1M rather than 1000K.
     var originalLength = NumberFormat.numberOfIntegerDigits(number);
-    var additionalDigits = originalLength - significantDigits;
+    var additionalDigits = originalLength - significantDigits!;
     var digitLength = originalLength;
     if (additionalDigits > 0) {
       var divisor = pow(10, additionalDigits);
@@ -359,15 +401,11 @@ class _CompactNumberFormat extends NumberFormat {
   }
 
   /// Returns text parsed into a number if possible, else returns null.
-  num _tryParsing(String text) {
+  num? _tryParsing(String text) {
     try {
       return super.parse(text);
     } on FormatException {
       return null;
     }
   }
-
-  /// The [CompactNumberSymbols] instance that corresponds to the [_locale] this
-  /// [NumberFormat] instance was configured for.
-  CompactNumberSymbols get _compactSymbols => compactNumberSymbols[_locale];
 }

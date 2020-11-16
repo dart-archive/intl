@@ -1,5 +1,20 @@
-## 0.17.0+1
- * Update ruble sign and update corresponding test
+## 0.17.0-nullsafety.3
+* Update ruble sign and update corresponding test
+
+## 0.17.0-nullsafety.2
+
+* Update SDK constraints to >=2.12.0-0 <3.0.0 based on beta release guidelines.
+
+## 0.17.0-nullsafety.1
+
+* Allow prereleases of the 2.12 Dart SDK.
+
+## 0.17.0-nullsafety
+
+ * Migrate to null safety.
+ * Add `@pragma('vm:prefer-inline')` to `Intl` methods that already have
+   `@pragma('dart2js:tryInline')`, for the same reason: to help omit message
+   descriptions from compiled output.
 
 ## 0.17.0
  * **Breaking Change** [#123][]: Fix parsing of two-digit years to match the
@@ -14,7 +29,7 @@
 ## 0.16.2
  * Fix bug with dates in January being treated as ordinal. e.g. 2020-01-32 would
    be accepted as valid and the day treated as day-of-year.
- * Compact currency formats will avoid displaying unecessary trailing zeros
+ * Compact currency formats will avoid displaying unnecessary trailing zeros
    in compact formats for currencies which specify decimal places.
 
 ## 0.16.1

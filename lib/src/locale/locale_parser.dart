@@ -13,25 +13,25 @@ class LocaleParser {
   String _languageCode = 'und';
 
   /// Script subtag of Unicode Language Identifier.
-  String _scriptCode;
+  String? _scriptCode;
 
   /// Region subtag of Unicode Language Identifier.
-  String _countryCode;
+  String? _countryCode;
 
   /// Variant subtags of Unicode Language Identifier.
-  List<String> _variants;
+  List<String>? _variants;
 
   /// Unicode Locale Extensions, also known as "U Extension".
-  Map<String, String> _uExtensions;
+  Map<String, String>? _uExtensions;
 
   /// Transformed Extensions, also known as "T Extension".
-  Map<String, String> _tExtensions;
+  Map<String, String>? _tExtensions;
 
   /// Private-Use Extensions.
-  String _xExtensions;
+  String? _xExtensions;
 
   /// Other Extensions.
-  Map<String, String> _otherExtensions;
+  Map<String, String>? _otherExtensions;
 
   /// List of problems with the localeId the parser tried to parse.
   ///
@@ -41,9 +41,9 @@ class LocaleParser {
   /// Produces a Locale instance for the parser's current state.
   ///
   /// Returns null if the Locale would be syntactically invalid.
-  LocaleImplementation toLocale() {
+  LocaleImplementation? toLocale() {
     if (problems.isNotEmpty) return null;
-    LocaleExtensions extensions;
+    LocaleExtensions? extensions;
     if (_uExtensions != null ||
         _tExtensions != null ||
         _otherExtensions != null ||
@@ -61,31 +61,22 @@ class LocaleParser {
   }
 
   /// Subtags of the Locale Identifier, as split by [separators].
-  List<String> _subtags;
+  late List<String> _subtags;
 
   /// RegExp that matches Unicode Locale Identifier subtag separators.
   static final separators = RegExp('[-_]');
 
   /// Last accepted subtag.
-  String _accepted;
-
-  /// Last accepted subtag.
-  String accepted() => _accepted;
+  String _accepted = '';
 
   /// Last accepted list of subtags (for variants).
-  List<String> _acceptedList;
-
-  /// Last accepted list of subtags (for variants).
-  List<String> acceptedList() => _acceptedList;
+  List<String>? _acceptedList;
 
   /// Current subtag pending acceptance.
-  String _current;
-
-  /// Current subtag pending acceptance.
-  String current() => _current;
+  String _current = '';
 
   /// Index of the current subtag.
-  int _currentIndex;
+  int _currentIndex = 0;
 
   /// Advance to the next subtag (see [current] and [accepted]).
   void advance() {
@@ -94,7 +85,7 @@ class LocaleParser {
     if (_currentIndex < _subtags.length) {
       _current = _subtags[_currentIndex];
     } else {
-      _current = null;
+      // Guarded by `atEnd`.
     }
   }
 
@@ -114,7 +105,7 @@ class LocaleParser {
   ///
   /// Parsing failed if there are any entries in [problems].
   LocaleParser(String localeId) {
-    assert(localeId != null);
+    ArgumentError.notNull(localeId);
 
     // Calling toLowerCase unconditionally should be efficient if
     // string_patch.dart is in use:
@@ -125,12 +116,11 @@ class LocaleParser {
     }
 
     _subtags = localeId.split(separators);
-    _currentIndex = 0;
     _current = _subtags[0];
 
     var scriptFound = false;
     if (acceptLanguage()) {
-      _languageCode = replaceDeprecatedLanguageSubtag(accepted());
+      _languageCode = replaceDeprecatedLanguageSubtag(_accepted);
       scriptFound = acceptScript();
     } else {
       scriptFound = acceptScript();
@@ -139,18 +129,18 @@ class LocaleParser {
       }
     }
     if (scriptFound) {
-      _scriptCode = toCapCase(accepted());
+      _scriptCode = toCapCase(_accepted);
     }
     if (acceptRegion()) {
-      _countryCode = replaceDeprecatedRegionSubtag(accepted().toUpperCase());
+      _countryCode = replaceDeprecatedRegionSubtag(_accepted.toUpperCase());
     }
     acceptVariants();
-    _variants = acceptedList();
+    _variants = _acceptedList;
 
     processExtensions();
 
     if (!atEnd()) {
-      problems.add('bad subtag "${current()}"');
+      problems.add('bad subtag "$_current"');
     }
   }
 
@@ -160,7 +150,7 @@ class LocaleParser {
   /// empty.
   void processExtensions() {
     while (acceptSingleton()) {
-      var singleton = accepted();
+      var singleton = _accepted;
       if (singleton == 'u') {
         processUExtensions();
       } else if (singleton == 't') {
@@ -188,26 +178,26 @@ class LocaleParser {
     var empty = true;
     final attributes = <String>[];
     while (acceptLowAlphaNumeric3to8()) {
-      attributes.add(accepted());
+      attributes.add(_accepted);
     }
     if (attributes.isNotEmpty) {
       empty = false;
       attributes.sort();
-      _uExtensions[''] = attributes.join('-');
+      _uExtensions![''] = attributes.join('-');
     }
     // unicode_locale_extensions: collect "(sep keyword)*".
     while (acceptUExtensionKey()) {
       empty = false;
-      var key = accepted();
+      var key = _accepted;
       final typeParts = <String>[];
       while (acceptLowAlphaNumeric3to8()) {
-        typeParts.add(accepted());
+        typeParts.add(_accepted);
       }
-      if (!_uExtensions.containsKey(key)) {
+      if (!_uExtensions!.containsKey(key)) {
         if (typeParts.length == 1 && typeParts[0] == 'true') {
-          _uExtensions[key] = '';
+          _uExtensions![key] = '';
         } else {
-          _uExtensions[key] = typeParts.join('-');
+          _uExtensions![key] = typeParts.join('-');
         }
       } else {
         problems.add('duplicate "$key"');
@@ -233,29 +223,29 @@ class LocaleParser {
     final tlang = <String>[];
     if (acceptLanguage()) {
       empty = false;
-      tlang.add(replaceDeprecatedLanguageSubtag(accepted()));
+      tlang.add(replaceDeprecatedLanguageSubtag(_accepted));
       if (acceptScript()) {
-        tlang.add(accepted());
+        tlang.add(_accepted);
       }
       if (acceptRegion()) {
-        tlang.add(replaceDeprecatedRegionSubtag(accepted().toUpperCase())
+        tlang.add(replaceDeprecatedRegionSubtag(_accepted.toUpperCase())
             .toLowerCase());
       }
       acceptVariants();
-      tlang.addAll(acceptedList());
-      _tExtensions[''] = tlang.join('-');
+      tlang.addAll(_acceptedList!);
+      _tExtensions![''] = tlang.join('-');
     }
     // transformed_extensions: collect "(sep tfield)*".
     while (acceptTExtensionKey()) {
-      var tkey = accepted();
+      var tkey = _accepted;
       final tvalueParts = <String>[];
       while (acceptLowAlphaNumeric3to8()) {
-        tvalueParts.add(accepted());
+        tvalueParts.add(_accepted);
       }
       if (tvalueParts.isNotEmpty) {
         empty = false;
-        if (!_tExtensions.containsKey(tkey)) {
-          _tExtensions[tkey] = tvalueParts.join('-');
+        if (!_tExtensions!.containsKey(tkey)) {
+          _tExtensions![tkey] = tvalueParts.join('-');
         } else {
           problems.add('duplicate "$tkey"');
         }
@@ -276,7 +266,7 @@ class LocaleParser {
   void processPrivateUseExtensions() {
     final values = <String>[];
     while (acceptLowAlphaNumeric1to8()) {
-      values.add(accepted());
+      values.add(_accepted);
     }
     if (values.isNotEmpty) {
       _xExtensions = values.join('-');
@@ -292,22 +282,22 @@ class LocaleParser {
   void processOtherExtensions(String singleton) {
     final values = <String>[];
     while (acceptLowAlphaNumeric2to8()) {
-      values.add(accepted());
+      values.add(_accepted);
     }
     if (values.isEmpty) return;
     if (_otherExtensions == null) {
       _otherExtensions = <String, String>{};
-    } else if (_otherExtensions.containsKey(singleton)) {
+    } else if (_otherExtensions!.containsKey(singleton)) {
       problems.add('duplicate "$singleton"');
       return;
     }
-    _otherExtensions[singleton] = values.join('-');
+    _otherExtensions![singleton] = values.join('-');
   }
 
   /// Advances and returns true if current subtag is a language subtag.
   bool acceptLanguage() {
     if (atEnd()) return false;
-    if (!_languageRegExp.hasMatch(current())) return false;
+    if (!_languageRegExp.hasMatch(_current)) return false;
     advance();
     return true;
   }
@@ -317,7 +307,7 @@ class LocaleParser {
   /// Advances and returns true if current subtag is a script subtag.
   bool acceptScript() {
     if (atEnd()) return false;
-    if (!_scriptRegExp.hasMatch(current())) return false;
+    if (!_scriptRegExp.hasMatch(_current)) return false;
     advance();
     return true;
   }
@@ -327,7 +317,7 @@ class LocaleParser {
   /// Advances and returns true if current subtag is a region subtag.
   bool acceptRegion() {
     if (atEnd()) return false;
-    if (!_regionRegExp.hasMatch(current())) return false;
+    if (!_regionRegExp.hasMatch(_current)) return false;
     advance();
     return true;
   }
@@ -341,8 +331,8 @@ class LocaleParser {
   /// collected subtags.
   void acceptVariants() {
     _acceptedList = [];
-    while (!atEnd() && _variantRegExp.hasMatch(current())) {
-      _acceptedList.add(current());
+    while (!atEnd() && _variantRegExp.hasMatch(_current)) {
+      _acceptedList!.add(_current);
       advance();
     }
   }
@@ -352,7 +342,7 @@ class LocaleParser {
   /// Advances and returns true if current subtag is a singleton.
   bool acceptSingleton() {
     if (atEnd()) return false;
-    if (!_singletonRegExp.hasMatch(current())) return false;
+    if (!_singletonRegExp.hasMatch(_current)) return false;
     advance();
     return true;
   }
@@ -363,7 +353,7 @@ class LocaleParser {
   /// ranging from 1 to 8.
   bool acceptLowAlphaNumeric1to8() {
     if (atEnd()) return false;
-    if (!_alphaNumeric1to8RegExp.hasMatch(current())) return false;
+    if (!_alphaNumeric1to8RegExp.hasMatch(_current)) return false;
     advance();
     return true;
   }
@@ -374,7 +364,7 @@ class LocaleParser {
   /// ranging from 2 to 8.
   bool acceptLowAlphaNumeric2to8() {
     if (atEnd()) return false;
-    if (!_alphaNumeric1to8RegExp.hasMatch(current()) || current().length < 2) {
+    if (!_alphaNumeric1to8RegExp.hasMatch(_current) || _current.length < 2) {
       return false;
     }
     advance();
@@ -385,7 +375,7 @@ class LocaleParser {
   /// ranging from 3 to 8.
   bool acceptLowAlphaNumeric3to8() {
     if (atEnd()) return false;
-    if (!_alphaNumeric1to8RegExp.hasMatch(current()) || current().length < 3) {
+    if (!_alphaNumeric1to8RegExp.hasMatch(_current) || _current.length < 3) {
       return false;
     }
     advance();
@@ -395,7 +385,7 @@ class LocaleParser {
   /// Advances and returns true if current subtag is a valid U Extension key.
   bool acceptUExtensionKey() {
     if (atEnd()) return false;
-    if (!_uExtensionKeyRegExp.hasMatch(current())) return false;
+    if (!_uExtensionKeyRegExp.hasMatch(_current)) return false;
     advance();
     return true;
   }
@@ -406,7 +396,7 @@ class LocaleParser {
   /// (`tkey` in the specification).
   bool acceptTExtensionKey() {
     if (atEnd()) return false;
-    if (!_tExtensionKeyRegExp.hasMatch(current())) return false;
+    if (!_tExtensionKeyRegExp.hasMatch(_current)) return false;
     advance();
     return true;
   }

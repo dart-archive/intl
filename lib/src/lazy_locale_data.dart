@@ -8,7 +8,6 @@
 
 library lazy_locale_data;
 
-import 'dart:async';
 import 'dart:convert';
 import 'intl_helpers.dart';
 
@@ -40,10 +39,9 @@ class LazyLocaleData {
   /// from the remote data (which typically comes in as a Map). The
   /// [keys] lists the set of remotely available locale names so we know which
   /// things can be fetched without having to check remotely.
-  LazyLocaleData(this._reader, this._creationFunction, this.availableLocales) {
-    map = {};
-    availableLocaleSet = Set.from(availableLocales);
-  }
+  LazyLocaleData(this._reader, this._creationFunction, this.availableLocales)
+      : map = {},
+        availableLocaleSet = Set.from(availableLocales);
 
   ///  Tests if we have data for the locale available. Note that this returns
   /// true even if the data is known to be available remotely but not yet
@@ -80,6 +78,7 @@ class LazyLocaleData {
   /// initializeDateFormatting instead.
   Future<void> initLocale(String localeName) {
     var data = _reader.read(localeName);
+    // ignore: void_checks
     return jsonData(data).then((input) {
       map[localeName] = _creationFunction(input);
     });

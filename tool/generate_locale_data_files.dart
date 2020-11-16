@@ -1,6 +1,7 @@
 // Copyright (c) 2012, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
+// @dart=2.9
 
 /// A utility program to take locale data represented as a Dart map whose keys
 /// are locale names and write it into individual JSON files named by locale.

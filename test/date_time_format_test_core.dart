@@ -173,19 +173,19 @@ void testRoundTripParsing(String localeName, DateTime date,
 List<String> allLocales() => DateFormat.allLocalesWithSymbols();
 
 typedef SubsetFuncType = List<String> Function();
-SubsetFuncType _subsetFunc;
+SubsetFuncType? _subsetFunc;
 
-List<String> _subsetValue;
+List<String>? _subsetValue;
 
 List<String> get subset {
-  return _subsetValue ??= _subsetFunc();
+  return _subsetValue ??= _subsetFunc!();
 }
 
 // TODO(alanknight): Run specific tests for the en_ISO locale which isn't
 // included in CLDR, and check that our patterns for it are correct (they
 // very likely aren't).
 void runDateTests(SubsetFuncType subsetFunc) {
-  assert(subsetFunc != null);
+  ArgumentError.checkNotNull(subsetFunc);
   _subsetFunc = subsetFunc;
 
   test('Multiple patterns', () {

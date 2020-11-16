@@ -2,36 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of intl;
+import 'package:clock/clock.dart';
 
-/// Given a month and day number, return the day of the year, all one-based.
-///
-/// For example,
-///  * January 2nd (1, 2) -> 2.
-///  * February 5th (2, 5) -> 36.
-///  * March 1st of a non-leap year (3, 1) -> 60.
-int _dayOfYear(int month, int day, bool leapYear) {
-  if (month == 1) return day;
-  if (month == 2) return day + 31;
-  return ordinalDayFromMarchFirst(month, day) + 59 + (leapYear ? 1 : 0);
-}
-
-/// Return true if this is a leap year. Rely on [DateTime] to do the
-/// underlying calculation, even though it doesn't expose the test to us.
-bool _isLeapYear(DateTime date) {
-  var feb29 = DateTime(date.year, 2, 29);
-  return feb29.month == 2;
-}
-
-/// Return the day of the year counting March 1st as 1, after which the
-/// number of days per month is constant, so it's easier to calculate.
-/// Formula from http://en.wikipedia.org/wiki/Ordinal_date
-int ordinalDayFromMarchFirst(int month, int day) =>
-    ((30.6 * month) - 91.4).floor() + day;
+import 'date_computation.dart' as date_computation;
 
 /// A class for holding onto the data for a date so that it can be built
 /// up incrementally.
-class _DateBuilder {
+class DateBuilder {
   // Default the date values to the EPOCH so that there's a valid date
   // in case the format doesn't set them.
   int year = 1970,
@@ -57,7 +34,7 @@ class _DateBuilder {
   ///
   /// Kept as a field to cache the result and to reduce the possibility of error
   /// after we've verified.
-  DateTime _date;
+  DateTime? _date;
 
   /// The number of times we've retried, for error reporting.
   int _retried = 0;
@@ -75,14 +52,14 @@ class _DateBuilder {
 
   // We do set it, the analyzer just can't tell.
   // ignore: prefer_final_fields
-  var _dateOnly = false;
+  var dateOnly = false;
 
   /// The function we will call to create a DateTime from its component pieces.
   ///
   /// This is normally only modified in tests that want to introduce errors.
   final _DateTimeConstructor _dateTimeConstructor;
 
-  _DateBuilder(this._locale, this._dateTimeConstructor);
+  DateBuilder(this._locale, this._dateTimeConstructor);
 
   // Functions that exist just to be closurized so we can pass them to a general
   // method.
@@ -150,13 +127,14 @@ class _DateBuilder {
     // _correctForErrors, but we may not be able to compensate for a midnight
     // that doesn't exist. So tolerate an hour value of zero or one in these
     // cases.
-    var minimumDate = _dateOnly && date.hour == 1 ? 0 : date.hour;
+    var minimumDate = dateOnly && date.hour == 1 ? 0 : date.hour;
     _verify(hour24, minimumDate, date.hour, 'hour', s, date);
     if (dayOfYear > 0) {
       // We have an ordinal date, compute the corresponding date for the result
       // and compare to that.
-      var leapYear = _isLeapYear(date);
-      var correspondingDay = _dayOfYear(date.month, date.day, leapYear);
+      var leapYear = date_computation.isLeapYear(date);
+      var correspondingDay =
+          date_computation.dayOfYear(date.month, date.day, leapYear);
       _verify(
           dayOfYear, correspondingDay, correspondingDay, 'dayOfYear', s, date);
     } else {
@@ -167,7 +145,7 @@ class _DateBuilder {
   }
 
   void _verify(int value, int min, int max, String desc, String originalInput,
-      [DateTime parsed]) {
+      [DateTime? parsed]) {
     if (value < min || value > max) {
       var parsedDescription = parsed == null ? '' : ' Date parsed as $parsed.';
       var errorDescription =
@@ -203,7 +181,7 @@ class _DateBuilder {
   DateTime asDate({int retries = 3}) {
     // TODO(alanknight): Validate the date, especially for things which
     // can crash the VM, e.g. large month values.
-    if (_date != null) return _date;
+    if (_date != null) return _date!;
 
     DateTime preliminaryResult;
     final hasCentury = !_hasAmbiguousCentury || year < 0 || year >= 100;
@@ -248,7 +226,7 @@ class _DateBuilder {
     } else {
       _date = _correctForErrors(preliminaryResult, retries);
     }
-    return _date;
+    return _date!;
   }
 
   /// Given a local DateTime, check for errors and try to compensate for them if
@@ -281,8 +259,9 @@ class _DateBuilder {
       return result;
     }
 
-    var leapYear = _isLeapYear(result);
-    var resultDayOfYear = _dayOfYear(result.month, result.day, leapYear);
+    var leapYear = date_computation.isLeapYear(result);
+    var resultDayOfYear =
+        date_computation.dayOfYear(result.month, result.day, leapYear);
 
     // Check for the UTC failure. Are we expecting to produce a local time, but
     // the result is UTC. However, the local time might happen to be the same as
@@ -299,7 +278,7 @@ class _DateBuilder {
       return asDate(retries: retries - 1);
     }
 
-    if (_dateOnly && result.hour != 0) {
+    if (dateOnly && result.hour != 0) {
       // This could be a flake, try again.
       var tryAgain = asDate(retries: retries - 1);
       if (tryAgain != result) {
@@ -308,8 +287,9 @@ class _DateBuilder {
       }
 
       // Trying again didn't work, try to force the offset.
-      var expectedDayOfYear =
-          dayOfYear == 0 ? _dayOfYear(month, day, leapYear) : dayOfYear;
+      var expectedDayOfYear = dayOfYear == 0
+          ? date_computation.dayOfYear(month, day, leapYear)
+          : dayOfYear;
 
       // If we're _dateOnly, then hours should be zero, but might have been
       // offset to e.g. 11:00pm the previous day. Add that time back in. This
@@ -334,7 +314,7 @@ class _DateBuilder {
       // hour takes us back to 11:00pm the day before. In that case the 1:00am
       // answer on the correct date is preferable.
       var adjustedDayOfYear =
-          _dayOfYear(adjusted.month, adjusted.day, leapYear);
+          date_computation.dayOfYear(adjusted.month, adjusted.day, leapYear);
       if (adjustedDayOfYear != expectedDayOfYear) {
         return result;
       }
@@ -345,96 +325,6 @@ class _DateBuilder {
   }
 }
 
-/// A simple and not particularly general stream class to make parsing
-/// dates from strings simpler. It is general enough to operate on either
-/// lists or strings.
-// TODO(alanknight): With the improvements to the collection libraries
-// since this was written we might be able to get rid of it entirely
-// in favor of e.g. aString.split('') giving us an iterable of one-character
-// strings, or else make the implementation trivial. And consider renaming,
-// as _Stream is now just confusing with the system Streams.
-class _Stream {
-  dynamic contents;
-  int index = 0;
-
-  _Stream(this.contents);
-
-  bool atEnd() => index >= contents.length;
-
-  dynamic next() => contents[index++];
-
-  /// Return the next [howMany] items, or as many as there are remaining.
-  /// Advance the stream by that many positions.
-  dynamic read([int howMany = 1]) {
-    var result = peek(howMany);
-    index += howMany;
-    return result;
-  }
-
-  /// Does the input start with the given string, if we start from the
-  /// current position.
-  bool startsWith(String pattern) {
-    if (contents is String) return contents.startsWith(pattern, index);
-    return pattern == peek(pattern.length);
-  }
-
-  /// Return the next [howMany] items, or as many as there are remaining.
-  /// Does not modify the stream position.
-  dynamic peek([int howMany = 1]) {
-    dynamic result;
-    if (contents is String) {
-      String stringContents = contents;
-      result = stringContents.substring(
-          index, min(index + howMany, stringContents.length));
-    } else {
-      // Assume List
-      result = contents.sublist(index, index + howMany);
-    }
-    return result;
-  }
-
-  /// Return the remaining contents of the stream
-  dynamic rest() => peek(contents.length - index);
-
-  /// Find the index of the first element for which [f] returns true.
-  /// Advances the stream to that position.
-  int findIndex(bool Function(dynamic) f) {
-    while (!atEnd()) {
-      if (f(next())) return index - 1;
-    }
-    return null;
-  }
-
-  /// Find the indexes of all the elements for which [f] returns true.
-  /// Leaves the stream positioned at the end.
-  List<dynamic> findIndexes(bool Function(dynamic) f) {
-    var results = [];
-    while (!atEnd()) {
-      if (f(next())) results.add(index - 1);
-    }
-    return results;
-  }
-
-  /// Assuming that the contents are characters, read as many digits as we
-  /// can see and then return the corresponding integer, advancing the receiver.
-  ///
-  /// For non-ascii digits, the optional arguments are a regular expression
-  /// [digitMatcher] to find the next integer, and the codeUnit of the local
-  /// zero [zeroDigit].
-  int nextInteger({RegExp digitMatcher, int zeroDigit}) {
-    var string =
-        (digitMatcher ?? DateFormat._asciiDigitMatcher).stringMatch(rest());
-    if (string == null || string.isEmpty) return null;
-    read(string.length);
-    if (zeroDigit != null && zeroDigit != DateFormat._asciiZeroCodeUnit) {
-      // Trying to optimize this, as it might get called a lot.
-      var oldDigits = string.codeUnits;
-      var newDigits = List<int>(string.length);
-      for (var i = 0; i < string.length; i++) {
-        newDigits[i] = oldDigits[i] - zeroDigit + DateFormat._asciiZeroCodeUnit;
-      }
-      string = String.fromCharCodes(newDigits);
-    }
-    return int.parse(string);
-  }
-}
+/// Defines a function type for creating DateTime instances.
+typedef _DateTimeConstructor = DateTime Function(int year, int month, int day,
+    int hour24, int minute, int second, int fractionalSecond, bool utc);

@@ -27,18 +27,18 @@ bool _isIntlRoot(String dir) {
 }
 
 String get intlDirectory {
-  String dir;
-  if (Platform.script.scheme == 'file') {
-    dir = path.fromUri(Platform.script);
-  } else {
-    dir = Directory.current.absolute.path;
-  }
+  // Try the current directory.
+  if (_isIntlRoot(Directory.current.path)) return Directory.current.path;
+
+  // Search upwards from the script location.
+  var dir = path.fromUri(Platform.script);
   var root = path.rootPrefix(dir);
 
   while (dir != root) {
     if (_isIntlRoot(dir)) return dir;
     dir = path.dirname(dir);
   }
+
   throw UnsupportedError(
       'Cannot find the root directory of the `intl` package.');
 }

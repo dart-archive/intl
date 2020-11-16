@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of intl;
+part of 'date_format.dart';
 
 /// This is a private class internal to DateFormat which is used for formatting
 /// particular fields in a template. e.g. if the format is hh:mm:ss then the
@@ -16,11 +16,10 @@ abstract class _DateFormatField {
   DateFormat parent;
 
   /// Trimmed version of [pattern].
-  String _trimmedPattern;
+  final String _trimmedPattern;
 
-  _DateFormatField(this.pattern, this.parent) {
-    _trimmedPattern = pattern.trim();
-  }
+  _DateFormatField(this.pattern, this.parent)
+      : _trimmedPattern = pattern.trim();
 
   /// Does this field potentially represent part of a Date, i.e. is not
   /// time-specific.
@@ -42,15 +41,15 @@ abstract class _DateFormatField {
   }
 
   /// Abstract method for subclasses to implementing parsing for their format.
-  void parse(_Stream input, _DateBuilder dateFields);
+  void parse(IntlStream input, DateBuilder dateFields);
 
   /// Abstract method for subclasses to implementing 'loose' parsing for
   /// their format, accepting input case-insensitively, and allowing some
   /// delimiters to be skipped.
-  void parseLoose(_Stream input, _DateBuilder dateFields);
+  void parseLoose(IntlStream input, DateBuilder dateFields);
 
   /// Parse a literal field. We just look for the exact input.
-  void parseLiteral(_Stream input) {
+  void parseLiteral(IntlStream input) {
     var found = input.read(width);
     if (found != pattern) {
       throwFormatException(input);
@@ -65,7 +64,7 @@ abstract class _DateFormatField {
   /// field's format specification is also trimmed before matching is
   /// attempted. Therefore, leading and trailing whitespace is optional, and
   /// arbitrary additional whitespace may be added before/after the literal.
-  void parseLiteralLoose(_Stream input) {
+  void parseLiteralLoose(IntlStream input) {
     _trimWhitespace(input);
 
     var found = input.peek(_trimmedPattern.length);
@@ -76,14 +75,14 @@ abstract class _DateFormatField {
     _trimWhitespace(input);
   }
 
-  void _trimWhitespace(_Stream input) {
+  void _trimWhitespace(IntlStream input) {
     while (!input.atEnd() && input.peek().trim().isEmpty) {
       input.read();
     }
   }
 
   /// Throw a format exception with an error message indicating the position.
-  void throwFormatException(_Stream stream) {
+  Never throwFormatException(IntlStream stream) {
     throw FormatException('Trying to read $this from ${stream.contents} '
         'at position ${stream.index}');
   }
@@ -93,33 +92,33 @@ abstract class _DateFormatField {
 /// change according to the date's data. As such, the implementation
 /// is extremely simple.
 class _DateFormatLiteralField extends _DateFormatField {
-  _DateFormatLiteralField(pattern, parent) : super(pattern, parent);
+  _DateFormatLiteralField(String pattern, DateFormat parent)
+      : super(pattern, parent);
 
-  void parse(_Stream input, _DateBuilder dateFields) {
+  void parse(IntlStream input, DateBuilder dateFields) {
     parseLiteral(input);
   }
 
-  void parseLoose(_Stream input, _DateBuilder dateFields) =>
+  void parseLoose(IntlStream input, DateBuilder dateFields) =>
       parseLiteralLoose(input);
 }
 
 /// Represents a literal field with quoted characters in it. This is
 /// only slightly more complex than a _DateFormatLiteralField.
 class _DateFormatQuotedField extends _DateFormatField {
-  String _fullPattern;
+  final String _fullPattern;
 
   String fullPattern() => _fullPattern;
 
-  _DateFormatQuotedField(pattern, parent)
-      : super(_patchQuotes(pattern), parent) {
-    _fullPattern = pattern;
-  }
+  _DateFormatQuotedField(String pattern, DateFormat parent)
+      : _fullPattern = pattern,
+        super(_patchQuotes(pattern), parent);
 
-  void parse(_Stream input, _DateBuilder dateFields) {
+  void parse(IntlStream input, DateBuilder dateFields) {
     parseLiteral(input);
   }
 
-  void parseLoose(_Stream input, _DateBuilder dateFields) =>
+  void parseLoose(IntlStream input, DateBuilder dateFields) =>
       parseLiteralLoose(input);
 
   static final _twoEscapedQuotes = RegExp(r"''");
@@ -144,7 +143,7 @@ class _LoosePatternField extends _DateFormatPatternField {
 
   /// Parse from a list of possibilities, but case-insensitively.
   /// Assumes that input is lower case.
-  int parseEnumeratedString(_Stream input, List<String> possibilities) {
+  int parseEnumeratedString(IntlStream input, List<String> possibilities) {
     var lowercasePossibilities =
         possibilities.map((x) => x.toLowerCase()).toList();
     try {
@@ -215,7 +214,7 @@ class _LoosePatternField extends _DateFormatPatternField {
 
   /// Parse a day of the week name, case-insensitively.
   /// Assumes that input is lower case. Doesn't do anything
-  void parseDayOfWeek(_Stream input) {
+  void parseDayOfWeek(IntlStream input) {
     // This is IGNORED, but we still have to skip over it the correct amount.
     if (width <= 2) {
       handleNumericField(input, (x) => x);
@@ -246,18 +245,18 @@ class _DateFormatPatternField extends _DateFormatField {
 
   /// Parse the date according to our specification and put the result
   /// into the correct place in dateFields.
-  void parse(_Stream input, _DateBuilder dateFields) {
+  void parse(IntlStream input, DateBuilder dateFields) {
     parseField(input, dateFields);
   }
 
   /// Parse the date according to our specification and put the result
   /// into the correct place in dateFields. Allow looser parsing, accepting
   /// case-insensitive input and skipped delimiters.
-  void parseLoose(_Stream input, _DateBuilder dateFields) {
+  void parseLoose(IntlStream input, DateBuilder dateFields) {
     _LoosePatternField(pattern, parent).parse(input, dateFields);
   }
 
-  bool _forDate;
+  bool? _forDate;
 
   /// Is this field involved in computing the date portion, as opposed to the
   /// time.
@@ -270,7 +269,7 @@ class _DateFormatPatternField extends _DateFormatField {
 
   /// Parse a field representing part of a date pattern. Note that we do not
   /// return a value, but rather build up the result in [builder].
-  void parseField(_Stream input, _DateBuilder builder) {
+  void parseField(IntlStream input, DateBuilder builder) {
     try {
       switch (pattern[0]) {
         case 'a':
@@ -414,7 +413,7 @@ class _DateFormatPatternField extends _DateFormatField {
   ///
   /// This method handles reading any of the numeric fields. The [offset]
   /// argument allows us to compensate for zero-based versus one-based values.
-  void handleNumericField(_Stream input, void Function(int) setter,
+  void handleNumericField(IntlStream input, void Function(int) setter,
       [int offset = 0]) {
     var result = input.nextInteger(
         digitMatcher: parent.digitMatcher,
@@ -432,8 +431,8 @@ class _DateFormatPatternField extends _DateFormatField {
   /// Then after all parsing is done we construct a date from the
   /// arguments. This method handles reading any of string fields from an
   /// enumerated set.
-  int parseEnumeratedString(_Stream input, List<String> possibilities) {
-    var results = _Stream(possibilities)
+  int parseEnumeratedString(IntlStream input, List<String> possibilities) {
+    var results = IntlStream(possibilities)
         .findIndexes((each) => input.peek(each.length) == each);
     if (results.isEmpty) throwFormatException(input);
     results.sort(
@@ -443,7 +442,7 @@ class _DateFormatPatternField extends _DateFormatField {
     return longestResult;
   }
 
-  void parseYear(_Stream input, _DateBuilder builder) {
+  void parseYear(IntlStream input, DateBuilder builder) {
     handleNumericField(input, builder.setYear);
     builder.setHasAmbiguousCentury(width == 2);
   }
@@ -461,7 +460,7 @@ class _DateFormatPatternField extends _DateFormatField {
     }
   }
 
-  void parseMonth(_Stream input, _DateBuilder dateFields) {
+  void parseMonth(IntlStream input, DateBuilder dateFields) {
     List<String> possibilities;
     switch (width) {
       case 5:
@@ -515,7 +514,7 @@ class _DateFormatPatternField extends _DateFormatField {
     return padTo(width, hours);
   }
 
-  void parse1To12Hours(_Stream input, _DateBuilder dateFields) {
+  void parse1To12Hours(IntlStream input, DateBuilder dateFields) {
     handleNumericField(input, dateFields.setHour);
     if (dateFields.hour == 12) dateFields.hour = 0;
   }
@@ -541,7 +540,7 @@ class _DateFormatPatternField extends _DateFormatField {
     }
   }
 
-  void parseStandaloneDay(_Stream input) {
+  void parseStandaloneDay(IntlStream input) {
     // This is ignored, but we still have to skip over it the correct amount.
     List<String> possibilities;
     switch (width) {
@@ -607,8 +606,10 @@ class _DateFormatPatternField extends _DateFormatField {
     return padTo(width, date.day);
   }
 
-  String formatDayOfYear(DateTime date) =>
-      padTo(width, _dayOfYear(date.month, date.day, _isLeapYear(date)));
+  String formatDayOfYear(DateTime date) => padTo(
+      width,
+      date_computation.dayOfYear(
+          date.month, date.day, date_computation.isLeapYear(date)));
 
   String formatDayOfWeek(DateTime date) {
     // Note that Dart's weekday returns 1 for Monday and 7 for Sunday.
@@ -617,13 +618,13 @@ class _DateFormatPatternField extends _DateFormatField {
         : symbols.SHORTWEEKDAYS)[(date.weekday) % 7];
   }
 
-  void parseDayOfWeek(_Stream input) {
+  void parseDayOfWeek(IntlStream input) {
     // This is IGNORED, but we still have to skip over it the correct amount.
     var possibilities = width >= 4 ? symbols.WEEKDAYS : symbols.SHORTWEEKDAYS;
     parseEnumeratedString(input, possibilities);
   }
 
-  void parseEra(_Stream input) {
+  void parseEra(IntlStream input) {
     var possibilities = width >= 4 ? symbols.ERANAMES : symbols.ERAS;
     parseEnumeratedString(input, possibilities);
   }

@@ -19,7 +19,7 @@ class HttpRequestDataReader implements LocaleDataReader {
   Future<String> read(String locale) {
     var request = HttpRequest();
     request.timeout = 5000;
-    return _getString('$url$locale.json', request).then((r) => r.responseText);
+    return _getString('$url$locale.json', request).then((r) => r.responseText!);
   }
 
   /// Read a string with the given request. This is a stripped down copy
@@ -30,7 +30,7 @@ class HttpRequestDataReader implements LocaleDataReader {
     xhr.open('GET', url, async: true);
     xhr.onLoad.listen((e) {
       // Note: file:// URIs have status of 0.
-      if ((xhr.status >= 200 && xhr.status < 300) ||
+      if ((xhr.status! >= 200 && xhr.status! < 300) ||
           xhr.status == 0 ||
           xhr.status == 304) {
         completer.complete(xhr);

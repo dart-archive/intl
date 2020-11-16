@@ -7,7 +7,6 @@
 
 library date_time_format_test;
 
-import 'dart:async';
 import 'package:test/test.dart';
 import 'package:intl/intl.dart';
 import 'date_time_format_test_core.dart';
@@ -36,8 +35,10 @@ List<String> evenLocales() {
   return allLocales().where((x) => !(i++).isOdd).toList();
 }
 
-void runWith(TestListFunc getSubset, String dir,
+void runWith(TestListFunc getSubset, String? dir,
     InitializeDateFormattingFunc initFunction) {
+  var notNullDir = dir ?? '';
+
   // Initialize one locale just so we know what the list is.
   // Also, note that we take the list of locales as a function so that we don't
   // evaluate it until after we know that all the locales are available.
@@ -48,9 +49,10 @@ void runWith(TestListFunc getSubset, String dir,
     if (initialized) {
       return null;
     }
-    return initFunction('en_US', dir).then((_) {
-      return Future.forEach(DateFormat.allLocalesWithSymbols(), (locale) {
-        return initFunction(locale, dir);
+    return initFunction('en_US', notNullDir).then((_) {
+      return Future.forEach(DateFormat.allLocalesWithSymbols(),
+          (String locale) {
+        return initFunction(locale, notNullDir);
       });
     }).then((_) {
       initialized = true;
