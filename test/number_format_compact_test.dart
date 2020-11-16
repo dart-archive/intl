@@ -4,11 +4,14 @@
 
 /// Tests for compact format numbers, e.g. 1.2M rather than 1,200,000
 import 'dart:math';
-import 'package:test/test.dart';
-import 'package:intl/intl.dart';
+
 import 'package:fixnum/fixnum.dart';
+import 'package:intl/intl.dart';
 import 'package:intl/number_symbols_data.dart' as patterns;
+import 'package:test/test.dart';
+
 import 'compact_number_test_data_33.dart' as testdata33;
+
 // End-goal: to stop testing against testdata33 and use testdata35 instead:
 // import 'compact_number_test_data.dart' as testdata35;
 import 'more_compact_number_test_data.dart' as more_testdata;
@@ -74,7 +77,12 @@ void main() {
   testCurrency('en_US', 1234567, r'$1.23M', r'$1M');
 
   // Check for order of currency symbol when currency is a suffix.
-  testCurrency('ru', 4420, '4,42\u00A0тыс.\u00A0\u20BD', '4\u00A0тыс.\u00A0\u20BD');
+  testCurrency(
+    'ru',
+    4420,
+    '4,42\u00A0тыс.\u00A0\u20BD',
+    '4\u00A0тыс.\u00A0\u20BD',
+  );
 
   // Locales which don't have a suffix for thousands.
   testCurrency('it', 442, '442\u00A0€', '400\u00A0€');
