@@ -1,7 +1,3 @@
-## 0.17.0
-
-* Stable release for null safety.
-
 ## 0.17.0-nullsafety.2
 
 * Update SDK constraints to >=2.12.0-0 <3.0.0 based on beta release guidelines.
