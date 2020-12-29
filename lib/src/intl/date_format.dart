@@ -300,20 +300,6 @@ class DateFormat {
     return result.toString();
   }
 
-  /// NOT YET IMPLEMENTED.
-  ///
-  /// Returns a date string indicating how long ago (3 hours, 2 minutes)
-  /// something has happened or how long in the future something will happen
-  /// given a [reference] DateTime relative to the current time.
-  String formatDuration(DateTime reference) => '';
-
-  /// NOT YET IMPLEMENTED.
-  ///
-  /// Formats a string indicating how long ago (negative [duration]) or how far
-  /// in the future (positive [duration]) some time is with respect to a
-  /// reference [date].
-  String formatDurationFrom(Duration duration, DateTime date) => '';
-
   /// Given user input, attempt to parse the [inputString] into the anticipated
   /// format, treating it as being in the local timezone.
   ///
