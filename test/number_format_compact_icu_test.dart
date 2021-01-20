@@ -201,7 +201,7 @@ String FormatWithUnumf(String locale, String skeleton, num number) {
   expect(errorCode, equals(15), // U_BUFFER_OVERFLOW_ERROR
       reason: u_errorName!(errorCode).toString());
   cErrorCode.value = 0;
-  final buffer = calloc<Utf16>(reqLen + 1);
+  final buffer = calloc<Uint16>(reqLen + 1).cast<Utf16>();
   unumf_resultToString!(uresult, buffer, reqLen + 1, cErrorCode);
   errorCode = cErrorCode.value;
   expect(errorCode, lessThanOrEqualTo(0),
