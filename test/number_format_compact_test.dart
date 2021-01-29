@@ -192,7 +192,7 @@ var problemLocalesLong = [
   'it_CH', 'lo', // LO seems to be picking up a different pattern.
   'lt', 'lv', 'mk',
   'my', // Seems to come out in the reverse order
-  'nb', 'ne', 'no', 'no_NO', 'pl',
+  'nb', 'ne', 'no', 'no_NO', 'nn_NO', 'pl',
   'pt', // PT has some issues with scale as well, but I think it's differences
   // in the patterns.
   'pt_BR', 'pt_PT', 'ro', 'ru',

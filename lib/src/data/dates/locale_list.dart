@@ -87,6 +87,7 @@ final availableLocalesForDateFormatting = const [
   "nl",
   "no",
   "no_NO",
+  "nn_NO",
   "or",
   "pa",
   "pl",

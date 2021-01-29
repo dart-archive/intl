@@ -12557,7 +12557,6 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           WEEKENDRANGE: const [5, 6],
           FIRSTWEEKCUTOFFDAY: 3),
       // Date/time formatting symbols for locale no_NO.
-      // Date/time formatting symbols for locale no_NO.
       "no_NO": new DateSymbols(
           NAME: "no_NO",
           ERAS: const ['f.Kr.', 'e.Kr.'],
@@ -12681,6 +12680,162 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             'tor.',
             'fre.',
             'lør.'
+          ],
+          NARROWWEEKDAYS: const ['S', 'M', 'T', 'O', 'T', 'F', 'L'],
+          STANDALONENARROWWEEKDAYS: const ['S', 'M', 'T', 'O', 'T', 'F', 'L'],
+          SHORTQUARTERS: const ['K1', 'K2', 'K3', 'K4'],
+          QUARTERS: const [
+            '1. kvartal',
+            '2. kvartal',
+            '3. kvartal',
+            '4. kvartal'
+          ],
+          AMPMS: const ['a.m.', 'p.m.'],
+          DATEFORMATS: const [
+            'EEEE d. MMMM y',
+            'd. MMMM y',
+            'd. MMM y',
+            'dd.MM.y'
+          ],
+          TIMEFORMATS: const [
+            'HH:mm:ss zzzz',
+            'HH:mm:ss z',
+            'HH:mm:ss',
+            'HH:mm'
+          ],
+          DATETIMEFORMATS: const [
+            '{1} {0}',
+            '{1} \'kl\'. {0}',
+            '{1}, {0}',
+            '{1}, {0}'
+          ],
+          FIRSTDAYOFWEEK: 0,
+          WEEKENDRANGE: const [5, 6],
+          FIRSTWEEKCUTOFFDAY: 3),
+      // Date/time formatting symbols for locale nn_NO.
+      "nn_NO": new DateSymbols(
+          NAME: "nn_NO",
+          ERAS: const ['fvt.', 'evt.'],
+          ERANAMES: const ['før vår tidsrekning', 'etter vår tidsrekning'],
+          NARROWMONTHS: const [
+            'J',
+            'F',
+            'M',
+            'A',
+            'M',
+            'J',
+            'J',
+            'A',
+            'S',
+            'O',
+            'N',
+            'D'
+          ],
+          STANDALONENARROWMONTHS: const [
+            'J',
+            'F',
+            'M',
+            'A',
+            'M',
+            'J',
+            'J',
+            'A',
+            'S',
+            'O',
+            'N',
+            'D'
+          ],
+          MONTHS: const [
+            'januar',
+            'februar',
+            'mars',
+            'april',
+            'mai',
+            'juni',
+            'juli',
+            'august',
+            'september',
+            'oktober',
+            'november',
+            'desember'
+          ],
+          STANDALONEMONTHS: const [
+            'januar',
+            'februar',
+            'mars',
+            'april',
+            'mai',
+            'juni',
+            'juli',
+            'august',
+            'september',
+            'oktober',
+            'november',
+            'desember'
+          ],
+          SHORTMONTHS: const [
+            'jan.',
+            'feb.',
+            'mar.',
+            'apr.',
+            'mai',
+            'jun.',
+            'jul.',
+            'aug.',
+            'sep.',
+            'okt.',
+            'nov.',
+            'des.'
+          ],
+          STANDALONESHORTMONTHS: const [
+            'jan',
+            'feb',
+            'mar',
+            'apr',
+            'mai',
+            'jun',
+            'jul',
+            'aug',
+            'sep',
+            'okt',
+            'nov',
+            'des'
+          ],
+          WEEKDAYS: const [
+            'sundag',
+            'måndag',
+            'tysdag',
+            'onsdag',
+            'torsdag',
+            'fredag',
+            'laurdag'
+          ],
+          STANDALONEWEEKDAYS: const [
+            'sundag',
+            'måndag',
+            'tysdag',
+            'onsdag',
+            'torsdag',
+            'fredag',
+            'laurdag'
+          ],
+          SHORTWEEKDAYS: const [
+            'sun.',
+            'mån.',
+            'tys.',
+            'ons.',
+            'tor.',
+            'fre.',
+            'lau.'
+          ],
+          STANDALONESHORTWEEKDAYS: const [
+            'sun.',
+            'mån.',
+            'tys.',
+            'ons.',
+            'tor.',
+            'fre.',
+            'lau.'
           ],
           NARROWWEEKDAYS: const ['S', 'M', 'T', 'O', 'T', 'F', 'L'],
           STANDALONENARROWWEEKDAYS: const ['S', 'M', 'T', 'O', 'T', 'F', 'L'],
