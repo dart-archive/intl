@@ -555,6 +555,7 @@ final pluralRules = {
   'nl': _en_rule,
   'no': _af_rule,
   'no_NO': _es_rule,
+  'nn_NO': _es_rule,
   'or': _af_rule,
   'pa': _ln_rule,
   'pl': _pl_rule,
