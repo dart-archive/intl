@@ -8,11 +8,11 @@ dart:
 
 jobs:
   include:
-  - script: pub run --enable-experiment=non-nullable test
-  - script: pub run --enable-experiment=non-nullable test -p chrome
+  - script: pub run test
+  - script: pub run test -p chrome
   - dart_task: dartfmt
   - dart_task:
-      dartanalyzer: --enable-experiment=non-nullable --fatal-infos --fatal-warnings .
+      dartanalyzer: --fatal-infos --fatal-warnings .
 
 # Only building master means that we don't run two builds for each pull request.
 branches:
