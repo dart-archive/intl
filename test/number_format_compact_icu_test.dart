@@ -229,10 +229,10 @@ typedef NativeUErrorNameOp = Pointer<Utf8> Function(Int32 code);
 typedef UErrorNameOp = Pointer<Utf8> Function(int code);
 
 /// [UNumberFormatter](http://icu-project.org/apiref/icu4c/unumberformatter_8h.html#a7c1238b2dd08f32f1ea245ece41e71bd)
-class UNumberFormatter extends Struct {}
+class UNumberFormatter extends Opaque {}
 
 /// [UFormattedNumber](http://icu-project.org/apiref/icu4c/unumberformatter_8h.html#a9d4030bdc4dd1ec4de828bf1bcf4b1b6)
-class UFormattedNumber extends Struct {}
+class UFormattedNumber extends Opaque {}
 
 /// C signature for
 /// [unumf_openForSkeletonAndLocale()](http://icu-project.org/apiref/icu4c/unumberformatter_8h.html#a29339e144833880bda36fb7c17032698)
