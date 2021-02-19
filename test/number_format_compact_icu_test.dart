@@ -23,19 +23,16 @@ main() {
     'bn',
   ];
 
-  runICUTests(systemIcuVersion: 63, skipLocales: problemLocales);
-}
-
-void runICUTests(
-    {int? systemIcuVersion, String? specialIcuLib, List<String>? skipLocales}) {
   if (!setupICU(
       systemIcuVersion: systemIcuVersion, specialIcuLibPath: specialIcuLib)) {
     return;
   }
 
-  print("Skipping problem locales $skipLocales.");
-  testdata35.compactNumberTestData
-      .removeWhere((k, v) => skipLocales!.contains(k));
+  void validate(String locale, List<List<String>> expected) {
+    validateShort(locale, expected, problemLocales);
+    validateLong(locale, expected, problemLocales);
+  }
+
   testdata35.compactNumberTestData.forEach(validate);
   more_testdata.cldr35CompactNumTests.forEach(validateFancy);
 
@@ -44,27 +41,27 @@ void runICUTests(
   });
 }
 
-void validate(String locale, List<List<String>> expected) {
-  validateShort(locale, expected);
-  validateLong(locale, expected);
-}
-
-void validateShort(String locale, List<List<String>> expected) {
+void validateShort(
+    String locale, List<List<String>> expected, List<String> skipLocales) {
+  var skip =
+      skipLocales.contains(locale) ? 'Skipping problem locale $locale' : false;
   test('Validate $locale SHORT', () {
     for (var data in expected) {
       var number = num.parse(data.first);
       expect(FormatWithUnumf(locale, 'compact-short', number), data[1]);
     }
-  });
+  }, skip: skip);
 }
 
 void validateLong(String locale, List<List<String>> expected) {
+  var skip =
+      skipLocales.contains(locale) ? 'Skipping problem locale $locale' : false;
   test('Validate $locale LONG', () {
     for (var data in expected) {
       var number = num.parse(data.first);
       expect(FormatWithUnumf(locale, 'compact-long', number), data[2]);
     }
-  });
+  }, skip: skip);
 }
 
 void validateFancy(more_testdata.CompactRoundingTestCase t) {

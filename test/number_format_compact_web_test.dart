@@ -71,18 +71,19 @@ String ecmaFormatNumber(String locale, num number,
   return js.callMethod(number, 'toLocaleString', [locale, options]);
 }
 
-var ecmaProblemLocalesShort = [
+var _unsupportedChromeLocales = [
   // Not supported in Chrome:
   'af', 'az', 'be', 'br', 'bs', 'eu', 'ga', 'gl', 'gsw', 'haw', 'hy', 'is',
   'ka', 'kk', 'km', 'ky', 'ln', 'lo', 'mk', 'mn', 'mt', 'my', 'ne', 'no',
-  'no-NO', 'or', 'pa', 'si', 'sq', 'ur', 'uz', 'ps',
+  'no-NO', 'or', 'pa', 'si', 'sq', 'ur', 'uz', 'ps', 'chr', 'cy', 'tl', 'zu'
 ];
 
-var ecmaProblemLocalesLong = ecmaProblemLocalesShort +
-    [
-      // Short happens to match 'en', but actually not in Chrome:
-      'chr', 'cy', 'tl', 'zu'
-    ];
+var _skipLocalesShort = [
+  'am', 'bn', 'fa', // Some results change in chrome 88
+  ..._unsupportedChromeLocales
+];
+
+var _skipLocalesLong = _unsupportedChromeLocales;
 
 String fixLocale(String locale) {
   return locale.replaceAll('_', '-');
@@ -94,24 +95,22 @@ void validate(String locale, List<List<String>> expected) {
 }
 
 void validateShort(String locale, List<List<String>> expected) {
-  if (ecmaProblemLocalesShort.contains(locale)) {
-    print("Skipping problem locale '$locale' for SHORT compact number tests");
-    return;
-  }
+  var skip = _skipLocalesShort.contains(locale)
+      ? "Skipping problem locale '$locale' for SHORT compact number tests"
+      : false;
 
   test('Validate $locale SHORT', () {
     for (var data in expected) {
       var number = num.parse(data.first);
       expect(ecmaFormatNumber(locale, number, notation: 'compact'), data[1]);
     }
-  });
+  }, skip: skip);
 }
 
 void validateLong(String locale, List<List<String>> expected) {
-  if (ecmaProblemLocalesLong.contains(locale)) {
-    print("Skipping problem locale '$locale' for LONG compact number tests");
-    return;
-  }
+  var skip = _skipLocalesLong.contains(locale)
+      ? "Skipping problem locale '$locale' for LONG compact number tests"
+      : false;
 
   test('Validate $locale LONG', () {
     for (var data in expected) {
@@ -121,7 +120,7 @@ void validateLong(String locale, List<List<String>> expected) {
               notation: 'compact', compactDisplay: 'long'),
           data[2]);
     }
-  });
+  }, skip: skip);
 }
 
 void validateMore(more_testdata.CompactRoundingTestCase t) {
