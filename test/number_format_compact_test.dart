@@ -139,7 +139,7 @@ void testCurrency(
 // case.
 // TODO(alanknight): Fix the problems, or at least figure out precisely where
 // the differences are.
-var problemLocalesShort = [
+var _skipLocalsShort = [
   'am', // AM Suffixes differ, not sure why.
   'ca', // For CA, CLDR rules are different. Jumps from 0000 to 00 prefix, so
   // 11 digits prints as 11900.
@@ -178,7 +178,7 @@ var problemLocalesShort = [
 ///
 //TODO(alanknight): Narrow these down to particular numbers. Often it's just
 // 999999.
-var problemLocalesLong = [
+var _skipLocalesLong = [
   'ar', 'ar_DZ', 'ar_EG',
   'be', 'bg', 'bs',
   'ca', 'cs', 'da', 'de', 'de_AT', 'de_CH', 'el', 'es', 'es_419', 'es_ES',
@@ -210,7 +210,7 @@ void validate(String locale, List<List<String>> expected) {
 /// Check each bit of test data against the short compact format, both
 /// formatting and parsing.
 void validateShort(String locale, List<List<String>> expected) {
-  var skip = problemLocalesLong.contains(locale)
+  var skip = _skipLocalsShort.contains(locale)
       ? "Skipping problem locale '$locale' for SHORT compact number tests"
       : false;
   var shortFormat = NumberFormat.compact(locale: locale);
@@ -226,7 +226,7 @@ void validateShort(String locale, List<List<String>> expected) {
 }
 
 void validateLong(String locale, List<List<String>> expected) {
-  var skip = problemLocalesLong.contains(locale)
+  var skip = _skipLocalesLong.contains(locale)
       ? "Skipping problem locale '$locale' for LONG compact number tests"
       : false;
   var longFormat = NumberFormat.compactLong(locale: locale);
