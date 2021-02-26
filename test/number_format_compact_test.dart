@@ -4,12 +4,10 @@
 
 /// Tests for compact format numbers, e.g. 1.2M rather than 1,200,000
 import 'dart:math';
-
-import 'package:fixnum/fixnum.dart';
-import 'package:intl/intl.dart';
-import 'package:intl/number_symbols_data.dart' as patterns;
 import 'package:test/test.dart';
-
+import 'package:intl/intl.dart';
+import 'package:fixnum/fixnum.dart';
+import 'package:intl/number_symbols_data.dart' as patterns;
 import 'compact_number_test_data_33.dart' as testdata33;
 // End-goal: to stop testing against testdata33 and use testdata35 instead:
 // import 'compact_number_test_data.dart' as testdata35;
@@ -22,9 +20,9 @@ var interestingCases = <String, List<List<String>>>{
 };
 
 void main() {
-  interestingCases.forEach(validate);
-  testdata33.compactNumberTestData.forEach(validate);
-  more_testdata.oldIntlCompactNumTests.forEach(validateFancy);
+  interestingCases.forEach(_validate);
+  testdata33.compactNumberTestData.forEach(_validate);
+  more_testdata.oldIntlCompactNumTests.forEach(_validateFancy);
   // Once code and data is updated to CLDR35:
   // testdata35.compactNumberTestData.forEach(validate);
   // more_testdata.cldr35CompactNumTests.forEach(validateFancy);
@@ -141,7 +139,7 @@ void testCurrency(
 // case.
 // TODO(alanknight): Fix the problems, or at least figure out precisely where
 // the differences are.
-var problemLocalesShort = [
+var _skipLocalsShort = {
   'am', // AM Suffixes differ, not sure why.
   'ca', // For CA, CLDR rules are different. Jumps from 0000 to 00 prefix, so
   // 11 digits prints as 11900.
@@ -169,7 +167,7 @@ var problemLocalesShort = [
   'tr', // TR Doesn't have a 0B format, goes directly to 00B, as a result 54321
   // just prints as 54321
   'ur', // UR Fails one with Expected: '15 ٹریلین'  Actual: '150 کھرب'
-];
+};
 
 /// Locales that have problems in the long format.
 ///
@@ -180,7 +178,7 @@ var problemLocalesShort = [
 ///
 //TODO(alanknight): Narrow these down to particular numbers. Often it's just
 // 999999.
-var problemLocalesLong = [
+var _skipLocalesLong = {
   'ar', 'ar_DZ', 'ar_EG',
   'be', 'bg', 'bs',
   'ca', 'cs', 'da', 'de', 'de_AT', 'de_CH', 'el', 'es', 'es_419', 'es_ES',
@@ -202,55 +200,53 @@ var problemLocalesLong = [
   'sk', 'sl', 'sr', 'sr_Latn', 'sv', 'te', 'tl',
   'ur',
   'uk',
-];
+};
 
-void validate(String locale, List<List<String>> expected) {
-  validateShort(locale, expected);
-  validateLong(locale, expected);
+void _validate(String locale, List<List<String>> expected) {
+  _validateShort(locale, expected);
+  _validateLong(locale, expected);
 }
 
 /// Check each bit of test data against the short compact format, both
 /// formatting and parsing.
-void validateShort(String locale, List<List<String>> expected) {
-  if (problemLocalesShort.contains(locale)) {
-    print("Skipping problem locale '$locale' for SHORT compact number tests");
-    return;
-  }
+void _validateShort(String locale, List<List<String>> expected) {
+  var skip = _skipLocalsShort.contains(locale)
+      ? "Skipping problem locale '$locale' for SHORT compact number tests"
+      : false;
   var shortFormat = NumberFormat.compact(locale: locale);
   test('Validate $locale SHORT', () {
     for (var data in expected) {
       var number = num.parse(data.first);
-      validateNumber(number, shortFormat, data[1]);
+      _validateNumber(number, shortFormat, data[1]);
       var int64Number = Int64(number as int);
-      validateNumber(int64Number, shortFormat, data[1]);
+      _validateNumber(int64Number, shortFormat, data[1]);
       // TODO(alanknight): Make this work for MicroMoney
     }
-  });
+  }, skip: skip);
 }
 
-void validateLong(String locale, List<List<String>> expected) {
-  if (problemLocalesLong.contains(locale)) {
-    print("Skipping problem locale '$locale' for LONG compact number tests");
-    return;
-  }
+void _validateLong(String locale, List<List<String>> expected) {
+  var skip = _skipLocalesLong.contains(locale)
+      ? "Skipping problem locale '$locale' for LONG compact number tests"
+      : false;
   var longFormat = NumberFormat.compactLong(locale: locale);
   test('Validate $locale LONG', () {
     for (var data in expected) {
       var number = num.parse(data.first);
-      validateNumber(number, longFormat, data[2]);
+      _validateNumber(number, longFormat, data[2]);
     }
-  });
+  }, skip: skip);
 }
 
-void validateNumber(number, NumberFormat format, String expected) {
+void _validateNumber(number, NumberFormat format, String expected) {
   var formatted = format.format(number);
-  var ok = closeEnough(formatted, expected);
+  var ok = _closeEnough(formatted, expected);
   if (!ok) {
     expect(
         '$formatted ${formatted.codeUnits}', '$expected ${expected.codeUnits}');
   }
   var parsed = format.parse(formatted);
-  var rounded = roundForPrinting(number, format);
+  var rounded = _roundForPrinting(number, format);
   expect((parsed - rounded) / rounded < 0.001, isTrue);
 }
 
@@ -258,7 +254,7 @@ void validateNumber(number, NumberFormat format, String expected) {
 /// number that will round to print differently depending on the number
 /// of significant digits, we need to check that as well, e.g.
 /// 999999 may print as 1M.
-num roundForPrinting(number, NumberFormat format) {
+num _roundForPrinting(number, NumberFormat format) {
   var originalLength = NumberFormat.numberOfIntegerDigits(number);
   var additionalDigits = originalLength - format.significantDigits!;
   if (additionalDigits > 0) {
@@ -280,7 +276,7 @@ final _nbspString = String.fromCharCode(_nbsp);
 /// currently producing and the CLDR data. So if the strings differ only in the
 /// presence or absence of a period at the end or of a space between the number
 /// and the suffix, consider it close enough and return true.
-bool closeEnough(String result, String reference) {
+bool _closeEnough(String result, String reference) {
   var expected = reference.replaceAll(' ', _nbspString);
   if (result == expected) {
     return true;
@@ -315,7 +311,7 @@ bool _oneSpaceOnlyDifference(String result, String expected) {
       expectedDifference <= 1;
 }
 
-void validateFancy(more_testdata.CompactRoundingTestCase t) {
+void _validateFancy(more_testdata.CompactRoundingTestCase t) {
   var shortFormat = NumberFormat.compact(locale: 'en');
   if (t.maximumIntegerDigits != null) {
     shortFormat.maximumIntegerDigits = t.maximumIntegerDigits!;
