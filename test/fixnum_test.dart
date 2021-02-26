@@ -4,9 +4,9 @@
 
 library fixnum_test;
 
-import 'package:fixnum/fixnum.dart';
 import 'package:intl/intl.dart';
 import 'package:test/test.dart';
+import 'package:fixnum/fixnum.dart';
 
 var int64Values = {
   Int64(12345): ['USD12,345.00', '1,234,500%'],
