@@ -78,7 +78,10 @@ var _unsupportedChromeLocales = {
   'no-NO', 'or', 'pa', 'si', 'sq', 'ur', 'uz', 'ps', 'chr', 'cy', 'tl', 'zu'
 };
 
-var _skipLocalesShort = _unsupportedChromeLocales;
+var _skipLocalesShort = [
+  'am', 'bn', 'fa', // Some results change in chrome 88
+  ..._unsupportedChromeLocales
+];
 
 var _skipLocalesLong = _unsupportedChromeLocales;
 
