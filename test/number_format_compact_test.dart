@@ -4,6 +4,7 @@
 
 /// Tests for compact format numbers, e.g. 1.2M rather than 1,200,000
 import 'dart:math';
+import 'package:intl/number_symbols_data.dart';
 import 'package:test/test.dart';
 import 'package:intl/intl.dart';
 import 'package:fixnum/fixnum.dart';
@@ -19,6 +20,35 @@ var interestingCases = <String, List<List<String>>>{
 //  'mn' : [['4321', '4.32M', 'whatever']]
 };
 
+var compactWithPatternCases = <List<String>>[
+  ['0.012', '+0.01', '+0.01'],
+  ['0.123', '+0.12', '+0.12'],
+  ['1.234', '+1.23', '+1.23'],
+  ['12.34', '+12.3', '+12.3'],
+  ['123.4', '+123', '+123'],
+  ['123.41', '+123', '+123'],
+  ['1234.1', '+1.23K', '+1.23 thousand'],
+  ['12341', '+12.3K', '+12.3 thousand'],
+  ['123412', '+123K', '+123 thousand'],
+  ['1234123', '+1.23M', '+1.23 million'],
+  ['12341234', '+12.3M', '+12.3 million'],
+  ['123412341', '+123M', '+123 million'],
+  ['1234123412', '+1.23B', '+1.23 billion'],
+  ['-0.012', '-0.01', '-0.01'],
+  ['-0.123', '-0.12', '-0.12'],
+  ['-1.234', '-1.23', '-1.23'],
+  ['-12.34', '-12.3', '-12.3'],
+  ['-123.4', '-123', '-123'],
+  ['-123.41', '-123', '-123'],
+  ['-1234.1', '-1.23K', '-1.23 thousand'],
+  ['-12341', '-12.3K', '-12.3 thousand'],
+  ['-123412', '-123K', '-123 thousand'],
+  ['-1234123', '-1.23M', '-1.23 million'],
+  ['-12341234', '-12.3M', '-12.3 million'],
+  ['-123412341', '-123M', '-123 million'],
+  ['-1234123412', '-1.23B', '-1.23 billion'],
+];
+
 void main() {
   interestingCases.forEach(_validate);
   testdata33.compactNumberTestData.forEach(_validate);
@@ -26,6 +56,7 @@ void main() {
   // Once code and data is updated to CLDR35:
   // testdata35.compactNumberTestData.forEach(validate);
   // more_testdata.cldr35CompactNumTests.forEach(validateFancy);
+  compactWithPatternCases.forEach(_validateWithPattern);
 
   test("Patterns are consistent across locales", () {
     patterns.compactNumberSymbols.forEach((locale, patterns) {
@@ -339,5 +370,23 @@ void _validateFancy(more_testdata.CompactRoundingTestCase t) {
 
   test(t.toString(), () {
     expect(shortFormat.format(t.number), t.expected);
+  });
+}
+
+void _validateWithPattern(List<String> testData) {
+  final locale = 'en_US';
+  final currentLocale = Intl.verifiedLocale(locale, NumberFormat.localeExists);
+  final symbols = numberFormatSymbols[currentLocale];
+  final pattern = '${symbols.PLUS_SIGN}${symbols.DECIMAL_PATTERN};'
+      '${symbols.MINUS_SIGN}${symbols.DECIMAL_PATTERN}';
+  final input = num.parse(testData[0]);
+  test('Validate compact with $locale and $pattern', () {
+    final numberFormat = NumberFormat.compact(locale: locale, pattern: pattern);
+    expect(testData[1], numberFormat.format(input));
+  });
+  test('Validate compactLong with $locale and $pattern', () {
+    final numberFormat =
+        NumberFormat.compactLong(locale: locale, pattern: pattern);
+    expect(testData[2], numberFormat.format(input));
   });
 }
