@@ -76,7 +76,7 @@ import 'intl.dart';
 /// produce `"I see Mark and one other person in Athens."` as output.
 ///
 /// Calling `format({'NUM_PEOPLE': 5, 'WHO': 'Mark', 'PLACE': 'Athens'})` would
-/// produce `"I see Mark and one 4 other people in Athens."` as output.
+/// produce `"I see Mark and 4 other people in Athens."` as output.
 /// Notice how the "#" is the value of `NUM_PEOPLE` - 1 (the offset).
 ///
 /// Another important thing to notice is the existence of both `"=1"` and

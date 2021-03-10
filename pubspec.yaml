@@ -14,15 +14,7 @@ dependencies:
   path: ^1.8.0-nullsafety.1
 
 dev_dependencies:
-  ffi: any
-  fixnum: '>=0.9.0 <0.11.0'
+  ffi: ^0.2.0-nullsafety.1
+  fixnum: ^1.0.0-nullsafety.0
   js: ^0.6.3-nullsafety
   test: ^1.16.0-nullsafety.4
-
-dependency_overrides:
-  ffi:
-    git:
-      url: https://github.com/dart-lang/ffi
-      ref: null_safety
-  fixnum:
-    git: https://github.com/dart-lang/fixnum
