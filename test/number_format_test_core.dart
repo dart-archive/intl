@@ -307,12 +307,17 @@ void runTests(Map<String, num> allTestNumbers) {
     expect(f.format(0.12), '+12%');
   });
 
-  test('Unparseable', () {
+  test('Unparsable', () {
     var format = NumberFormat.currency();
     expect(() => format.parse('abcdefg'), throwsFormatException);
     expect(() => format.parse(''), throwsFormatException);
     expect(() => format.parse('1.0zzz'), throwsFormatException);
     expect(() => format.parse('-∞+1'), throwsFormatException);
+
+    expect(format.tryParse('abcdefg'), isNull);
+    expect(format.tryParse(''), isNull);
+    expect(format.tryParse('1.0zzz'), isNull);
+    expect(format.tryParse('-∞+1'), isNull);
   });
 
   var digitsCheck = {
