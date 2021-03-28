@@ -79,8 +79,13 @@ numbers, or other things it may not need.
 With messages, there is also a need to import a file that won't exist until
 the code generation step has been run. This can be awkward, but can be worked
 around by creating a stub `messages_all.dart` file, running an empty translation
-step, or commenting out the import until translations are available.
-See "Extracting and Using Translated Messages"
+step, or commenting out the import until translations are available:
+
+```dart
+import 'generated/intl/messages_all.dart';
+```
+
+See "Extracting and Using Translated Messages" below for more details.
 
 ## Messages
 
