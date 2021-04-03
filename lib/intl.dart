@@ -223,7 +223,7 @@ class Intl {
   /// The [other] named argument is mandatory.
   /// The [precision] is the number of fractional digits that would be rendered
   /// when [howMany] is formatted. In some cases just knowing the numeric value
-  /// of [howMany] itsef is not enough, for example "1 mile" vs "1.00 miles"
+  /// of [howMany] itself is not enough, for example "1 mile" vs "1.00 miles"
   ///
   /// For an explanation of plurals and the [zero], [one], [two], [few], [many]
   /// categories see http://cldr.unicode.org/index/cldr-spec/plural-rules
