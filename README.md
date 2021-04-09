@@ -38,7 +38,7 @@ the [withLocale][withLocale] operation may be preferable to setting
 [defaultLocale][defaultLocale].
 
 ```dart
-Intl.withLocale('fr', () => print(myLocalizedMessage());
+Intl.withLocale('fr', () => print(myLocalizedMessage()));
 ```
 
 To specify the locale for an operation you can create a format object in
