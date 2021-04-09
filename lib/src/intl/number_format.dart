@@ -523,7 +523,7 @@ class NumberFormat {
   /// Helper to round a number which might not be num.
   dynamic _round(dynamic number) {
     if (number is num) {
-      if (number.isInfinite) {
+      if (number.isInfinite || number.isNaN) {
         return _maxInt;
       } else {
         return number.round();
@@ -591,7 +591,12 @@ class NumberFormat {
       // a fixed-size integer type, so we extract each of the three as an
       // integer pieces.
       integerPart = _floor(number);
-      var fraction = number - integerPart;
+      double fraction;
+      if (integerPart != number) {
+        fraction = double.parse('0.${number.toString().split('.').last}');
+      } else {
+        fraction = 0;
+      }
       if (fraction.toInt() != 0) {
         // If the fractional part leftover is > 1, presumbly the number
         // was too big for a fixed-size integer, so leave it as whatever
