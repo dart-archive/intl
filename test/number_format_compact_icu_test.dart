@@ -159,14 +159,14 @@ String FormatWithUnumf(String locale, String skeleton, num number) {
   //     unumf_openForSkeletonAndLocale(u"precision-integer", -1, "en", &ec);
   // UFormattedNumber* uresult = unumf_openResult(&ec);
   // if (U_FAILURE(ec)) { return; }
-  final cLocale = Utf8.toUtf8(locale);
-  final cSkeleton = Utf16.toUtf16(skeleton);
-  final cErrorCode = allocate<Int32>(count: 1);
+  final cLocale = locale.toNativeUtf8();
+  final cSkeleton = skeleton.toNativeUtf16();
+  final cErrorCode = calloc<Int32>();
   cErrorCode.value = 0;
   final uformatter =
       unumf_openForSkeletonAndLocale!(cSkeleton, -1, cLocale, cErrorCode);
-  free(cSkeleton);
-  free(cLocale);
+  calloc.free(cSkeleton);
+  calloc.free(cLocale);
   var errorCode = cErrorCode.value;
   expect(errorCode, lessThanOrEqualTo(0),
       reason: u_errorName!(errorCode).toString());
@@ -201,7 +201,7 @@ String FormatWithUnumf(String locale, String skeleton, num number) {
   expect(errorCode, equals(15), // U_BUFFER_OVERFLOW_ERROR
       reason: u_errorName!(errorCode).toString());
   cErrorCode.value = 0;
-  final buffer = allocate<Utf16>(count: reqLen + 1);
+  final buffer = calloc<Uint16>(reqLen + 1).cast<Utf16>();
   unumf_resultToString!(uresult, buffer, reqLen + 1, cErrorCode);
   errorCode = cErrorCode.value;
   expect(errorCode, lessThanOrEqualTo(0),
@@ -211,11 +211,11 @@ String FormatWithUnumf(String locale, String skeleton, num number) {
   // // Cleanup:
   // unumf_close(uformatter);
   // unumf_closeResult(uresult);
-  // free(buffer);
+  // calloc.free(buffer);
   unumf_close!(uformatter);
   unumf_closeResult!(uresult);
-  free(buffer);
-  free(cErrorCode);
+  calloc.free(buffer);
+  calloc.free(cErrorCode);
 
   return result;
 }
@@ -229,10 +229,10 @@ typedef NativeUErrorNameOp = Pointer<Utf8> Function(Int32 code);
 typedef UErrorNameOp = Pointer<Utf8> Function(int code);
 
 /// [UNumberFormatter](http://icu-project.org/apiref/icu4c/unumberformatter_8h.html#a7c1238b2dd08f32f1ea245ece41e71bd)
-class UNumberFormatter extends Struct {}
+class UNumberFormatter extends Opaque {}
 
 /// [UFormattedNumber](http://icu-project.org/apiref/icu4c/unumberformatter_8h.html#a9d4030bdc4dd1ec4de828bf1bcf4b1b6)
-class UFormattedNumber extends Struct {}
+class UFormattedNumber extends Opaque {}
 
 /// C signature for
 /// [unumf_openForSkeletonAndLocale()](http://icu-project.org/apiref/icu4c/unumberformatter_8h.html#a29339e144833880bda36fb7c17032698)
