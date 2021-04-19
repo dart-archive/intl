@@ -243,6 +243,13 @@ class _DateFormatPatternField extends _DateFormatField {
     return formatField(date);
   }
 
+  String? tryFormat(DateTime? date) {
+    if (date != null) {
+      return formatField(date);
+    }
+    return null;
+  }
+
   /// Parse the date according to our specification and put the result
   /// into the correct place in dateFields.
   void parse(IntlStream input, DateBuilder dateFields) {

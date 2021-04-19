@@ -300,6 +300,20 @@ class DateFormat {
     return result.toString();
   }
 
+  /// Return a string representing [date] formatted according to our locale
+  /// and internal format.
+  String? tryFormat(DateTime? date) {
+    if (date != null) {
+      // TODO(efortuna): read optional TimeZone argument (or similar)?
+      var result = StringBuffer();
+      for (var field in _formatFields) {
+        result.write(field.format(date));
+      }
+      return result.toString();
+    }
+    return null;
+  }
+
   /// NOT YET IMPLEMENTED.
   ///
   /// Returns a date string indicating how long ago (3 hours, 2 minutes)
