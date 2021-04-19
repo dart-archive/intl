@@ -509,17 +509,11 @@ void runDateTests(SubsetFuncType subsetFunc) {
   // This test the tryParse feature for `DateTime?`
   test('Nullable date', () {
     var nullFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
-
     var date = DateTime(2019, 1, 2, 0, 4, 6);
     DateTime? nullableDate = DateTime(2019, 1, 2, 0, 4, 6);
-    
     expect(nullFormat.tryFormat(nullableDate), '2019-01-02 00:04:06');
-    
     nullableDate = null;
-    
     expect(nullFormat.tryFormat(null), null);
-
     expect(nullFormat.tryFormat(date), '2019-01-02 00:04:06');
-    
   });
 }
