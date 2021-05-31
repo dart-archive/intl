@@ -357,7 +357,7 @@ class _CompactNumberFormat extends NumberFormat {
     var remainder = numerator.remainder(denominator).toInt();
     var originalFraction = numerator - (numerator ~/ 1);
     var fraction = originalFraction == 0 ? 0 : originalFraction / denominator;
-    return integerPart + (remainder / denominator) + fraction;
+    return integerPart + (remainder / denominator) + fraction.toInt();
   }
 
   _CompactStyle _styleFor(number) {
