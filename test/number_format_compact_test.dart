@@ -4,11 +4,13 @@
 
 /// Tests for compact format numbers, e.g. 1.2M rather than 1,200,000
 import 'dart:math';
-import 'package:intl/number_symbols_data.dart';
-import 'package:test/test.dart';
-import 'package:intl/intl.dart';
+
 import 'package:fixnum/fixnum.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/number_symbols_data.dart';
 import 'package:intl/number_symbols_data.dart' as patterns;
+import 'package:test/test.dart';
+
 import 'compact_number_test_data_33.dart' as testdata33;
 // End-goal: to stop testing against testdata33 and use testdata35 instead:
 // import 'compact_number_test_data.dart' as testdata35;

@@ -4,9 +4,9 @@
 
 library intl_test;
 
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:test/test.dart';
-import 'package:intl/date_symbol_data_local.dart';
 
 void main() {
   test("Locale setting doesn't verify the core locale", () {

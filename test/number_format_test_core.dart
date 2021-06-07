@@ -4,9 +4,10 @@
 
 library number_format_test;
 
-import 'package:test/test.dart';
-import 'package:intl/number_symbols_data.dart';
 import 'package:intl/intl.dart';
+import 'package:intl/number_symbols_data.dart';
+import 'package:test/test.dart';
+
 import 'number_test_data.dart';
 
 /// Tests the Numeric formatting library in dart.
