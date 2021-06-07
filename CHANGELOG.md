@@ -1,13 +1,6 @@
-## 0.17.0-nullsafety.2
+## 0.17.1-dev
 
-* Update SDK constraints to >=2.12.0-0 <3.0.0 based on beta release guidelines.
-
-## 0.17.0-nullsafety.1
-
-* Allow prereleases of the 2.12 Dart SDK.
-
-## 0.17.0-nullsafety
-
+## 0.17.0
  * Migrate to null safety.
  * Add `@pragma('vm:prefer-inline')` to `Intl` methods that already have
    `@pragma('dart2js:tryInline')`, for the same reason: to help omit message
