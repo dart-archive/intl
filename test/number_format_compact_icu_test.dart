@@ -16,58 +16,62 @@ import 'compact_number_test_data.dart' as testdata35;
 import 'more_compact_number_test_data.dart' as more_testdata;
 
 main() {
-  var problemLocales = [
+  var problemLocales = {
     // ICU produces numerals in Arabic script, package:intl uses Latin script.
     'ar',
     // package:intl includes some tweaks to compact numbers for Bengali.
     'bn',
-  ];
-
+  };
   runICUTests(systemIcuVersion: 63, skipLocales: problemLocales);
 }
 
 void runICUTests(
-    {int? systemIcuVersion, String? specialIcuLib, List<String>? skipLocales}) {
-  if (!setupICU(
+    {int? systemIcuVersion,
+    String? specialIcuLib,
+    Set<String> skipLocales = const {}}) {
+  if (!_setupICU(
       systemIcuVersion: systemIcuVersion, specialIcuLibPath: specialIcuLib)) {
     return;
   }
 
-  print("Skipping problem locales $skipLocales.");
-  testdata35.compactNumberTestData
-      .removeWhere((k, v) => skipLocales!.contains(k));
+  void validate(String locale, List<List<String>> expected) {
+    _validateShort(locale, expected, skipLocales);
+    _validateLong(locale, expected, skipLocales);
+  }
+
   testdata35.compactNumberTestData.forEach(validate);
-  more_testdata.cldr35CompactNumTests.forEach(validateFancy);
+  more_testdata.cldr35CompactNumTests.forEach(_validateFancy);
 
   test('UNumberFormatter simple integer formatting', () {
-    expect(FormatWithUnumf('en', 'precision-integer', 5142.3), '5,142');
+    expect(_formatWithUnumf('en', 'precision-integer', 5142.3), '5,142');
   });
 }
 
-void validate(String locale, List<List<String>> expected) {
-  validateShort(locale, expected);
-  validateLong(locale, expected);
-}
-
-void validateShort(String locale, List<List<String>> expected) {
+void _validateShort(
+    String locale, List<List<String>> expected, Set<String> skipLocales) {
+  var skip =
+      skipLocales.contains(locale) ? 'Skipping problem locale $locale' : false;
   test('Validate $locale SHORT', () {
     for (var data in expected) {
       var number = num.parse(data.first);
-      expect(FormatWithUnumf(locale, 'compact-short', number), data[1]);
+      expect(_formatWithUnumf(locale, 'compact-short', number), data[1]);
     }
-  });
+  }, skip: skip);
 }
 
-void validateLong(String locale, List<List<String>> expected) {
+void _validateLong(
+    String locale, List<List<String>> expected, Set<String> skipLocales) {
+  var skip =
+      skipLocales.contains(locale) ? 'Skipping problem locale $locale' : false;
   test('Validate $locale LONG', () {
     for (var data in expected) {
       var number = num.parse(data.first);
-      expect(FormatWithUnumf(locale, 'compact-long', number), data[2]);
+      expect(_formatWithUnumf(locale, 'compact-long', number), data[2]);
     }
-  });
+  }, skip: skip);
 }
 
-void validateFancy(more_testdata.CompactRoundingTestCase t) {
+void _validateFancy(more_testdata.CompactRoundingTestCase t) {
   var locale = 'en';
   var skel = 'compact-short';
   if (t.minimumIntegerDigits != null) {
@@ -84,7 +88,7 @@ void validateFancy(more_testdata.CompactRoundingTestCase t) {
     skel += ' .' + '#' * t.maximumFractionDigits!;
   }
   test(t.toString(), () {
-    expect(FormatWithUnumf(locale, skel, t.number), t.expected,
+    expect(_formatWithUnumf(locale, skel, t.number), t.expected,
         reason: 'Skeleton: $skel');
   });
 }
@@ -106,7 +110,7 @@ UnumfCloseResultOp? unumf_closeResult;
 ///
 /// If [systemIcuVersion] is unspecified, we expect to find all functions in a
 /// library with filename [specialIcuLibPath].
-bool setupICU({int? systemIcuVersion, String? specialIcuLibPath}) {
+bool _setupICU({int? systemIcuVersion, String? specialIcuLibPath}) {
   DynamicLibrary libicui18n;
   String icuVersionSuffix;
   if (systemIcuVersion != null) {
@@ -152,7 +156,7 @@ bool setupICU({int? systemIcuVersion, String? specialIcuLibPath}) {
   return true;
 }
 
-String FormatWithUnumf(String locale, String skeleton, num number) {
+String _formatWithUnumf(String locale, String skeleton, num number) {
   // // Setup:
   // UErrorCode ec = U_ZERO_ERROR;
   // UNumberFormatter* uformatter =
