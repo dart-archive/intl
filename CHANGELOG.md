@@ -1,5 +1,7 @@
 ## 0.17.1-dev
 
+* Add optional parameter to `NumberFormat.compact()` to provide custom pattern.
+
 ## 0.17.0
  * Migrate to null safety.
  * Add `@pragma('vm:prefer-inline')` to `Intl` methods that already have
