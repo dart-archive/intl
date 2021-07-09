@@ -559,7 +559,7 @@ String? toBeginningOfSentenceCase(String? input, [String? locale]) {
 String _upperCaseLetter(String input, String? locale) {
   // Hard-code the important edge case of i->İ
   if (locale != null) {
-    if (input == 'i' && locale.startsWith('tr') || locale.startsWith('az')) {
+    if (input == 'i' && (locale.startsWith('tr') || locale.startsWith('az'))) {
       return '\u0130';
     }
   }
