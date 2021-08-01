@@ -30,7 +30,7 @@ typedef _PatternGetter = String? Function(NumberSymbols);
 /// - `.` Decimal separator
 /// - `-` Minus sign
 /// - `,` Grouping separator
-/// - `E` Separates mantissa and expontent
+/// - `E` Separates mantissa and exponent
 /// - `+` - Before an exponent, to say it should be prefixed with a plus sign.
 /// - `%` - In prefix or suffix, multiply by 100 and show as percentage
 /// - `‰ (\u2030)` In prefix or suffix, multiply by 1000 and show as per mille
