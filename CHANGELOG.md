@@ -1,6 +1,7 @@
 ## 0.17.1-dev
 
 * Add optional parameter to `NumberFormat.compact()` to provide custom pattern.
+* Require Dart SDK `2.12.0`, with null safety.
 
 ## 0.17.0
  * Migrate to null safety.
