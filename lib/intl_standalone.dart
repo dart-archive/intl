@@ -20,7 +20,7 @@ import 'intl.dart';
 /// Find the system locale, accessed via the appropriate system APIs, and
 /// set it as the default for internationalization operations in
 /// the [Intl.systemLocale] variable.
-Future<String> findSystemLocale() {
+Future<String?> findSystemLocale() {
   try {
     Intl.systemLocale = Intl.canonicalizedLocale(Platform.localeName);
   } catch (e) {
