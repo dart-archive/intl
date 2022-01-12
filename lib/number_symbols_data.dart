@@ -2722,9 +2722,9 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
   }),
   // Compact number symbols for locale de.
   "de": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
-    3: '0',
-    4: '0',
-    5: '0',
+    3: '0\u00A0k',
+    4: '00\u00A0k',
+    5: '000\u00A0k',
     6: '0\u00A0Mio.',
     7: '00\u00A0Mio.',
     8: '000\u00A0Mio.',
