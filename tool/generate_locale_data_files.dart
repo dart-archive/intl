@@ -16,9 +16,16 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/date_time_patterns.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart' as path;
-import '../test/data_directory.dart';
+import '../test/data_directory.dart' as test;
 
-void main() {
+String dataDirectoryOverride;
+
+String get dataDirectory => dataDirectoryOverride ?? test.dataDirectory;
+
+void main(List<String> args) {
+  if (args.length > 0) {
+    dataDirectoryOverride = args[0];
+  }
   initializeDateFormatting('en_IGNORED', null);
   writeSymbolData();
   writePatternData();
