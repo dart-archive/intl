@@ -11,9 +11,7 @@ import 'package:intl/number_symbols_data.dart';
 import 'package:intl/number_symbols_data.dart' as patterns;
 import 'package:test/test.dart';
 
-import 'compact_number_test_data_33.dart' as testdata33;
-// End-goal: to stop testing against testdata33 and use testdata35 instead:
-// import 'compact_number_test_data.dart' as testdata35;
+import 'compact_number_test_data.dart' as testdata;
 import 'more_compact_number_test_data.dart' as more_testdata;
 
 /// A place to put a case that's causing a problem and have it run first when
@@ -53,7 +51,7 @@ var compactWithPatternCases = <List<String>>[
 
 void main() {
   interestingCases.forEach(_validate);
-  testdata33.compactNumberTestData.forEach(_validate);
+  testdata.compactNumberTestData.forEach(_validate);
   more_testdata.oldIntlCompactNumTests.forEach(_validateFancy);
   // Once code and data is updated to CLDR35:
   // testdata35.compactNumberTestData.forEach(validate);
@@ -173,7 +171,7 @@ void testCurrency(
 // TODO(alanknight): Fix the problems, or at least figure out precisely where
 // the differences are.
 var _skipLocalsShort = {
-  'am', // AM Suffixes differ, not sure why.
+  'bn', // Bad prefix.
   'ca', // For CA, CLDR rules are different. Jumps from 0000 to 00 prefix, so
   // 11 digits prints as 11900.
   'es_419', // Some odd formatting rules for these which seem to be different
@@ -184,21 +182,9 @@ var _skipLocalsShort = {
   // Actual: '87.7 M'
   'es_MX', // like es_419
   'es',
-  'fa',
-  'fr_CA', // Several where PyICU isn't compacting. Expected: '988000000'
-  // Actual: '988 M'.
-  'gsw', // Suffixes disagree
-  'in', // IN not compacting 54321, looks similar to tr.
-  'id', // ID not compacting 54321, looks similar to tr.
   'ka', // K Slight difference in the suffix
   'kk', 'mn', // We're picking the wrong pattern for 654321.
   'lo', 'mk', 'my',
-  'pt_PT', // Seems to differ in appending mil or not after thousands. pt_BR
-  // does it.
-  'sd', // ICU considers this locale data questionable
-  'th', // TH Expected abbreviations as '1.09 พ.ล.' rather than '1.09 พ'
-  'tr', // TR Doesn't have a 0B format, goes directly to 00B, as a result 54321
-  // just prints as 54321
   'ur', // UR Fails one with Expected: '15 ٹریلین'  Actual: '150 کھرب'
 };
 
@@ -213,16 +199,16 @@ var _skipLocalsShort = {
 // 999999.
 var _skipLocalesLong = {
   'ar', 'ar_DZ', 'ar_EG',
-  'be', 'bg', 'bs',
+  'be', 'bg', 'bn', 'bs',
   'ca', 'cs', 'da', 'de', 'de_AT', 'de_CH', 'el', 'es', 'es_419', 'es_ES',
-  'es_MX', 'es_US', 'et', 'fi',
+  'es_MX', 'es_US', 'et', 'eu', 'fi',
   'fil', // FIL is different, seems like a genuine difference in suffixes
-  'fr', 'fr_CA',
-  'fr_CH', // TODO(alanknight): million/millions, supported since CLDR 31.
+  'fr', 'fr_CA', // TODO(alanknight): million/millions, supported since CLDR 31.
+  'fr_CH',
   'ga', 'gl',
   'gsw', // GSW seems like we have long forms and pyICU doesn't
-  'hr', 'is', 'it',
-  'it_CH', 'lo', // LO seems to be picking up a different pattern.
+  'hr', 'is', 'it', 'it_CH',
+  'km',
   'lt', 'lv', 'mk',
   'my', // Seems to come out in the reverse order
   'nb', 'ne', 'no', 'no_NO', 'pl',
@@ -231,8 +217,7 @@ var _skipLocalesLong = {
   'pt_BR', 'pt_PT', 'ro', 'ru',
   'sd', // ICU considers this locale data questionable
   'sk', 'sl', 'sr', 'sr_Latn', 'sv', 'te', 'tl',
-  'ur',
-  'uk',
+  'uk', 'ur',
 };
 
 void _validate(String locale, List<List<String>> expected) {

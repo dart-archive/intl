@@ -10,6 +10,8 @@
 library plural_test;
 
 import 'package:intl/intl.dart';
+import 'package:intl/src/data/dates/locale_list.dart' as locale_list;
+import 'package:intl/src/plural_rules.dart' as plural_rules;
 import 'package:test/test.dart';
 
 /// Hard-coded expected values for a Russian plural rule.
@@ -184,6 +186,8 @@ String pluralNoZero(n, locale) => Intl.plural(n,
     other: '$n:Other');
 
 void main() {
+  verifyLocaleDefinition();
+
   verify(expectedRu, 'ru', plural);
   verify(expectedRu, 'ru_RU', plural);
   verify(expectedEn, 'en', plural);
@@ -209,6 +213,18 @@ void main() {
 
   verifyWithPrecision('3 dollars', 'en', 3.14, 0);
   verifyWithPrecision('3.14 dollars', 'en', 3.14, 2);
+}
+
+void verifyLocaleDefinition() {
+  group('Check locale plural definition', () {
+    // This is a good base of locales (Tier1).
+    for (var locale in locale_list.availableLocalesForDateFormatting) {
+      test('for locale: $locale', () {
+        var plural = plural_rules.pluralRules[locale];
+        expect(plural, isNotNull);
+      });
+    }
+  });
 }
 
 void verify(String expectedValues, String locale, pluralFunction) {

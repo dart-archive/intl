@@ -138,13 +138,6 @@ PluralCase _fil_rule() {
   return OTHER;
 }
 
-PluralCase _pt_PT_rule() {
-  if (_n == 1 && _v == 0) {
-    return ONE;
-  }
-  return OTHER;
-}
-
 PluralCase _br_rule() {
   if (_n % 10 == 1 && _n % 100 != 11 && _n % 100 != 71 && _n % 100 != 91) {
     return ONE;
@@ -179,16 +172,6 @@ PluralCase _sr_rule() {
   return OTHER;
 }
 
-PluralCase _ro_rule() {
-  if (_i == 1 && _v == 0) {
-    return ONE;
-  }
-  if (_v != 0 || _n == 0 || _n != 1 && _n % 100 >= 1 && _n % 100 <= 19) {
-    return FEW;
-  }
-  return OTHER;
-}
-
 PluralCase _hi_rule() {
   if (_i == 0 || _n == 1) {
     return ONE;
@@ -196,8 +179,22 @@ PluralCase _hi_rule() {
   return OTHER;
 }
 
-PluralCase _fr_rule() {
-  if (_i == 0 || _i == 1) {
+PluralCase _es_rule() {
+  if (_n == 1) {
+    return ONE;
+  }
+  return OTHER;
+}
+
+PluralCase _hy_rule() {
+  if (_n >= 0 && _n <= 1.5) {
+    return ONE;
+  }
+  return OTHER;
+}
+
+PluralCase _pt_rule() {
+  if (_n >= 0 && _n <= 2 && _n != 2) {
     return ONE;
   }
   return OTHER;
@@ -230,6 +227,13 @@ PluralCase _pl_rule() {
       _v == 0 && _i % 10 >= 5 && _i % 10 <= 9 ||
       _v == 0 && _i % 100 >= 12 && _i % 100 <= 14) {
     return MANY;
+  }
+  return OTHER;
+}
+
+PluralCase _it_rule() {
+  if (_n == 1 && _v == 0) {
+    return ONE;
   }
   return OTHER;
 }
@@ -326,6 +330,9 @@ PluralCase _ru_rule() {
 }
 
 PluralCase _be_rule() {
+  if (_v != 0) {
+    return OTHER;
+  }
   if (_n % 10 == 1 && _n % 100 != 11) {
     return ONE;
   }
@@ -340,14 +347,17 @@ PluralCase _be_rule() {
   return OTHER;
 }
 
-PluralCase _mk_rule() {
-  if (_v == 0 && _i % 10 == 1 || _f % 10 == 1) {
+PluralCase _fr_rule() {
+  if (_n >= 0 && _n <= 1.5) {
     return ONE;
   }
   return OTHER;
 }
 
 PluralCase _ga_rule() {
+  if (_v != 0) {
+    return OTHER;
+  }
   if (_n == 1) {
     return ONE;
   }
@@ -363,15 +373,15 @@ PluralCase _ga_rule() {
   return OTHER;
 }
 
-PluralCase _pt_rule() {
-  if (_n >= 0 && _n <= 2 && _n != 2) {
+PluralCase _af_rule() {
+  if (_i == 1 && _v == 0) {
     return ONE;
   }
   return OTHER;
 }
 
-PluralCase _es_rule() {
-  if (_n == 1) {
+PluralCase _mk_rule() {
+  if (_v == 0 && _i % 10 == 1 || _f % 10 == 1) {
     return ONE;
   }
   return OTHER;
@@ -384,8 +394,21 @@ PluralCase _is_rule() {
   return OTHER;
 }
 
+PluralCase _ro_rule() {
+  if (_i == 1 && _v == 0) {
+    return ONE;
+  }
+  if (_v != 0 || _n == 0 || _n != 1 && _n % 100 >= 1 && _n % 100 <= 19) {
+    return FEW;
+  }
+  return OTHER;
+}
+
 PluralCase _ar_rule() {
-  if (_n == 0) {
+  if (_v != 0) {
+    return OTHER;
+  }
+  if (_n == 1) {
     return ZERO;
   }
   if (_n == 1) {
@@ -417,10 +440,13 @@ PluralCase _sl_rule() {
 }
 
 PluralCase _lt_rule() {
-  if (_n % 10 == 1 && (_n % 100 < 11 || _n % 100 > 19)) {
+  if (_v == 0 && _n % 10 == 1 && (_n % 100 < 11 || _n % 100 > 19)) {
     return ONE;
   }
-  if (_n % 10 >= 2 && _n % 10 <= 9 && (_n % 100 < 11 || _n % 100 > 19)) {
+  if (_v == 0 &&
+      _n % 10 >= 2 &&
+      _n % 10 <= 9 &&
+      (_n % 100 < 11 || _n % 100 > 19)) {
     return FEW;
   }
   if (_f != 0) {
@@ -436,8 +462,8 @@ PluralCase _en_rule() {
   return OTHER;
 }
 
-PluralCase _ak_rule() {
-  if (_n >= 0 && _n <= 1) {
+PluralCase _ln_rule() {
+  if (_v == 00 && (_i == 0 || _i == 1)) {
     return ONE;
   }
   return OTHER;
@@ -445,30 +471,34 @@ PluralCase _ak_rule() {
 
 /// Selected Plural rules by locale.
 final pluralRules = {
-  'af': _es_rule,
+  'en_ISO': _en_rule,
+  'af': _af_rule,
   'am': _hi_rule,
   'ar': _ar_rule,
-  'az': _es_rule,
+  'ar_DZ': _ar_rule,
+  'ar_EG': _ar_rule,
+  'az': _af_rule,
   'be': _be_rule,
-  'bg': _es_rule,
+  'bg': _af_rule,
   'bn': _hi_rule,
   'br': _br_rule,
   'bs': _sr_rule,
   'ca': _en_rule,
-  'chr': _es_rule,
+  'chr': _af_rule,
   'cs': _cs_rule,
   'cy': _cy_rule,
   'da': _da_rule,
   'de': _en_rule,
   'de_AT': _en_rule,
   'de_CH': _en_rule,
-  'el': _es_rule,
+  'el': _af_rule,
   'en': _en_rule,
   'en_AU': _en_rule,
   'en_CA': _en_rule,
   'en_GB': _en_rule,
   'en_IE': _en_rule,
   'en_IN': _en_rule,
+  'en_MY': _en_rule,
   'en_SG': _en_rule,
   'en_US': _en_rule,
   'en_ZA': _en_rule,
@@ -478,76 +508,79 @@ final pluralRules = {
   'es_MX': _es_rule,
   'es_US': _es_rule,
   'et': _en_rule,
-  'eu': _es_rule,
+  'eu': _af_rule,
   'fa': _hi_rule,
   'fi': _en_rule,
   'fil': _fil_rule,
   'fr': _fr_rule,
   'fr_CA': _fr_rule,
+  'fr_CH': _fr_rule,
   'ga': _ga_rule,
   'gl': _en_rule,
-  'gsw': _es_rule,
+  'gsw': _af_rule,
   'gu': _hi_rule,
-  'haw': _es_rule,
+  'haw': _af_rule,
   'he': _he_rule,
   'hi': _hi_rule,
   'hr': _sr_rule,
-  'hu': _es_rule,
-  'hy': _fr_rule,
+  'hu': _af_rule,
+  'hy': _hy_rule,
   'id': _default_rule,
   'in': _default_rule,
   'is': _is_rule,
-  'it': _en_rule,
+  'it': _it_rule,
+  'it_CH': _it_rule,
   'iw': _he_rule,
   'ja': _default_rule,
-  'ka': _es_rule,
-  'kk': _es_rule,
+  'ka': _af_rule,
+  'kk': _af_rule,
   'km': _default_rule,
   'kn': _hi_rule,
   'ko': _default_rule,
-  'ky': _es_rule,
-  'ln': _ak_rule,
+  'ky': _af_rule,
+  'ln': _ln_rule,
   'lo': _default_rule,
   'lt': _lt_rule,
   'lv': _lv_rule,
   'mk': _mk_rule,
-  'ml': _es_rule,
-  'mn': _es_rule,
+  'ml': _af_rule,
+  'mn': _af_rule,
   'mo': _ro_rule,
-  'mr': _hi_rule,
+  'mr': _af_rule,
   'ms': _default_rule,
   'mt': _mt_rule,
   'my': _default_rule,
-  'nb': _es_rule,
-  'ne': _es_rule,
+  'nb': _af_rule,
+  'ne': _af_rule,
   'nl': _en_rule,
-  'no': _es_rule,
+  'no': _af_rule,
   'no_NO': _es_rule,
-  'or': _es_rule,
-  'pa': _ak_rule,
+  'or': _af_rule,
+  'pa': _ln_rule,
   'pl': _pl_rule,
+  'ps': _af_rule,
   'pt': _pt_rule,
   'pt_BR': _pt_rule,
-  'pt_PT': _pt_PT_rule,
+  'pt_PT': _it_rule,
   'ro': _ro_rule,
   'ru': _ru_rule,
   'sh': _sr_rule,
   'si': _si_rule,
   'sk': _cs_rule,
   'sl': _sl_rule,
-  'sq': _es_rule,
+  'sq': _af_rule,
   'sr': _sr_rule,
   'sr_Latn': _sr_rule,
   'sv': _en_rule,
   'sw': _en_rule,
-  'ta': _es_rule,
-  'te': _es_rule,
+  'ta': _af_rule,
+  'te': _af_rule,
   'th': _default_rule,
   'tl': _fil_rule,
-  'tr': _es_rule,
+  'tr': _af_rule,
   'uk': _ru_rule,
   'ur': _en_rule,
-  'uz': _es_rule,
+  'uz': _af_rule,
   'vi': _default_rule,
   'zh': _default_rule,
   'zh_CN': _default_rule,
