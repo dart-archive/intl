@@ -1,6 +1,7 @@
 ## 0.17.1-dev
 
-* Add optional parameter to `NumberFormat.compact()` to provide custom pattern.
+ * Add optional parameter to `NumberFormat.compact()` to provide custom pattern.
+ * Update to cldr 40.
 
 ## 0.17.0
  * Migrate to null safety.

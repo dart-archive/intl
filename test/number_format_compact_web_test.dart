@@ -9,11 +9,11 @@ import 'package:intl/intl.dart' as intl;
 import 'package:js/js_util.dart' as js;
 import 'package:test/test.dart';
 
-import 'compact_number_test_data.dart' as testdata35;
+import 'compact_number_test_data.dart' as testdata;
 import 'more_compact_number_test_data.dart' as more_testdata;
 
 void main() {
-  testdata35.compactNumberTestData.forEach(_validate);
+  testdata.compactNumberTestData.forEach(_validate);
   more_testdata.cldr35CompactNumTests.forEach(_validateMore);
 
   test('RTL currency formatting', () {
@@ -26,15 +26,15 @@ void main() {
 
     var compact = intl.NumberFormat.compactCurrency(locale: 'he');
     // Awkward:
-    expect(compact.format(1234), 'ILS \u200F1.23K');
+    expect(compact.format(1234), 'ILS\u200F1.23K\u200F');
     compact = intl.NumberFormat.compactCurrency(locale: 'he', symbol: '₪');
     // Awkward:
-    expect(compact.format(1234), '₪ \u200F1.23K');
+    expect(compact.format(1234), '₪\u200F1.23K\u200F');
     // ECMAScript skips the RTL character for notation:'compact':
     expect(
         _ecmaFormatNumber('he', 1234,
             style: 'currency', currency: 'ILS', notation: 'compact'),
-        '₪ 1.2K');
+        '₪1.2K\u200F');
     // short/long compactDisplay doesn't change anything here:
     expect(
         _ecmaFormatNumber('he', 1234,
@@ -42,17 +42,17 @@ void main() {
             currency: 'ILS',
             notation: 'compact',
             compactDisplay: 'short'),
-        '₪ 1.2K');
+        '₪1.2K\u200F');
     expect(
         _ecmaFormatNumber('he', 1234,
             style: 'currency',
             currency: 'ILS',
             notation: 'compact',
             compactDisplay: 'long'),
-        '₪ 1.2K');
+        '₪1.2K\u200F');
 
     var compactSimple = intl.NumberFormat.compactSimpleCurrency(locale: 'he');
-    expect(compactSimple.format(1234), '₪ \u200F1.23K');
+    expect(compactSimple.format(1234), '₪\u200F1.23K\u200F');
   });
 }
 
@@ -60,7 +60,9 @@ String _ecmaFormatNumber(String locale, num number,
     {String? style,
     String? currency,
     String? notation,
-    String? compactDisplay}) {
+    String? compactDisplay,
+    int? maximumSignificantDigits,
+    bool? useGrouping}) {
   var options = js.newObject();
   if (notation != null) js.setProperty(options, 'notation', notation);
   if (compactDisplay != null) {
@@ -68,22 +70,33 @@ String _ecmaFormatNumber(String locale, num number,
   }
   if (style != null) js.setProperty(options, 'style', style);
   if (currency != null) js.setProperty(options, 'currency', currency);
+  if (maximumSignificantDigits != null) {
+    js.setProperty(
+        options, 'maximumSignificantDigits', maximumSignificantDigits);
+  }
+  if (useGrouping != null) js.setProperty(options, 'useGrouping', useGrouping);
   return js.callMethod(number, 'toLocaleString', [locale, options]);
 }
 
-var _unsupportedChromeLocales = {
+var _unsupportedChromeLocales = [
   // Not supported in Chrome:
-  'af', 'az', 'be', 'br', 'bs', 'eu', 'ga', 'gl', 'gsw', 'haw', 'hy', 'is',
-  'ka', 'kk', 'km', 'ky', 'ln', 'lo', 'mk', 'mn', 'mt', 'my', 'ne', 'no',
-  'no-NO', 'or', 'pa', 'si', 'sq', 'ur', 'uz', 'ps', 'chr', 'cy', 'tl', 'zu'
-};
+  'af', 'az', 'be', 'br', 'bs', 'chr', 'cy', 'eu', 'ga', 'gl', 'gsw', 'haw',
+  'hy', 'is', 'ka', 'kk', 'km', 'ky', 'ln', 'lo', 'mk', 'mn', 'mt', 'my', 'ne',
+  'or', 'pa', 'si', 'sq', 'ur', 'uz', 'zu', 'ps'
+];
 
 var _skipLocalesShort = [
-  'am', 'bn', 'fa', // Some results change in chrome 88
+  'en-IN', // Expected: '160LCr', actual: '160T'.
+  'es-US', // Expected: '1090 M', actual: '1.09 B'.
+  'et', // Expected: '1,4 trln', actual: '1,4 trl'.
+  'fa', // Expected: '۹۸۸ میلیون' , actual: '۹۸۸ م'.
   ..._unsupportedChromeLocales
 ];
 
-var _skipLocalesLong = _unsupportedChromeLocales;
+var _skipLocalesLong = [
+  'es-US', // Expected: '1.09 mil millon', actual: '1.09 billones'.
+  ..._unsupportedChromeLocales
+];
 
 String _fixLocale(String locale) {
   return locale.replaceAll('_', '-');
@@ -102,7 +115,15 @@ void _validateShort(String locale, List<List<String>> expected) {
   test('Validate $locale SHORT', () {
     for (var data in expected) {
       var number = num.parse(data.first);
-      expect(_ecmaFormatNumber(locale, number, notation: 'compact'), data[1]);
+      expect(
+          _ecmaFormatNumber(
+            locale,
+            number,
+            notation: 'compact',
+            maximumSignificantDigits: 3,
+            useGrouping: false,
+          ),
+          data[1]);
     }
   }, skip: skip);
 }
@@ -116,8 +137,14 @@ void _validateLong(String locale, List<List<String>> expected) {
     for (var data in expected) {
       var number = num.parse(data.first);
       expect(
-          _ecmaFormatNumber(locale, number,
-              notation: 'compact', compactDisplay: 'long'),
+          _ecmaFormatNumber(
+            locale,
+            number,
+            notation: 'compact',
+            compactDisplay: 'long',
+            maximumSignificantDigits: 3,
+            useGrouping: false,
+          ),
           data[2]);
     }
   }, skip: skip);
