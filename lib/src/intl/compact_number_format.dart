@@ -13,18 +13,6 @@ abstract class _CompactStyleBase {
   /// negative.
   _CompactStyle styleForSign(number);
 
-  /// How many total digits do we expect in the number.
-  ///
-  /// If the pattern is
-  ///
-  ///       4: '00K',
-  ///
-  /// then this is 5, meaning we expect this to be a 5-digit (or more)
-  /// number. We will scale by 1000 and expect 2 integer digits remaining, so we
-  /// get something like '12K'. This is used to find the closest pattern for a
-  /// number.
-  int get totalDigits;
-
   /// What should we divide the number by in order to print. Normally it is
   /// either `10^normalizedExponent` or 1 if we shouldn't divide at all.
   int get divisor;
@@ -43,7 +31,6 @@ class _CompactStyleWithNegative extends _CompactStyleBase {
   final _CompactStyle negativeStyle;
   _CompactStyle styleForSign(number) =>
       number < 0 ? negativeStyle : positiveStyle;
-  int get totalDigits => positiveStyle.totalDigits;
   int get divisor => positiveStyle.divisor;
   List<_CompactStyle> get allStyles => [positiveStyle, negativeStyle];
 }
@@ -57,58 +44,26 @@ class _CompactStyleWithNegative extends _CompactStyleBase {
 ///       4: '00K'
 /// which matches
 ///
-///       _CompactStyle(pattern: '00K', normalizedExponent: 4, divisor: 1000,
-///           expectedDigits: 1, prefix: '', suffix: 'K');
-///
-/// where expectedDigits is the number of zeros.
+///       _CompactStyle(pattern: '00K', divisor: 1000,
+///           prefix: '', suffix: 'K');
 class _CompactStyle extends _CompactStyleBase {
   _CompactStyle(
-      {this.pattern,
-      this.normalizedExponent = 0,
-      this.divisor = 1,
-      this.expectedDigits = 1,
-      this.prefix = '',
-      this.suffix = ''});
+      {this.pattern, this.divisor = 1, this.prefix = '', this.suffix = ''});
 
   /// The pattern on which this is based.
   ///
   /// We don't actually need this, but it makes debugging easier.
   String? pattern;
 
-  /// The normalized scientific notation exponent for which the format applies.
-  ///
-  /// So if this is 3, we expect it to apply for numbers from 1000 and up.
-  /// Typically it would be from 1000 to 9999, but that depends if there's a
-  /// style for 4 or not. This is the CLDR index of the pattern, and usually
-  /// determines the divisor, but if the pattern is just a 0 with no prefix or
-  /// suffix then we don't divide at all.
-  int normalizedExponent;
-
   /// What should we divide the number by in order to print. Normally is either
   /// 10^normalizedExponent or 1 if we shouldn't divide at all.
   int divisor;
-
-  /// How many integer digits do we expect to print - the number of zeros in the
-  /// CLDR pattern.
-  int expectedDigits;
 
   /// Text we put in front of the number part.
   String prefix;
 
   /// Text we put after the number part.
   String suffix;
-
-  /// How many total digits do we expect in the number.
-  ///
-  /// If the pattern is
-  ///
-  ///       4: '00K',
-  ///
-  /// then this is 5, meaning we expect this to be a 5-digit (or more)
-  /// number. We will scale by 1000 and expect 2 integer digits remaining, so we
-  /// get something like '12K'. This is used to find the closest pattern for a
-  /// number.
-  int get totalDigits => normalizedExponent + expectedDigits - 1;
 
   /// Return true if this is the fallback compact pattern, printing the number
   /// un-compacted. e.g. 1200 might print as '1.2K', but 12 just prints as '12'.
@@ -117,15 +72,6 @@ class _CompactStyle extends _CompactStyleBase {
   /// so that we will respect things like the default number of decimal digits
   /// for a particular currency (e.g. two for USD, zero for JPY)
   bool get isFallback => pattern == null || pattern == '0';
-
-  /// Should we print the number as-is, without dividing.
-  ///
-  /// This happens if the pattern has no abbreviation for scaling (e.g. K, M).
-  /// So either the pattern is empty or it is of a form like '0 $'. This is a
-  /// workaround for locales like 'it', which include patterns with no suffix
-  /// for numbers >= 1000 but < 1,000,000.
-  bool get printsAsIs =>
-      isFallback || pattern!.replaceAll(RegExp('[0\u00a0\u00a4]'), '').isEmpty;
 
   _CompactStyle styleForSign(number) => this;
   List<_CompactStyle> get allStyles => [this];
@@ -155,12 +101,7 @@ class _CompactStyle extends _CompactStyleBase {
       divisor = pow(10, normalizedExponent - integerDigits + 1) as int;
     }
     return _CompactStyle(
-        pattern: pattern,
-        normalizedExponent: normalizedExponent,
-        expectedDigits: integerDigits,
-        prefix: prefix,
-        suffix: suffix,
-        divisor: divisor);
+        pattern: pattern, prefix: prefix, suffix: suffix, divisor: divisor);
   }
 }
 
@@ -175,7 +116,8 @@ class _CompactNumberFormat extends NumberFormat {
   /// A default, using the decimal pattern, for the `getPattern` constructor parameter.
   static String _forDecimal(NumberSymbols symbols) => symbols.DECIMAL_PATTERN;
 
-  final List<_CompactStyleBase> _styles;
+  // Map exponent => style.
+  final Map<int, _CompactStyleBase> _styles;
 
   factory _CompactNumberFormat(
       {String? locale,
@@ -213,7 +155,7 @@ class _CompactNumberFormat extends NumberFormat {
 
     var compactSymbols = compactNumberSymbols[locale]!;
 
-    var styles = <_CompactStyleBase>[];
+    var styles = <int, _CompactStyleBase>{};
     switch (formatType) {
       case _CompactFormatType.COMPACT_DECIMAL_SHORT_PATTERN:
         patterns = compactSymbols.COMPACT_DECIMAL_SHORT_PATTERN;
@@ -233,18 +175,13 @@ class _CompactNumberFormat extends NumberFormat {
     patterns.forEach((int exponent, String pattern) {
       if (pattern.contains(';')) {
         var patterns = pattern.split(';');
-        styles.add(_CompactStyleWithNegative(
+        styles[exponent] = _CompactStyleWithNegative(
             _CompactStyle.createStyle(patterns.first, exponent),
-            _CompactStyle.createStyle(patterns.last, exponent)));
+            _CompactStyle.createStyle(patterns.last, exponent));
       } else {
-        styles.add(_CompactStyle.createStyle(pattern, exponent));
+        styles[exponent] = _CompactStyle.createStyle(pattern, exponent);
       }
     });
-
-    // Reverse the styles so that we look through them from largest to smallest.
-    styles = styles.reversed.toList();
-    // Add a fallback style that just prints the number.
-    styles.add(_CompactStyle());
 
     return _CompactNumberFormat._(
         name,
@@ -286,7 +223,7 @@ class _CompactNumberFormat extends NumberFormat {
   String format(number) {
     var style = _styleFor(number);
     _style = style;
-    final divisor = style.printsAsIs ? 1 : style.divisor;
+    final divisor = style.isFallback ? 1 : style.divisor;
     final numberToFormat = _divide(number, divisor);
     var formatted = super.format(numberToFormat);
     var prefix = style.prefix;
@@ -373,20 +310,23 @@ class _CompactNumberFormat extends NumberFormat {
       var rounded = (number.toDouble() / divisor).round() * divisor;
       digitLength = NumberFormat.numberOfIntegerDigits(rounded);
     }
-    for (var style in _styles) {
-      if (digitLength > style.totalDigits) {
-        return style.styleForSign(number);
+
+    var expectedExponent = digitLength - 1;
+    _CompactStyleBase? style;
+    for (var entries in _styles.entries) {
+      if (entries.key > expectedExponent) {
+        break;
       }
+      style = entries.value;
     }
-    throw FormatException(
-        'No compact style found for number. This should not happen', number);
+    return style?.styleForSign(number) ?? _defaultCompactStyle;
   }
 
   Iterable<_CompactStyle> get _stylesForSearching =>
-      _styles.reversed.expand((x) => x.allStyles);
+      _styles.values.expand((x) => x.allStyles);
 
   num parse(String text) {
-    for (var style in _stylesForSearching) {
+    for (var style in [_defaultCompactStyle, ..._stylesForSearching]) {
       if (text.startsWith(style.prefix) && text.endsWith(style.suffix)) {
         var numberText = text.substring(
             style.prefix.length, text.length - style.suffix.length);
@@ -409,3 +349,5 @@ class _CompactNumberFormat extends NumberFormat {
     }
   }
 }
+
+final _defaultCompactStyle = _CompactStyle();
