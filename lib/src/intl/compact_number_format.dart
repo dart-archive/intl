@@ -48,7 +48,12 @@ class _CompactStyleWithNegative extends _CompactStyleBase {
 ///           prefix: '', suffix: 'K');
 class _CompactStyle extends _CompactStyleBase {
   _CompactStyle(
-      {this.pattern, this.divisor = 1, this.prefix = '', this.suffix = ''});
+      {this.pattern,
+      this.divisor = 1,
+      this.positivePrefix = '',
+      this.negativePrefix = '',
+      this.positiveSuffix = '',
+      this.negativeSuffix = ''});
 
   /// The pattern on which this is based.
   ///
@@ -59,11 +64,11 @@ class _CompactStyle extends _CompactStyleBase {
   /// 10^normalizedExponent or 1 if we shouldn't divide at all.
   int divisor;
 
-  /// Text we put in front of the number part.
-  String prefix;
-
-  /// Text we put after the number part.
-  String suffix;
+  // Prefixes / suffixes.
+  String positivePrefix;
+  String negativePrefix;
+  String positiveSuffix;
+  String negativeSuffix;
 
   /// Return true if this is the fallback compact pattern, printing the number
   /// un-compacted. e.g. 1200 might print as '1.2K', but 12 just prints as '12'.
@@ -85,11 +90,20 @@ class _CompactStyle extends _CompactStyleBase {
       !_justZeros.hasMatch(pattern);
 
   /// Creates a [_CompactStyle] instance for pattern with [normalizedExponent].
-  static _CompactStyle createStyle(String pattern, int normalizedExponent) {
+  static _CompactStyle createStyle(
+      NumberSymbols symbols, String pattern, int normalizedExponent,
+      {bool isSigned = false, bool explicitSign = false}) {
     var match = _regex.firstMatch(pattern);
     var integerDigits = match!.group(2)!.length;
     var prefix = match.group(1)!;
     var suffix = match.group(3)!;
+
+    final positivePrefix =
+        (explicitSign && !isSigned) ? '${symbols.PLUS_SIGN}$prefix' : prefix;
+    final negativePrefix =
+        (!isSigned) ? '${symbols.MINUS_SIGN}$prefix' : prefix;
+    final positiveSuffix = suffix;
+    final negativeSuffix = suffix;
     // If the pattern is just zeros, with no suffix, then we shouldn't divide
     // by the number of digits. e.g. for 'af', the pattern for 3 is '0', but
     // it doesn't mean that 4321 should print as 4. But if the pattern was
@@ -101,7 +115,12 @@ class _CompactStyle extends _CompactStyleBase {
       divisor = pow(10, normalizedExponent - integerDigits + 1) as int;
     }
     return _CompactStyle(
-        pattern: pattern, prefix: prefix, suffix: suffix, divisor: divisor);
+        pattern: pattern,
+        positivePrefix: positivePrefix,
+        negativePrefix: negativePrefix,
+        positiveSuffix: positiveSuffix,
+        negativeSuffix: negativeSuffix,
+        divisor: divisor);
   }
 }
 
@@ -119,6 +138,9 @@ class _CompactNumberFormat extends NumberFormat {
   // Map exponent => style.
   final Map<int, _CompactStyleBase> _styles;
 
+  // Whether positive sign should be explicitly printed.
+  final bool _explicitSign;
+
   factory _CompactNumberFormat(
       {String? locale,
       _CompactFormatType? formatType,
@@ -126,6 +148,7 @@ class _CompactNumberFormat extends NumberFormat {
       String? currencySymbol,
       String? Function(NumberSymbols) getPattern = _forDecimal,
       int? decimalDigits,
+      bool explicitSign = false,
       bool lookupSimpleCurrencySymbol = false,
       bool isForCurrency = false}) {
     // Initialization copied from `NumberFormat` constructor.
@@ -175,11 +198,25 @@ class _CompactNumberFormat extends NumberFormat {
     patterns.forEach((int exponent, String pattern) {
       if (pattern.contains(';')) {
         var patterns = pattern.split(';');
+        var positivePattern = patterns.first;
+        var negativePattern = patterns.last;
+        if (explicitSign &&
+            !positivePattern.contains(symbols.PLUS_SIGN) &&
+            negativePattern.contains(symbols.MINUS_SIGN) &&
+            positivePattern ==
+                negativePattern.replaceAll(symbols.MINUS_SIGN, '')) {
+          // Re-use the negative pattern, with plus sign.
+          positivePattern =
+              negativePattern.replaceAll(symbols.MINUS_SIGN, symbols.PLUS_SIGN);
+        }
         styles[exponent] = _CompactStyleWithNegative(
-            _CompactStyle.createStyle(patterns.first, exponent),
-            _CompactStyle.createStyle(patterns.last, exponent));
+            _CompactStyle.createStyle(symbols, positivePattern, exponent,
+                isSigned: positivePattern.contains(symbols.PLUS_SIGN)),
+            _CompactStyle.createStyle(symbols, negativePattern, exponent,
+                isSigned: true));
       } else {
-        styles[exponent] = _CompactStyle.createStyle(pattern, exponent);
+        styles[exponent] = _CompactStyle.createStyle(symbols, pattern, exponent,
+            explicitSign: explicitSign);
       }
     });
 
@@ -194,7 +231,8 @@ class _CompactNumberFormat extends NumberFormat {
         zeroOffset,
         NumberFormatParser.parse(symbols, pattern, isForCurrency,
             currencySymbol, name, decimalDigits),
-        styles);
+        styles,
+        explicitSign);
   }
 
   _CompactNumberFormat._(
@@ -208,7 +246,8 @@ class _CompactNumberFormat extends NumberFormat {
       int zeroOffset,
       NumberFormatParseResult result,
       // Fields introduced in this class.
-      this._styles)
+      this._styles,
+      this._explicitSign)
       : super._(currencyName, currencySymbol, isForCurrency, locale, localeZero,
             pattern, symbols, zeroOffset, result) {
     significantDigits = 3;
@@ -217,8 +256,19 @@ class _CompactNumberFormat extends NumberFormat {
 
   /// The style in which we will format a particular number.
   ///
-  /// This is a temporary variable that is only valid within a call to format.
+  /// This is a temporary variable that is only valid within a call to format
+  /// and parse.
   _CompactStyle? _style;
+
+  // We delegate prefixes to current _style.
+  String get positivePrefix =>
+      _style!.isFallback ? super.positivePrefix : _style!.positivePrefix;
+  String get negativePrefix =>
+      _style!.isFallback ? super.negativePrefix : _style!.negativePrefix;
+  String get positiveSuffix =>
+      _style!.isFallback ? super.positiveSuffix : _style!.positiveSuffix;
+  String get negativeSuffix =>
+      _style!.isFallback ? super.negativeSuffix : _style!.negativeSuffix;
 
   String format(number) {
     var style = _styleFor(number);
@@ -226,21 +276,17 @@ class _CompactNumberFormat extends NumberFormat {
     final divisor = style.isFallback ? 1 : style.divisor;
     final numberToFormat = _divide(number, divisor);
     var formatted = super.format(numberToFormat);
-    var prefix = style.prefix;
-    var suffix = style.suffix;
-    // If this is for a currency, then the super call will have put the currency
-    // somewhere. We don't want it there, we want it where our style indicates,
-    // so remove it and replace. This has the remote possibility of a false
-    // positive, but it seems unlikely that e.g. USD would occur as a string in
-    // a regular number.
-    if (_isForCurrency && !style.isFallback) {
-      formatted = formatted.replaceFirst(currencySymbol, '').trim();
-      prefix = prefix.replaceFirst('\u00a4', currencySymbol);
-      suffix = suffix.replaceFirst('\u00a4', currencySymbol);
+    if (_explicitSign &&
+        style.isFallback &&
+        number >= 0 &&
+        !formatted.contains(symbols.PLUS_SIGN)) {
+      formatted = '${symbols.PLUS_SIGN}$formatted';
     }
-    final withExtras = '$prefix$formatted$suffix';
+    if (_isForCurrency && !style.isFallback) {
+      formatted = formatted.replaceFirst('\u00a4', currencySymbol);
+    }
     _style = null;
-    return withExtras;
+    return formatted;
   }
 
   /// How many digits after the decimal place should we display, given that
@@ -325,19 +371,53 @@ class _CompactNumberFormat extends NumberFormat {
   Iterable<_CompactStyle> get _stylesForSearching =>
       _styles.values.expand((x) => x.allStyles);
 
-  num parse(String text) {
+  String _normalize(String input) {
+    return input
+        .replaceAll('\u200e', '') // LEFT-TO-RIGHT MARK.
+        .replaceAll('\u200f', '') // RIGHT-TO-LEFT MARK.
+        .replaceAll('\u0020', '') // SPACE.
+        .replaceAll('\u00a0', '') // NO-BREAK SPACE.
+        .replaceAll('\u202f', '') // NARROW NO-BREAK SPACE.
+        .replaceAll('\u2212', '-'); // MINUS SIGN.
+  }
+
+  num parse(final String inputText) {
     for (var style in [_defaultCompactStyle, ..._stylesForSearching]) {
-      if (text.startsWith(style.prefix) && text.endsWith(style.suffix)) {
-        var numberText = text.substring(
-            style.prefix.length, text.length - style.suffix.length);
-        var number = _tryParsing(numberText);
-        if (number != null) {
-          return number * style.divisor;
+      _style = style;
+      var text = _normalize(inputText);
+      var negative = false;
+      var negativePrefix = _normalize(style.negativePrefix);
+      var negativeSuffix = _normalize(style.negativeSuffix);
+      var positivePrefix = _normalize(style.positivePrefix);
+      var positiveSuffix = _normalize(style.positiveSuffix);
+      if (!style.isFallback) {
+        if (text.startsWith(negativePrefix) && text.endsWith(negativeSuffix)) {
+          text = text.substring(
+              negativePrefix.length, text.length - negativeSuffix.length);
+          negative = true;
+        } else if (text.startsWith(positivePrefix) &&
+            text.endsWith(positiveSuffix)) {
+          text = text.substring(
+              positivePrefix.length, text.length - positiveSuffix.length);
+        } else {
+          continue;
         }
       }
+      var number = _tryParsing(text);
+      if (number == null && _zeroOffset != 0) {
+        // Locale has non-roman numerals.
+        // Try simple number parse, in case input contains roman numerals.
+        number = num.tryParse(text);
+      }
+      if (number != null) {
+        _style = null;
+        return number * style.divisor * (negative ? -1 : 1);
+      }
     }
+    _style = null;
+
     throw FormatException(
-        "Cannot parse compact number in locale '$locale'", text);
+        "Cannot parse compact number in locale '$locale'", inputText);
   }
 
   /// Returns text parsed into a number if possible, else returns null.
