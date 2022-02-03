@@ -168,24 +168,8 @@ void testCurrency(
 
 // TODO(alanknight): Don't just skip the whole locale if there's one problem
 // case.
-// TODO(alanknight): Fix the problems, or at least figure out precisely where
-// the differences are.
-var _skipLocalsShort = {
-  'bn', // Bad prefix.
-  'ca', // For CA, CLDR rules are different. Jumps from 0000 to 00 prefix, so
-  // 11 digits prints as 11900.
-  'es_419', // Some odd formatting rules for these which seem to be different
-  // from CLDR. wants e.g. '160000000000k' Actual: '160 B'
-  'es_ES', // The reverse of es_419 for a few cases. We're printing a longer
-  // form.
-  'es_US', // Like es_419 but not as many of them. e.g. Expected: '87700k'
-  // Actual: '87.7 M'
-  'es_MX', // like es_419
-  'es',
-  'ka', // K Slight difference in the suffix
-  'kk', 'mn', // We're picking the wrong pattern for 654321.
-  'lo', 'mk', 'my',
-  'ur', // UR Fails one with Expected: '15 ٹریلین'  Actual: '150 کھرب'
+var _skipLocalsShort = <String>{
+  // None ;o)
 };
 
 /// Locales that have problems in the long format.
@@ -197,7 +181,7 @@ var _skipLocalsShort = {
 ///
 //TODO(alanknight): Narrow these down to particular numbers. Often it's just
 // 999999.
-var _skipLocalesLong = {
+var _skipLocalesLong = <String>{
   'ar', 'ar_DZ', 'ar_EG',
   'be', 'bg', 'bn', 'bs',
   'ca', 'cs', 'da', 'de', 'de_AT', 'de_CH', 'el', 'es', 'es_419', 'es_ES',
@@ -208,10 +192,9 @@ var _skipLocalesLong = {
   'ga', 'gl',
   'gsw', // GSW seems like we have long forms and pyICU doesn't
   'hr', 'is', 'it', 'it_CH',
-  'km',
   'lt', 'lv', 'mk',
   'my', // Seems to come out in the reverse order
-  'nb', 'ne', 'no', 'no_NO', 'pl',
+  'nb', 'no', 'no_NO', 'pl',
   'pt', // PT has some issues with scale as well, but I think it's differences
   // in the patterns.
   'pt_BR', 'pt_PT', 'ro', 'ru',
@@ -265,7 +248,8 @@ void _validateNumber(number, NumberFormat format, String expected) {
   }
   var parsed = format.parse(formatted);
   var rounded = _roundForPrinting(number, format);
-  expect((parsed - rounded) / rounded < 0.001, isTrue);
+  expect((parsed - rounded) / rounded < 0.001, isTrue,
+      reason: 'Parsed: $parsed, rounded: $rounded');
 }
 
 /// Duplicate a bit of the logic in formatting, where if we have a
