@@ -364,24 +364,21 @@ class NumberFormat {
 
   /// A number format for compact representations, e.g. "1.2M" instead
   /// of "1,200,000".
-  factory NumberFormat.compact({String? locale, String? pattern}) {
+  factory NumberFormat.compact({String? locale, bool explicitSign = false}) {
     return _CompactNumberFormat(
         locale: locale,
         formatType: _CompactFormatType.COMPACT_DECIMAL_SHORT_PATTERN,
-        getPattern: pattern != null
-            ? (x) => pattern
-            : _CompactNumberFormat._forDecimal);
+        explicitSign: explicitSign);
   }
 
   /// A number format for "long" compact representations, e.g. "1.2 million"
   /// instead of "1,200,000".
-  factory NumberFormat.compactLong({String? locale, String? pattern}) {
+  factory NumberFormat.compactLong(
+      {String? locale, bool explicitSign = false}) {
     return _CompactNumberFormat(
         locale: locale,
         formatType: _CompactFormatType.COMPACT_DECIMAL_LONG_PATTERN,
-        getPattern: pattern != null
-            ? (x) => pattern
-            : _CompactNumberFormat._forDecimal);
+        explicitSign: explicitSign);
   }
 
   /// A number format for compact currency representations, e.g. "$1.2M" instead

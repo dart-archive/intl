@@ -18,18 +18,16 @@ void main() {
 
   test('RTL currency formatting', () {
     var basic = intl.NumberFormat.currency(locale: 'he');
-    expect(basic.format(1234), '\u200F1,234.00 ILS');
+    expect(basic.format(1234), '\u200F1,234.00\u00A0ILS');
     basic = intl.NumberFormat.currency(locale: 'he', symbol: '₪');
-    expect(basic.format(1234), '\u200F1,234.00 ₪');
+    expect(basic.format(1234), '\u200F1,234.00\u00A0₪');
     expect(_ecmaFormatNumber('he', 1234, style: 'currency', currency: 'ILS'),
-        '\u200F1,234.00 ₪');
+        '\u200F1,234.00\u00A0₪');
 
     var compact = intl.NumberFormat.compactCurrency(locale: 'he');
-    // Awkward:
-    expect(compact.format(1234), 'ILS\u200F1.23K\u200F');
+    expect(compact.format(1234), 'ILS1.23K\u200F');
     compact = intl.NumberFormat.compactCurrency(locale: 'he', symbol: '₪');
-    // Awkward:
-    expect(compact.format(1234), '₪\u200F1.23K\u200F');
+    expect(compact.format(1234), '₪1.23K\u200F');
     // ECMAScript skips the RTL character for notation:'compact':
     expect(
         _ecmaFormatNumber('he', 1234,
@@ -52,7 +50,7 @@ void main() {
         '₪1.2K\u200F');
 
     var compactSimple = intl.NumberFormat.compactSimpleCurrency(locale: 'he');
-    expect(compactSimple.format(1234), '₪\u200F1.23K\u200F');
+    expect(compactSimple.format(1234), '₪1.23K\u200F');
   });
 }
 

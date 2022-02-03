@@ -7,7 +7,6 @@ import 'dart:math';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:intl/intl.dart';
-import 'package:intl/number_symbols_data.dart';
 import 'package:intl/number_symbols_data.dart' as patterns;
 import 'package:test/test.dart';
 
@@ -20,34 +19,88 @@ var interestingCases = <String, List<List<String>>>{
 //  'mn' : [['4321', '4.32M', 'whatever']]
 };
 
-var compactWithPatternCases = <List<String>>[
-  ['0.012', '+0.01', '+0.01'],
-  ['0.123', '+0.12', '+0.12'],
-  ['1.234', '+1.23', '+1.23'],
-  ['12.34', '+12.3', '+12.3'],
-  ['123.4', '+123', '+123'],
-  ['123.41', '+123', '+123'],
-  ['1234.1', '+1.23K', '+1.23 thousand'],
-  ['12341', '+12.3K', '+12.3 thousand'],
-  ['123412', '+123K', '+123 thousand'],
-  ['1234123', '+1.23M', '+1.23 million'],
-  ['12341234', '+12.3M', '+12.3 million'],
-  ['123412341', '+123M', '+123 million'],
-  ['1234123412', '+1.23B', '+1.23 billion'],
-  ['-0.012', '-0.01', '-0.01'],
-  ['-0.123', '-0.12', '-0.12'],
-  ['-1.234', '-1.23', '-1.23'],
-  ['-12.34', '-12.3', '-12.3'],
-  ['-123.4', '-123', '-123'],
-  ['-123.41', '-123', '-123'],
-  ['-1234.1', '-1.23K', '-1.23 thousand'],
-  ['-12341', '-12.3K', '-12.3 thousand'],
-  ['-123412', '-123K', '-123 thousand'],
-  ['-1234123', '-1.23M', '-1.23 million'],
-  ['-12341234', '-12.3M', '-12.3 million'],
-  ['-123412341', '-123M', '-123 million'],
-  ['-1234123412', '-1.23B', '-1.23 billion'],
-];
+var compactWithExplicitSign = <String, List<List<String>>>{
+  'en_US': [
+    ['0', '+0', '+0'],
+    ['0.012', '+0.01', '+0.01'],
+    ['0.123', '+0.12', '+0.12'],
+    ['1.234', '+1.23', '+1.23'],
+    ['12', '+12', '+12'],
+    ['12.34', '+12.3', '+12.3'],
+    ['123.4', '+123', '+123'],
+    ['123.41', '+123', '+123'],
+    ['1234.1', '+1.23K', '+1.23 thousand'],
+    ['12341', '+12.3K', '+12.3 thousand'],
+    ['123412', '+123K', '+123 thousand'],
+    ['1234123', '+1.23M', '+1.23 million'],
+    ['12341234', '+12.3M', '+12.3 million'],
+    ['123412341', '+123M', '+123 million'],
+    ['1234123412', '+1.23B', '+1.23 billion'],
+    ['-0.012', '-0.01', '-0.01'],
+    ['-0.123', '-0.12', '-0.12'],
+    ['-1.234', '-1.23', '-1.23'],
+    ['-12', '-12', '-12'],
+    ['-12.34', '-12.3', '-12.3'],
+    ['-123.4', '-123', '-123'],
+    ['-123.41', '-123', '-123'],
+    ['-1234.1', '-1.23K', '-1.23 thousand'],
+    ['-12341', '-12.3K', '-12.3 thousand'],
+    ['-123412', '-123K', '-123 thousand'],
+    ['-1234123', '-1.23M', '-1.23 million'],
+    ['-12341234', '-12.3M', '-12.3 million'],
+    ['-123412341', '-123M', '-123 million'],
+    ['-1234123412', '-1.23B', '-1.23 billion'],
+  ],
+  'sw': [
+    ['12', '+12', '+12'],
+    ['12341', 'elfu\u00A0+12.3', 'elfu +12.3'],
+    ['-12', '-12', '-12'],
+    ['-12341', 'elfu\u00A0-12.3', 'elfu -12.3'],
+  ],
+  'he': [
+    ['12', '\u200e+12', '\u200e+12'],
+    ['12341', '\u200e+12.3K\u200f', '\u200e+\u200f12.3 אלף'],
+    ['-12', '\u200e-12', '\u200e-12'],
+    ['-12341', '\u200e-12.3K\u200f', '\u200e-\u200f12.3 אלף'],
+  ],
+};
+
+var parsingTestCases = <String, List<List<String>>>{
+  'en_US': [
+    ['1230', '1.23 K', '1.23  thousand'], // Random spaces.
+    ['1230', '1.23\u00a0K', '1.23\u00a0thousand'], // NO-BREAK SPACE.
+    ['1230', '1.23\u202fK', '1.23\u202fthousand'], // NARROW NO-BREAK SPACE.
+  ],
+  'fi': [
+    ['4320', '4,32t.', '4,32tuhatta'], // Actual format uses NO-BREAK SPACE.
+    ['-4320', '-4,32t.', '-4,32tuhatta'], // Actual format uses MINUS SIGN.
+    ['-4320', '\u22124,32t.', '\u22124,32tuhatta'], // Like actual format.
+  ],
+  'he': [
+    ['-12300', '-12.3 K', '-12.3\u05D0\u05DC\u05E3'], // LTR/RTL marks dropped.
+  ],
+  'fa': [
+    [
+      '123',
+      // With locale numerals.
+      '\u06F1\u06F2\u06F3',
+      '\u06F1\u06F2\u06F3'
+    ],
+    [
+      '4320',
+      // With locale numerals.
+      '\u06F4\u066B\u06F3\u06F2 \u0647\u0632\u0627\u0631',
+      '\u06F4\u066B\u06F3\u06F2 \u0647\u0632\u0627\u0631'
+    ],
+    ['123', '123', '123'], // With roman numerals.
+    [
+      '4320',
+      // With roman numerals.
+      '4.32 \u0647\u0632\u0627\u0631',
+      '4.32 \u0647\u0632\u0627\u0631'
+    ],
+  ]
+};
 
 void main() {
   interestingCases.forEach(_validate);
@@ -56,7 +109,8 @@ void main() {
   // Once code and data is updated to CLDR35:
   // testdata35.compactNumberTestData.forEach(validate);
   // more_testdata.cldr35CompactNumTests.forEach(validateFancy);
-  compactWithPatternCases.forEach(_validateWithPattern);
+  compactWithExplicitSign.forEach(_validateWithExplicitSign);
+  parsingTestCases.forEach(_validateParsing);
 
   test("Patterns are consistent across locales", () {
     patterns.compactNumberSymbols.forEach((locale, patterns) {
@@ -93,19 +147,29 @@ void main() {
   testCurrency('ja', 98765678, '¥9880\u4e07', '¥1\u5104');
   testCurrency('ja', 987656789, '¥9.88\u5104', '¥10\u5104');
 
-  testCurrency('en_US', 1.2345, r'$1.23', r'$1');
   testCurrency('en_US', 1, r'$1.00', r'$1');
+  testCurrency('en_US', 1.2345, r'$1.23', r'$1');
   testCurrency('en_US', 12, r'$12.00', r'$10');
   testCurrency('en_US', 12.3, r'$12.30', r'$10');
   testCurrency('en_US', 123, r'$123', r'$100');
+  testCurrency('en_US', 999, r'$999', r'$1K');
   testCurrency('en_US', 1000, r'$1K', r'$1K');
   testCurrency('en_US', 1234, r'$1.23K', r'$1K');
   testCurrency('en_US', 12345, r'$12.3K', r'$10K');
   testCurrency('en_US', 123456, r'$123K', r'$100K');
   testCurrency('en_US', 1234567, r'$1.23M', r'$1M');
 
+  testCurrency('en_US', -1, r'-$1.00', r'-$1');
+  testCurrency('en_US', -12.3, r'-$12.30', r'-$10');
+  testCurrency('en_US', -999, r'-$999', r'-$1K');
+  testCurrency('en_US', -1234, r'-$1.23K', r'-$1K');
+
   // Check for order of currency symbol when currency is a suffix.
   testCurrency('ru', 4420, '4,42\u00A0тыс.\u00A0руб.', '4\u00A0тыс.\u00A0руб.');
+
+  // Check for sign location when multiple patterns.
+  testCurrency('sw', 12341, 'TSh\u00A0elfu12.3', 'TSh\u00A0elfu10');
+  testCurrency('sw', -12341, 'TShelfu\u00A0-12.3', 'TShelfu\u00A0-10');
 
   // Locales which don't have a suffix for thousands.
   testCurrency('it', 442, '442\u00A0€', '400\u00A0€');
@@ -113,9 +177,12 @@ void main() {
   testCurrency('it', 4420000, '4,42\u00A0Mio\u00A0\$', '4\u00A0Mio\u00A0\$',
       currency: 'USD');
 
-  testCurrency('he', 335, '\u200F335 ₪', '\u200F300 ₪',
+  testCurrency('he', 335, '\u200F335\u00A0₪', '\u200F300\u00A0₪',
       reason: 'TODO(b/36488375): Short format throws away significant digits '
           'without good reason.');
+  testCurrency('he', -335, '\u200F-335\u00A0₪', '\u200F-300\u00A0₪');
+  testCurrency('he', 12341, '₪12.3K\u200f', '₪10K\u200f');
+  testCurrency('he', -12341, '\u200e-₪12.3K\u200f', '\u200e-₪10K\u200f');
 
   test('Explicit non-default symbol with compactCurrency', () {
     var format = NumberFormat.compactCurrency(locale: 'ja', symbol: '()');
@@ -150,6 +217,7 @@ void testCurrency(
       'ru': 'руб.',
       'it': '€',
       'he': '₪',
+      'sw': 'TSh',
       'CAD': r'$',
       'USD': r'$'
     };
@@ -169,7 +237,7 @@ void testCurrency(
 // TODO(alanknight): Don't just skip the whole locale if there's one problem
 // case.
 var _skipLocalsShort = <String>{
-  // None ;o)
+  'bn', // Bug in CLDR: ambiguous parsing: 10^9 ("000 কো") and 10^11 ("000কো") only differ by a nbsp.
 };
 
 /// Locales that have problems in the long format.
@@ -183,8 +251,8 @@ var _skipLocalsShort = <String>{
 // 999999.
 var _skipLocalesLong = <String>{
   'ar', 'ar_DZ', 'ar_EG',
-  'be', 'bg', 'bn', 'bs',
-  'ca', 'cs', 'da', 'de', 'de_AT', 'de_CH', 'el', 'es', 'es_419', 'es_ES',
+  'be', 'bg', 'bn', 'br', 'bs',
+  'ca', 'cs', 'cy', 'da', 'de', 'de_AT', 'de_CH', 'el', 'es', 'es_419', 'es_ES',
   'es_MX', 'es_US', 'et', 'eu', 'fi',
   'fil', // FIL is different, seems like a genuine difference in suffixes
   'fr', 'fr_CA', // TODO(alanknight): million/millions, supported since CLDR 31.
@@ -244,12 +312,17 @@ void _validateNumber(number, NumberFormat format, String expected) {
   var ok = _closeEnough(formatted, expected);
   if (!ok) {
     expect(
-        '$formatted ${formatted.codeUnits}', '$expected ${expected.codeUnits}');
+        '$formatted ${formatted.codeUnits}', '$expected ${expected.codeUnits}',
+        reason: 'for number: $number');
   }
   var parsed = format.parse(formatted);
   var rounded = _roundForPrinting(number, format);
-  expect((parsed - rounded) / rounded < 0.001, isTrue,
-      reason: 'Parsed: $parsed, rounded: $rounded');
+  expect(((parsed - rounded) / rounded).abs() < 0.001, isTrue,
+      reason: 'for number: $formatted (parsed: $parsed, rounded: $rounded)');
+
+  var originalParsed = format.parse(number.toString());
+  expect(originalParsed.toDouble(), number.toDouble(),
+      reason: 'for number: $number');
 }
 
 /// Duplicate a bit of the logic in formatting, where if we have a
@@ -344,20 +417,34 @@ void _validateFancy(more_testdata.CompactRoundingTestCase t) {
   });
 }
 
-void _validateWithPattern(List<String> testData) {
-  final locale = 'en_US';
-  final currentLocale = Intl.verifiedLocale(locale, NumberFormat.localeExists);
-  final symbols = numberFormatSymbols[currentLocale];
-  final pattern = '${symbols.PLUS_SIGN}${symbols.DECIMAL_PATTERN};'
-      '${symbols.MINUS_SIGN}${symbols.DECIMAL_PATTERN}';
-  final input = num.parse(testData[0]);
-  test('Validate compact with $locale and $pattern', () {
-    final numberFormat = NumberFormat.compact(locale: locale, pattern: pattern);
-    expect(testData[1], numberFormat.format(input));
-  });
-  test('Validate compactLong with $locale and $pattern', () {
-    final numberFormat =
-        NumberFormat.compactLong(locale: locale, pattern: pattern);
-    expect(testData[2], numberFormat.format(input));
-  });
+void _validateWithExplicitSign(String locale, List<List<String>> expected) {
+  for (var data in expected) {
+    final input = num.parse(data[0]);
+    test('Validate compact with $locale and explicit sign for $input', () {
+      final numberFormat =
+          NumberFormat.compact(locale: locale, explicitSign: true);
+      expect(numberFormat.format(input), data[1]);
+    });
+    test('Validate compactLong with $locale and explicit sign for $input', () {
+      final numberFormat =
+          NumberFormat.compactLong(locale: locale, explicitSign: true);
+      expect(numberFormat.format(input), data[2]);
+    });
+  }
+}
+
+void _validateParsing(String locale, List<List<String>> expected) {
+  for (var data in expected) {
+    final expected = num.parse(data[0]);
+    final inputShort = data[1];
+    test('Validate compact parsing with $locale for $inputShort', () {
+      final numberFormat = NumberFormat.compact(locale: locale);
+      expect(numberFormat.parse(inputShort), expected);
+    });
+    final inputLong = data[2];
+    test('Validate compactLong parsing with $locale for $inputLong', () {
+      final numberFormat = NumberFormat.compactLong(locale: locale);
+      expect(numberFormat.parse(inputLong), expected);
+    });
+  }
 }

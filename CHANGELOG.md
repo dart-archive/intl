@@ -1,6 +1,8 @@
 ## 0.17.1-dev
 
- * Add optional parameter to `NumberFormat.compact()` to provide custom pattern.
+ * Fix negative number formatting / parsing in `NumberFormat.compact()`.
+ * Add optional parameter to `NumberFormat.compact()` to explicitly add sign
+   even for positive values.
  * Update to cldr 40.
 
 ## 0.17.0
