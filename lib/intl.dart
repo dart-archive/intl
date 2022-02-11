@@ -442,8 +442,6 @@ class Intl {
   /// toString() of the enum and using just the name part. We will
   /// do this for any class or strings that are passed, since we
   /// can't actually identify if something is an enum or not.
-  ///
-  /// The first argument in [args] must correspond to the [choice] Object.
   @pragma('dart2js:tryInline')
   @pragma('vm:prefer-inline')
   static String select(Object choice, Map<Object, String> cases,
@@ -461,12 +459,13 @@ class Intl {
   @pragma('dart2js:noInline')
   static String _select(Object choice, Map<Object, String> cases,
       {String? locale, String? name, List<Object>? args, String? meaning}) {
+    if (choice is! String && args != null) {
+      var stringChoice = '$choice'.split('.').last;
+      args = args.map((a) => identical(a, choice) ? stringChoice : a).toList();
+    }
     // Look up our translation, but pass in a null message so we don't have to
     // eagerly evaluate calls that may not be necessary.
-    var stringChoice = choice is String ? choice : '$choice'.split('.').last;
-    var modifiedArgs =
-        args == null ? null : (<Object>[stringChoice]..addAll(args.skip(1)));
-    var translated = _lookupMessage(null, locale, name, modifiedArgs, meaning);
+    var translated = _lookupMessage(null, locale, name, args, meaning);
 
     /// If there's a translation, return it, otherwise evaluate with our
     /// original text.
