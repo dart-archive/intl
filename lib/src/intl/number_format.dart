@@ -7,6 +7,7 @@ import 'dart:math';
 import 'package:intl/number_symbols.dart';
 import 'package:intl/number_symbols_data.dart';
 import 'package:intl/src/intl_helpers.dart' as helpers;
+import 'package:intl/src/plural_rules.dart' as plural_rules;
 
 import 'constants.dart' as constants;
 import 'number_format_parser.dart';
