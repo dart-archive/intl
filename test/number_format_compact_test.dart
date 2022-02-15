@@ -107,16 +107,32 @@ void main() {
   testdata.compactNumberTestData.forEach(_validate);
   more_testdata.oldIntlCompactNumTests.forEach(_validateFancy);
   // Once code and data is updated to CLDR35:
-  // testdata35.compactNumberTestData.forEach(validate);
-  // more_testdata.cldr35CompactNumTests.forEach(validateFancy);
+  // more_testdata.cldr35CompactNumTests.forEach(_validateFancy);
+
   compactWithExplicitSign.forEach(_validateWithExplicitSign);
   parsingTestCases.forEach(_validateParsing);
 
   test("Patterns are consistent across locales", () {
+    var checkPatterns = (Map<int, Map<String, String>> patterns) {
+      expect(patterns, isNotEmpty);
+      // Check patterns are iterable in order.
+      var lastExp = -1;
+      for (var entries in patterns.entries) {
+        var exp = entries.key;
+        expect(exp, isPositive);
+        expect(exp, greaterThan(lastExp));
+        lastExp = exp;
+        var patternMap = entries.value;
+        expect(patternMap, isNotEmpty);
+      }
+    };
+
     patterns.compactNumberSymbols.forEach((locale, patterns) {
-      expect(patterns.COMPACT_DECIMAL_SHORT_PATTERN.keys,
-          orderedEquals([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]),
-          reason: "Precision algorithm expects no gaps in pattern magnitudes");
+      checkPatterns(patterns.COMPACT_DECIMAL_SHORT_PATTERN);
+      if (patterns.COMPACT_DECIMAL_LONG_PATTERN != null) {
+        checkPatterns(patterns.COMPACT_DECIMAL_LONG_PATTERN!);
+      }
+      checkPatterns(patterns.COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN);
     });
   });
 
@@ -242,33 +258,10 @@ var _skipLocalsShort = <String>{
 
 /// Locales that have problems in the long format.
 ///
-/// These are mostly minor differences in the characters, and many I can't read,
-/// but I'm suspicious many of them are essentially the difference between
-/// million and millions, which we don't distinguish. That's definitely the case
-/// with e.g. DE, but our data definitely has Millionen throughout.
-///
 //TODO(alanknight): Narrow these down to particular numbers. Often it's just
 // 999999.
 var _skipLocalesLong = <String>{
-  'ar', 'ar_DZ', 'ar_EG',
-  'be', 'bg', 'bn', 'br', 'bs',
-  'ca', 'cs', 'cy', 'da', 'de', 'de_AT', 'de_CH', 'el', 'es', 'es_419', 'es_ES',
-  'es_MX', 'es_US', 'et', 'eu', 'fi',
-  'fil', // FIL is different, seems like a genuine difference in suffixes
-  'fr', 'fr_CA', // TODO(alanknight): million/millions, supported since CLDR 31.
-  'fr_CH',
-  'ga', 'gl',
-  'gsw', // GSW seems like we have long forms and pyICU doesn't
-  'hr', 'is', 'it', 'it_CH',
-  'lt', 'lv', 'mk',
-  'my', // Seems to come out in the reverse order
-  'nb', 'no', 'no_NO', 'pl',
-  'pt', // PT has some issues with scale as well, but I think it's differences
-  // in the patterns.
-  'pt_BR', 'pt_PT', 'ro', 'ru',
-  'sd', // ICU considers this locale data questionable
-  'sk', 'sl', 'sr', 'sr_Latn', 'sv', 'te', 'tl',
-  'uk', 'ur',
+  'fr', 'fr_CH', 'it', 'it_CH', // '1000' -> 'mille' (no number).
 };
 
 void _validate(String locale, List<List<String>> expected) {
