@@ -258,10 +258,8 @@ var _skipLocalsShort = <String>{
 
 /// Locales that have problems in the long format.
 ///
-//TODO(alanknight): Narrow these down to particular numbers. Often it's just
-// 999999.
 var _skipLocalesLong = <String>{
-  'fr', 'fr_CH', 'it', 'it_CH', // '1000' -> 'mille' (no number).
+  // None ;o)
 };
 
 void _validate(String locale, List<List<String>> expected) {
