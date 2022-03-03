@@ -72,6 +72,14 @@ class _CompactStyleWithPlurals extends _CompactStyleBase {
     }
     var precision = afterDecimal == 0 ? 0 : (afterDecimal % 10 == 0 ? 1 : 2);
 
+    // Direct value? (French 1000 => "mille" has key "1".)
+    if (number >= 0 && precision == 0) {
+      var indexed = styles[displayed.toString()];
+      if (indexed != null) {
+        return indexed.styleForNumber(number);
+      }
+    }
+
     plural_rules.startRuleEvaluation(displayed, precision);
     var pluralCase = _plural!();
     var style = _defaultStyle;
@@ -127,7 +135,8 @@ class _CompactStyle extends _CompactStyleBase {
       this.positivePrefix = '',
       this.negativePrefix = '',
       this.positiveSuffix = '',
-      this.negativeSuffix = ''});
+      this.negativeSuffix = '',
+      this.isDirectValue = false});
 
   /// The pattern on which this is based.
   ///
@@ -143,6 +152,9 @@ class _CompactStyle extends _CompactStyleBase {
   String negativePrefix;
   String positiveSuffix;
   String negativeSuffix;
+
+  /// Whether this pattern omits numbers. Ex: "mille" for 1000 in fr.
+  bool isDirectValue;
 
   /// Return true if this is the fallback compact pattern, printing the number
   /// un-compacted. e.g. 1200 might print as '1.2K', but 12 just prints as '12'.
@@ -170,6 +182,7 @@ class _CompactStyle extends _CompactStyleBase {
     var prefix = '';
     var suffix = '';
     var divisor = 1;
+    var isDirectValue = false;
     var match = _regex.firstMatch(pattern);
     if (match != null) {
       prefix = match.group(1)!;
@@ -183,6 +196,12 @@ class _CompactStyle extends _CompactStyleBase {
       if (_hasNonZeroContent(pattern)) {
         var integerDigits = match.group(2)!.length;
         divisor = pow(10, normalizedExponent - integerDigits + 1) as int;
+      }
+    } else {
+      if (pattern.isNotEmpty && !pattern.contains('0')) {
+        // "Direct" pattern: no numbers.
+        divisor = pow(10, normalizedExponent) as int;
+        isDirectValue = true;
       }
     }
 
@@ -199,7 +218,8 @@ class _CompactStyle extends _CompactStyleBase {
         negativePrefix: negativePrefix,
         positiveSuffix: positiveSuffix,
         negativeSuffix: negativeSuffix,
-        divisor: divisor);
+        divisor: divisor,
+        isDirectValue: isDirectValue);
   }
 }
 
@@ -321,7 +341,7 @@ class _CompactNumberFormat extends NumberFormat {
       }
       return _CompactStyleWithNegative(
           _CompactStyle.createStyle(symbols, positivePattern, exponent,
-                isSigned: positivePattern.contains(symbols.PLUS_SIGN)),
+              isSigned: positivePattern.contains(symbols.PLUS_SIGN)),
           _CompactStyle.createStyle(symbols, negativePattern, exponent,
               isSigned: true));
     } else {
@@ -370,7 +390,9 @@ class _CompactNumberFormat extends NumberFormat {
     _style = style;
     final divisor = style.isFallback ? 1 : style.divisor;
     final numberToFormat = _divide(number, divisor);
-    var formatted = super.format(numberToFormat);
+    var formatted = style.isDirectValue
+        ? '${_signPrefix(number)}${style.pattern}${_signSuffix(number)}'
+        : super.format(numberToFormat);
     if (_explicitSign &&
         style.isFallback &&
         number >= 0 &&
@@ -495,6 +517,16 @@ class _CompactNumberFormat extends NumberFormat {
           text = text.substring(
               positivePrefix.length, text.length - positiveSuffix.length);
         } else {
+          continue;
+        }
+      }
+      if (style.isDirectValue) {
+        // "Direct formatting" pattern (1000 => "mille").
+        if (text == style.pattern!) {
+          _style = null;
+          return style.divisor * (negative ? -1 : 1);
+        } else {
+          // Do not attempt parsing: no number.
           continue;
         }
       }
