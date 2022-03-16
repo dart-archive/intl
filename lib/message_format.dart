@@ -253,8 +253,6 @@ class MessageFormat {
       var patternValue = currentPattern._value;
       var patternType = currentPattern._type;
 
-      _checkAndThrow(patternType is _BlockType,
-          'The type should be a block type: $patternType');
       switch (patternType) {
         case _BlockType.string:
           result.add(patternValue as String);
@@ -410,7 +408,7 @@ class MessageFormat {
     var pluralResult = Queue<String>();
     _formatBlock(option!, namedParameters, ignorePound, pluralResult);
     var plural = pluralResult.join('');
-    _checkAndThrow(plural is String, 'Empty block in plural.');
+    _checkAndThrow(plural.isEmpty, 'Empty block in plural.');
     if (ignorePound) {
       result.add(plural);
     } else {
@@ -562,8 +560,6 @@ class MessageFormat {
       if (_ElementType.string == thePart._type) {
         block = _BlockTypeAndVal(_BlockType.string, thePart._value);
       } else if (_ElementType.block == thePart._type) {
-        _checkAndThrow(thePart._value is String,
-            'The value should be a string: ${thePart._value}');
         var blockType = _parseBlockType(thePart._value);
 
         switch (blockType) {
@@ -614,7 +610,6 @@ class MessageFormat {
     var pos = 0;
     while (pos < parts.length) {
       var thePart = parts.elementAt(pos);
-      _checkAndThrow(thePart._value is String, 'Missing select key element.');
       var key = thePart._value;
 
       pos++;
@@ -664,7 +659,6 @@ class MessageFormat {
     var pos = 0;
     while (pos < parts.length) {
       var thePart = parts.elementAt(pos);
-      _checkAndThrow(thePart._value is String, 'Missing plural key element.');
       var key = thePart._value;
 
       pos++;
@@ -722,7 +716,6 @@ class MessageFormat {
     var pos = 0;
     while (pos < parts.length) {
       var thePart = parts.elementAt(pos);
-      _checkAndThrow(thePart._value is String, 'Missing ordinal key element.');
       var key = thePart._value;
 
       pos++;
@@ -779,6 +772,7 @@ void _checkAndThrow(bool condition, String message) {
 // Dart has no support for ordinals
 // TODO(b/142132665): add ordial rules to intl, then fix this
 class _OrdinalRules {
+  const _OrdinalRules();
   static String select(num n, String locale) {
     return _PluralRules.select(n, locale);
   }
@@ -786,6 +780,7 @@ class _OrdinalRules {
 
 // Simple mapping from Intl.pluralLogic to _PluralRules, to change later
 class _PluralRules {
+  const _PluralRules();
   static String select(num n, String locale) {
     return Intl.pluralLogic(n,
         zero: 'zero',

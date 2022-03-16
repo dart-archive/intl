@@ -1,9 +1,7 @@
 library date_time_format_tests;
 
-import 'package:clock/clock.dart';
 import 'package:intl/intl.dart';
 import 'package:test/test.dart';
-import 'date_time_format_test_data.dart';
 
 
 void main() {
