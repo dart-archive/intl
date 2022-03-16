@@ -98,3 +98,49 @@ class IntlStream {
     return int.parse(string);
   }
 }
+
+class InlNoLimittersStream extends IntlStream {
+  final List<dynamic> _formatFields;
+
+  int _formatIndex = 0;
+
+  InlNoLimittersStream(String inputString, this._formatFields)
+      : super(inputString);
+
+  @override
+  dynamic read([int howMany = 1]) {
+    _formatIndex++;
+    return super.read(howMany);
+  }
+
+  @override
+  int? nextInteger({RegExp? digitMatcher, int? zeroDigit}) {
+    if (contents is! String) {
+      throw const FormatException(
+          'parse with no limiter only works with Strings');
+    }
+    final fielSize = (_formatFields[_formatIndex].pattern as String).fieldSize();
+    var string = (contents as String).substring(index, index + fielSize);
+    if (string.isEmpty) return null;
+    read(fielSize);
+    if (zeroDigit != null && zeroDigit != constants.asciiZeroCodeUnit) {
+      // Trying to optimize this, as it might get called a lot.
+      var oldDigits = string.codeUnits;
+      var newDigits = List<int>.filled(string.length, 0);
+      for (var i = 0; i < string.length; i++) {
+        newDigits[i] = oldDigits[i] - zeroDigit + constants.asciiZeroCodeUnit;
+      }
+      string = String.fromCharCodes(newDigits);
+    }
+    return int.parse(string);
+  }
+}
+
+extension on String {
+  int fieldSize() {
+    if (this[0] == 'y') {
+      if (length < 4) return 2;
+    }
+    return length;
+  }
+}
