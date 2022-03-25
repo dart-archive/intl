@@ -68,12 +68,12 @@ class CompositeMessageLookup implements MessageLookup {
   void addLocale(String localeName, Function findLocale) {
     if (localeExists(localeName)) return;
     var canonical = Intl.canonicalizedLocale(localeName);
-    var newLocale = findLocale(canonical);
-    if (newLocale != null) {
-      availableMessages[localeName] = newLocale;
-      availableMessages[canonical] = newLocale;
-      // If there was already a failed lookup for [newLocale], null the cache.
-      if (_lastLocale == newLocale) {
+    var newLookup = findLocale(canonical);
+    if (newLookup != null) {
+      availableMessages[localeName] = newLookup;
+      availableMessages[canonical] = newLookup;
+      // If there was already a failed lookup for [newLookup], null the cache.
+      if (_lastLookup == newLookup) {
         _lastLocale = null;
         _lastLookup = null;
       }

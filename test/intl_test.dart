@@ -6,6 +6,8 @@ library intl_test;
 
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:intl/message_lookup_by_library.dart';
+import 'package:intl/src/intl_helpers.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -91,4 +93,52 @@ void main() {
     expect(toBeginningOfSentenceCase('i'), 'I');
     expect(toBeginningOfSentenceCase('i', 'tr'), '\u0130');
   });
+
+  test('CompositeMessageLookup', () {
+    final compositeMessageLookup = CompositeMessageLookup();
+    final enLookup = SimpleMessageLookupByLibrary(
+        <String, String Function()>{
+          "key": MessageLookupByLibrary.simpleMessage("en"),
+        }
+    );
+    final enLookup2 = SimpleMessageLookupByLibrary(
+        <String, String Function()>{
+          "key": MessageLookupByLibrary.simpleMessage("en2"),
+        }
+    );
+    expect(identical(enLookup, enLookup2), false);
+    expect(enLookup == enLookup2, false);
+    compositeMessageLookup.addLocale('en', (canonical) => enLookup);
+    expect(compositeMessageLookup.lookupMessage(
+      null,
+      'en',
+      'key',
+      null,
+      null,
+    ), 'en');
+    // Update the en lookup in the background for verification
+    compositeMessageLookup.availableMessages['en'] = enLookup2;
+    // Make a failed lookup
+    compositeMessageLookup.addLocale('fr', (canonical) => enLookup);
+    // Expect cleared cache and get the new [enLookup2] lookup which updated in the background
+    expect(compositeMessageLookup.lookupMessage(
+      null,
+      'en',
+      'key',
+      null,
+      null,
+    ), 'en2');
+  });
+}
+
+class SimpleMessageLookupByLibrary extends MessageLookupByLibrary {
+  SimpleMessageLookupByLibrary( this.initialMessages, );
+
+  final Map<String, String Function()> initialMessages;
+
+  @override
+  String get localeName => 'en';
+
+  @override
+  Map<String, dynamic> get messages => initialMessages;
 }
