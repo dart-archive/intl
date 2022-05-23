@@ -1,3 +1,6 @@
+[![Dart CI](https://github.com/dart-lang/intl/actions/workflows/test-package.yml/badge.svg)](https://github.com/dart-lang/intl/actions/workflows/test-package.yml)
+[![Pub](https://img.shields.io/pub/v/intl.svg)](https://pub.dev/packages/intl)
+
 Provides internationalization and localization facilities,
 including message translation, plurals and genders, date/number formatting
 and parsing, and bidirectional text.

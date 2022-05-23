@@ -1,5 +1,7 @@
 ## 0.17.1-dev
 
+ * Add support for `minimumSignificantDigits` / `maximumSignificantDigits` in
+   NumberFormat.
  * Add support for plural in `NumberFormat.compact()` ('2 milliards').
  * Fix negative number formatting / parsing in `NumberFormat.compact()`.
  * Add optional parameter to `NumberFormat.compact()` to explicitly add sign

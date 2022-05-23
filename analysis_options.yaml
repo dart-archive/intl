@@ -16,7 +16,6 @@ errors:
 linter:
   rules:
     - always_declare_return_types
-    - avoid_classes_with_only_static_members
     - avoid_empty_else
     - avoid_function_literals_in_foreach_calls
     - avoid_init_to_null
@@ -79,7 +78,6 @@ linter:
     - unnecessary_brace_in_string_interps
     - unnecessary_const
     - unnecessary_getters_setters
-    - unnecessary_lambdas
     - unnecessary_new
     - unnecessary_null_aware_assignments
     - unnecessary_null_in_if_null_operators
