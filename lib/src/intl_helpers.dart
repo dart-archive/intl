@@ -11,7 +11,7 @@ import 'global_state.dart' as global_state;
 import 'intl_helpers.dart' as helpers;
 
 /// Type for the callback action when a message translation is not found.
-typedef MessageIfAbsent = String Function(
+typedef MessageIfAbsent = String? Function(
     String? messageText, List<Object>? args);
 
 /// This is used as a marker for a locale data map that hasn't been initialized,

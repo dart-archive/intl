@@ -118,7 +118,6 @@ void _validateShort(String locale, List<List<String>> expected) {
             locale,
             number,
             notation: 'compact',
-            maximumSignificantDigits: 3,
             useGrouping: false,
           ),
           data[1]);
@@ -140,7 +139,6 @@ void _validateLong(String locale, List<List<String>> expected) {
             number,
             notation: 'compact',
             compactDisplay: 'long',
-            maximumSignificantDigits: 3,
             useGrouping: false,
           ),
           data[2]);
@@ -171,9 +169,14 @@ void _validateMore(more_testdata.CompactRoundingTestCase t) {
     js.setProperty(options, 'minimumExponentDigits', t.minimumExponentDigits);
   }
 
-  if (t.significantDigits != null) {
-    js.setProperty(options, 'minimumSignificantDigits', t.significantDigits);
-    js.setProperty(options, 'maximumSignificantDigits', t.significantDigits);
+  if (t.maximumSignificantDigits != null) {
+    js.setProperty(
+        options, 'maximumSignificantDigits', t.maximumSignificantDigits);
+  }
+
+  if (t.minimumSignificantDigits != null) {
+    js.setProperty(
+        options, 'minimumSignificantDigits', t.minimumSignificantDigits);
   }
 
   test(t.toString(), () {

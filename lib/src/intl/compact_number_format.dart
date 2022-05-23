@@ -10,7 +10,7 @@ part of 'number_format.dart';
 /// An abstract class for compact number styles.
 abstract class _CompactStyleBase {
   /// The _CompactStyle for the [number].
-  _CompactStyle styleForNumber(number);
+  _CompactStyle styleForNumber(number, _CompactNumberFormat format);
 
   /// What should we divide the number by in order to print. Normally it is
   /// either `10^normalizedExponent` or 1 if we shouldn't divide at all.
@@ -43,40 +43,43 @@ class _CompactStyleWithPlurals extends _CompactStyleBase {
   int get divisor => _defaultStyle.divisor;
 
   @override
-  _CompactStyle styleForNumber(final number) {
+  _CompactStyle styleForNumber(final number, _CompactNumberFormat format) {
     var value = number.abs();
-    if (_plural == null || value < 1) {
-      return _defaultStyle.styleForNumber(number);
+    if (_plural == null) {
+      return _defaultStyle.styleForNumber(number, format);
     }
 
-    var displayed = _CompactNumberFormat._divide(value, _defaultStyle.divisor);
+    var displayed = value;
+    var precision = format._minimumFractionDigits;
 
-    // 3 significant digits.
-    if (displayed >= 100) {
-      displayed = displayed.round();
-    } else if (displayed >= 10) {
-      displayed = (displayed * 10).round() / 10;
-    } else {
-      // Note: >= 1.
-      displayed = (displayed * 100).round() / 100;
+    if (format.significantDigitsInUse) {
+      // Note: this is not 100% correct, but good enough for most cases.
+      var integerPart = format._floor(value);
+      var integerLength = NumberFormat.numberOfIntegerDigits(integerPart);
+      if (format.minimumSignificantDigits != null) {
+        precision = max(0, format.minimumSignificantDigits! - integerLength);
+      }
     }
 
-    var afterDecimal = (displayed * 100).round() % 100; // At most 2 digits.
-    if (afterDecimal == 0) {
-      // This is displayed as integer: round.
-      displayed = displayed.round();
-    } else {
-      // Plural rules deal poorly with double: 2.01 * 100 = 200.999...
-      // So, add a little value: invisible, no effect on rounding.
-      displayed += 0.0001;
+    // Round to the right precision.
+    var factor = pow(10, precision);
+    displayed = (displayed * factor).round() / factor;
+
+    if (format.significantDigitsInUse &&
+        !format.minimumSignificantDigitsStrict) {
+      // Check for trailing 0.
+      var fractionStr = format._floor(displayed * factor).toString();
+      while (precision > 0 && fractionStr.endsWith('0')) {
+        precision--;
+        fractionStr = fractionStr.substring(0, fractionStr.length - 1);
+      }
     }
-    var precision = afterDecimal == 0 ? 0 : (afterDecimal % 10 == 0 ? 1 : 2);
 
     // Direct value? (French 1000 => "mille" has key "1".)
     if (number >= 0 && precision == 0) {
-      var indexed = styles[displayed.toString()];
+      var indexed = styles[format._floor(displayed).toString()];
       if (indexed != null) {
-        return indexed.styleForNumber(number);
+        return indexed.styleForNumber(number, format);
       }
     }
 
@@ -102,7 +105,7 @@ class _CompactStyleWithPlurals extends _CompactStyleBase {
       default:
       // Keep _defaultStyle;
     }
-    return style.styleForNumber(number);
+    return style.styleForNumber(number, format);
   }
 }
 
@@ -111,7 +114,7 @@ class _CompactStyleWithNegative extends _CompactStyleBase {
   _CompactStyleWithNegative(this.positiveStyle, this.negativeStyle);
   final _CompactStyle positiveStyle;
   final _CompactStyle negativeStyle;
-  _CompactStyle styleForNumber(number) =>
+  _CompactStyle styleForNumber(number, _CompactNumberFormat format) =>
       number < 0 ? negativeStyle : positiveStyle;
   int get divisor => positiveStyle.divisor;
   List<_CompactStyle> get allStyles => [positiveStyle, negativeStyle];
@@ -164,7 +167,7 @@ class _CompactStyle extends _CompactStyleBase {
   /// for a particular currency (e.g. two for USD, zero for JPY)
   bool get isFallback => pattern == null || pattern == '0';
 
-  _CompactStyle styleForNumber(number) => this;
+  _CompactStyle styleForNumber(number, _CompactNumberFormat format) => this;
   List<_CompactStyle> get allStyles => [this];
 
   static final _regex = RegExp('([^0]*)(0+)(.*)');
@@ -369,6 +372,22 @@ class _CompactNumberFormat extends NumberFormat {
     turnOffGrouping();
   }
 
+  @override
+  set significantDigits(int? x) {
+    // Replicate ICU behavior: set only the minimumSignificantDigits and
+    // do not force trailing 0 in fractional part.
+    _explicitMinimumFractionDigits = false;
+    minimumSignificantDigits = x;
+    maximumSignificantDigits = null;
+    minimumSignificantDigitsStrict = false;
+  }
+
+  @override
+  int get minimumFractionDigits =>
+      _style != null && !_style!.isFallback && !_explicitMinimumFractionDigits
+          ? 0
+          : super.minimumFractionDigits;
+
   /// The style in which we will format a particular number.
   ///
   /// This is a temporary variable that is only valid within a call to format
@@ -406,37 +425,12 @@ class _CompactNumberFormat extends NumberFormat {
     return formatted;
   }
 
-  /// How many digits after the decimal place should we display, given that
-  /// there are [remainingSignificantDigits] left to show.
-  int _fractionDigitsAfter(int remainingSignificantDigits) {
-    final newFractionDigits =
-        super._fractionDigitsAfter(remainingSignificantDigits);
+  @override
+  bool _useDefaultSignificantDigits() {
     // For non-currencies, or for currencies if the numbers are large enough to
     // compact, always use the number of significant digits and ignore
-    // decimalDigits. That is, $1.23K but also ¥12.3\u4E07, even though yen
-    // don't normally print decimal places.
-    if (!_isForCurrency || !_style!.isFallback) return newFractionDigits;
-    // If we are printing a currency and it's too small to compact, but
-    // significant digits would have us only print some of the decimal digits,
-    // use all of them. So $12.30, not $12.3
-    if (newFractionDigits > 0 && newFractionDigits < decimalDigits!) {
-      return decimalDigits!;
-    } else {
-      return min(newFractionDigits, decimalDigits!);
-    }
-  }
-
-  /// Defines minimumFractionDigits based on current style being formatted.
-  @override
-  int get minimumFractionDigits {
-    if (!_isForCurrency ||
-        !significantDigitsInUse ||
-        _style == null ||
-        _style!.isFallback) {
-      return super.minimumFractionDigits;
-    } else {
-      return 0;
-    }
+    // decimalDigits.
+    return !_isForCurrency || !_style!.isFallback;
   }
 
   /// Divide numbers that may not have a division operator (e.g. Int64).
@@ -461,28 +455,53 @@ class _CompactNumberFormat extends NumberFormat {
   }
 
   _CompactStyle _styleFor(number) {
-    // We have to round the number based on the number of significant digits so
-    // that we pick the right style based on the rounded form and format 999999
-    // as 1M rather than 1000K.
-    var originalLength = NumberFormat.numberOfIntegerDigits(number);
-    var additionalDigits = originalLength - significantDigits!;
-    var digitLength = originalLength;
-    if (additionalDigits > 0) {
-      var divisor = pow(10, additionalDigits);
-      // If we have an Int64, value speed over precision and make it double.
-      var rounded = (number.toDouble() / divisor).round() * divisor;
-      digitLength = NumberFormat.numberOfIntegerDigits(rounded);
+    if (number.abs() < 10) {
+      // Cannot be compacted.
+      return _defaultCompactStyle;
     }
+    var rounded = number.toDouble(); // No rounding yet...
+    var digitLength = NumberFormat.numberOfIntegerDigits(number);
+    var divisor = 1; // Default.
 
-    var expectedExponent = digitLength - 1;
+    var updateRounding = () {
+      var fractionDigits = maximumFractionDigits;
+      if (significantDigitsInUse) {
+        var divisorLength = NumberFormat.numberOfIntegerDigits(divisor);
+        // We have to round the number based on the number of significant
+        // digits so that we pick the right style based on the rounded form
+        // and format 999999 as 1M rather than 1000K.
+        fractionDigits =
+            (maximumSignificantDigits ?? minimumSignificantDigits ?? 0) -
+                digitLength +
+                divisorLength -
+                1;
+        if (maximumSignificantDigits == null) {
+          // Keep all digits of the integer part.
+          fractionDigits = max(0, fractionDigits);
+        }
+      }
+      var fractionMultiplier = pow(10, fractionDigits);
+      rounded = (rounded * fractionMultiplier / divisor).round() *
+          divisor /
+          fractionMultiplier;
+      digitLength = NumberFormat.numberOfIntegerDigits(rounded);
+    };
+
+    updateRounding();
+
     _CompactStyleBase? style;
-    for (var entries in _styles.entries) {
-      if (entries.key > expectedExponent) {
+    for (var entry in _styles.entries) {
+      var exponent = entry.key + 1;
+      if (exponent > digitLength) {
         break;
       }
-      style = entries.value;
+      style = entry.value;
+      // Recompute digits length based on new exponent.
+      divisor = style.divisor;
+      updateRounding();
     }
-    return style?.styleForNumber(number) ?? _defaultCompactStyle;
+    return style?.styleForNumber(_divide(number, divisor), this) ??
+        _defaultCompactStyle;
   }
 
   Iterable<_CompactStyle> get _stylesForSearching =>

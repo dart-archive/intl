@@ -207,7 +207,82 @@ void runTests(Map<String, num> allTestNumbers) {
 
   test('Significant Digits', () {
     var expected = [
-      '00,000,000',
+      '0',
+      '10,000,000',
+      '9,900,000',
+      '9,880,000',
+      '9,877,000',
+      '9,876,500',
+      '9,876,540',
+      '9,876,543',
+      '9,876,543.2',
+      '9,876,543.21',
+      '9,876,543.210',
+      '9,876,543.2101',
+      '9,876,543.21012',
+      '9,876,543.210120',
+    ];
+    for (var i = 0; i < expected.length; i++) {
+      var f = NumberFormat.decimalPattern();
+      f.significantDigits = i;
+      expect(f.format(9876543.21012), expected[i],
+          reason: 'significantDigits: $i');
+    }
+  });
+
+  test('Strict significant Digits', () {
+    var expected = [
+      '0',
+      '10,000,000',
+      '9,900,000',
+      '9,880,000',
+      '9,877,000',
+      '9,876,500',
+      '9,876,540',
+      '9,876,543',
+      '9,876,543.2',
+      '9,876,543.21',
+      '9,876,543.210',
+      '9,876,543.2101',
+      '9,876,543.21012',
+      '9,876,543.210120',
+    ];
+    for (var i = 0; i < expected.length; i++) {
+      var f = NumberFormat.decimalPattern();
+      f.significantDigits = i;
+      expect(f.format(9876543.21012), expected[i],
+          reason: 'significantDigits: $i');
+    }
+  });
+
+  test('Minimum significant Digits', () {
+    var expected = [
+      '9,876,543',
+      '9,876,543',
+      '9,876,543',
+      '9,876,543',
+      '9,876,543',
+      '9,876,543',
+      '9,876,543',
+      '9,876,543',
+      '9,876,543.2',
+      '9,876,543.21',
+      '9,876,543.210',
+      '9,876,543.2101',
+      '9,876,543.21012',
+      '9,876,543.210120',
+    ];
+    for (var i = 0; i < expected.length; i++) {
+      var f = NumberFormat.decimalPattern();
+      f.minimumSignificantDigits = i;
+      expect(f.format(9876543.21012), expected[i],
+          reason: 'minimumSignificantDigits: $i');
+    }
+  });
+
+  test('Maximum significant Digits', () {
+    var expected = [
+      '0',
       '10,000,000',
       '9,900,000',
       '9,880,000',
@@ -224,9 +299,9 @@ void runTests(Map<String, num> allTestNumbers) {
     ];
     for (var i = 0; i < expected.length; i++) {
       var f = NumberFormat.decimalPattern();
-      f.significantDigits = i;
+      f.maximumSignificantDigits = i;
       expect(f.format(9876543.21012), expected[i],
-          reason: 'significantDigits: $i');
+          reason: 'maximumSignificantDigits: $i');
     }
   });
 
@@ -236,6 +311,59 @@ void runTests(Map<String, num> allTestNumbers) {
     expect(formatted, '12%');
     var readBack = number.parse(formatted);
     expect(0.12, readBack);
+  });
+
+  group('Percent with significant digits', () {
+    var tests = {
+      0: '0%',
+      0.0001: '0.0100%',
+      0.001: '0.100%',
+      0.01: '1.00%',
+      0.1: '10.0%',
+      1: '100%',
+      10: '1,000%',
+      0.000123: '0.0123%',
+      0.00123: '0.123%',
+      0.0123: '1.23%',
+      0.123: '12.3%',
+      1.23: '123%',
+      12.3: '1,230%',
+      0.000123456: '0.0123%',
+      0.00123456: '0.123%',
+      0.0123456: '1.23%',
+      0.123456: '12.3%',
+      1.23456: '123%',
+      12.3456: '1,230%',
+      0.000456789: '0.0457%',
+      0.00456789: '0.457%',
+      0.0456789: '4.57%',
+      0.456789: '45.7%',
+      4.56789: '457%',
+      45.6789: '4,570%',
+      -0.123: '-12.3%',
+      0.0009991: '0.0999%',
+      0.0009998: '0.100%',
+      0.009991: '0.999%',
+      0.009998: '1.00%',
+      0.09991: '9.99%',
+      0.09998: '10.0%',
+      0.9991: '99.9%',
+      0.9998: '100%',
+      9.991: '999%',
+      9.998: '1,000%',
+      99.91: '9,990%',
+      99.98: '10,000%',
+    };
+    for (var entry in tests.entries) {
+      var f = NumberFormat.percentPattern();
+      f.minimumSignificantDigits = 3;
+      f.maximumSignificantDigits = 3;
+      var number = entry.key;
+      var expected = entry.value;
+      test('$number in percent', () {
+        expect(f.format(number), expected);
+      });
+    }
   });
 
   // We can't do these in the normal tests because those also format the
@@ -374,6 +502,128 @@ void runTests(Map<String, num> allTestNumbers) {
         NumberFormat.currency(name: 'XYZZY', customPattern: '[\u00a4][#,##.#]');
     var text = format.format(12345.67);
     expect(text, '[XYZZY][1,23,45.67]');
+  });
+
+  group('Currency with significant digits', () {
+    test('en_US - 2 decimal digits.', () {
+      var expected = [
+        r'$0',
+        r'$10,000,000',
+        r'$9,900,000',
+        r'$9,880,000',
+        r'$9,877,000',
+        r'$9,876,500',
+        r'$9,876,540',
+        r'$9,876,543',
+        r'$9,876,543.21',
+        r'$9,876,543.21',
+        r'$9,876,543.21',
+        r'$9,876,543.21',
+        r'$9,876,543.21',
+        r'$9,876,543.21',
+      ];
+      for (var i = 0; i < expected.length; i++) {
+        var f = NumberFormat.simpleCurrency(locale: 'en_US', name: 'USD');
+        f.significantDigits = i;
+        expect(f.format(9876543.21012), expected[i],
+            reason: 'significantDigits: $i');
+      }
+    });
+
+    test('ja - 0 decimal digits.', () {
+      var expected = [
+        '¥0',
+        '¥10,000,000',
+        '¥9,900,000',
+        '¥9,880,000',
+        '¥9,877,000',
+        '¥9,876,500',
+        '¥9,876,540',
+        '¥9,876,543',
+        '¥9,876,543',
+        '¥9,876,543',
+        '¥9,876,543',
+        '¥9,876,543',
+        '¥9,876,543',
+        '¥9,876,543',
+      ];
+      for (var i = 0; i < expected.length; i++) {
+        var f = NumberFormat.simpleCurrency(locale: 'ja', name: 'JPY');
+        f.significantDigits = i;
+        expect(f.format(9876543.21012), expected[i],
+            reason: 'significantDigits: $i');
+      }
+    });
+  });
+
+  group('Currency with minimumFractionDigits', () {
+    var expectedBase = <double, String>{
+      0.001: r'$0.00',
+      0.009: r'$0.01',
+      0.01: r'$0.01',
+      0.09: r'$0.09',
+      0.1: r'$0.10',
+      0.9: r'$0.90',
+      1: r'$1.00',
+      1.1: r'$1.10',
+      1.9: r'$1.90',
+      1.999: r'$2.00',
+      999: r'$999.00',
+      999.1: r'$999.10',
+      999.9: r'$999.90',
+    };
+    for (var entry in expectedBase.entries) {
+      test('en_US - minimumFractionDigits: not set - ${entry.key}', () {
+        var f = NumberFormat.simpleCurrency(locale: 'en_US', name: 'USD');
+        expect(f.format(entry.key), entry.value);
+      });
+    }
+
+    var expected0 = <double, String>{
+      0.001: r'$0',
+      0.009: r'$0.01',
+      0.01: r'$0.01',
+      0.09: r'$0.09',
+      0.1: r'$0.1',
+      0.9: r'$0.9',
+      1: r'$1',
+      1.1: r'$1.1',
+      1.9: r'$1.9',
+      1.999: r'$2',
+      999: r'$999',
+      999.1: r'$999.1',
+      999.9: r'$999.9',
+    };
+    for (var entry in expected0.entries) {
+      test('en_US - minimumFractionDigits: 0 - ${entry.key}', () {
+        var f = NumberFormat.simpleCurrency(locale: 'en_US', name: 'USD')
+          ..minimumFractionDigits = 0;
+        expect(f.format(entry.key), entry.value);
+      });
+    }
+
+    var expected1 = <double, String>{
+      0.001: r'$0.0',
+      0.009: r'$0.01',
+      0.01: r'$0.01',
+      0.09: r'$0.09',
+      0.1: r'$0.1',
+      0.9: r'$0.9',
+      1: r'$1.0',
+      1.1: r'$1.1',
+      1.9: r'$1.9',
+      1.999: r'$2.0',
+      999: r'$999.0',
+      999.1: r'$999.1',
+      999.9: r'$999.9',
+    };
+    for (var entry in expected1.entries) {
+      test('en_US - minimumFractionDigits: 1 - ${entry.key}', () {
+        var f = NumberFormat.simpleCurrency(locale: 'en_US', name: 'USD')
+          ..minimumFractionDigits = 1;
+        expect(f.format(entry.key), entry.value);
+      });
+    }
   });
 }
 

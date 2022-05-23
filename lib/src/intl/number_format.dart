@@ -88,19 +88,66 @@ class NumberFormat {
 
   int maximumIntegerDigits;
   int minimumIntegerDigits;
-  int maximumFractionDigits;
-  int minimumFractionDigits;
+
+  bool _explicitMaximumFractionDigits = false;
+  int _maximumFractionDigits;
+  int get maximumFractionDigits => _maximumFractionDigits;
+  set maximumFractionDigits(int x) {
+    significantDigitsInUse = false;
+    _explicitMaximumFractionDigits = true;
+    _maximumFractionDigits = x;
+    _minimumFractionDigits = min(_minimumFractionDigits, x);
+  }
+
+  bool _explicitMinimumFractionDigits = false;
+  int _minimumFractionDigits;
+  int get minimumFractionDigits => _minimumFractionDigits;
+  set minimumFractionDigits(int x) {
+    significantDigitsInUse = false;
+    _explicitMinimumFractionDigits = true;
+    _minimumFractionDigits = x;
+    _maximumFractionDigits = max(_maximumFractionDigits, x);
+  }
+
   int minimumExponentDigits;
-  int? _significantDigits;
+
+  int? _maximumSignificantDigits;
+  int? get maximumSignificantDigits => _maximumSignificantDigits;
+  set maximumSignificantDigits(int? x) {
+    _maximumSignificantDigits = x;
+    if (x != null && _minimumSignificantDigits != null) {
+      _minimumSignificantDigits = min(_minimumSignificantDigits!, x);
+    }
+    significantDigitsInUse = true;
+  }
+
+  /// Whether minimumSignificantDigits should cause trailing 0 in fraction part.
+  ///
+  /// Ex: with 2 significant digits:
+  /// 0.999 => "1.0" (strict) or "1" (non-strict).
+  bool minimumSignificantDigitsStrict = false;
+
+  int? _minimumSignificantDigits;
+  int? get minimumSignificantDigits => _minimumSignificantDigits;
+  set minimumSignificantDigits(int? x) {
+    _minimumSignificantDigits = x;
+    if (x != null && _maximumSignificantDigits != null) {
+      _maximumSignificantDigits = max(_maximumSignificantDigits!, x);
+    }
+    significantDigitsInUse = true;
+    minimumSignificantDigitsStrict = x != null;
+  }
 
   ///  How many significant digits should we print.
   ///
   ///  Note that if significantDigitsInUse is the default false, this
   ///  will be ignored.
-  int? get significantDigits => _significantDigits;
+  @Deprecated('Use maximumSignificantDigits / minimumSignificantDigits')
+  int? get significantDigits => _minimumSignificantDigits;
+
   set significantDigits(int? x) {
-    _significantDigits = x;
-    significantDigitsInUse = true;
+    minimumSignificantDigits = x;
+    maximumSignificantDigits = x;
   }
 
   bool significantDigitsInUse = false;
@@ -355,8 +402,8 @@ class NumberFormat {
         minimumExponentDigits = result.minimumExponentDigits,
         maximumIntegerDigits = result.maximumIntegerDigits,
         minimumIntegerDigits = result.minimumIntegerDigits,
-        maximumFractionDigits = result.maximumFractionDigits,
-        minimumFractionDigits = result.minimumFractionDigits,
+        _maximumFractionDigits = result.maximumFractionDigits,
+        _minimumFractionDigits = result.minimumFractionDigits,
         _groupingSize = result.groupingSize,
         _finalGroupingSize = result.finalGroupingSize,
         _useSignForPositiveExponent = result.useSignForPositiveExponent,
@@ -570,8 +617,22 @@ class NumberFormat {
     return max(1, (log(simpleNumber) / _ln10).ceil());
   }
 
-  int _fractionDigitsAfter(int remainingSignificantDigits) =>
-      max(0, remainingSignificantDigits);
+  /// Whether to use SignificantDigits unconditionally for fraction digits.
+  bool _useDefaultSignificantDigits() => !_isForCurrency;
+
+  /// How many digits after the decimal place should we display, given that
+  /// by default, [fractionDigits] should be used, and there are up to
+  /// [expectedSignificantDigits] left to display in the fractional part..
+  int _adjustFractionDigits(int fractionDigits, expectedSignificantDigits) {
+    if (_useDefaultSignificantDigits()) return fractionDigits;
+    // If we are printing a currency significant digits would have us only print
+    // some of the decimal digits, use all of them. So $12.30, not $12.3
+    if (expectedSignificantDigits > 0) {
+      return decimalDigits!;
+    } else {
+      return min(fractionDigits, decimalDigits!);
+    }
+  }
 
   /// Format the basic number portion, including the fractional digits.
   void _formatFixed(dynamic number) {
@@ -579,6 +640,7 @@ class NumberFormat {
     int fractionPart;
     int extraIntegerDigits;
     var fractionDigits = maximumFractionDigits;
+    var minFractionDigits = minimumFractionDigits;
 
     var power = 0;
     int digitMultiplier;
@@ -604,20 +666,63 @@ class NumberFormat {
         fraction = 0;
       }
 
-      /// If we have significant digits, recalculate the number of fraction
+      /// If we have significant digits, compute the number of fraction
       /// digits based on that.
-      if (significantDigitsInUse) {
-        var significantDigits = this.significantDigits!;
-        var integerLength = numberOfIntegerDigits(integerPart);
-        var remainingSignificantDigits =
-            significantDigits - _multiplierDigits - integerLength;
-        fractionDigits = _fractionDigitsAfter(remainingSignificantDigits);
-        if (remainingSignificantDigits < 0) {
-          // We may have to round.
-          var divideBy = pow(10, integerLength - significantDigits);
-          integerPart = (integerPart / divideBy).round() * divideBy;
+      void computeFractionDigits() {
+        if (significantDigitsInUse) {
+          var integerLength = number == 0
+              ? 1
+              : integerPart != 0
+                  ? numberOfIntegerDigits(integerPart)
+                  // We might need to add digits after decimal point.
+                  : (log(fraction) / ln10).ceil();
+
+          if (minimumSignificantDigits != null) {
+            var remainingSignificantDigits =
+                minimumSignificantDigits! - _multiplierDigits - integerLength;
+
+            fractionDigits = max(0, remainingSignificantDigits);
+            if (minimumSignificantDigitsStrict) {
+              minFractionDigits = fractionDigits;
+            }
+            fractionDigits = _adjustFractionDigits(
+                fractionDigits, remainingSignificantDigits);
+          }
+
+          if (maximumSignificantDigits != null) {
+            if (maximumSignificantDigits! == 0) {
+              // Stupid case: only '0' has no significant digits.
+              integerPart = 0;
+              fractionDigits = 0;
+            } else if (maximumSignificantDigits! <
+                integerLength + _multiplierDigits) {
+              // We may have to round.
+              var divideBy = pow(10, integerLength - maximumSignificantDigits!);
+              if (maximumSignificantDigits! < integerLength) {
+                integerPart = (integerPart / divideBy).round() * divideBy;
+              }
+              fraction = (fraction / divideBy).round() * divideBy;
+              fractionDigits = 0;
+            } else {
+              fractionDigits =
+                  maximumSignificantDigits! - integerLength - _multiplierDigits;
+              fractionDigits =
+                  _adjustFractionDigits(fractionDigits, fractionDigits);
+            }
+          }
+          if (fractionDigits > maximumFractionDigits &&
+              _explicitMaximumFractionDigits) {
+            fractionDigits = min(fractionDigits, maximumFractionDigits);
+          }
+          if (fractionDigits < minimumFractionDigits &&
+              _explicitMinimumFractionDigits) {
+            fractionDigits = _minimumFractionDigits;
+          }
         }
       }
+
+      computeFractionDigits();
+
       power = pow(10, fractionDigits) as int;
       digitMultiplier = power * multiplier;
 
@@ -625,11 +730,25 @@ class NumberFormat {
       // round. For fixed-size integer types this should always be zero, so
       // multiplying is OK.
       var remainingDigits = _round(fraction * digitMultiplier).toInt();
-      // However, in rounding we may overflow into the main digits.
+
+      var hasRounding = false;
       if (remainingDigits >= digitMultiplier) {
+        // Overflow into the main digits: 0.99 => 1.00
         integerPart++;
         remainingDigits -= digitMultiplier;
+        hasRounding = true;
+      } else if (numberOfIntegerDigits(remainingDigits) >
+          numberOfIntegerDigits(_floor(fraction * digitMultiplier).toInt())) {
+        // Fraction has been rounded (0.0996 -> 0.1).
+        fraction = remainingDigits / digitMultiplier;
+        hasRounding = true;
       }
+      if (hasRounding && significantDigitsInUse) {
+        // We might have to recompute significant digits after fraction.
+        // With 3 significant digits, "9.999" should be "10.0", not "10.00".
+        computeFractionDigits();
+      }
+
       // Separate out the extra integer parts from the fraction part.
       extraIntegerDigits = remainingDigits ~/ power;
       fractionPart = remainingDigits % power;
@@ -638,7 +757,7 @@ class NumberFormat {
     var integerDigits = _integerDigits(integerPart, extraIntegerDigits);
     var digitLength = integerDigits.length;
     var fractionPresent =
-        fractionDigits > 0 && (minimumFractionDigits > 0 || fractionPart > 0);
+        fractionDigits > 0 && (minFractionDigits > 0 || fractionPart > 0);
 
     if (_hasIntegerDigits(integerDigits)) {
       // Add the padding digits to the regular digits so that we get grouping.
@@ -655,7 +774,9 @@ class NumberFormat {
     }
 
     _decimalSeparator(fractionPresent);
-    _formatFractionPart((fractionPart + power).toString());
+    if (fractionPresent) {
+      _formatFractionPart((fractionPart + power).toString(), minFractionDigits);
+    }
   }
 
   /// Compute the raw integer digits which will then be printed with
@@ -688,9 +809,11 @@ class NumberFormat {
   String _mainIntegerDigits(integer) {
     if (integer == 0) return '';
     var digits = integer.toString();
-    if (significantDigitsInUse && digits.length > significantDigits!) {
-      digits = digits.substring(0, significantDigits) +
-          ''.padLeft(digits.length - significantDigits!, '0');
+    if (significantDigitsInUse &&
+        maximumSignificantDigits != null &&
+        digits.length > maximumSignificantDigits!) {
+      digits = digits.substring(0, maximumSignificantDigits!) +
+          ''.padLeft(digits.length - maximumSignificantDigits!, '0');
     }
     // If we have a fixed-length int representation, it can have a negative
     // number whose negation is also negative, e.g. 2^-63 in 64-bit.
@@ -699,11 +822,11 @@ class NumberFormat {
   }
 
   /// Format the part after the decimal place in a fixed point number.
-  void _formatFractionPart(String fractionPart) {
+  void _formatFractionPart(String fractionPart, int minDigits) {
     var fractionLength = fractionPart.length;
     while (fractionPart.codeUnitAt(fractionLength - 1) ==
             constants.asciiZeroCodeUnit &&
-        fractionLength > minimumFractionDigits + 1) {
+        fractionLength > minDigits + 1) {
       fractionLength--;
     }
     for (var i = 1; i < fractionLength; i++) {

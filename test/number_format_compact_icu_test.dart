@@ -77,8 +77,12 @@ void _validateFancy(more_testdata.CompactRoundingTestCase t) {
   if (t.minimumIntegerDigits != null) {
     skel += ' integer-width/+' + '0' * t.minimumIntegerDigits!;
   }
-  if (t.significantDigits != null) {
-    skel += ' ' + '@' * t.significantDigits!;
+  if (t.maximumSignificantDigits != null) {
+    skel += ' ' + '@' * t.maximumSignificantDigits!;
+    if (t.minimumSignificantDigits != t.maximumSignificantDigits) {
+      // Pattern doesn't support min/max significant digits. Ignore.
+      return;
+    }
   }
   if (t.minimumFractionDigits != null) {
     skel += ' .' + '0' * t.minimumFractionDigits!;

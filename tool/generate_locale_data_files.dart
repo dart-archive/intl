@@ -23,7 +23,7 @@ String dataDirectoryOverride;
 String get dataDirectory => dataDirectoryOverride ?? test.dataDirectory;
 
 void main(List<String> args) {
-  if (args.length > 0) {
+  if (args.isNotEmpty) {
     dataDirectoryOverride = args[0];
   }
   initializeDateFormatting('en_IGNORED', null);
