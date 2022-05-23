@@ -302,7 +302,8 @@ class Intl {
       required T other,
       String? locale,
       int? precision,
-      String? meaning}) {
+      String? meaning,
+      bool useExplicitNumberCases = true}) {
     ArgumentError.checkNotNull(other, 'other');
     ArgumentError.checkNotNull(howMany, 'howMany');
     // If we haven't specified precision and we have a float that is an integer
@@ -318,7 +319,7 @@ class Intl {
     // the new behavior, since [precision] did not exist before.
     // For an English example: if the precision is 2 then the formatted string
     // would not map to 'one' (for example "1.00 miles")
-    if (precision == null || precision == 0) {
+    if (useExplicitNumberCases && (precision == null || precision == 0)) {
       // If there's an explicit case for the exact number, we use it. This is
       // not strictly in accord with the CLDR rules, but it seems to be the
       // expectation. At least I see e.g. Russian translations that have a zero
