@@ -474,7 +474,7 @@ class _CompactNumberFormat extends NumberFormat {
     var digitLength = NumberFormat.numberOfIntegerDigits(number);
     var divisor = 1; // Default.
 
-    updateRounding() {
+    void updateRounding() {
       var fractionDigits = maximumFractionDigits;
       if (significantDigitsInUse) {
         var divisorLength = NumberFormat.numberOfIntegerDigits(divisor);
