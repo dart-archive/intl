@@ -100,8 +100,7 @@ class Intl {
   /// locale to be used, otherwise, we will attempt to infer it (acceptable if
   /// Dart is running on the client, we can infer from the browser/client
   /// preferences).
-  Intl([String? aLocale])
-      : _locale = aLocale ?? getCurrentLocale();
+  Intl([String? aLocale]) : _locale = aLocale ?? getCurrentLocale();
 
   /// Use this for a message that will be translated for different locales. The
   /// expected usage is that this is inside an enclosing function that only
