@@ -117,5 +117,5 @@ final availableLocalesForDateFormatting = const [
   'zh_CN',
   'zh_HK',
   'zh_TW',
-  'zu'
+  'zu',
 ];
