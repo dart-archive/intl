@@ -808,12 +808,12 @@ class _TypeAndVal<T, V> {
 enum _ElementType { string, block }
 
 class _ElementTypeAndVal extends _TypeAndVal<_ElementType, String> {
-  _ElementTypeAndVal(var _type, var _value) : super(_type, _value);
+  _ElementTypeAndVal(var type, var value) : super(type, value);
 }
 
 /// Block type.
 enum _BlockType { plural, ordinal, select, simple, string, unknown }
 
 class _BlockTypeAndVal extends _TypeAndVal<_BlockType, Object> {
-  _BlockTypeAndVal(var _type, var _value) : super(_type, _value);
+  _BlockTypeAndVal(var type, var value) : super(type, value);
 }

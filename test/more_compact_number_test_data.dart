@@ -33,6 +33,7 @@ class CompactRoundingTestCase {
   int? maximumSignificantDigits;
   int? minimumSignificantDigits;
 
+  @override
   String toString() => "CompactRoundingTestCase for $number, "
       "maxIntDig: $maximumIntegerDigits, "
       "minIntDig: $minimumIntegerDigits, "

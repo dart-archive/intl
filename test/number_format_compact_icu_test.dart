@@ -4,10 +4,12 @@
 /// testing the package:intl implementation, they only help verify consistent
 /// behaviour across platforms.
 
-@TestOn("!browser")
+// ignore_for_file: non_constant_identifier_names
+
+@TestOn('!browser')
 @Tags(['ffi'])
-@Skip(
-    "currently failing (see issue https://github.com/dart-lang/intl/issues/240)")
+@Skip('currently failing (see https://github.com/dart-lang/intl/issues/240)')
+
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:test/test.dart';
@@ -75,21 +77,21 @@ void _validateFancy(more_testdata.CompactRoundingTestCase t) {
   var locale = 'en';
   var skel = 'compact-short';
   if (t.minimumIntegerDigits != null) {
-    skel += ' integer-width/+' + '0' * t.minimumIntegerDigits!;
+    skel += ' integer-width/+${'0' * t.minimumIntegerDigits!}';
   }
   if (t.maximumSignificantDigits != null) {
-    skel += ' ' + '@' * t.maximumSignificantDigits!;
+    skel += ' ${'@' * t.maximumSignificantDigits!}';
     if (t.minimumSignificantDigits != t.maximumSignificantDigits) {
       // Pattern doesn't support min/max significant digits. Ignore.
       return;
     }
   }
   if (t.minimumFractionDigits != null) {
-    skel += ' .' + '0' * t.minimumFractionDigits!;
+    skel += ' .${'0' * t.minimumFractionDigits!}';
     var maxFD = t.maximumFractionDigits ?? 3;
     skel += '#' * (maxFD - t.minimumFractionDigits!);
   } else if (t.maximumFractionDigits != null) {
-    skel += ' .' + '#' * t.maximumFractionDigits!;
+    skel += ' .${'#' * t.maximumFractionDigits!}';
   }
   test(t.toString(), () {
     expect(_formatWithUnumf(locale, skel, t.number), t.expected,

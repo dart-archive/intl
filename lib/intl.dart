@@ -100,8 +100,7 @@ class Intl {
   /// locale to be used, otherwise, we will attempt to infer it (acceptable if
   /// Dart is running on the client, we can infer from the browser/client
   /// preferences).
-  Intl([String? aLocale])
-      : _locale = aLocale != null ? aLocale : getCurrentLocale();
+  Intl([String? aLocale]) : _locale = aLocale ?? getCurrentLocale();
 
   /// Use this for a message that will be translated for different locales. The
   /// expected usage is that this is inside an enclosing function that only
@@ -423,9 +422,9 @@ class Intl {
     ArgumentError.checkNotNull(other, 'other');
     switch (targetGender) {
       case 'female':
-        return female == null ? other : female;
+        return female ?? other;
       case 'male':
-        return male == null ? other : male;
+        return male ?? other;
       default:
         return other;
     }
@@ -532,6 +531,7 @@ class Intl {
     return defaultLocale ??= systemLocale;
   }
 
+  @override
   String toString() => 'Intl($locale)';
 }
 
