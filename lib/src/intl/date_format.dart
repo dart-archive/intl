@@ -5,6 +5,7 @@
 import 'package:intl/date_symbols.dart';
 import 'package:intl/src/date_format_internal.dart';
 import 'package:intl/src/intl_helpers.dart' as helpers;
+import 'package:meta/meta.dart';
 
 import 'constants.dart' as constants;
 import 'date_builder.dart';
@@ -278,6 +279,9 @@ class DateFormat {
   /// There can be rare and erratic errors in DateTime creation in both
   /// JavaScript and the Dart VM, and this allows us to test ways of
   /// compensating for them.
+  @visibleForTesting
+  @Deprecated('clients should not depend on this internal field')
+  // ignore: library_private_types_in_public_api
   _DateTimeConstructor dateTimeConstructor = (int year, int month, int day,
       int hour24, int minute, int second, int fractionalSecond, bool utc) {
     if (utc) {
@@ -842,6 +846,9 @@ class DateFormat {
           ];
 
   /// Parse the template pattern and return a list of field objects.
+  @visibleForTesting
+  @Deprecated('clients should not depend on this internal method')
+  // ignore: library_private_types_in_public_api
   List<_DateFormatField> parsePattern(String pattern) {
     return _parsePatternHelper(pattern).reversed.toList();
   }

@@ -136,34 +136,35 @@ class DateSymbols {
   // TODO(alanknight): Replace this with use of a more general serialization
   // facility once one is available. Issue 4926.
   factory DateSymbols.deserializeFromMap(Map<dynamic, dynamic> map) {
-    List<String> _getStringList(String name) => List<String>.from(map[name]);
+    List<String> getStringList(String name) => List<String>.from(map[name]);
+
     return DateSymbols(
       NAME: map['NAME'],
-      ERAS: _getStringList('ERAS'),
-      ERANAMES: _getStringList('ERANAMES'),
-      NARROWMONTHS: _getStringList('NARROWMONTHS'),
-      STANDALONENARROWMONTHS: _getStringList('STANDALONENARROWMONTHS'),
-      MONTHS: _getStringList('MONTHS'),
-      STANDALONEMONTHS: _getStringList('STANDALONEMONTHS'),
-      SHORTMONTHS: _getStringList('SHORTMONTHS'),
-      STANDALONESHORTMONTHS: _getStringList('STANDALONESHORTMONTHS'),
-      WEEKDAYS: _getStringList('WEEKDAYS'),
-      STANDALONEWEEKDAYS: _getStringList('STANDALONEWEEKDAYS'),
-      SHORTWEEKDAYS: _getStringList('SHORTWEEKDAYS'),
-      STANDALONESHORTWEEKDAYS: _getStringList('STANDALONESHORTWEEKDAYS'),
-      NARROWWEEKDAYS: _getStringList('NARROWWEEKDAYS'),
-      STANDALONENARROWWEEKDAYS: _getStringList('STANDALONENARROWWEEKDAYS'),
-      SHORTQUARTERS: _getStringList('SHORTQUARTERS'),
-      QUARTERS: _getStringList('QUARTERS'),
-      AMPMS: _getStringList('AMPMS'),
+      ERAS: getStringList('ERAS'),
+      ERANAMES: getStringList('ERANAMES'),
+      NARROWMONTHS: getStringList('NARROWMONTHS'),
+      STANDALONENARROWMONTHS: getStringList('STANDALONENARROWMONTHS'),
+      MONTHS: getStringList('MONTHS'),
+      STANDALONEMONTHS: getStringList('STANDALONEMONTHS'),
+      SHORTMONTHS: getStringList('SHORTMONTHS'),
+      STANDALONESHORTMONTHS: getStringList('STANDALONESHORTMONTHS'),
+      WEEKDAYS: getStringList('WEEKDAYS'),
+      STANDALONEWEEKDAYS: getStringList('STANDALONEWEEKDAYS'),
+      SHORTWEEKDAYS: getStringList('SHORTWEEKDAYS'),
+      STANDALONESHORTWEEKDAYS: getStringList('STANDALONESHORTWEEKDAYS'),
+      NARROWWEEKDAYS: getStringList('NARROWWEEKDAYS'),
+      STANDALONENARROWWEEKDAYS: getStringList('STANDALONENARROWWEEKDAYS'),
+      SHORTQUARTERS: getStringList('SHORTQUARTERS'),
+      QUARTERS: getStringList('QUARTERS'),
+      AMPMS: getStringList('AMPMS'),
       ZERODIGIT: map['ZERODIGIT'],
-      DATEFORMATS: _getStringList('DATEFORMATS'),
-      TIMEFORMATS: _getStringList('TIMEFORMATS'),
+      DATEFORMATS: getStringList('DATEFORMATS'),
+      TIMEFORMATS: getStringList('TIMEFORMATS'),
       AVAILABLEFORMATS: Map<String, String>.from(map['AVAILABLEFORMATS'] ?? {}),
       FIRSTDAYOFWEEK: map['FIRSTDAYOFWEEK'],
       WEEKENDRANGE: List<int>.from(map['WEEKENDRANGE']),
       FIRSTWEEKCUTOFFDAY: map['FIRSTWEEKCUTOFFDAY'],
-      DATETIMEFORMATS: _getStringList('DATETIMEFORMATS'),
+      DATETIMEFORMATS: getStringList('DATETIMEFORMATS'),
     );
   }
 
