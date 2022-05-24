@@ -4,10 +4,12 @@
 /// testing the package:intl implementation, they only help verify consistent
 /// behaviour across platforms.
 
-@TestOn("!browser")
+// ignore_for_file: non_constant_identifier_names
+
+@TestOn('!browser')
 @Tags(['ffi'])
-@Skip(
-    "currently failing (see issue https://github.com/dart-lang/intl/issues/240)")
+@Skip('currently failing (see https://github.com/dart-lang/intl/issues/240)')
+
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:test/test.dart';
