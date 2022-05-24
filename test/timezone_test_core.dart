@@ -25,9 +25,9 @@ void testTimezone(String timezoneName, {int? expectedUtcOffset}) {
       packageDir == null ? packageRelative : '$packageDir/$packageRelative';
 
   test('Run tests in $timezoneName time zone', () async {
-    var args = <String>[]
-      ..addAll(vmArgs)
-      ..add(fileToSpawn);
+    var args = <String>[...vmArgs, fileToSpawn]
+      
+      ;
     var environment = <String, String>{'TZ': timezoneName};
     if (expectedUtcOffset != null) {
       environment['EXPECTED_TZ_OFFSET_FOR_TEST'] = '$expectedUtcOffset';

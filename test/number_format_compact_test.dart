@@ -111,7 +111,7 @@ void main() {
   parsingTestCases.forEach(_validateParsing);
 
   test("Patterns are consistent across locales", () {
-    var checkPatterns = (Map<int, Map<String, String>> patterns) {
+    checkPatterns(Map<int, Map<String, String>> patterns) {
       expect(patterns, isNotEmpty);
       // Check patterns are iterable in order.
       var lastExp = -1;
@@ -123,7 +123,7 @@ void main() {
         var patternMap = entries.value;
         expect(patternMap, isNotEmpty);
       }
-    };
+    }
 
     patterns.compactNumberSymbols.forEach((locale, patterns) {
       checkPatterns(patterns.COMPACT_DECIMAL_SHORT_PATTERN);

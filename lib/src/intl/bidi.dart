@@ -202,7 +202,7 @@ class Bidi {
   /// If [isRtlContext] is true, then we explicitly want to wrap in a span of
   /// RTL directionality, regardless of the estimated directionality.
   static String guardBracketInHtml(String str, [bool? isRtlContext]) {
-    var useRtl = isRtlContext == null ? hasAnyRtl(str) : isRtlContext;
+    var useRtl = isRtlContext ?? hasAnyRtl(str);
     var matchingBrackets =
         RegExp(r'(\(.*?\)+)|(\[.*?\]+)|(\{.*?\}+)|(&lt;.*?(&gt;)+)');
     return _guardBracketHelper(str, matchingBrackets,
@@ -216,7 +216,7 @@ class Bidi {
   /// explicitly want to wrap in a span of RTL directionality, regardless of the
   /// estimated directionality.
   static String guardBracketInText(String str, [bool? isRtlContext]) {
-    var useRtl = isRtlContext == null ? hasAnyRtl(str) : isRtlContext;
+    var useRtl = isRtlContext ?? hasAnyRtl(str);
     var mark = useRtl ? RLM : LRM;
     return _guardBracketHelper(
         str, RegExp(r'(\(.*?\)+)|(\[.*?\]+)|(\{.*?\}+)|(<.*?>+)'), mark, mark);

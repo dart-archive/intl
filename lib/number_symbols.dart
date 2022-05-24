@@ -46,6 +46,7 @@ class NumberSymbols {
       required this.CURRENCY_PATTERN,
       required this.DEF_CURRENCY_CODE});
 
+  @override
   String toString() => NAME;
 }
 

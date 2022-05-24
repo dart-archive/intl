@@ -137,6 +137,7 @@ class LocaleImplementation extends Locale {
   /// (deprecated tags have been replaced), but not necessarily valid (the
   /// language might not exist) because the list of valid languages changes with
   /// time.
+  @override
   final String languageCode;
 
   /// The script subtag of the Locale Identifier, null if absent.
@@ -145,6 +146,7 @@ class LocaleImplementation extends Locale {
   /// (deprecated tags have been replaced), but not necessarily valid (the
   /// script might not exist) because the list of valid scripts changes with
   /// time.
+  @override
   final String? scriptCode;
 
   /// The region subtag of the Locale Identifier, null if absent.
@@ -153,6 +155,7 @@ class LocaleImplementation extends Locale {
   /// (deprecated tags have been replaced), but not necessarily valid (the
   /// region might not exist) because the list of valid regions changes with
   /// time.
+  @override
   final String? countryCode;
 
   /// Iterable of variant subtags, zero-length iterable if variants are absent.
@@ -161,6 +164,7 @@ class LocaleImplementation extends Locale {
   /// (sorted alphabetically and deprecated tags have been replaced) but not
   /// necessarily valid (variants might not exist) because the list of variants
   /// changes with time.
+  @override
   final Iterable<String> variants;
 
   /// Locale extensions, null if the locale has no extensions.
@@ -171,6 +175,7 @@ class LocaleImplementation extends Locale {
   String? _languageTag;
 
   /// Returns the canonical Unicode BCP47 Locale Identifier for this locale.
+  @override
   String toLanguageTag() {
     if (_languageTag == null) {
       final out = [languageCode];

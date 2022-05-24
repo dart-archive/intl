@@ -205,6 +205,7 @@ class DateSymbols {
         'DATETIMEFORMATS': DATETIMEFORMATS,
       };
 
+  @override
   String toString() => NAME;
 }
 

@@ -114,9 +114,12 @@ class _CompactStyleWithNegative extends _CompactStyleBase {
   _CompactStyleWithNegative(this.positiveStyle, this.negativeStyle);
   final _CompactStyle positiveStyle;
   final _CompactStyle negativeStyle;
+  @override
   _CompactStyle styleForNumber(number, _CompactNumberFormat format) =>
       number < 0 ? negativeStyle : positiveStyle;
+  @override
   int get divisor => positiveStyle.divisor;
+  @override
   List<_CompactStyle> get allStyles => [positiveStyle, negativeStyle];
 }
 
@@ -148,6 +151,7 @@ class _CompactStyle extends _CompactStyleBase {
 
   /// What should we divide the number by in order to print. Normally is either
   /// 10^normalizedExponent or 1 if we shouldn't divide at all.
+  @override
   int divisor;
 
   // Prefixes / suffixes.
@@ -167,7 +171,9 @@ class _CompactStyle extends _CompactStyleBase {
   /// for a particular currency (e.g. two for USD, zero for JPY)
   bool get isFallback => pattern == null || pattern == '0';
 
+  @override
   _CompactStyle styleForNumber(number, _CompactNumberFormat format) => this;
+  @override
   List<_CompactStyle> get allStyles => [this];
 
   static final _regex = RegExp('([^0]*)(0+)(.*)');
@@ -395,15 +401,20 @@ class _CompactNumberFormat extends NumberFormat {
   _CompactStyle? _style;
 
   // We delegate prefixes to current _style.
+  @override
   String get positivePrefix =>
       _style!.isFallback ? super.positivePrefix : _style!.positivePrefix;
+  @override
   String get negativePrefix =>
       _style!.isFallback ? super.negativePrefix : _style!.negativePrefix;
+  @override
   String get positiveSuffix =>
       _style!.isFallback ? super.positiveSuffix : _style!.positiveSuffix;
+  @override
   String get negativeSuffix =>
       _style!.isFallback ? super.negativeSuffix : _style!.negativeSuffix;
 
+  @override
   String format(number) {
     var style = _styleFor(number);
     _style = style;
@@ -463,7 +474,7 @@ class _CompactNumberFormat extends NumberFormat {
     var digitLength = NumberFormat.numberOfIntegerDigits(number);
     var divisor = 1; // Default.
 
-    var updateRounding = () {
+    updateRounding() {
       var fractionDigits = maximumFractionDigits;
       if (significantDigitsInUse) {
         var divisorLength = NumberFormat.numberOfIntegerDigits(divisor);
@@ -485,7 +496,7 @@ class _CompactNumberFormat extends NumberFormat {
           divisor /
           fractionMultiplier;
       digitLength = NumberFormat.numberOfIntegerDigits(rounded);
-    };
+    }
 
     updateRounding();
 
@@ -517,6 +528,7 @@ class _CompactNumberFormat extends NumberFormat {
         .replaceAll('\u2212', '-'); // MINUS SIGN.
   }
 
+  @override
   num parse(final String inputText) {
     for (var style in [_defaultCompactStyle, ..._stylesForSearching]) {
       _style = style;
