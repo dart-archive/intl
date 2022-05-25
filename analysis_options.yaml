@@ -9,6 +9,6 @@ analyzer:
 linter:
   rules:
     - always_declare_return_types
-    - avoid_dynamic_calls
+    #- avoid_dynamic_calls
     - directives_ordering
     - sort_pub_dependencies

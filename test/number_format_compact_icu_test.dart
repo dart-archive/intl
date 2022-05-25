@@ -3,21 +3,21 @@
 /// These tests check that the test cases match what ICU produces. They are not
 /// testing the package:intl implementation, they only help verify consistent
 /// behaviour across platforms.
-
-// ignore_for_file: non_constant_identifier_names
-
 @TestOn('!browser')
 @Tags(['ffi'])
 @Skip('currently failing (see https://github.com/dart-lang/intl/issues/240)')
 
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:ffi';
+
 import 'package:ffi/ffi.dart';
 import 'package:test/test.dart';
 
 import 'compact_number_test_data.dart' as testdata35;
 import 'more_compact_number_test_data.dart' as more_testdata;
 
-main() {
+void main() {
   var problemLocales = {
     // ICU produces numerals in Arabic script, package:intl uses Latin script.
     'ar',
