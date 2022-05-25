@@ -3,7 +3,6 @@
 /// BSD-style license that can be found in the LICENSE file.
 
 /// Tests for compact format numbers, e.g. 1.2M rather than 1,200,000
-
 import 'package:fixnum/fixnum.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/number_symbols_data.dart' as patterns;
@@ -111,7 +110,7 @@ void main() {
   parsingTestCases.forEach(_validateParsing);
 
   test("Patterns are consistent across locales", () {
-    checkPatterns(Map<int, Map<String, String>> patterns) {
+    void checkPatterns(Map<int, Map<String, String>> patterns) {
       expect(patterns, isNotEmpty);
       // Check patterns are iterable in order.
       var lastExp = -1;
