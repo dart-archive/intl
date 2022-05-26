@@ -309,7 +309,7 @@ class _CompactNumberFormat extends NumberFormat {
 
     patterns.forEach((int exponent, Map<String, String> patterns) {
       _CompactStyleBase style;
-      if (patterns.keys.length == 1 && patterns.keys.single == "other") {
+      if (patterns.keys.length == 1 && patterns.keys.single == 'other') {
         // No plural.
         var pattern = patterns.values.single;
         style = _styleFromPattern(pattern, exponent, explicitSign, symbols);

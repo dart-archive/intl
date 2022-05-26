@@ -125,7 +125,7 @@ bool _setupICU({int? systemIcuVersion, String? specialIcuLibPath}) {
       DynamicLibrary libicuuc =
           DynamicLibrary.open('libicuuc.so.$systemIcuVersion');
       u_errorName = libicuuc.lookupFunction<NativeUErrorNameOp, UErrorNameOp>(
-          "u_errorName$icuVersionSuffix");
+          'u_errorName$icuVersionSuffix');
       libicui18n = DynamicLibrary.open('libicui18n.so.$systemIcuVersion');
     } on ArgumentError catch (e) {
       print('Unable to test against ICU version $systemIcuVersion: $e');
@@ -135,29 +135,29 @@ bool _setupICU({int? systemIcuVersion, String? specialIcuLibPath}) {
     icuVersionSuffix = '';
     libicui18n = DynamicLibrary.open(specialIcuLibPath!);
     u_errorName = libicui18n.lookupFunction<NativeUErrorNameOp, UErrorNameOp>(
-        "u_errorName$icuVersionSuffix");
+        'u_errorName$icuVersionSuffix');
   }
 
   unumf_openForSkeletonAndLocale = libicui18n.lookupFunction<
           NativeUnumfOpenForSkeletonAndLocaleOp,
           UnumfOpenForSkeletonAndLocaleOp>(
-      "unumf_openForSkeletonAndLocale$icuVersionSuffix");
+      'unumf_openForSkeletonAndLocale$icuVersionSuffix');
   unumf_openResult =
       libicui18n.lookupFunction<NativeUnumfOpenResultOp, UnumfOpenResultOp>(
-          "unumf_openResult$icuVersionSuffix");
+          'unumf_openResult$icuVersionSuffix');
   unumf_formatDouble =
       libicui18n.lookupFunction<NativeUnumfFormatDoubleOp, UnumfFormatDoubleOp>(
-          "unumf_formatDouble$icuVersionSuffix");
+          'unumf_formatDouble$icuVersionSuffix');
   unumf_formatInt =
       libicui18n.lookupFunction<NativeUnumfFormatIntOp, UnumfFormatIntOp>(
-          "unumf_formatInt$icuVersionSuffix");
+          'unumf_formatInt$icuVersionSuffix');
   unumf_resultToString = libicui18n.lookupFunction<NativeUnumfResultToStringOp,
-      UnumfResultToStringOp>("unumf_resultToString$icuVersionSuffix");
+      UnumfResultToStringOp>('unumf_resultToString$icuVersionSuffix');
   unumf_close = libicui18n.lookupFunction<NativeUnumfCloseOp, UnumfCloseOp>(
-      "unumf_close$icuVersionSuffix");
+      'unumf_close$icuVersionSuffix');
   unumf_closeResult =
       libicui18n.lookupFunction<NativeUnumfCloseResultOp, UnumfCloseResultOp>(
-          "unumf_closeResult$icuVersionSuffix");
+          'unumf_closeResult$icuVersionSuffix');
 
   return true;
 }

@@ -110,7 +110,7 @@ void main() {
   compactWithExplicitSign.forEach(_validateWithExplicitSign);
   parsingTestCases.forEach(_validateParsing);
 
-  test("Patterns are consistent across locales", () {
+  test('Patterns are consistent across locales', () {
     void checkPatterns(Map<int, Map<String, String>> patterns) {
       expect(patterns, isNotEmpty);
       // Check patterns are iterable in order.

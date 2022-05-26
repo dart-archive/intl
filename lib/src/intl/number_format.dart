@@ -474,7 +474,7 @@ class NumberFormat {
   NumberSymbols get symbols => _symbols;
 
   /// Format [number] according to our pattern and return the formatted string.
-  String format(number) {
+  String format(dynamic number) {
     if (_isNaN(number)) return symbols.NAN;
     if (_isInfinite(number)) return '${_signPrefix(number)}${symbols.INFINITY}';
 
@@ -592,7 +592,7 @@ class NumberFormat {
   }
 
   // Return the number of digits left of the decimal place in [number].
-  static int numberOfIntegerDigits(number) {
+  static int numberOfIntegerDigits(dynamic number) {
     var simpleNumber = (number.toDouble() as double).abs();
     // It's unfortunate that we have to do this, but we get precision errors
     // that affect the result if we use logs, e.g. 1000000

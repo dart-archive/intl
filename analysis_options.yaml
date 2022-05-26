@@ -11,7 +11,7 @@ linter:
     # Enable additional lints.
     - always_declare_return_types
     - directives_ordering
-    # - prefer_single_quotes
+    - prefer_single_quotes
     - sort_pub_dependencies
 
     # These are works in progress.

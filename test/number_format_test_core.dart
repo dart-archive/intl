@@ -203,7 +203,7 @@ void runTests(Map<String, num> allTestNumbers) {
       '3.21E003',
     ];
     for (var i = 0; i < expected.length; i++) {
-      var f = NumberFormat("#.###E0");
+      var f = NumberFormat('#.###E0');
       f.minimumExponentDigits = i;
       expect(f.format(3210), expected[i], reason: 'minimumExponentDigits: $i');
     }

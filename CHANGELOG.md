@@ -7,6 +7,8 @@
  * Add optional parameter to `NumberFormat.compact()` to explicitly add sign
    even for positive values.
  * Update to cldr 40.
+ * Migrate to `package:lints/recommended.yaml`.
+ * Remove some instances of dynamic types from the API.
 
 ## 0.17.0
  * Migrate to null safety.

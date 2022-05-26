@@ -8,7 +8,7 @@ import 'package:fixnum/fixnum.dart';
 import 'package:intl/intl.dart';
 import 'package:test/test.dart';
 
-var int64Values = {
+Map<Int64, List<String>> int64Values = {
   Int64(12345): ['USD12,345.00', '1,234,500%'],
   Int64(-12345): ['-USD12,345.00', '-1,234,500%'],
   Int64(0x7FFFFFFFFFFFF): [
