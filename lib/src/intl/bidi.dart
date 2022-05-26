@@ -15,6 +15,7 @@ import 'text_direction.dart';
 // Suppress naming issues as changing them would be breaking.
 // ignore_for_file: constant_identifier_names
 // ignore: avoid_classes_with_only_static_members
+
 /// This provides utility methods for working with bidirectional text. All
 /// of the methods are static, and are organized into a class primarily to
 /// group them together for documentation and discoverability.
@@ -64,14 +65,14 @@ class Bidi {
 
   /// Determines if the first character in [text] with strong directionality is
   /// LTR. If [isHtml] is true, the text is HTML or HTML-escaped.
-  static bool startsWithLtr(String text, [isHtml = false]) {
+  static bool startsWithLtr(String text, [bool isHtml = false]) {
     return RegExp('^[^$_RTL_CHARS]*[$_LTR_CHARS]')
         .hasMatch(isHtml ? stripHtmlIfNeeded(text) : text);
   }
 
   /// Determines if the first character in [text] with strong directionality is
   /// RTL. If [isHtml] is true, the text is HTML or HTML-escaped.
-  static bool startsWithRtl(String text, [isHtml = false]) {
+  static bool startsWithRtl(String text, [bool isHtml = false]) {
     return RegExp('^[^$_LTR_CHARS]*[$_RTL_CHARS]')
         .hasMatch(isHtml ? stripHtmlIfNeeded(text) : text);
   }
@@ -79,7 +80,7 @@ class Bidi {
   /// Determines if the exit directionality (ie, the last strongly-directional
   /// character in [text] is LTR. If [isHtml] is true, the text is HTML or
   /// HTML-escaped.
-  static bool endsWithLtr(String text, [isHtml = false]) {
+  static bool endsWithLtr(String text, [bool isHtml = false]) {
     return RegExp('[$_LTR_CHARS][^$_RTL_CHARS]*\$')
         .hasMatch(isHtml ? stripHtmlIfNeeded(text) : text);
   }
@@ -87,21 +88,21 @@ class Bidi {
   /// Determines if the exit directionality (ie, the last strongly-directional
   /// character in [text] is RTL. If [isHtml] is true, the text is HTML or
   /// HTML-escaped.
-  static bool endsWithRtl(String text, [isHtml = false]) {
+  static bool endsWithRtl(String text, [bool isHtml = false]) {
     return RegExp('[$_RTL_CHARS][^$_LTR_CHARS]*\$')
         .hasMatch(isHtml ? stripHtmlIfNeeded(text) : text);
   }
 
   /// Determines if the given [text] has any LTR characters in it.
   /// If [isHtml] is true, the text is HTML or HTML-escaped.
-  static bool hasAnyLtr(String text, [isHtml = false]) {
+  static bool hasAnyLtr(String text, [bool isHtml = false]) {
     return RegExp(r'[' '$_LTR_CHARS' r']')
         .hasMatch(isHtml ? stripHtmlIfNeeded(text) : text);
   }
 
   /// Determines if the given [text] has any RTL characters in it.
   /// If [isHtml] is true, the text is HTML or HTML-escaped.
-  static bool hasAnyRtl(String text, [isHtml = false]) {
+  static bool hasAnyRtl(String text, [bool isHtml = false]) {
     return RegExp(r'[' '$_RTL_CHARS' r']')
         .hasMatch(isHtml ? stripHtmlIfNeeded(text) : text);
   }

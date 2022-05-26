@@ -14,7 +14,7 @@ import 'package:test/test.dart';
 
 import 'date_time_format_test_data.dart';
 
-var formatsToTest = const [
+List<String> formatsToTest = const [
   DateFormat.DAY,
   DateFormat.ABBR_WEEKDAY,
   DateFormat.WEEKDAY,
@@ -65,7 +65,7 @@ var formatsToTest = const [
   // ABBR_UTC_TZ
 ];
 
-var icuFormatNamesToTest = const [
+List<String> icuFormatNamesToTest = const [
   // It would be really nice to not have to duplicate this and just be able
   // to use the names to get reflective access.
   'DAY',

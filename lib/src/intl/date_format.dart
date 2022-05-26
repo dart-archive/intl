@@ -833,7 +833,7 @@ class DateFormat {
 
   /// Return true if the locale exists, or if it is null. The null case
   /// is interpreted to mean that we use the default locale.
-  static bool localeExists(localeName) {
+  static bool localeExists(String? localeName) {
     if (localeName == null) return false;
     return dateTimeSymbols.containsKey(localeName);
   }

@@ -8,7 +8,12 @@ analyzer:
 
 linter:
   rules:
+    # Enable additional lints.
     - always_declare_return_types
-    #- avoid_dynamic_calls
     - directives_ordering
+    # - prefer_single_quotes
     - sort_pub_dependencies
+
+    # These are works in progress.
+    # - avoid_dynamic_calls
+    # - type_annotate_public_apis

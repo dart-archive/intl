@@ -464,7 +464,7 @@ class NumberFormat {
 
   /// Return true if the locale exists, or if it is null. The null case
   /// is interpreted to mean that we use the default locale.
-  static bool localeExists(localeName) {
+  static bool localeExists(String? localeName) {
     if (localeName == null) return false;
     return numberFormatSymbols.containsKey(localeName);
   }
@@ -583,7 +583,7 @@ class NumberFormat {
       // Not a normal number, but int-like, e.g. Int64
       return number;
     } else {
-      // TODO(alanknight): Do this more efficiently. If IntX  had floor and
+      // TODO(alanknight): Do this more efficiently. If IntX had floor and
       // round we could avoid this.
       var basic = _floor(number);
       var fraction = (number - basic).toDouble().round();
@@ -593,7 +593,7 @@ class NumberFormat {
 
   // Return the number of digits left of the decimal place in [number].
   static int numberOfIntegerDigits(number) {
-    var simpleNumber = number.toDouble().abs();
+    var simpleNumber = (number.toDouble() as double).abs();
     // It's unfortunate that we have to do this, but we get precision errors
     // that affect the result if we use logs, e.g. 1000000
     if (simpleNumber < 10) return 1;

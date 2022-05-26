@@ -10,7 +10,7 @@ part of 'number_format.dart';
 /// An abstract class for compact number styles.
 abstract class _CompactStyleBase {
   /// The _CompactStyle for the [number].
-  _CompactStyle styleForNumber(number, _CompactNumberFormat format);
+  _CompactStyle styleForNumber(dynamic number, _CompactNumberFormat format);
 
   /// What should we divide the number by in order to print. Normally it is
   /// either `10^normalizedExponent` or 1 if we shouldn't divide at all.
@@ -43,7 +43,7 @@ class _CompactStyleWithPlurals extends _CompactStyleBase {
   int get divisor => _defaultStyle.divisor;
 
   @override
-  _CompactStyle styleForNumber(final number, _CompactNumberFormat format) {
+  _CompactStyle styleForNumber(dynamic number, _CompactNumberFormat format) {
     var value = number.abs();
     if (_plural == null) {
       return _defaultStyle.styleForNumber(number, format);
@@ -114,11 +114,14 @@ class _CompactStyleWithNegative extends _CompactStyleBase {
   _CompactStyleWithNegative(this.positiveStyle, this.negativeStyle);
   final _CompactStyle positiveStyle;
   final _CompactStyle negativeStyle;
+
   @override
-  _CompactStyle styleForNumber(number, _CompactNumberFormat format) =>
+  _CompactStyle styleForNumber(dynamic number, _CompactNumberFormat format) =>
       number < 0 ? negativeStyle : positiveStyle;
+
   @override
   int get divisor => positiveStyle.divisor;
+
   @override
   List<_CompactStyle> get allStyles => [positiveStyle, negativeStyle];
 }
@@ -172,7 +175,9 @@ class _CompactStyle extends _CompactStyleBase {
   bool get isFallback => pattern == null || pattern == '0';
 
   @override
-  _CompactStyle styleForNumber(number, _CompactNumberFormat format) => this;
+  _CompactStyle styleForNumber(dynamic number, _CompactNumberFormat format) =>
+      this;
+
   @override
   List<_CompactStyle> get allStyles => [this];
 
@@ -415,7 +420,7 @@ class _CompactNumberFormat extends NumberFormat {
       _style!.isFallback ? super.negativeSuffix : _style!.negativeSuffix;
 
   @override
-  String format(number) {
+  String format(dynamic number) {
     var style = _styleFor(number);
     _style = style;
     final divisor = style.isFallback ? 1 : style.divisor;

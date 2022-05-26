@@ -11,7 +11,7 @@ import 'package:test/test.dart';
 import 'number_test_data.dart';
 
 /// Tests the Numeric formatting library in dart.
-var testNumbersWeCanReadBack = {
+Map<String, num> testNumbersWeCanReadBack = {
   '-1': -1,
   '-2': -2.0,
   '-0.01': -0.01,
@@ -35,7 +35,7 @@ var testNumbersWeCanReadBack = {
 };
 
 /// Test numbers that we can't parse because we lose precision in formatting.
-var testNumbersWeCannotReadBack = {
+Map<String, double> testNumbersWeCannotReadBack = {
   '3.142': 3.1415926535897932,
   '-1.234': -1.2342,
   '-1.235': -1.2348,
@@ -43,7 +43,11 @@ var testNumbersWeCannotReadBack = {
   '1.235': 1.2348
 };
 
-var testExponential = const {'1E-3': 0.001, '1E-2': 0.01, '1.23E0': 1.23};
+Map<String, double> testExponential = const {
+  '1E-3': 0.001,
+  '1E-2': 0.01,
+  '1.23E0': 1.23
+};
 
 // TODO(alanknight): Test against currency, which requires generating data
 // for the three different forms that this now supports.
@@ -64,7 +68,7 @@ void runTests(Map<String, num> allTestNumbers) {
   // test so we can see exactly which ones pass or fail. The test data is
   // hard-coded as printing 123, -12.3, %12,300, -1,230% in each locale.
   var mainList = numberTestData;
-  var sortedLocales = List.from(numberFormatSymbols.keys);
+  var sortedLocales = numberFormatSymbols.keys.toList();
   sortedLocales.sort((a, b) => a.compareTo(b));
   for (var locale in sortedLocales) {
     var testFormats = standardFormats(locale);
@@ -639,7 +643,8 @@ String stripExtras(String input) {
       .replaceAll('\u2212', '-');
 }
 
-void testAgainstIcu(locale, List<NumberFormat> testFormats, list) {
+void testAgainstIcu(
+    String locale, List<NumberFormat> testFormats, Iterator<String> list) {
   test('Test against ICU data for $locale', () {
     for (var format in testFormats) {
       var formatted = format.format(123);
@@ -679,7 +684,8 @@ void testSimpleCurrencySymbols() {
   testCurrencySymbolsFor(expectedSimple, simple, 'simple');
 }
 
-void testCurrencySymbolsFor(expected, formats, name) {
+void testCurrencySymbolsFor(
+    List<String> expected, Iterable<NumberFormat> formats, String name) {
   var amount = 1000000.32;
   Map<Object, NumberFormat>.fromIterables(expected, formats)
       .forEach((expected, NumberFormat format) {

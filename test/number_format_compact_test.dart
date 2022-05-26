@@ -13,11 +13,12 @@ import 'more_compact_number_test_data.dart' as more_testdata;
 
 /// A place to put a case that's causing a problem and have it run first when
 /// debugging
-var interestingCases = <String, List<List<String>>>{
+Map<String, List<List<String>>> interestingCases = <String, List<List<String>>>{
 //  'mn' : [['4321', '4.32M', 'whatever']]
 };
 
-var compactWithExplicitSign = <String, List<List<String>>>{
+Map<String, List<List<String>>> compactWithExplicitSign =
+    <String, List<List<String>>>{
   'en_US': [
     ['0', '+0', '+0'],
     ['0.012', '+0.012', '+0.012'],
@@ -63,7 +64,7 @@ var compactWithExplicitSign = <String, List<List<String>>>{
   ],
 };
 
-var parsingTestCases = <String, List<List<String>>>{
+Map<String, List<List<String>>> parsingTestCases = <String, List<List<String>>>{
   'en_US': [
     ['1230', '1.23 K', '1.23  thousand'], // Random spaces.
     ['1230', '1.23\u00a0K', '1.23\u00a0thousand'], // NO-BREAK SPACE.
@@ -402,7 +403,7 @@ void _validateLong(String locale, List<List<String>> expected) {
   }, skip: skip);
 }
 
-void _validateNumber(number, NumberFormat format, String expected) {
+void _validateNumber(dynamic number, NumberFormat format, String expected) {
   var numberDouble = number.toDouble();
   var formatted = format.format(number);
 

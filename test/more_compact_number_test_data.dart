@@ -44,7 +44,7 @@ class CompactRoundingTestCase {
       "minSigDig: $minimumSignificantDigits.";
 }
 
-var cldr35CompactNumTests = <CompactRoundingTestCase>[
+List<CompactRoundingTestCase> cldr35CompactNumTests = <CompactRoundingTestCase>[
   //
   CompactRoundingTestCase(1750000, "1.8M"),
   CompactRoundingTestCase(1750000, "1.8M", maximumIntegerDigits: 1),

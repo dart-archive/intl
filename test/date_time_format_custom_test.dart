@@ -19,7 +19,6 @@ void main() {
   var requiredLocales = ['en_US', 'de', 'fr', 'ja', 'el', 'de_AT'];
   locales.addAll(requiredLocales);
   for (var locale in locales) {
-    print('initializing $locale');
     initializeDateFormattingCustom(
         locale: locale, symbols: symbols[locale], patterns: patterns[locale]);
   }

@@ -163,7 +163,7 @@ class _LoosePatternField extends _DateFormatPatternField {
   /// Parse a month name, case-insensitively, and set it in [dateFields].
   /// Assumes that [input] is lower case.
   @override
-  void parseMonth(input, dateFields) {
+  void parseMonth(IntlStream input, DateBuilder dateFields) {
     if (width <= 2) {
       handleNumericField(input, dateFields.setMonth);
       return;
@@ -182,7 +182,7 @@ class _LoosePatternField extends _DateFormatPatternField {
   /// Parse a standalone day name, case-insensitively.
   /// Assumes that input is lower case. Doesn't do anything
   @override
-  void parseStandaloneDay(input) {
+  void parseStandaloneDay(IntlStream input) {
     // This is ignored, but we still have to skip over it the correct amount.
     if (width <= 2) {
       handleNumericField(input, (x) => x);
@@ -203,7 +203,7 @@ class _LoosePatternField extends _DateFormatPatternField {
   /// Parse a standalone month name, case-insensitively, and set it in
   /// [dateFields]. Assumes that input is lower case.
   @override
-  void parseStandaloneMonth(input, dateFields) {
+  void parseStandaloneMonth(IntlStream input, DateBuilder dateFields) {
     if (width <= 2) {
       handleNumericField(input, dateFields.setMonth);
       return;
@@ -516,7 +516,7 @@ class _DateFormatPatternField extends _DateFormatField {
     return ampm[index];
   }
 
-  void parseAmPm(input, dateFields) {
+  void parseAmPm(IntlStream input, DateBuilder dateFields) {
     // If we see a 'PM' note it in an extra field.
     var ampm = parseEnumeratedString(input, symbols.AMPMS);
     if (ampm == 1) dateFields.pm = true;
@@ -587,7 +587,7 @@ class _DateFormatPatternField extends _DateFormatField {
     }
   }
 
-  void parseStandaloneMonth(input, dateFields) {
+  void parseStandaloneMonth(IntlStream input, DateBuilder dateFields) {
     List<String> possibilities;
     switch (width) {
       case 5:

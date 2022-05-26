@@ -37,7 +37,7 @@ Future<void> initializeDateFormatting([String? locale, String? ignored]) {
 /// Returns a Map from locale names to the DateSymbols instance for
 /// that locale. Internal use only. Call initializeDateFormatting
 /// instead.
-Map<dynamic, dynamic> dateTimeSymbolMap() => {
+Map<String, DateSymbols> dateTimeSymbolMap() => {
       // Date/time formatting symbols for locale en_ISO.
       "en_ISO": DateSymbols(
           NAME: 'en_ISO',
