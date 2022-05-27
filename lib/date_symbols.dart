@@ -212,7 +212,7 @@ class DateSymbols {
 
 /// We hard-code the locale data for en_US here so that there's at least one
 /// locale always available.
-DateSymbols en_USSymbols = DateSymbols(
+final DateSymbols en_USSymbols = DateSymbols(
     NAME: 'en_US',
     ERAS: const ['BC', 'AD'],
     ERANAMES: const ['Before Christ', 'Anno Domini'],
@@ -350,7 +350,8 @@ DateSymbols en_USSymbols = DateSymbols(
       '{1}, {0}'
     ]);
 
-Map<String, String> en_USPatterns = const {
+// ignore: constant_identifier_names
+const Map<String, String> en_USPatterns = {
   'd': 'd', // DAY
   'E': 'EEE', // ABBR_WEEKDAY
   'EEEE': 'EEEE', // WEEKDAY

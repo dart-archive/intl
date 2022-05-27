@@ -21,7 +21,7 @@ import 'package:test/test.dart';
 /// use One for the singular, Few for the genitive singular, and Many for the
 /// genitive plural. Other would be used for fractional values if we supported
 /// those.
-String expectedRu = '''
+const String expectedRu = '''
 0:Zero
 1:One
 2:Few
@@ -105,7 +105,7 @@ String expectedRu = '''
 145:Many
 ''';
 
-String expectedEn = '''
+const String expectedEn = '''
 0:Zero
 1:One
 2:Other
@@ -132,7 +132,7 @@ String expectedEn = '''
 145:Other
 ''';
 
-String expectedRo = '''
+const String expectedRo = '''
 0:Few
 1:One
 2:Few
@@ -142,7 +142,7 @@ String expectedRo = '''
 1223:Other
 ''';
 
-String expectedSr = '''
+const String expectedSr = '''
 0:Other
 1:One
 31:One
