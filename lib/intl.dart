@@ -173,8 +173,30 @@ class Intl {
     return _lookupMessage(messageText, locale, name, args, meaning)!;
   }
 
+  ///define a text interceptor
+  static String? Function(String? messageText, String? locale, String? name,
+      List<Object>? args, String? meaning)? _textInterceptor;
+
+  ///If a text interceptor is set, then get the text content you set first by this function；
+  ///e.g. set some text incrementally by the server
+  ///
+  ///如果设置了文本拦截器，那么优先获取你设置的文本内容,
+  ///例如通过服务器增量设置一些文案
+  static void setTextInterceptor(
+      String Function(String? messageText, String? locale, String? name,
+          List<Object>? args, String? meaning)
+      textInterceptor) {
+    Intl._textInterceptor = textInterceptor;
+  }
+
   static String? _lookupMessage(String? messageText, String? locale,
       String? name, List<Object>? args, String? meaning) {
+    if (_textInterceptor != null) {
+      var result = _textInterceptor!(messageText, locale, name, args, meaning);
+      if (result != "") {
+        return result;
+      }
+    }
     return helpers.messageLookup
         .lookupMessage(messageText, locale, name, args, meaning);
   }
