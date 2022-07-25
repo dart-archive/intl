@@ -53,7 +53,9 @@ void writeLocaleList() {
 }
 
 void writeSymbolData() {
-  dateTimeSymbolMap().forEach(writeSymbols);
+  // TODO(#482): The implicit convertion here from dynamic to String and
+  // DateSymbols won't be needed when dateTimeSymbolMap() has more type info.
+  dateTimeSymbolMap().forEach((key, value) => writeSymbols(key, value));
 }
 
 void writePatternData() {
