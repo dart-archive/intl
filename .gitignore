@@ -2,3 +2,12 @@
 .dart_tool/
 .packages
 pubspec.lock
+
+# Files to avoid committing
+BUILD
+METADATA
+OWNERS
+README.google.md
+copy.bara.sky
+test/number_format_compact_google3_icu_test.dart
+update_from_cldr_data.sh
