@@ -448,21 +448,35 @@ void runTests(Map<String, num> allTestNumbers) {
     expect(() => format.parse('-∞+1'), throwsFormatException);
   });
 
-  var digitsCheck = {
-    0: '@4',
-    1: '@4.3',
-    2: '@4.32',
-    3: '@4.322',
-    4: '@4.3220',
-  };
+  test('Decimal digits for decimal pattern', () {
+    const number = 4.3219876;
+    void expectDigits(String locale, List<String> expectations) {
+      for (var index = 0; index < expectations.length; index++) {
+        var format = NumberFormat.decimalPatternDigits(
+            locale: locale, decimalDigits: index);
+        expect(format.format(number), expectations[index]);
+      }
+    }
 
-  test('Decimal digits', () {
+    expectDigits('en_US', ['4', '4.3', '4.32', '4.322', '4.3220']);
+    expectDigits('de_DE', ['4', '4,3', '4,32', '4,322', '4,3220']);
+  });
+
+  test('Decimal digits for currency', () {
+    const digitsCheck = [
+      '@4',
+      '@4.3',
+      '@4.32',
+      '@4.322',
+      '@4.3220',
+    ];
+
     var amount = 4.3219876;
-    for (var digits in digitsCheck.keys) {
-      var f = NumberFormat.currency(
-          locale: 'en_US', symbol: '@', decimalDigits: digits);
-      var formatted = f.format(amount);
-      expect(formatted, digitsCheck[digits]);
+    for (var index = 0; index < digitsCheck.length; index++) {
+      var format = NumberFormat.currency(
+          locale: 'en_US', symbol: '@', decimalDigits: index);
+      var formatted = format.format(amount);
+      expect(formatted, digitsCheck[index]);
     }
     var defaultFormat = NumberFormat.currency(locale: 'en_US', symbol: '@');
     var formatted = defaultFormat.format(amount);

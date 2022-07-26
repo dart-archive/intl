@@ -6,6 +6,8 @@
  * Fix negative number formatting / parsing in `NumberFormat.compact()`.
  * Add optional parameter to `NumberFormat.compact()` to explicitly add sign
    even for positive values.
+ * Add `decimalPatternDigits` to NumberFormat which supports specifying the
+   number of decimal digits in a decimal pattern.
  * Update to cldr 40.
  * Migrate to `package:lints/recommended.yaml`.
  * Remove some instances of dynamic types from the API.
