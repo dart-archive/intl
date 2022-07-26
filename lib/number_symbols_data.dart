@@ -23,7 +23,7 @@ import "number_symbols.dart";
 
 /// Map from locale to [NumberSymbols] used for that locale.
 // TODO(#482): "final Map<String, NumberSymbols>"
-final Map<dynamic, dynamic> numberFormatSymbols = {
+final Map<dynamic, dynamic> numberFormatSymbols = <String, NumberSymbols>{
   // Number formatting symbols for locale af.
   "af": new NumberSymbols(
       NAME: "af",
