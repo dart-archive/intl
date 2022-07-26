@@ -22,7 +22,8 @@ class CompositeMessageLookup implements MessageLookup {
   Map<String, MessageLookupByLibrary> availableMessages = {};
 
   /// Return true if we have a message lookup for [localeName].
-  bool localeExists(localeName) => availableMessages.containsKey(localeName);
+  bool localeExists(String localeName) =>
+      availableMessages.containsKey(localeName);
 
   /// The last locale in which we looked up messages.
   ///

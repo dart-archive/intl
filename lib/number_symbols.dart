@@ -4,7 +4,7 @@
 library number_symbols;
 
 // Suppress naming issues as changes would be breaking.
-// ignore_for_file: avoid_types_as_parameter_names, non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names
 
 /// This holds onto information about how a particular locale formats
 /// numbers. It contains strings for things like the decimal separator, digit to

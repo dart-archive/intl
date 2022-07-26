@@ -15,12 +15,16 @@ import 'regexp.dart' as regexp;
 // in favor of e.g. aString.split('') giving us an iterable of one-character
 // strings, or else make the implementation trivial.
 class IntlStream {
-  dynamic contents;
+  final dynamic contents;
   int index = 0;
 
   IntlStream(this.contents);
 
-  bool atEnd() => index >= contents.length;
+  bool atEnd() =>
+      index >=
+      (contents is String
+          ? (contents as String).length
+          : (contents as List).length);
 
   dynamic next() => contents[index++];
 
@@ -35,7 +39,9 @@ class IntlStream {
   /// Does the input start with the given string, if we start from the
   /// current position.
   bool startsWith(String pattern) {
-    if (contents is String) return contents.startsWith(pattern, index);
+    if (contents is String) {
+      return (contents as String).startsWith(pattern, index);
+    }
     return pattern == peek(pattern.length);
   }
 
@@ -49,7 +55,7 @@ class IntlStream {
           index, min(index + howMany, stringContents.length));
     } else {
       // Assume List
-      result = contents.sublist(index, index + howMany);
+      result = (contents as List).sublist(index, index + howMany);
     }
     return result;
   }

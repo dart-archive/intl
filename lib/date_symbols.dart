@@ -4,7 +4,7 @@
 library date_symbols;
 
 // Suppress naming lints, as changes would be breaking.
-// ignore_for_file: avoid_types_as_parameter_names,non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names
 
 /// This holds onto information about how a particular locale formats dates. It
 /// contains mostly strings, e.g. what the names of months or weekdays are,
@@ -212,7 +212,7 @@ class DateSymbols {
 
 /// We hard-code the locale data for en_US here so that there's at least one
 /// locale always available.
-var en_USSymbols = DateSymbols(
+final DateSymbols en_USSymbols = DateSymbols(
     NAME: 'en_US',
     ERAS: const ['BC', 'AD'],
     ERANAMES: const ['Before Christ', 'Anno Domini'],
@@ -350,7 +350,8 @@ var en_USSymbols = DateSymbols(
       '{1}, {0}'
     ]);
 
-var en_USPatterns = const {
+// ignore: constant_identifier_names
+const Map<String, String> en_USPatterns = {
   'd': 'd', // DAY
   'E': 'EEE', // ABBR_WEEKDAY
   'EEEE': 'EEEE', // WEEKDAY

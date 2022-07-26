@@ -13,6 +13,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/date_symbols.dart';
 import 'package:intl/date_time_patterns.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart' as path;
@@ -52,27 +53,29 @@ void writeLocaleList() {
 }
 
 void writeSymbolData() {
-  dateTimeSymbolMap().forEach(writeSymbols);
+  // TODO(#482): The implicit convertion here from dynamic to String and
+  // DateSymbols won't be needed when dateTimeSymbolMap() has more type info.
+  dateTimeSymbolMap().forEach((key, value) => writeSymbols(key, value));
 }
 
 void writePatternData() {
   dateTimePatternMap().forEach(writePatterns);
 }
 
-void writeSymbols(locale, symbols) {
+void writeSymbols(String locale, DateSymbols symbols) {
   var file = File(path.join(dataDirectory, 'symbols', '$locale.json'));
   var output = file.openWrite();
   writeToJSON(symbols, output);
   output.close();
 }
 
-void writePatterns(locale, patterns) {
+void writePatterns(String locale, Map<String, String> patterns) {
   var file = File(path.join(dataDirectory, 'patterns', '$locale.json'));
   file.openWrite()
     ..write(json.encode(patterns))
     ..close();
 }
 
-void writeToJSON(dynamic data, IOSink out) {
+void writeToJSON(DateSymbols data, IOSink out) {
   out.write(json.encode(data.serializeToMap()));
 }

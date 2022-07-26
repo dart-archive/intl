@@ -353,7 +353,7 @@ class MessageFormat {
   /// Each formatting stage appends its product to the [result].
   void _formatPluralOrdinalBlock(
       Map<String, Object> parsedBlocks,
-      var namedParameters,
+      dynamic namedParameters,
       Function(num, String) pluralSelector,
       bool ignorePound,
       Queue<String> result) {

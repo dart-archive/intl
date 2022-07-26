@@ -12,7 +12,7 @@
 
 library number_test_data;
 
-var numberTestData = const [
+List<String> numberTestData = const [
   "af",
   r"123",
   r"-12,3",
