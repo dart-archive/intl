@@ -210,6 +210,12 @@ class NumberFormat {
   factory NumberFormat.decimalPattern([String? locale]) =>
       NumberFormat._forPattern(locale, (x) => x.DECIMAL_PATTERN);
 
+  /// Create a number format that prints as DECIMAL_PATTERN.
+  factory NumberFormat.decimalPatternDigits(
+          {String? locale, int? decimalDigits}) =>
+      NumberFormat._forPattern(locale, (x) => x.DECIMAL_PATTERN,
+          decimalDigits: decimalDigits);
+
   /// Create a number format that prints as PERCENT_PATTERN.
   factory NumberFormat.percentPattern([String? locale]) =>
       NumberFormat._forPattern(locale, (x) => x.PERCENT_PATTERN);
