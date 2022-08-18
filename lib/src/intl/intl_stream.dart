@@ -139,7 +139,8 @@ class InlNoLimittersStream extends IntlStream {
 extension on String {
   int fieldSize() {
     if (this[0] == 'y') {
-      if (length < 4) return 2;
+      if (length < 3) return 2;
+      if(length >= 3) return 4;
     }
     return length;
   }
