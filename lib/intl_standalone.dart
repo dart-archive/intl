@@ -24,7 +24,7 @@ Future<String> findSystemLocale() {
   try {
     Intl.systemLocale = Intl.canonicalizedLocale(Platform.localeName);
   } catch (e) {
-    return Future<String>.value('');
+    return Future.value();
   }
   return Future.value(Intl.systemLocale);
 }
