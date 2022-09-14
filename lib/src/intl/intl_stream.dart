@@ -119,7 +119,8 @@ class InlNoLimittersStream extends IntlStream {
       throw const FormatException(
           'parse with no limiter only works with Strings');
     }
-    final fielSize = (_formatFields[_formatIndex].pattern as String).fieldSize();
+    final fielSize =
+        (_formatFields[_formatIndex].pattern as String).fieldSize();
     var string = (contents as String).substring(index, index + fielSize);
     if (string.isEmpty) return null;
     read(fielSize);
@@ -140,7 +141,7 @@ extension on String {
   int fieldSize() {
     if (this[0] == 'y') {
       if (length < 3) return 2;
-      if(length >= 3) return 4;
+      if (length >= 3) return 4;
     }
     return length;
   }

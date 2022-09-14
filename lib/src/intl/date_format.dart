@@ -324,12 +324,11 @@ class DateFormat {
   DateTime parse(String inputString, [bool utc = false]) =>
       _parse(inputString, utc: utc, strict: false);
 
-
   /// Given user input, attempt to parse the [inputString] into the anticipated
   /// format, treating it as being in the local timezone.
   ///
   /// If [inputString] does not match our format, throws a [FormatException].
-  /// This will accept dates whose values don't have delimiters like: 
+  /// This will accept dates whose values don't have delimiters like:
   /// 20190614073059 for DateFormat('yyyyMMddHHmmss')
   DateTime parseNoDelimiter(String inputString, [bool utc = false]) =>
       _parse(inputString, utc: utc, strict: false, noDelimiters: true);
@@ -393,13 +392,16 @@ class DateFormat {
   DateTime parseStrict(String inputString, [bool utc = false]) =>
       _parse(inputString, utc: utc, strict: true);
 
-  DateTime _parse(String inputString, {bool utc = false, bool strict = false, bool noDelimiters = false}) {
+  DateTime _parse(String inputString,
+      {bool utc = false, bool strict = false, bool noDelimiters = false}) {
     // TODO(alanknight): The Closure code refers to special parsing of numeric
     // values with no delimiters, which we currently don't do. Should we?
     var dateFields = DateBuilder(locale, dateTimeConstructor);
     if (utc) dateFields.utc = true;
     dateFields.dateOnly = dateOnly;
-    var stream = noDelimiters? InlNoLimittersStream(inputString, _formatFields): IntlStream(inputString);
+    var stream = noDelimiters
+        ? InlNoLimittersStream(inputString, _formatFields)
+        : IntlStream(inputString);
     for (var field in _formatFields) {
       field.parse(stream, dateFields);
     }
