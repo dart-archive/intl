@@ -430,9 +430,8 @@ class _DateFormatPatternField extends _DateFormatField {
   /// argument allows us to compensate for zero-based versus one-based values.
   void handleNumericField(IntlStream input, void Function(int) setter,
       [int offset = 0]) {
-    var result = input.nextInteger(
-        digitMatcher: parent.digitMatcher,
-        zeroDigit: parent.localeZeroCodeUnit);
+    var result =
+        input.nextInteger(parent.digitMatcher, parent.localeZeroCodeUnit);
     if (result == null) throwFormatException(input);
     setter(result + offset);
   }
@@ -447,8 +446,8 @@ class _DateFormatPatternField extends _DateFormatField {
   /// arguments. This method handles reading any of string fields from an
   /// enumerated set.
   int parseEnumeratedString(IntlStream input, List<String> possibilities) {
-    var results = IntlStream(possibilities)
-        .findIndexes((each) => input.peek(each.length) == each);
+    var results = possibilities.indexesWhere(
+        (possibility) => input.peek(possibility.length) == possibility);
     if (results.isEmpty) throwFormatException(input);
     results.sort(
         (a, b) => possibilities[a].length.compareTo(possibilities[b].length));
@@ -669,4 +668,15 @@ class _DateFormatPatternField extends _DateFormatField {
   /// zeros. Primarily useful for numbers.
   String padTo(int width, Object toBePrinted) =>
       parent._localizeDigits('$toBePrinted'.padLeft(width, '0'));
+}
+
+extension<T> on List<T> {
+  /// Returns the indexes of any elements in this list for which [predicate]
+  /// returns true.
+  List<int> indexesWhere(bool Function(T) predicate) {
+    return [
+      for (var i = 0; i < length; i++)
+        if (predicate(this[i])) i,
+    ];
+  }
 }
