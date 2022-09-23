@@ -51,13 +51,8 @@ class IntlStream {
     if (string == null || string.isEmpty) return null;
     read(string.length);
     if (zeroDigit != constants.asciiZeroCodeUnit) {
-      // Trying to optimize this, as it might get called a lot.
-      var oldDigits = string.codeUnits;
-      var newDigits = List<int>.filled(string.length, 0);
-      for (var i = 0; i < string.length; i++) {
-        newDigits[i] = oldDigits[i] - zeroDigit + constants.asciiZeroCodeUnit;
-      }
-      string = String.fromCharCodes(newDigits);
+      string = String.fromCharCodes(string.codeUnits
+          .map((c) => c - zeroDigit + constants.asciiZeroCodeUnit));
     }
     return int.parse(string);
   }
