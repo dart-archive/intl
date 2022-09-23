@@ -452,7 +452,9 @@ class _DateFormatPatternField extends _DateFormatField {
     if (results.isEmpty) throwFormatException(input);
     var longestResult = results.first;
     for (var result in results.skip(1)) {
-      if (result.length >= longestResult.length) longestResult = result;
+      if (possibilities[result].length >= possibilities[longestResult].length) {
+        longestResult = result;
+      }
     }
     input.read(possibilities[longestResult].length);
     return longestResult;
