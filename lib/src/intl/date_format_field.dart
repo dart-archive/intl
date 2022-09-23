@@ -446,8 +446,10 @@ class _DateFormatPatternField extends _DateFormatField {
   /// arguments. This method handles reading any of string fields from an
   /// enumerated set.
   int parseEnumeratedString(IntlStream input, List<String> possibilities) {
-    var results = possibilities.indexesWhere(
-        (possibility) => input.peek(possibility.length) == possibility);
+    var results = [
+      for (var i = 0; i < possibilities.length; i++)
+        if (input.peek(possibilities[i].length) == possibilities[i]) i
+    ];
     if (results.isEmpty) throwFormatException(input);
     results.sort(
         (a, b) => possibilities[a].length.compareTo(possibilities[b].length));
@@ -668,15 +670,4 @@ class _DateFormatPatternField extends _DateFormatField {
   /// zeros. Primarily useful for numbers.
   String padTo(int width, Object toBePrinted) =>
       parent._localizeDigits('$toBePrinted'.padLeft(width, '0'));
-}
-
-extension<T> on List<T> {
-  /// Returns the indexes of any elements in this list for which [predicate]
-  /// returns true.
-  List<int> indexesWhere(bool Function(T) predicate) {
-    return [
-      for (var i = 0; i < length; i++)
-        if (predicate(this[i])) i,
-    ];
-  }
 }
