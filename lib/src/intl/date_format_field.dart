@@ -450,9 +450,10 @@ class _DateFormatPatternField extends _DateFormatField {
     var results = IntlStream(possibilities)
         .findIndexes((each) => input.peek(each.length) == each);
     if (results.isEmpty) throwFormatException(input);
-    results.sort(
-        (a, b) => possibilities[a].length.compareTo(possibilities[b].length));
-    var longestResult = results.last;
+    var longestResult = results.first;
+    for (var result in results.skip(1)) {
+      if (result.length >= longestResult.length) longestResult = result;
+    }
     input.read(possibilities[longestResult].length);
     return longestResult;
   }
