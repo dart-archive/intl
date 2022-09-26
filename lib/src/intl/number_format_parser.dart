@@ -126,7 +126,7 @@ class NumberFormatParser {
       // positive trunk.
       var trunkIterator = StringIterator(trunk);
       while (!trunkIterator.atEnd()) {
-        var each = trunkIterator.pop();
+        var each = trunkIterator.read();
         if (pattern.peek() != each && !pattern.atEnd()) {
           throw FormatException(
               'Positive and negative trunks must be the same', trunk);
@@ -158,7 +158,7 @@ class NumberFormatParser {
   String _parseAffix() {
     var affix = StringBuffer();
     inQuote = false;
-    while (parseCharacterAffix(affix) && pattern.pop().isNotEmpty) {}
+    while (parseCharacterAffix(affix) && pattern.read().isNotEmpty) {}
     return affix.toString();
   }
 
@@ -338,14 +338,14 @@ class NumberFormatParser {
         pattern.pop();
         var nextChar = pattern.peek();
         if (nextChar == PATTERN_PLUS) {
-          trunk.write(pattern.pop());
+          trunk.write(pattern.read());
           result.useSignForPositiveExponent = true;
         }
 
         // Use lookahead to parse out the exponential part
         // of the pattern, then jump into phase 2.
         while (pattern.peek() == PATTERN_ZERO_DIGIT) {
-          trunk.write(pattern.pop());
+          trunk.write(pattern.read());
           result.minimumExponentDigits++;
         }
 

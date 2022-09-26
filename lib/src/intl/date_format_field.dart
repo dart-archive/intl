@@ -51,7 +51,7 @@ abstract class _DateFormatField {
 
   /// Parse a literal field. We just look for the exact input.
   void parseLiteral(StringIterator input) {
-    var found = input.pop(width);
+    var found = input.read(width);
     if (found != pattern) {
       throwFormatException(input);
     }

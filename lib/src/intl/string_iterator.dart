@@ -19,9 +19,13 @@ class StringIterator {
 
   /// Return the next [howMany] characters, or as many as there are remaining,
   /// and advance the index.
-  String pop([int howMany = 1]) {
+  void pop([int howMany = 1]) => _index += howMany;
+
+  /// Return the next [howMany] characters, or as many as there are remaining,
+  /// and advance the index.
+  String read([int howMany = 1]) {
     var result = peek(howMany);
-    _index += howMany;
+    pop(howMany);
     return result;
   }
 
