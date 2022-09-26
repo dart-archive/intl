@@ -450,7 +450,8 @@ class _DateFormatPatternField extends _DateFormatField {
     if (string == null || string.isEmpty) return throwFormatException(input);
     input.pop(string.length);
     if (zeroDigit != constants.asciiZeroCodeUnit) {
-      // Trying to optimize this, as it might get called a lot.
+      // Trying to optimize this, as it might get called a lot. See the
+      // benchmark at benchmark/intl_stream_benchmark.dart
       var codeUnits = string.codeUnits;
       string = String.fromCharCodes(List.generate(
         codeUnits.length,
