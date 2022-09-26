@@ -5,8 +5,7 @@ import 'dart:math';
 
 import 'package:intl/number_symbols.dart';
 import 'package:intl/number_symbols_data.dart';
-
-import 'string_iterator.dart';
+import 'package:intl/src/intl/intl_stream.dart';
 
 // ignore_for_file: constant_identifier_names
 
@@ -68,7 +67,7 @@ class NumberFormatParser {
   final NumberSymbols symbols;
 
   /// The pattern we are parsing.
-  final StringIterator pattern;
+  final IntlStream pattern;
 
   /// Whether this is a currency.
   final bool isForCurrency;
@@ -90,9 +89,7 @@ class NumberFormatParser {
   NumberFormatParser(this.symbols, String input, this.isForCurrency,
       this.currencySymbol, this.currencyName, int? decimalDigits)
       : result = NumberFormatParseResult(symbols, decimalDigits),
-        pattern = StringIterator(input) {
-    pattern.moveNext();
-  }
+        pattern = IntlStream(input);
 
   static NumberFormatParseResult parse(
           NumberSymbols symbols,
@@ -122,19 +119,19 @@ class NumberFormatParser {
     result.positiveSuffix = _parseAffix();
     // If we have separate positive and negative patterns, now parse the
     // the negative version.
-    if (pattern.current == NumberFormatParser.PATTERN_SEPARATOR) {
-      pattern.moveNext();
+    if (pattern.peek() == NumberFormatParser.PATTERN_SEPARATOR) {
+      pattern.read();
       result.negativePrefix = _parseAffix();
       // Skip over the negative trunk, verifying that it's identical to the
       // positive trunk.
-      var trunkIterator = StringIterator(trunk);
-      while (trunkIterator.moveNext()) {
-        var each = trunkIterator.current;
-        if (pattern.current != each && pattern.current != null) {
+      var trunkIterator = IntlStream(trunk);
+      while (!trunkIterator.atEnd()) {
+        var each = trunkIterator.read();
+        if (pattern.peek() != each && !pattern.atEnd()) {
           throw FormatException(
               'Positive and negative trunks must be the same', trunk);
         }
-        pattern.moveNext();
+        pattern.read();
       }
       result.negativeSuffix = _parseAffix();
     } else {
@@ -161,7 +158,7 @@ class NumberFormatParser {
   String _parseAffix() {
     var affix = StringBuffer();
     inQuote = false;
-    while (parseCharacterAffix(affix) && pattern.moveNext()) {}
+    while (parseCharacterAffix(affix) && pattern.read().isNotEmpty) {}
     return affix.toString();
   }
 
@@ -169,11 +166,12 @@ class NumberFormatParser {
   /// if we should continue to look for more affix characters, and false if
   /// we have reached the end.
   bool parseCharacterAffix(StringBuffer affix) {
-    var ch = pattern.current;
-    if (ch == null) return false;
+    if (pattern.atEnd()) return false;
+    var ch = pattern.peek();
     if (ch == QUOTE) {
-      if (pattern.peek == QUOTE) {
-        pattern.moveNext();
+      var peek = pattern.peek(2);
+      if (peek.length == 2 && peek[1] == QUOTE) {
+        pattern.read();
         affix.write(QUOTE); // 'don''t'
       } else {
         inQuote = !inQuote;
@@ -228,7 +226,7 @@ class NumberFormatParser {
   String _parseTrunk() {
     var loop = true;
     var trunk = StringBuffer();
-    while (pattern.current != null && loop) {
+    while (pattern.peek().isNotEmpty && loop) {
       loop = parseTrunkCharacter(trunk);
     }
 
@@ -247,7 +245,7 @@ class NumberFormatParser {
             (decimalPos < digitLeftCount ||
                 decimalPos > digitLeftCount + zeroDigitCount) ||
         groupingCount == 0) {
-      throw FormatException('Malformed pattern "${pattern.input}"');
+      throw FormatException('Malformed pattern "${pattern.contents}"');
     }
     var totalDigits = digitLeftCount + zeroDigitCount + digitRightCount;
 
@@ -291,7 +289,7 @@ class NumberFormatParser {
   /// continue to look for additional trunk characters or false if we have
   /// reached the end.
   bool parseTrunkCharacter(StringBuffer trunk) {
-    var ch = pattern.current;
+    var ch = pattern.peek();
     switch (ch) {
       case PATTERN_DIGIT:
         if (zeroDigitCount > 0) {
@@ -305,7 +303,8 @@ class NumberFormatParser {
         break;
       case PATTERN_ZERO_DIGIT:
         if (digitRightCount > 0) {
-          throw FormatException('Unexpected "0" in pattern "${pattern.input}');
+          throw FormatException(
+              'Unexpected "0" in pattern "${pattern.contents}');
         }
         zeroDigitCount++;
         if (groupingCount >= 0 && decimalPos < 0) {
@@ -336,19 +335,17 @@ class NumberFormatParser {
         result.minimumExponentDigits = 0;
 
         // exponent pattern can have a optional '+'.
-        pattern.moveNext();
-        var nextChar = pattern.current;
+        pattern.read();
+        var nextChar = pattern.peek();
         if (nextChar == PATTERN_PLUS) {
-          trunk.write(pattern.current);
-          pattern.moveNext();
+          trunk.write(pattern.read());
           result.useSignForPositiveExponent = true;
         }
 
         // Use lookahead to parse out the exponential part
         // of the pattern, then jump into phase 2.
-        while (pattern.current == PATTERN_ZERO_DIGIT) {
-          trunk.write(pattern.current);
-          pattern.moveNext();
+        while (pattern.peek() == PATTERN_ZERO_DIGIT) {
+          trunk.write(pattern.read());
           result.minimumExponentDigits++;
         }
 
@@ -361,7 +358,7 @@ class NumberFormatParser {
         return false;
     }
     trunk.write(ch);
-    pattern.moveNext();
+    pattern.read();
     return true;
   }
 }
