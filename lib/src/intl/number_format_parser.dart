@@ -67,7 +67,7 @@ class NumberFormatParser {
   final NumberSymbols symbols;
 
   /// The pattern we are parsing.
-  final IntlStream pattern;
+  final StringIterator pattern;
 
   /// Whether this is a currency.
   final bool isForCurrency;
@@ -89,7 +89,7 @@ class NumberFormatParser {
   NumberFormatParser(this.symbols, String input, this.isForCurrency,
       this.currencySymbol, this.currencyName, int? decimalDigits)
       : result = NumberFormatParseResult(symbols, decimalDigits),
-        pattern = IntlStream(input);
+        pattern = StringIterator(input);
 
   static NumberFormatParseResult parse(
           NumberSymbols symbols,
@@ -120,18 +120,18 @@ class NumberFormatParser {
     // If we have separate positive and negative patterns, now parse the
     // the negative version.
     if (pattern.peek() == NumberFormatParser.PATTERN_SEPARATOR) {
-      pattern.read();
+      pattern.pop();
       result.negativePrefix = _parseAffix();
       // Skip over the negative trunk, verifying that it's identical to the
       // positive trunk.
-      var trunkIterator = IntlStream(trunk);
+      var trunkIterator = StringIterator(trunk);
       while (!trunkIterator.atEnd()) {
-        var each = trunkIterator.read();
+        var each = trunkIterator.pop();
         if (pattern.peek() != each && !pattern.atEnd()) {
           throw FormatException(
               'Positive and negative trunks must be the same', trunk);
         }
-        pattern.read();
+        pattern.pop();
       }
       result.negativeSuffix = _parseAffix();
     } else {
@@ -158,7 +158,7 @@ class NumberFormatParser {
   String _parseAffix() {
     var affix = StringBuffer();
     inQuote = false;
-    while (parseCharacterAffix(affix) && pattern.read().isNotEmpty) {}
+    while (parseCharacterAffix(affix) && pattern.pop().isNotEmpty) {}
     return affix.toString();
   }
 
@@ -171,7 +171,7 @@ class NumberFormatParser {
     if (ch == QUOTE) {
       var peek = pattern.peek(2);
       if (peek.length == 2 && peek[1] == QUOTE) {
-        pattern.read();
+        pattern.pop();
         affix.write(QUOTE); // 'don''t'
       } else {
         inQuote = !inQuote;
@@ -335,17 +335,17 @@ class NumberFormatParser {
         result.minimumExponentDigits = 0;
 
         // exponent pattern can have a optional '+'.
-        pattern.read();
+        pattern.pop();
         var nextChar = pattern.peek();
         if (nextChar == PATTERN_PLUS) {
-          trunk.write(pattern.read());
+          trunk.write(pattern.pop());
           result.useSignForPositiveExponent = true;
         }
 
         // Use lookahead to parse out the exponential part
         // of the pattern, then jump into phase 2.
         while (pattern.peek() == PATTERN_ZERO_DIGIT) {
-          trunk.write(pattern.read());
+          trunk.write(pattern.pop());
           result.minimumExponentDigits++;
         }
 
@@ -358,7 +358,7 @@ class NumberFormatParser {
         return false;
     }
     trunk.write(ch);
-    pattern.read();
+    pattern.pop();
     return true;
   }
 }

@@ -364,7 +364,7 @@ class DateFormat {
   DateTime _parseLoose(String inputString, bool utc) {
     var dateFields = DateBuilder(locale, dateTimeConstructor);
     if (utc) dateFields.utc = true;
-    var stream = IntlStream(inputString);
+    var stream = StringIterator(inputString);
     for (var field in _formatFields) {
       field.parseLoose(stream, dateFields);
     }
@@ -393,7 +393,7 @@ class DateFormat {
     var dateFields = DateBuilder(locale, dateTimeConstructor);
     if (utc) dateFields.utc = true;
     dateFields.dateOnly = dateOnly;
-    var stream = IntlStream(inputString);
+    var stream = StringIterator(inputString);
     for (var field in _formatFields) {
       field.parse(stream, dateFields);
     }

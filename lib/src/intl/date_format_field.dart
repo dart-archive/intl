@@ -42,16 +42,16 @@ abstract class _DateFormatField {
   }
 
   /// Abstract method for subclasses to implementing parsing for their format.
-  void parse(IntlStream input, DateBuilder dateFields);
+  void parse(StringIterator input, DateBuilder dateFields);
 
   /// Abstract method for subclasses to implementing 'loose' parsing for
   /// their format, accepting input case-insensitively, and allowing some
   /// delimiters to be skipped.
-  void parseLoose(IntlStream input, DateBuilder dateFields);
+  void parseLoose(StringIterator input, DateBuilder dateFields);
 
   /// Parse a literal field. We just look for the exact input.
-  void parseLiteral(IntlStream input) {
-    var found = input.read(width);
+  void parseLiteral(StringIterator input) {
+    var found = input.pop(width);
     if (found != pattern) {
       throwFormatException(input);
     }
@@ -65,25 +65,25 @@ abstract class _DateFormatField {
   /// field's format specification is also trimmed before matching is
   /// attempted. Therefore, leading and trailing whitespace is optional, and
   /// arbitrary additional whitespace may be added before/after the literal.
-  void parseLiteralLoose(IntlStream input) {
+  void parseLiteralLoose(StringIterator input) {
     _trimWhitespace(input);
 
     var found = input.peek(_trimmedPattern.length);
     if (found == _trimmedPattern) {
-      input.read(_trimmedPattern.length);
+      input.pop(_trimmedPattern.length);
     }
 
     _trimWhitespace(input);
   }
 
-  void _trimWhitespace(IntlStream input) {
+  void _trimWhitespace(StringIterator input) {
     while (!input.atEnd() && input.peek().trim().isEmpty) {
-      input.read();
+      input.pop();
     }
   }
 
   /// Throw a format exception with an error message indicating the position.
-  Never throwFormatException(IntlStream stream) {
+  Never throwFormatException(StringIterator stream) {
     throw FormatException('Trying to read $this from ${stream.contents} '
         'at position ${stream.index}');
   }
@@ -97,12 +97,12 @@ class _DateFormatLiteralField extends _DateFormatField {
       : super(pattern, parent);
 
   @override
-  void parse(IntlStream input, DateBuilder dateFields) {
+  void parse(StringIterator input, DateBuilder dateFields) {
     parseLiteral(input);
   }
 
   @override
-  void parseLoose(IntlStream input, DateBuilder dateFields) =>
+  void parseLoose(StringIterator input, DateBuilder dateFields) =>
       parseLiteralLoose(input);
 }
 
@@ -119,12 +119,12 @@ class _DateFormatQuotedField extends _DateFormatField {
         super(_patchQuotes(pattern), parent);
 
   @override
-  void parse(IntlStream input, DateBuilder dateFields) {
+  void parse(StringIterator input, DateBuilder dateFields) {
     parseLiteral(input);
   }
 
   @override
-  void parseLoose(IntlStream input, DateBuilder dateFields) =>
+  void parseLoose(StringIterator input, DateBuilder dateFields) =>
       parseLiteralLoose(input);
 
   static final _twoEscapedQuotes = RegExp(r"''");
@@ -150,7 +150,7 @@ class _LoosePatternField extends _DateFormatPatternField {
   /// Parse from a list of possibilities, but case-insensitively.
   /// Assumes that input is lower case.
   @override
-  int parseEnumeratedString(IntlStream input, List<String> possibilities) {
+  int parseEnumeratedString(StringIterator input, List<String> possibilities) {
     var lowercasePossibilities =
         possibilities.map((x) => x.toLowerCase()).toList();
     try {
@@ -163,7 +163,7 @@ class _LoosePatternField extends _DateFormatPatternField {
   /// Parse a month name, case-insensitively, and set it in [dateFields].
   /// Assumes that [input] is lower case.
   @override
-  void parseMonth(IntlStream input, DateBuilder dateFields) {
+  void parseMonth(StringIterator input, DateBuilder dateFields) {
     if (width <= 2) {
       handleNumericField(input, dateFields.setMonth);
       return;
@@ -182,7 +182,7 @@ class _LoosePatternField extends _DateFormatPatternField {
   /// Parse a standalone day name, case-insensitively.
   /// Assumes that input is lower case. Doesn't do anything
   @override
-  void parseStandaloneDay(IntlStream input) {
+  void parseStandaloneDay(StringIterator input) {
     // This is ignored, but we still have to skip over it the correct amount.
     if (width <= 2) {
       handleNumericField(input, (x) => x);
@@ -203,7 +203,7 @@ class _LoosePatternField extends _DateFormatPatternField {
   /// Parse a standalone month name, case-insensitively, and set it in
   /// [dateFields]. Assumes that input is lower case.
   @override
-  void parseStandaloneMonth(IntlStream input, DateBuilder dateFields) {
+  void parseStandaloneMonth(StringIterator input, DateBuilder dateFields) {
     if (width <= 2) {
       handleNumericField(input, dateFields.setMonth);
       return;
@@ -225,7 +225,7 @@ class _LoosePatternField extends _DateFormatPatternField {
   /// Parse a day of the week name, case-insensitively.
   /// Assumes that input is lower case. Doesn't do anything
   @override
-  void parseDayOfWeek(IntlStream input) {
+  void parseDayOfWeek(StringIterator input) {
     // This is IGNORED, but we still have to skip over it the correct amount.
     if (width <= 2) {
       handleNumericField(input, (x) => x);
@@ -258,7 +258,7 @@ class _DateFormatPatternField extends _DateFormatField {
   /// Parse the date according to our specification and put the result
   /// into the correct place in dateFields.
   @override
-  void parse(IntlStream input, DateBuilder dateFields) {
+  void parse(StringIterator input, DateBuilder dateFields) {
     parseField(input, dateFields);
   }
 
@@ -266,7 +266,7 @@ class _DateFormatPatternField extends _DateFormatField {
   /// into the correct place in dateFields. Allow looser parsing, accepting
   /// case-insensitive input and skipped delimiters.
   @override
-  void parseLoose(IntlStream input, DateBuilder dateFields) {
+  void parseLoose(StringIterator input, DateBuilder dateFields) {
     _LoosePatternField(pattern, parent).parse(input, dateFields);
   }
 
@@ -284,7 +284,7 @@ class _DateFormatPatternField extends _DateFormatField {
 
   /// Parse a field representing part of a date pattern. Note that we do not
   /// return a value, but rather build up the result in [builder].
-  void parseField(IntlStream input, DateBuilder builder) {
+  void parseField(StringIterator input, DateBuilder builder) {
     try {
       switch (pattern[0]) {
         case 'a':
@@ -428,7 +428,7 @@ class _DateFormatPatternField extends _DateFormatField {
   ///
   /// This method handles reading any of the numeric fields. The [offset]
   /// argument allows us to compensate for zero-based versus one-based values.
-  void handleNumericField(IntlStream input, void Function(int) setter,
+  void handleNumericField(StringIterator input, void Function(int) setter,
       [int offset = 0]) {
     var result =
         input.nextInteger(parent.digitMatcher, parent.localeZeroCodeUnit);
@@ -445,7 +445,7 @@ class _DateFormatPatternField extends _DateFormatField {
   /// Then after all parsing is done we construct a date from the
   /// arguments. This method handles reading any of string fields from an
   /// enumerated set.
-  int parseEnumeratedString(IntlStream input, List<String> possibilities) {
+  int parseEnumeratedString(StringIterator input, List<String> possibilities) {
     var results = [
       for (var i = 0; i < possibilities.length; i++)
         if (input.peek(possibilities[i].length) == possibilities[i]) i
@@ -454,11 +454,11 @@ class _DateFormatPatternField extends _DateFormatField {
     results.sort(
         (a, b) => possibilities[a].length.compareTo(possibilities[b].length));
     var longestResult = results.last;
-    input.read(possibilities[longestResult].length);
+    input.pop(possibilities[longestResult].length);
     return longestResult;
   }
 
-  void parseYear(IntlStream input, DateBuilder builder) {
+  void parseYear(StringIterator input, DateBuilder builder) {
     handleNumericField(input, builder.setYear);
     builder.setHasAmbiguousCentury(width == 2);
   }
@@ -476,7 +476,7 @@ class _DateFormatPatternField extends _DateFormatField {
     }
   }
 
-  void parseMonth(IntlStream input, DateBuilder dateFields) {
+  void parseMonth(StringIterator input, DateBuilder dateFields) {
     List<String> possibilities;
     switch (width) {
       case 5:
@@ -517,7 +517,7 @@ class _DateFormatPatternField extends _DateFormatField {
     return ampm[index];
   }
 
-  void parseAmPm(IntlStream input, DateBuilder dateFields) {
+  void parseAmPm(StringIterator input, DateBuilder dateFields) {
     // If we see a 'PM' note it in an extra field.
     var ampm = parseEnumeratedString(input, symbols.AMPMS);
     if (ampm == 1) dateFields.pm = true;
@@ -530,7 +530,7 @@ class _DateFormatPatternField extends _DateFormatField {
     return padTo(width, hours);
   }
 
-  void parse1To12Hours(IntlStream input, DateBuilder dateFields) {
+  void parse1To12Hours(StringIterator input, DateBuilder dateFields) {
     handleNumericField(input, dateFields.setHour);
     if (dateFields.hour == 12) dateFields.hour = 0;
   }
@@ -556,7 +556,7 @@ class _DateFormatPatternField extends _DateFormatField {
     }
   }
 
-  void parseStandaloneDay(IntlStream input) {
+  void parseStandaloneDay(StringIterator input) {
     // This is ignored, but we still have to skip over it the correct amount.
     List<String> possibilities;
     switch (width) {
@@ -588,7 +588,7 @@ class _DateFormatPatternField extends _DateFormatField {
     }
   }
 
-  void parseStandaloneMonth(IntlStream input, DateBuilder dateFields) {
+  void parseStandaloneMonth(StringIterator input, DateBuilder dateFields) {
     List<String> possibilities;
     switch (width) {
       case 5:
@@ -634,13 +634,13 @@ class _DateFormatPatternField extends _DateFormatField {
         : symbols.SHORTWEEKDAYS)[(date.weekday) % 7];
   }
 
-  void parseDayOfWeek(IntlStream input) {
+  void parseDayOfWeek(StringIterator input) {
     // This is IGNORED, but we still have to skip over it the correct amount.
     var possibilities = width >= 4 ? symbols.WEEKDAYS : symbols.SHORTWEEKDAYS;
     parseEnumeratedString(input, possibilities);
   }
 
-  void parseEra(IntlStream input) {
+  void parseEra(StringIterator input) {
     var possibilities = width >= 4 ? symbols.ERANAMES : symbols.ERAS;
     parseEnumeratedString(input, possibilities);
   }

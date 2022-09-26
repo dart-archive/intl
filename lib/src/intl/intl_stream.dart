@@ -8,13 +8,12 @@ import 'constants.dart' as constants;
 
 /// An indexed position in a String which can read by specified character
 /// counts, or read digits up to a delimeter.
-// TODO(nbosch): This is too similar to StringIterator for them to both exist.
-class IntlStream {
+class StringIterator {
   final String contents;
   int _index = 0;
   int get index => _index;
 
-  IntlStream(this.contents);
+  StringIterator(this.contents);
 
   bool atEnd() => index >= contents.length;
 
@@ -22,7 +21,7 @@ class IntlStream {
 
   /// Return the next [howMany] characters, or as many as there are remaining,
   /// and advance the index.
-  String read([int howMany = 1]) {
+  String pop([int howMany = 1]) {
     var result = peek(howMany);
     _index += howMany;
     return result;
@@ -37,7 +36,7 @@ class IntlStream {
       contents.substring(index, min(index + howMany, contents.length));
 
   /// Return the remaining contents of the String, without advancing the index.
-  String rest() => peek(contents.length - index);
+  String peekAll() => peek(contents.length - index);
 
   /// Read as much content as [digitMatcher] matches from the current position,
   /// and parse the result as an integer, advancing the index.
@@ -47,9 +46,9 @@ class IntlStream {
   /// The codeUnit of the local zero [zeroDigit] is used to anchor the parsing
   /// into digits.
   int? nextInteger(RegExp digitMatcher, int zeroDigit) {
-    var string = digitMatcher.stringMatch(rest());
+    var string = digitMatcher.stringMatch(peekAll());
     if (string == null || string.isEmpty) return null;
-    read(string.length);
+    pop(string.length);
     if (zeroDigit != constants.asciiZeroCodeUnit) {
       // Trying to optimize this, as it might get called a lot.
       var oldDigits = string.codeUnits;

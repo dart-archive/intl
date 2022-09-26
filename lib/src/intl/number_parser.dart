@@ -21,7 +21,7 @@ class NumberParser {
   final String text;
 
   /// What we use to iterate over the input text.
-  final IntlStream input;
+  final StringIterator input;
 
   /// The result of parsing [text] according to [format]. Automatically
   /// populated in the constructor.
@@ -65,7 +65,7 @@ class NumberParser {
   int get _localeZero => format.localeZero;
 
   ///  Create a new [_NumberParser] on which we can call parse().
-  NumberParser(this.format, this.text) : input = IntlStream(text) {
+  NumberParser(this.format, this.text) : input = StringIterator(text) {
     scale = format.multiplier;
     value = parse();
   }
@@ -150,15 +150,15 @@ class NumberParser {
       }
     }
     if (skip) {
-      if (gotPositive) input.read(_positivePrefix.length);
-      if (gotNegative) input.read(_negativePrefix.length);
+      if (gotPositive) input.pop(_positivePrefix.length);
+      if (gotNegative) input.pop(_negativePrefix.length);
     }
   }
 
   /// If the rest of our input is either the positive or negative suffix,
   /// set [gotPositiveSuffix] or [gotNegativeSuffix] accordingly.
   void checkSuffixes() {
-    var remainder = input.rest();
+    var remainder = input.peekAll();
     if (remainder == _positiveSuffix) gotPositiveSuffix = true;
     if (remainder == _negativeSuffix) gotNegativeSuffix = true;
   }
@@ -181,7 +181,7 @@ class NumberParser {
     for (var key in replacements.keys) {
       if (input.startsWith(key)) {
         _normalized.write(replacements[key]!());
-        input.read(key.length);
+        input.pop(key.length);
         return;
       }
     }
@@ -218,7 +218,7 @@ class NumberParser {
 
   /// Parse the number portion of the input, i.e. not any prefixes or suffixes,
   /// and assuming NaN and Infinity are already handled.
-  num parseNumber(IntlStream input) {
+  num parseNumber(StringIterator input) {
     if (gotNegative) {
       _normalized.write('-');
     }
