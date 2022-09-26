@@ -7,7 +7,7 @@ import 'dart:math';
 import 'constants.dart' as constants;
 
 /// An indexed position in a String which can read by specified character
-/// counts, or read digits up to a delimeter.
+/// counts, or read digits up to a delimiter.
 class StringIterator {
   final String contents;
   int _index = 0;
