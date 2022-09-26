@@ -430,10 +430,35 @@ class _DateFormatPatternField extends _DateFormatField {
   /// argument allows us to compensate for zero-based versus one-based values.
   void handleNumericField(StringIterator input, void Function(int) setter,
       [int offset = 0]) {
-    var result =
-        input.nextInteger(parent.digitMatcher, parent.localeZeroCodeUnit);
-    if (result == null) throwFormatException(input);
+    var result = nextInteger(
+      input,
+      parent.digitMatcher,
+      parent.localeZeroCodeUnit,
+    );
     setter(result + offset);
+  }
+
+  /// Read as much content as [digitMatcher] matches from the current position,
+  /// and parse the result as an integer, advancing the index.
+  ///
+  /// The regular expression [digitMatcher] is used to find the substring which
+  /// matches an integer.
+  /// The codeUnit of the local zero [zeroDigit] is used to anchor the parsing
+  /// into digits.
+  int nextInteger(StringIterator input, RegExp digitMatcher, int zeroDigit) {
+    var string = digitMatcher.stringMatch(input.peekAll());
+    if (string == null || string.isEmpty) return throwFormatException(input);
+    input.pop(string.length);
+    if (zeroDigit != constants.asciiZeroCodeUnit) {
+      // Trying to optimize this, as it might get called a lot.
+      var codeUnits = string.codeUnits;
+      string = String.fromCharCodes(List.generate(
+        codeUnits.length,
+        (index) => codeUnits[index] - zeroDigit + constants.asciiZeroCodeUnit,
+        growable: false,
+      ));
+    }
+    return int.parse(string);
   }
 
   /// We are given [input] as a stream from which we want to read a date. We

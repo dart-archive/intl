@@ -4,8 +4,6 @@
 
 import 'dart:math';
 
-import 'constants.dart' as constants;
-
 /// An indexed position in a String which can read by specified character
 /// counts, or read digits up to a delimiter.
 class StringIterator {
@@ -37,27 +35,4 @@ class StringIterator {
 
   /// Return the remaining contents of the String, without advancing the index.
   String peekAll() => peek(contents.length - index);
-
-  /// Read as much content as [digitMatcher] matches from the current position,
-  /// and parse the result as an integer, advancing the index.
-  ///
-  /// The regular expression [digitMatcher] is used to find the substring which
-  /// matches an integer.
-  /// The codeUnit of the local zero [zeroDigit] is used to anchor the parsing
-  /// into digits.
-  int? nextInteger(RegExp digitMatcher, int zeroDigit) {
-    var string = digitMatcher.stringMatch(peekAll());
-    if (string == null || string.isEmpty) return null;
-    pop(string.length);
-    if (zeroDigit != constants.asciiZeroCodeUnit) {
-      // Trying to optimize this, as it might get called a lot.
-      var codeUnits = string.codeUnits;
-      string = String.fromCharCodes(List.generate(
-        codeUnits.length,
-        (index) => codeUnits[index] - zeroDigit + constants.asciiZeroCodeUnit,
-        growable: false,
-      ));
-    }
-    return int.parse(string);
-  }
 }
