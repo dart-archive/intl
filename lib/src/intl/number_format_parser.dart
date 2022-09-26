@@ -5,7 +5,7 @@ import 'dart:math';
 
 import 'package:intl/number_symbols.dart';
 import 'package:intl/number_symbols_data.dart';
-import 'package:intl/src/intl/intl_stream.dart';
+import 'package:intl/src/intl/string_iterator.dart';
 
 // ignore_for_file: constant_identifier_names
 
