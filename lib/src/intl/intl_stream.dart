@@ -51,12 +51,12 @@ class StringIterator {
     pop(string.length);
     if (zeroDigit != constants.asciiZeroCodeUnit) {
       // Trying to optimize this, as it might get called a lot.
-      var oldDigits = string.codeUnits;
-      var newDigits = List<int>.filled(string.length, 0);
-      for (var i = 0; i < string.length; i++) {
-        newDigits[i] = oldDigits[i] - zeroDigit + constants.asciiZeroCodeUnit;
-      }
-      string = String.fromCharCodes(newDigits);
+      var codeUnits = string.codeUnits;
+      string = String.fromCharCodes(List.generate(
+        codeUnits.length,
+        (index) => codeUnits[index] - zeroDigit + constants.asciiZeroCodeUnit,
+        growable: false,
+      ));
     }
     return int.parse(string);
   }
