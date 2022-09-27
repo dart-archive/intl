@@ -523,8 +523,7 @@ class MessageFormat {
   /// A regular expression to parse the select block.
   ///
   /// It extracts the argument index.
-  static final RegExp _selectBlockRe =
-      RegExp(r'^\s*(\w+)\s*,\s*select\s*,');
+  static final RegExp _selectBlockRe = RegExp(r'^\s*(\w+)\s*,\s*select\s*,');
 
   /// Detects the block type of the [pattern].
   _BlockType _parseBlockType(String pattern) {
