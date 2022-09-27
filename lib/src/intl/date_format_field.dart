@@ -42,15 +42,15 @@ abstract class _DateFormatField {
   }
 
   /// Abstract method for subclasses to implementing parsing for their format.
-  void parse(StringIterator input, DateBuilder dateFields);
+  void parse(StringStack input, DateBuilder dateFields);
 
   /// Abstract method for subclasses to implementing 'loose' parsing for
   /// their format, accepting input case-insensitively, and allowing some
   /// delimiters to be skipped.
-  void parseLoose(StringIterator input, DateBuilder dateFields);
+  void parseLoose(StringStack input, DateBuilder dateFields);
 
   /// Parse a literal field. We just look for the exact input.
-  void parseLiteral(StringIterator input) {
+  void parseLiteral(StringStack input) {
     var found = input.read(width);
     if (found != pattern) {
       throwFormatException(input);
@@ -61,11 +61,11 @@ abstract class _DateFormatField {
   /// amount of whitespace.
   ///
   /// Any whitespace which occurs before or after the literal field is trimmed
-  /// from the input iterator. Any leading or trailing whitespace in the literal
+  /// from the input stack. Any leading or trailing whitespace in the literal
   /// field's format specification is also trimmed before matching is
   /// attempted. Therefore, leading and trailing whitespace is optional, and
   /// arbitrary additional whitespace may be added before/after the literal.
-  void parseLiteralLoose(StringIterator input) {
+  void parseLiteralLoose(StringStack input) {
     _trimWhitespace(input);
 
     var found = input.peek(_trimmedPattern.length);
@@ -76,16 +76,15 @@ abstract class _DateFormatField {
     _trimWhitespace(input);
   }
 
-  void _trimWhitespace(StringIterator input) {
-    while (!input.atEnd() && input.peek().trim().isEmpty) {
+  void _trimWhitespace(StringStack input) {
+    while (!input.atEnd && input.peek().trim().isEmpty) {
       input.pop();
     }
   }
 
   /// Throw a format exception with an error message indicating the position.
-  Never throwFormatException(StringIterator iterator) {
-    throw FormatException('Trying to read $this from ${iterator.contents} '
-        'at position ${iterator.index}');
+  Never throwFormatException(StringStack stack) {
+    throw FormatException('Trying to read $this from $stack');
   }
 }
 
@@ -97,12 +96,12 @@ class _DateFormatLiteralField extends _DateFormatField {
       : super(pattern, parent);
 
   @override
-  void parse(StringIterator input, DateBuilder dateFields) {
+  void parse(StringStack input, DateBuilder dateFields) {
     parseLiteral(input);
   }
 
   @override
-  void parseLoose(StringIterator input, DateBuilder dateFields) =>
+  void parseLoose(StringStack input, DateBuilder dateFields) =>
       parseLiteralLoose(input);
 }
 
@@ -119,12 +118,12 @@ class _DateFormatQuotedField extends _DateFormatField {
         super(_patchQuotes(pattern), parent);
 
   @override
-  void parse(StringIterator input, DateBuilder dateFields) {
+  void parse(StringStack input, DateBuilder dateFields) {
     parseLiteral(input);
   }
 
   @override
-  void parseLoose(StringIterator input, DateBuilder dateFields) =>
+  void parseLoose(StringStack input, DateBuilder dateFields) =>
       parseLiteralLoose(input);
 
   static final _twoEscapedQuotes = RegExp(r"''");
@@ -150,7 +149,7 @@ class _LoosePatternField extends _DateFormatPatternField {
   /// Parse from a list of possibilities, but case-insensitively.
   /// Assumes that input is lower case.
   @override
-  int parseEnumeratedString(StringIterator input, List<String> possibilities) {
+  int parseEnumeratedString(StringStack input, List<String> possibilities) {
     var lowercasePossibilities =
         possibilities.map((x) => x.toLowerCase()).toList();
     try {
@@ -163,7 +162,7 @@ class _LoosePatternField extends _DateFormatPatternField {
   /// Parse a month name, case-insensitively, and set it in [dateFields].
   /// Assumes that [input] is lower case.
   @override
-  void parseMonth(StringIterator input, DateBuilder dateFields) {
+  void parseMonth(StringStack input, DateBuilder dateFields) {
     if (width <= 2) {
       handleNumericField(input, dateFields.setMonth);
       return;
@@ -182,7 +181,7 @@ class _LoosePatternField extends _DateFormatPatternField {
   /// Parse a standalone day name, case-insensitively.
   /// Assumes that input is lower case. Doesn't do anything
   @override
-  void parseStandaloneDay(StringIterator input) {
+  void parseStandaloneDay(StringStack input) {
     // This is ignored, but we still have to skip over it the correct amount.
     if (width <= 2) {
       handleNumericField(input, (x) => x);
@@ -203,7 +202,7 @@ class _LoosePatternField extends _DateFormatPatternField {
   /// Parse a standalone month name, case-insensitively, and set it in
   /// [dateFields]. Assumes that input is lower case.
   @override
-  void parseStandaloneMonth(StringIterator input, DateBuilder dateFields) {
+  void parseStandaloneMonth(StringStack input, DateBuilder dateFields) {
     if (width <= 2) {
       handleNumericField(input, dateFields.setMonth);
       return;
@@ -225,7 +224,7 @@ class _LoosePatternField extends _DateFormatPatternField {
   /// Parse a day of the week name, case-insensitively.
   /// Assumes that input is lower case. Doesn't do anything
   @override
-  void parseDayOfWeek(StringIterator input) {
+  void parseDayOfWeek(StringStack input) {
     // This is IGNORED, but we still have to skip over it the correct amount.
     if (width <= 2) {
       handleNumericField(input, (x) => x);
@@ -258,7 +257,7 @@ class _DateFormatPatternField extends _DateFormatField {
   /// Parse the date according to our specification and put the result
   /// into the correct place in dateFields.
   @override
-  void parse(StringIterator input, DateBuilder dateFields) {
+  void parse(StringStack input, DateBuilder dateFields) {
     parseField(input, dateFields);
   }
 
@@ -266,7 +265,7 @@ class _DateFormatPatternField extends _DateFormatField {
   /// into the correct place in dateFields. Allow looser parsing, accepting
   /// case-insensitive input and skipped delimiters.
   @override
-  void parseLoose(StringIterator input, DateBuilder dateFields) {
+  void parseLoose(StringStack input, DateBuilder dateFields) {
     _LoosePatternField(pattern, parent).parse(input, dateFields);
   }
 
@@ -284,7 +283,7 @@ class _DateFormatPatternField extends _DateFormatField {
 
   /// Parse a field representing part of a date pattern. Note that we do not
   /// return a value, but rather build up the result in [builder].
-  void parseField(StringIterator input, DateBuilder builder) {
+  void parseField(StringStack input, DateBuilder builder) {
     try {
       switch (pattern[0]) {
         case 'a':
@@ -417,7 +416,7 @@ class _DateFormatPatternField extends _DateFormatField {
     return width == 2 ? padTo(2, year % 100) : padTo(width, year);
   }
 
-  /// We are given [input] as an iterator from which we want to read a date. We
+  /// We are given [inputStack] as an stack from which we want to read a date. We
   /// can't dynamically build up a date, so the caller has a list of the
   /// constructor arguments and a position at which to set it
   /// (year,month,day,hour,minute,second,fractionalSecond) and gives us a setter
@@ -428,10 +427,13 @@ class _DateFormatPatternField extends _DateFormatField {
   ///
   /// This method handles reading any of the numeric fields. The [offset]
   /// argument allows us to compensate for zero-based versus one-based values.
-  void handleNumericField(StringIterator input, void Function(int) setter,
-      [int offset = 0]) {
+  void handleNumericField(
+    StringStack inputStack,
+    void Function(int) setter, [
+    int offset = 0,
+  ]) {
     var result = nextInteger(
-      input,
+      inputStack,
       parent.digitMatcher,
       parent.localeZeroCodeUnit,
     );
@@ -445,10 +447,12 @@ class _DateFormatPatternField extends _DateFormatField {
   /// matches an integer.
   /// The codeUnit of the local zero [zeroDigit] is used to anchor the parsing
   /// into digits.
-  int nextInteger(StringIterator input, RegExp digitMatcher, int zeroDigit) {
-    var string = digitMatcher.stringMatch(input.peekAll());
-    if (string == null || string.isEmpty) return throwFormatException(input);
-    input.pop(string.length);
+  int nextInteger(StringStack inputStack, RegExp digitMatcher, int zeroDigit) {
+    var string = digitMatcher.stringMatch(inputStack.peekAll());
+    if (string == null || string.isEmpty) {
+      return throwFormatException(inputStack);
+    }
+    inputStack.pop(string.length);
     if (zeroDigit != constants.asciiZeroCodeUnit) {
       // Trying to optimize this, as it might get called a lot. See the
       // benchmark at benchmark/intl_stream_benchmark.dart
@@ -462,7 +466,7 @@ class _DateFormatPatternField extends _DateFormatField {
     return int.parse(string);
   }
 
-  /// We are given [input] as a iterator from which we want to read a date. We
+  /// We are given [input] as a stack from which we want to read a date. We
   /// can't dynamically build up a date, so the caller has a list of the
   /// constructor arguments and a position at which to set it
   /// (year,month,day,hour,minute,second,fractionalSecond) and gives us a setter
@@ -471,7 +475,7 @@ class _DateFormatPatternField extends _DateFormatField {
   /// Then after all parsing is done we construct a date from the
   /// arguments. This method handles reading any of string fields from an
   /// enumerated set.
-  int parseEnumeratedString(StringIterator input, List<String> possibilities) {
+  int parseEnumeratedString(StringStack input, List<String> possibilities) {
     var results = [
       for (var i = 0; i < possibilities.length; i++)
         if (input.peek(possibilities[i].length) == possibilities[i]) i
@@ -484,7 +488,7 @@ class _DateFormatPatternField extends _DateFormatField {
     return longestResult;
   }
 
-  void parseYear(StringIterator input, DateBuilder builder) {
+  void parseYear(StringStack input, DateBuilder builder) {
     handleNumericField(input, builder.setYear);
     builder.setHasAmbiguousCentury(width == 2);
   }
@@ -502,7 +506,7 @@ class _DateFormatPatternField extends _DateFormatField {
     }
   }
 
-  void parseMonth(StringIterator input, DateBuilder dateFields) {
+  void parseMonth(StringStack input, DateBuilder dateFields) {
     List<String> possibilities;
     switch (width) {
       case 5:
@@ -543,7 +547,7 @@ class _DateFormatPatternField extends _DateFormatField {
     return ampm[index];
   }
 
-  void parseAmPm(StringIterator input, DateBuilder dateFields) {
+  void parseAmPm(StringStack input, DateBuilder dateFields) {
     // If we see a 'PM' note it in an extra field.
     var ampm = parseEnumeratedString(input, symbols.AMPMS);
     if (ampm == 1) dateFields.pm = true;
@@ -556,7 +560,7 @@ class _DateFormatPatternField extends _DateFormatField {
     return padTo(width, hours);
   }
 
-  void parse1To12Hours(StringIterator input, DateBuilder dateFields) {
+  void parse1To12Hours(StringStack input, DateBuilder dateFields) {
     handleNumericField(input, dateFields.setHour);
     if (dateFields.hour == 12) dateFields.hour = 0;
   }
@@ -582,7 +586,7 @@ class _DateFormatPatternField extends _DateFormatField {
     }
   }
 
-  void parseStandaloneDay(StringIterator input) {
+  void parseStandaloneDay(StringStack input) {
     // This is ignored, but we still have to skip over it the correct amount.
     List<String> possibilities;
     switch (width) {
@@ -614,7 +618,7 @@ class _DateFormatPatternField extends _DateFormatField {
     }
   }
 
-  void parseStandaloneMonth(StringIterator input, DateBuilder dateFields) {
+  void parseStandaloneMonth(StringStack input, DateBuilder dateFields) {
     List<String> possibilities;
     switch (width) {
       case 5:
@@ -660,13 +664,13 @@ class _DateFormatPatternField extends _DateFormatField {
         : symbols.SHORTWEEKDAYS)[(date.weekday) % 7];
   }
 
-  void parseDayOfWeek(StringIterator input) {
+  void parseDayOfWeek(StringStack input) {
     // This is IGNORED, but we still have to skip over it the correct amount.
     var possibilities = width >= 4 ? symbols.WEEKDAYS : symbols.SHORTWEEKDAYS;
     parseEnumeratedString(input, possibilities);
   }
 
-  void parseEra(StringIterator input) {
+  void parseEra(StringStack input) {
     var possibilities = width >= 4 ? symbols.ERANAMES : symbols.ERAS;
     parseEnumeratedString(input, possibilities);
   }

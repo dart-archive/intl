@@ -5,7 +5,7 @@ import 'dart:math';
 
 import 'package:intl/number_symbols.dart';
 import 'package:intl/number_symbols_data.dart';
-import 'package:intl/src/intl/string_iterator.dart';
+import 'package:intl/src/intl/string_stack.dart';
 
 // ignore_for_file: constant_identifier_names
 
@@ -67,7 +67,7 @@ class NumberFormatParser {
   final NumberSymbols symbols;
 
   /// The pattern we are parsing.
-  final StringIterator pattern;
+  final StringStack pattern;
 
   /// Whether this is a currency.
   final bool isForCurrency;
@@ -89,7 +89,7 @@ class NumberFormatParser {
   NumberFormatParser(this.symbols, String input, this.isForCurrency,
       this.currencySymbol, this.currencyName, int? decimalDigits)
       : result = NumberFormatParseResult(symbols, decimalDigits),
-        pattern = StringIterator(input);
+        pattern = StringStack(input);
 
   static NumberFormatParseResult parse(
           NumberSymbols symbols,
@@ -124,10 +124,10 @@ class NumberFormatParser {
       result.negativePrefix = _parseAffix();
       // Skip over the negative trunk, verifying that it's identical to the
       // positive trunk.
-      var trunkIterator = StringIterator(trunk);
-      while (!trunkIterator.atEnd()) {
-        var each = trunkIterator.read();
-        if (pattern.peek() != each && !pattern.atEnd()) {
+      var trunkStack = StringStack(trunk);
+      while (!trunkStack.atEnd) {
+        var each = trunkStack.read();
+        if (pattern.peek() != each && !pattern.atEnd) {
           throw FormatException(
               'Positive and negative trunks must be the same', trunk);
         }
@@ -166,7 +166,7 @@ class NumberFormatParser {
   /// if we should continue to look for more affix characters, and false if
   /// we have reached the end.
   bool parseCharacterAffix(StringBuffer affix) {
-    if (pattern.atEnd()) return false;
+    if (pattern.atEnd) return false;
     var ch = pattern.peek();
     if (ch == QUOTE) {
       var peek = pattern.peek(2);

@@ -10,7 +10,7 @@ import 'package:meta/meta.dart';
 import 'constants.dart' as constants;
 import 'date_builder.dart';
 import 'date_computation.dart' as date_computation;
-import 'string_iterator.dart';
+import 'string_stack.dart';
 import 'regexp.dart' as regexp;
 
 part 'date_format_field.dart';
@@ -364,11 +364,11 @@ class DateFormat {
   DateTime _parseLoose(String inputString, bool utc) {
     var dateFields = DateBuilder(locale, dateTimeConstructor);
     if (utc) dateFields.utc = true;
-    var iterator = StringIterator(inputString);
+    var stack = StringStack(inputString);
     for (var field in _formatFields) {
-      field.parseLoose(iterator, dateFields);
+      field.parseLoose(stack, dateFields);
     }
-    if (!iterator.atEnd()) {
+    if (!stack.atEnd) {
       throw FormatException(
           'Characters remaining after date parsing in $inputString');
     }
@@ -393,11 +393,11 @@ class DateFormat {
     var dateFields = DateBuilder(locale, dateTimeConstructor);
     if (utc) dateFields.utc = true;
     dateFields.dateOnly = dateOnly;
-    var iterator = StringIterator(inputString);
+    var stack = StringStack(inputString);
     for (var field in _formatFields) {
-      field.parse(iterator, dateFields);
+      field.parse(stack, dateFields);
     }
-    if (strict && !iterator.atEnd()) {
+    if (strict && !stack.atEnd) {
       throw FormatException(
           'Characters remaining after date parsing in $inputString');
     }

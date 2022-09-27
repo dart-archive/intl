@@ -5,7 +5,7 @@
 import 'package:intl/number_symbols.dart';
 
 import 'constants.dart' as constants;
-import 'string_iterator.dart';
+import 'string_stack.dart';
 import 'number_format.dart';
 import 'number_format_parser.dart';
 
@@ -21,7 +21,7 @@ class NumberParser {
   final String text;
 
   /// What we use to iterate over the input text.
-  final StringIterator input;
+  final StringStack input;
 
   /// The result of parsing [text] according to [format]. Automatically
   /// populated in the constructor.
@@ -65,7 +65,7 @@ class NumberParser {
   int get _localeZero => format.localeZero;
 
   ///  Create a new [_NumberParser] on which we can call parse().
-  NumberParser(this.format, this.text) : input = StringIterator(text) {
+  NumberParser(this.format, this.text) : input = StringStack(text) {
     scale = format.multiplier;
     value = parse();
   }
@@ -172,7 +172,7 @@ class NumberParser {
     // skip them initially because they might also be semantically meaningful,
     // e.g. leading %. So we allow them through the loop, but only once.
     var foundAnInterpretation = false;
-    if (input.index == 0 && !prefixesSkipped) {
+    if (input.atStart && !prefixesSkipped) {
       prefixesSkipped = true;
       checkPrefixes(skip: true);
       foundAnInterpretation = true;
@@ -207,7 +207,7 @@ class NumberParser {
 
     if (gotPositive && !gotPositiveSuffix) invalidNumber();
     if (gotNegative && !gotNegativeSuffix) invalidNumber();
-    if (!input.atEnd()) invalidNumber();
+    if (!input.atEnd) invalidNumber();
 
     return parsed;
   }
@@ -218,11 +218,11 @@ class NumberParser {
 
   /// Parse the number portion of the input, i.e. not any prefixes or suffixes,
   /// and assuming NaN and Infinity are already handled.
-  num parseNumber(StringIterator input) {
+  num parseNumber(StringStack input) {
     if (gotNegative) {
       _normalized.write('-');
     }
-    while (!done && !input.atEnd()) {
+    while (!done && !input.atEnd) {
       var digit = asDigit(input.peek());
       if (digit != null) {
         _normalized.writeCharCode(constants.asciiZeroCodeUnit + digit);
