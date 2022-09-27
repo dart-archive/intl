@@ -430,9 +430,8 @@ class _DateFormatPatternField extends _DateFormatField {
   /// argument allows us to compensate for zero-based versus one-based values.
   void handleNumericField(IntlStream input, void Function(int) setter,
       [int offset = 0]) {
-    var result = input.nextInteger(
-        digitMatcher: parent.digitMatcher,
-        zeroDigit: parent.localeZeroCodeUnit);
+    var result =
+        input.nextInteger(parent.digitMatcher, parent.localeZeroCodeUnit);
     if (result == null) throwFormatException(input);
     setter(result + offset);
   }
@@ -447,8 +446,10 @@ class _DateFormatPatternField extends _DateFormatField {
   /// arguments. This method handles reading any of string fields from an
   /// enumerated set.
   int parseEnumeratedString(IntlStream input, List<String> possibilities) {
-    var results = IntlStream(possibilities)
-        .findIndexes((each) => input.peek(each.length) == each);
+    var results = [
+      for (var i = 0; i < possibilities.length; i++)
+        if (input.peek(possibilities[i].length) == possibilities[i]) i
+    ];
     if (results.isEmpty) throwFormatException(input);
     var longestResult = results.first;
     for (var result in results.skip(1)) {
