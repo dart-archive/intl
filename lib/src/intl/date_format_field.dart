@@ -61,7 +61,7 @@ abstract class _DateFormatField {
   /// amount of whitespace.
   ///
   /// Any whitespace which occurs before or after the literal field is trimmed
-  /// from the input stream. Any leading or trailing whitespace in the literal
+  /// from the input iterator. Any leading or trailing whitespace in the literal
   /// field's format specification is also trimmed before matching is
   /// attempted. Therefore, leading and trailing whitespace is optional, and
   /// arbitrary additional whitespace may be added before/after the literal.
@@ -83,9 +83,9 @@ abstract class _DateFormatField {
   }
 
   /// Throw a format exception with an error message indicating the position.
-  Never throwFormatException(StringIterator stream) {
-    throw FormatException('Trying to read $this from ${stream.contents} '
-        'at position ${stream.index}');
+  Never throwFormatException(StringIterator iterator) {
+    throw FormatException('Trying to read $this from ${iterator.contents} '
+        'at position ${iterator.index}');
   }
 }
 
@@ -417,7 +417,7 @@ class _DateFormatPatternField extends _DateFormatField {
     return width == 2 ? padTo(2, year % 100) : padTo(width, year);
   }
 
-  /// We are given [input] as a stream from which we want to read a date. We
+  /// We are given [input] as an iterator from which we want to read a date. We
   /// can't dynamically build up a date, so the caller has a list of the
   /// constructor arguments and a position at which to set it
   /// (year,month,day,hour,minute,second,fractionalSecond) and gives us a setter
@@ -462,7 +462,7 @@ class _DateFormatPatternField extends _DateFormatField {
     return int.parse(string);
   }
 
-  /// We are given [input] as a stream from which we want to read a date. We
+  /// We are given [input] as a iterator from which we want to read a date. We
   /// can't dynamically build up a date, so the caller has a list of the
   /// constructor arguments and a position at which to set it
   /// (year,month,day,hour,minute,second,fractionalSecond) and gives us a setter
