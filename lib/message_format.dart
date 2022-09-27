@@ -815,5 +815,5 @@ class _ElementTypeAndVal extends _TypeAndVal<_ElementType, String> {
 enum _BlockType { plural, ordinal, select, simple, string, unknown }
 
 class _BlockTypeAndVal extends _TypeAndVal<_BlockType, Object> {
-  _BlockTypeAndVal(_BlockType type, Object value) : super(type, value);up 
+  _BlockTypeAndVal(_BlockType type, Object value) : super(type, value);
 }
