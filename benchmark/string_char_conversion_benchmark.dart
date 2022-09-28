@@ -11,7 +11,7 @@ const int listlength = 10000;
 
 String string = String.fromCharCodes(Iterable.generate(
   listlength,
-  (index) => Random().nextInt(80) + 15,
+  (_) => Random().nextInt(80) + 15,
 ));
 
 /// This class tests the implementation speed of

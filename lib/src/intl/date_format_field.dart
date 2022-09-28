@@ -432,7 +432,7 @@ class _DateFormatPatternField extends _DateFormatField {
     void Function(int) setter, [
     int offset = 0,
   ]) {
-    var result = nextInteger(
+    var result = _nextInteger(
       inputStack,
       parent.digitMatcher,
       parent.localeZeroCodeUnit,
@@ -447,7 +447,7 @@ class _DateFormatPatternField extends _DateFormatField {
   /// matches an integer.
   /// The codeUnit of the local zero [zeroDigit] is used to anchor the parsing
   /// into digits.
-  int nextInteger(StringStack inputStack, RegExp digitMatcher, int zeroDigit) {
+  int _nextInteger(StringStack inputStack, RegExp digitMatcher, int zeroDigit) {
     var string = digitMatcher.stringMatch(inputStack.peekAll());
     if (string == null || string.isEmpty) {
       return throwFormatException(inputStack);
