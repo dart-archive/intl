@@ -10,8 +10,8 @@ import 'package:meta/meta.dart';
 import 'constants.dart' as constants;
 import 'date_builder.dart';
 import 'date_computation.dart' as date_computation;
-import 'string_stack.dart';
 import 'regexp.dart' as regexp;
+import 'string_stack.dart';
 
 part 'date_format_field.dart';
 

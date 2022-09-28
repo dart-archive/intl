@@ -5,9 +5,9 @@
 import 'package:intl/number_symbols.dart';
 
 import 'constants.dart' as constants;
-import 'string_stack.dart';
 import 'number_format.dart';
 import 'number_format_parser.dart';
+import 'string_stack.dart';
 
 ///  A one-time object for parsing a particular numeric string. One-time here
 /// means an instance can only parse one string. This is implemented by
