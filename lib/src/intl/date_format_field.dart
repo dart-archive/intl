@@ -481,9 +481,12 @@ class _DateFormatPatternField extends _DateFormatField {
         if (input.peek(possibilities[i].length) == possibilities[i]) i
     ];
     if (results.isEmpty) throwFormatException(input);
-    results.sort(
-        (a, b) => possibilities[a].length.compareTo(possibilities[b].length));
-    var longestResult = results.last;
+    var longestResult = results.first;
+    for (var result in results.skip(1)) {
+      if (possibilities[result].length >= possibilities[longestResult].length) {
+        longestResult = result;
+      }
+    }
     input.pop(possibilities[longestResult].length);
     return longestResult;
   }
