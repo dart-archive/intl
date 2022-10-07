@@ -241,7 +241,7 @@ To format a number, create a NumberFormat instance.
 ```dart
 var f = NumberFormat('###.0#', 'en_US');
 print(f.format(12.345));
-  ==> 12.35
+  ==> 12.34
 ```
 
 The locale parameter is optional. If omitted, then it will use the
