@@ -130,6 +130,25 @@ String? computeMessageName(String? name, String? text, String? meaning) {
   return meaning == null ? text : '${text}_$meaning';
 }
 
+/// Returns an index of a separator between language and region.
+///
+/// Assumes that language length can be only 2 or 3.
+int _separatorIndex(String locale) {
+  if (locale.length < 3) {
+    return -1;
+  }
+  if (locale[2] == '-' || locale[2] == '_') {
+    return 2;
+  }
+  if (locale.length < 4) {
+    return -1;
+  }
+  if (locale[3] == '-' || locale[3] == '_') {
+    return 3;
+  }
+  return -1;
+}
+
 String canonicalizedLocale(String? aLocale) {
 // Locales of length < 5 are presumably two-letter forms, or else malformed.
 // We return them unmodified and if correct they will be found.
@@ -141,11 +160,16 @@ String canonicalizedLocale(String? aLocale) {
   if (aLocale == null) return global_state.getCurrentLocale();
   if (aLocale == 'C') return 'en_ISO';
   if (aLocale.length < 5) return aLocale;
-  if (aLocale[2] != '-' && (aLocale[2] != '_')) return aLocale;
-  var region = aLocale.substring(3);
-// If it's longer than three it's something odd, so don't touch it.
+
+  var separatorIndex = _separatorIndex(aLocale);
+  if (separatorIndex == -1) {
+    return aLocale;
+  }
+  var language = aLocale.substring(0, separatorIndex);
+  var region = aLocale.substring(separatorIndex + 1);
+  // If it's longer than three it's something odd, so don't touch it.
   if (region.length <= 3) region = region.toUpperCase();
-  return '${aLocale[0]}${aLocale[1]}_$region';
+  return '${language}_$region';
 }
 
 String? verifiedLocale(String? newLocale, bool Function(String) localeExists,
@@ -182,6 +206,22 @@ String _throwLocaleError(String localeName) {
 
 /// Return the short version of a locale name, e.g. 'en_US' => 'en'
 String shortLocale(String aLocale) {
-  if (aLocale.length < 2) return aLocale;
-  return aLocale.substring(0, 2).toLowerCase();
+  // TODO(b/241094372): Remove this check.
+  if (aLocale == 'invalid') {
+    return 'in';
+  }
+  if (aLocale.length < 2) {
+    return aLocale;
+  }
+  var separatorIndex = _separatorIndex(aLocale);
+  if (separatorIndex == -1) {
+    if (aLocale.length < 4) {
+      // aLocale is already only a language code.
+      return aLocale.toLowerCase();
+    } else {
+      // Something weird, returning as is.
+      return aLocale;
+    }
+  }
+  return aLocale.substring(0, separatorIndex).toLowerCase();
 }
