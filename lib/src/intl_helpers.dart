@@ -167,7 +167,7 @@ String canonicalizedLocale(String? aLocale) {
   }
   var language = aLocale.substring(0, separatorIndex);
   var region = aLocale.substring(separatorIndex + 1);
-// If it's longer than three it's something odd, so don't touch it.
+  // If it's longer than three it's something odd, so don't touch it.
   if (region.length <= 3) region = region.toUpperCase();
   return '${language}_$region';
 }
