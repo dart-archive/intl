@@ -21,8 +21,8 @@
 library date_symbol_data_local;
 
 import "date_symbols.dart";
-import "src/date_format_internal.dart";
 import "date_time_patterns.dart";
+import "src/date_format_internal.dart";
 
 /// This should be called for at least one [locale] before any date
 /// formatting methods are called. It sets up the lookup for date
@@ -14387,35 +14387,35 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => <String, DateSymbols>{
             'dec'
           ],
           WEEKDAYS: const [
-            'nedeľa',
             'pondelok',
             'utorok',
             'streda',
             'štvrtok',
             'piatok',
-            'sobota'
+            'sobota',
+            'nedeľa'
           ],
           STANDALONEWEEKDAYS: const [
-            'nedeľa',
             'pondelok',
             'utorok',
             'streda',
             'štvrtok',
             'piatok',
-            'sobota'
+            'sobota',
+            'nedeľa'
           ],
-          SHORTWEEKDAYS: const ['ne', 'po', 'ut', 'st', 'št', 'pi', 'so'],
+          SHORTWEEKDAYS: const ['po', 'ut', 'st', 'št', 'pi', 'so', 'ne'],
           STANDALONESHORTWEEKDAYS: const [
-            'ne',
             'po',
             'ut',
             'st',
             'št',
             'pi',
-            'so'
+            'so',
+            'ne'
           ],
-          NARROWWEEKDAYS: const ['n', 'p', 'u', 's', 'š', 'p', 's'],
-          STANDALONENARROWWEEKDAYS: const ['n', 'p', 'u', 's', 'š', 'p', 's'],
+          NARROWWEEKDAYS: const ['p', 'u', 's', 'š', 'p', 's', 'n'],
+          STANDALONENARROWWEEKDAYS: const ['p', 'u', 's', 'š', 'p', 's', 'n'],
           SHORTQUARTERS: const ['Q1', 'Q2', 'Q3', 'Q4'],
           QUARTERS: const [
             '1. štvrťrok',
@@ -14427,10 +14427,15 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => <String, DateSymbols>{
           DATEFORMATS: const [
             'EEEE d. MMMM y',
             'd. MMMM y',
-            'd. M. y',
-            'd. M. y'
+            'dd.MM.y',
+            'dd.MM.yy'
           ],
-          TIMEFORMATS: const ['H:mm:ss zzzz', 'H:mm:ss z', 'H:mm:ss', 'H:mm'],
+          TIMEFORMATS: const [
+            'HH:mm:ss zzzz',
+            'HH:mm:ss z',
+            'HH:mm:ss',
+            'HH:mm'
+          ],
           DATETIMEFORMATS: const [
             '{1}, {0}',
             '{1}, {0}',

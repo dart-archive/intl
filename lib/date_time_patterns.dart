@@ -4346,12 +4346,12 @@ Map<String, Map<String, String>> dateTimePatternMap() => {
         'EEEE': 'cccc', // WEEKDAY
         'LLL': 'LLL', // ABBR_STANDALONE_MONTH
         'LLLL': 'LLLL', // STANDALONE_MONTH
-        'M': 'L.', // NUM_MONTH
-        'Md': 'd. M.', // NUM_MONTH_DAY
-        'MEd': 'EEE d. M.', // NUM_MONTH_WEEKDAY_DAY
+        'M': 'L', // NUM_MONTH
+        'Md': 'd.M.', // NUM_MONTH_DAY
+        'MEd': 'EEE d.M.', // NUM_MONTH_WEEKDAY_DAY
         'MMM': 'LLL', // ABBR_MONTH
-        'MMMd': 'd. M.', // ABBR_MONTH_DAY
-        'MMMEd': 'EEE d. M.', // ABBR_MONTH_WEEKDAY_DAY
+        'MMMd': 'd. MMM', // ABBR_MONTH_DAY
+        'MMMEd': 'EEE d. MMM', // ABBR_MONTH_WEEKDAY_DAY
         'MMMM': 'LLLL', // MONTH
         'MMMMd': 'd. MMMM', // MONTH_DAY
         'MMMMEEEEd': 'EEEE d. MMMM', // MONTH_WEEKDAY_DAY
@@ -4359,25 +4359,25 @@ Map<String, Map<String, String>> dateTimePatternMap() => {
         'QQQQ': 'QQQQ', // QUARTER
         'y': 'y', // YEAR
         'yM': 'M/y', // YEAR_NUM_MONTH
-        'yMd': 'd. M. y', // YEAR_NUM_MONTH_DAY
-        'yMEd': 'EEE d. M. y', // YEAR_NUM_MONTH_WEEKDAY_DAY
-        'yMMM': 'M/y', // YEAR_ABBR_MONTH
-        'yMMMd': 'd. M. y', // YEAR_ABBR_MONTH_DAY
-        'yMMMEd': 'EEE d. M. y', // YEAR_ABBR_MONTH_WEEKDAY_DAY
-        'yMMMM': 'LLLL y', // YEAR_MONTH
+        'yMd': 'd.M.y', // YEAR_NUM_MONTH_DAY
+        'yMEd': 'EEE d.M.y', // YEAR_NUM_MONTH_WEEKDAY_DAY
+        'yMMM': 'MMM y', // YEAR_ABBR_MONTH
+        'yMMMd': 'd. MMM y', // YEAR_ABBR_MONTH_DAY
+        'yMMMEd': 'EEE d. MMM y', // YEAR_ABBR_MONTH_WEEKDAY_DAY
+        'yMMMM': 'MMMM y', // YEAR_MONTH
         'yMMMMd': 'd. MMMM y', // YEAR_MONTH_DAY
         'yMMMMEEEEd': 'EEEE d. MMMM y', // YEAR_MONTH_WEEKDAY_DAY
         'yQQQ': 'QQQ y', // YEAR_ABBR_QUARTER
         'yQQQQ': 'QQQQ y', // YEAR_QUARTER
-        'H': 'H', // HOUR24
-        'Hm': 'H:mm', // HOUR24_MINUTE
-        'Hms': 'H:mm:ss', // HOUR24_MINUTE_SECOND
-        'j': 'H', // HOUR
-        'jm': 'H:mm', // HOUR_MINUTE
-        'jms': 'H:mm:ss', // HOUR_MINUTE_SECOND
-        'jmv': 'H:mm v', // HOUR_MINUTE_GENERIC_TZ
-        'jmz': 'H:mm z', // HOUR_MINUTETZ
-        'jz': 'H z', // HOURGENERIC_TZ
+        'H': 'HH', // HOUR24
+        'Hm': 'HH:mm', // HOUR24_MINUTE
+        'Hms': 'HH:mm:ss', // HOUR24_MINUTE_SECOND
+        'j': 'HH', // HOUR
+        'jm': 'HH:mm', // HOUR_MINUTE
+        'jms': 'HH:mm:ss', // HOUR_MINUTE_SECOND
+        'jmv': 'HH:mm v', // HOUR_MINUTE_GENERIC_TZ
+        'jmz': 'HH:mm z', // HOUR_MINUTETZ
+        'jz': 'HH z', // HOURGENERIC_TZ
         'm': 'm', // MINUTE
         'ms': 'mm:ss', // MINUTE_SECOND
         's': 's', // SECOND
