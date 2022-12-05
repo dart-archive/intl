@@ -36,7 +36,7 @@ void startRuleEvaluation(num howMany, [int? precision = 0]) {
   _precision = precision;
   _i = _n.round();
   _updateVF(_n);
-  _updateWT(_f, _v);
+  _updateWT(_v, _f);
 }
 
 /// The number whose [PluralCase] we are trying to find.
