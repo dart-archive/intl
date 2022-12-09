@@ -52,8 +52,8 @@ typedef _PatternGetter = String? Function(NumberSymbols);
 /// There are also standard patterns available via the special constructors.
 /// e.g.
 ///
-///       var percent = NumberFormat.percentPattern("ar"); var
-///       eurosInUSFormat = NumberFormat.currency(locale: "en_US",
+///       var percent = NumberFormat.percentPattern("ar");
+///       var eurosInUSFormat = NumberFormat.currency(locale: "en_US",
 ///           symbol: "€");
 ///
 /// There are several such constructors available, though some of them are
