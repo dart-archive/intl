@@ -217,11 +217,11 @@ class NumberFormatParser {
   }
 
   /// Variables used in [_parseTrunk] and [parseTrunkCharacter].
-  var decimalPos = -1;
-  var digitLeftCount = 0;
-  var zeroDigitCount = 0;
-  var digitRightCount = 0;
-  var groupingCount = -1;
+  int decimalPos = -1;
+  int digitLeftCount = 0;
+  int zeroDigitCount = 0;
+  int digitRightCount = 0;
+  int groupingCount = -1;
 
   /// Parse the "trunk" portion of the pattern, the piece that doesn't include
   /// positive or negative prefixes or suffixes.
@@ -290,7 +290,7 @@ class NumberFormatParser {
   /// Parse an individual character of the trunk. Return true if we should
   /// continue to look for additional trunk characters or false if we have
   /// reached the end.
-  bool parseTrunkCharacter(trunk) {
+  bool parseTrunkCharacter(StringBuffer trunk) {
     var ch = pattern.current;
     switch (ch) {
       case PATTERN_DIGIT:

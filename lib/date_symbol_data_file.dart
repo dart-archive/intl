@@ -30,6 +30,7 @@ Future<void> initializeDateFormatting(String locale, String filePath) {
       LazyLocaleData(reader2, (x) => x, availableLocalesForDateFormatting));
   return initializeIndividualLocaleDateFormatting((symbols, patterns) {
     return Future.wait(<Future<dynamic>>[
+      /* LazyLocaleData */
       symbols.initLocale(locale),
       patterns.initLocale(locale)
     ]);

@@ -8,7 +8,7 @@ import 'package:fixnum/fixnum.dart';
 import 'package:intl/intl.dart';
 import 'package:test/test.dart';
 
-var int64Values = {
+Map<Int64, List<String>> int64Values = {
   Int64(12345): ['USD12,345.00', '1,234,500%'],
   Int64(-12345): ['-USD12,345.00', '-1,234,500%'],
   Int64(0x7FFFFFFFFFFFF): [
@@ -25,7 +25,7 @@ var int64Values = {
   ]
 };
 
-var int32Values = {
+Map<Int32, List<String>> int32Values = {
   Int32(12345): ['USD12,345.00', '1,234,500%'],
   Int32(0x7FFFF): ['USD524,287.00', '52,428,700%'],
   Int32.parseHex('7FFFFFF'): ['USD134,217,727.00', '13,421,772,700%'],
@@ -33,7 +33,7 @@ var int32Values = {
   Int32.parseHex('80000000'): ['-USD2,147,483,648.00', '-214,748,364,800%']
 };
 
-var microMoneyValues = {
+Map<MicroMoney, List<String>> microMoneyValues = {
   MicroMoney(Int64(12345670000)): ['USD12,345.67', '1,234,567%'],
   MicroMoney(Int64(12345671000)): ['USD12,345.67', '1,234,567%'],
   MicroMoney(Int64(12345678000)): ['USD12,345.68', '1,234,568%'],
