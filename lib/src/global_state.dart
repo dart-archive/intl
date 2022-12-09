@@ -10,7 +10,7 @@ set defaultLocale(String? newLocale) {
 
 String? get defaultLocale {
   var zoneLocale = Zone.current[#Intl.locale] as String?;
-  return zoneLocale == null ? _defaultLocale : zoneLocale;
+  return zoneLocale ?? _defaultLocale;
 }
 
 String getCurrentLocale() {
