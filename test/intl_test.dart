@@ -33,6 +33,17 @@ void main() {
     expect(Intl.canonicalizedLocale('xx-yyy'), 'xx_YYY');
     expect(Intl.canonicalizedLocale('xx_YYY'), 'xx_YYY');
     expect(Intl.canonicalizedLocale('C'), 'en_ISO');
+    expect(Intl.canonicalizedLocale('gsw-ch'), 'gsw_CH');
+    expect(Intl.canonicalizedLocale('test-locale'), 'test-locale');
+  });
+
+  test('Shortening locales', () {
+    expect(Intl.shortLocale('en_US'), 'en');
+    expect(Intl.shortLocale('gsw_CH'), 'gsw');
+    expect(Intl.shortLocale('C'), 'C');
+    expect(Intl.shortLocale('test-locale'), 'test-locale');
+    // TODO(b/241094372): Remove this check.
+    expect(Intl.shortLocale('invalid'), 'in');
   });
 
   test('Verifying locale fallback for numbers', () {
@@ -41,6 +52,7 @@ void main() {
     expect(Intl.verifiedLocale('es-419', NumberFormat.localeExists), 'es_419');
     expect(Intl.verifiedLocale('en-ZZ', NumberFormat.localeExists), 'en');
     expect(Intl.verifiedLocale('es-999', NumberFormat.localeExists), 'es');
+    expect(Intl.verifiedLocale('gsw-CH', NumberFormat.localeExists), 'gsw');
 
     void checkAsNumberDefault(String locale, String expected) {
       var oldDefault = Intl.defaultLocale;
@@ -63,6 +75,9 @@ void main() {
     expect(Intl.verifiedLocale('es-419', DateFormat.localeExists), 'es_419');
     expect(Intl.verifiedLocale('en-ZZ', DateFormat.localeExists), 'en');
     expect(Intl.verifiedLocale('es-999', DateFormat.localeExists), 'es');
+    expect(Intl.verifiedLocale('gsw-CH', DateFormat.localeExists), 'gsw');
+    // TODO(b/241094372): Remove this check.
+    expect(Intl.verifiedLocale('invalid', DateFormat.localeExists), 'in');
 
     void checkAsDateDefault(String locale, String expected) {
       var oldDefault = Intl.defaultLocale;

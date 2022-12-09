@@ -100,8 +100,7 @@ class Intl {
   /// locale to be used, otherwise, we will attempt to infer it (acceptable if
   /// Dart is running on the client, we can infer from the browser/client
   /// preferences).
-  Intl([String? aLocale])
-      : _locale = aLocale != null ? aLocale : getCurrentLocale();
+  Intl([String? aLocale]) : _locale = aLocale ?? getCurrentLocale();
 
   /// Use this for a message that will be translated for different locales. The
   /// expected usage is that this is inside an enclosing function that only
@@ -223,7 +222,7 @@ class Intl {
   /// The [other] named argument is mandatory.
   /// The [precision] is the number of fractional digits that would be rendered
   /// when [howMany] is formatted. In some cases just knowing the numeric value
-  /// of [howMany] itsef is not enough, for example "1 mile" vs "1.00 miles"
+  /// of [howMany] itself is not enough, for example "1 mile" vs "1.00 miles"
   ///
   /// For an explanation of plurals and the [zero], [one], [two], [few], [many]
   /// categories see http://cldr.unicode.org/index/cldr-spec/plural-rules
@@ -302,7 +301,8 @@ class Intl {
       required T other,
       String? locale,
       int? precision,
-      String? meaning}) {
+      String? meaning,
+      bool useExplicitNumberCases = true}) {
     ArgumentError.checkNotNull(other, 'other');
     ArgumentError.checkNotNull(howMany, 'howMany');
     // If we haven't specified precision and we have a float that is an integer
@@ -318,7 +318,7 @@ class Intl {
     // the new behavior, since [precision] did not exist before.
     // For an English example: if the precision is 2 then the formatted string
     // would not map to 'one' (for example "1.00 miles")
-    if (precision == null || precision == 0) {
+    if (useExplicitNumberCases && (precision == null || precision == 0)) {
       // If there's an explicit case for the exact number, we use it. This is
       // not strictly in accord with the CLDR rules, but it seems to be the
       // expectation. At least I see e.g. Russian translations that have a zero
@@ -422,9 +422,9 @@ class Intl {
     ArgumentError.checkNotNull(other, 'other');
     switch (targetGender) {
       case 'female':
-        return female == null ? other : female;
+        return female ?? other;
       case 'male':
-        return male == null ? other : male;
+        return male ?? other;
       default:
         return other;
     }
@@ -442,8 +442,6 @@ class Intl {
   /// toString() of the enum and using just the name part. We will
   /// do this for any class or strings that are passed, since we
   /// can't actually identify if something is an enum or not.
-  ///
-  /// The first argument in [args] must correspond to the [choice] Object.
   @pragma('dart2js:tryInline')
   @pragma('vm:prefer-inline')
   static String select(Object choice, Map<Object, String> cases,
@@ -461,12 +459,13 @@ class Intl {
   @pragma('dart2js:noInline')
   static String _select(Object choice, Map<Object, String> cases,
       {String? locale, String? name, List<Object>? args, String? meaning}) {
+    if (choice is! String && args != null) {
+      var stringChoice = '$choice'.split('.').last;
+      args = args.map((a) => identical(a, choice) ? stringChoice : a).toList();
+    }
     // Look up our translation, but pass in a null message so we don't have to
     // eagerly evaluate calls that may not be necessary.
-    var stringChoice = choice is String ? choice : '$choice'.split('.').last;
-    var modifiedArgs =
-        args == null ? null : (<Object>[stringChoice]..addAll(args.skip(1)));
-    var translated = _lookupMessage(null, locale, name, modifiedArgs, meaning);
+    var translated = _lookupMessage(null, locale, name, args, meaning);
 
     /// If there's a translation, return it, otherwise evaluate with our
     /// original text.
@@ -532,6 +531,7 @@ class Intl {
     return defaultLocale ??= systemLocale;
   }
 
+  @override
   String toString() => 'Intl($locale)';
 }
 
@@ -559,7 +559,7 @@ String? toBeginningOfSentenceCase(String? input, [String? locale]) {
 String _upperCaseLetter(String input, String? locale) {
   // Hard-code the important edge case of i->İ
   if (locale != null) {
-    if (input == 'i' && locale.startsWith('tr') || locale.startsWith('az')) {
+    if (input == 'i' && (locale.startsWith('tr') || locale.startsWith('az'))) {
       return '\u0130';
     }
   }
