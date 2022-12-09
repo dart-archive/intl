@@ -28,7 +28,7 @@ void main() {
 
 /// Test two large numbers for equality, assuming that there may be some
 /// loss of precision in the less significant digits.
-bool veryBigNumberCompare(str1, str2) {
+bool veryBigNumberCompare(String str1, String str2) {
   return str1.length == str2.length &&
       str1.substring(0, 8) == str2.substring(0, 8);
 }

@@ -4,13 +4,14 @@
 
 library number_format_test;
 
-import 'package:test/test.dart';
-import 'package:intl/number_symbols_data.dart';
 import 'package:intl/intl.dart';
+import 'package:intl/number_symbols_data.dart';
+import 'package:test/test.dart';
+
 import 'number_test_data.dart';
 
 /// Tests the Numeric formatting library in dart.
-var testNumbersWeCanReadBack = {
+Map<String, num> testNumbersWeCanReadBack = {
   '-1': -1,
   '-2': -2.0,
   '-0.01': -0.01,
@@ -34,7 +35,7 @@ var testNumbersWeCanReadBack = {
 };
 
 /// Test numbers that we can't parse because we lose precision in formatting.
-var testNumbersWeCannotReadBack = {
+Map<String, double> testNumbersWeCannotReadBack = {
   '3.142': 3.1415926535897932,
   '-1.234': -1.2342,
   '-1.235': -1.2348,
@@ -42,7 +43,11 @@ var testNumbersWeCannotReadBack = {
   '1.235': 1.2348
 };
 
-var testExponential = const {'1E-3': 0.001, '1E-2': 0.01, '1.23E0': 1.23};
+Map<String, double> testExponential = const {
+  '1E-3': 0.001,
+  '1E-2': 0.01,
+  '1.23E0': 1.23
+};
 
 // TODO(alanknight): Test against currency, which requires generating data
 // for the three different forms that this now supports.
@@ -63,7 +68,7 @@ void runTests(Map<String, num> allTestNumbers) {
   // test so we can see exactly which ones pass or fail. The test data is
   // hard-coded as printing 123, -12.3, %12,300, -1,230% in each locale.
   var mainList = numberTestData;
-  var sortedLocales = List.from(numberFormatSymbols.keys);
+  var sortedLocales = numberFormatSymbols.keys.toList();
   sortedLocales.sort((a, b) => a.compareTo(b));
   for (var locale in sortedLocales) {
     var testFormats = standardFormats(locale);
@@ -198,7 +203,7 @@ void runTests(Map<String, num> allTestNumbers) {
       '3.21E003',
     ];
     for (var i = 0; i < expected.length; i++) {
-      var f = NumberFormat("#.###E0");
+      var f = NumberFormat('#.###E0');
       f.minimumExponentDigits = i;
       expect(f.format(3210), expected[i], reason: 'minimumExponentDigits: $i');
     }
@@ -206,7 +211,82 @@ void runTests(Map<String, num> allTestNumbers) {
 
   test('Significant Digits', () {
     var expected = [
-      '00,000,000',
+      '0',
+      '10,000,000',
+      '9,900,000',
+      '9,880,000',
+      '9,877,000',
+      '9,876,500',
+      '9,876,540',
+      '9,876,543',
+      '9,876,543.2',
+      '9,876,543.21',
+      '9,876,543.210',
+      '9,876,543.2101',
+      '9,876,543.21012',
+      '9,876,543.210120',
+    ];
+    for (var i = 0; i < expected.length; i++) {
+      var f = NumberFormat.decimalPattern();
+      f.significantDigits = i;
+      expect(f.format(9876543.21012), expected[i],
+          reason: 'significantDigits: $i');
+    }
+  });
+
+  test('Strict significant Digits', () {
+    var expected = [
+      '0',
+      '10,000,000',
+      '9,900,000',
+      '9,880,000',
+      '9,877,000',
+      '9,876,500',
+      '9,876,540',
+      '9,876,543',
+      '9,876,543.2',
+      '9,876,543.21',
+      '9,876,543.210',
+      '9,876,543.2101',
+      '9,876,543.21012',
+      '9,876,543.210120',
+    ];
+    for (var i = 0; i < expected.length; i++) {
+      var f = NumberFormat.decimalPattern();
+      f.significantDigits = i;
+      expect(f.format(9876543.21012), expected[i],
+          reason: 'significantDigits: $i');
+    }
+  });
+
+  test('Minimum significant Digits', () {
+    var expected = [
+      '9,876,543',
+      '9,876,543',
+      '9,876,543',
+      '9,876,543',
+      '9,876,543',
+      '9,876,543',
+      '9,876,543',
+      '9,876,543',
+      '9,876,543.2',
+      '9,876,543.21',
+      '9,876,543.210',
+      '9,876,543.2101',
+      '9,876,543.21012',
+      '9,876,543.210120',
+    ];
+    for (var i = 0; i < expected.length; i++) {
+      var f = NumberFormat.decimalPattern();
+      f.minimumSignificantDigits = i;
+      expect(f.format(9876543.21012), expected[i],
+          reason: 'minimumSignificantDigits: $i');
+    }
+  });
+
+  test('Maximum significant Digits', () {
+    var expected = [
+      '0',
       '10,000,000',
       '9,900,000',
       '9,880,000',
@@ -223,9 +303,9 @@ void runTests(Map<String, num> allTestNumbers) {
     ];
     for (var i = 0; i < expected.length; i++) {
       var f = NumberFormat.decimalPattern();
-      f.significantDigits = i;
+      f.maximumSignificantDigits = i;
       expect(f.format(9876543.21012), expected[i],
-          reason: 'significantDigits: $i');
+          reason: 'maximumSignificantDigits: $i');
     }
   });
 
@@ -235,6 +315,59 @@ void runTests(Map<String, num> allTestNumbers) {
     expect(formatted, '12%');
     var readBack = number.parse(formatted);
     expect(0.12, readBack);
+  });
+
+  group('Percent with significant digits', () {
+    var tests = {
+      0: '0%',
+      0.0001: '0.0100%',
+      0.001: '0.100%',
+      0.01: '1.00%',
+      0.1: '10.0%',
+      1: '100%',
+      10: '1,000%',
+      0.000123: '0.0123%',
+      0.00123: '0.123%',
+      0.0123: '1.23%',
+      0.123: '12.3%',
+      1.23: '123%',
+      12.3: '1,230%',
+      0.000123456: '0.0123%',
+      0.00123456: '0.123%',
+      0.0123456: '1.23%',
+      0.123456: '12.3%',
+      1.23456: '123%',
+      12.3456: '1,230%',
+      0.000456789: '0.0457%',
+      0.00456789: '0.457%',
+      0.0456789: '4.57%',
+      0.456789: '45.7%',
+      4.56789: '457%',
+      45.6789: '4,570%',
+      -0.123: '-12.3%',
+      0.0009991: '0.0999%',
+      0.0009998: '0.100%',
+      0.009991: '0.999%',
+      0.009998: '1.00%',
+      0.09991: '9.99%',
+      0.09998: '10.0%',
+      0.9991: '99.9%',
+      0.9998: '100%',
+      9.991: '999%',
+      9.998: '1,000%',
+      99.91: '9,990%',
+      99.98: '10,000%',
+    };
+    for (var entry in tests.entries) {
+      var f = NumberFormat.percentPattern();
+      f.minimumSignificantDigits = 3;
+      f.maximumSignificantDigits = 3;
+      var number = entry.key;
+      var expected = entry.value;
+      test('$number in percent', () {
+        expect(f.format(number), expected);
+      });
+    }
   });
 
   // We can't do these in the normal tests because those also format the
@@ -315,21 +448,35 @@ void runTests(Map<String, num> allTestNumbers) {
     expect(() => format.parse('-∞+1'), throwsFormatException);
   });
 
-  var digitsCheck = {
-    0: '@4',
-    1: '@4.3',
-    2: '@4.32',
-    3: '@4.322',
-    4: '@4.3220',
-  };
+  test('Decimal digits for decimal pattern', () {
+    const number = 4.3219876;
+    void expectDigits(String locale, List<String> expectations) {
+      for (var index = 0; index < expectations.length; index++) {
+        var format = NumberFormat.decimalPatternDigits(
+            locale: locale, decimalDigits: index);
+        expect(format.format(number), expectations[index]);
+      }
+    }
 
-  test('Decimal digits', () {
+    expectDigits('en_US', ['4', '4.3', '4.32', '4.322', '4.3220']);
+    expectDigits('de_DE', ['4', '4,3', '4,32', '4,322', '4,3220']);
+  });
+
+  test('Decimal digits for currency', () {
+    const digitsCheck = [
+      '@4',
+      '@4.3',
+      '@4.32',
+      '@4.322',
+      '@4.3220',
+    ];
+
     var amount = 4.3219876;
-    for (var digits in digitsCheck.keys) {
-      var f = NumberFormat.currency(
-          locale: 'en_US', symbol: '@', decimalDigits: digits);
-      var formatted = f.format(amount);
-      expect(formatted, digitsCheck[digits]);
+    for (var index = 0; index < digitsCheck.length; index++) {
+      var format = NumberFormat.currency(
+          locale: 'en_US', symbol: '@', decimalDigits: index);
+      var formatted = format.format(amount);
+      expect(formatted, digitsCheck[index]);
     }
     var defaultFormat = NumberFormat.currency(locale: 'en_US', symbol: '@');
     var formatted = defaultFormat.format(amount);
@@ -374,6 +521,128 @@ void runTests(Map<String, num> allTestNumbers) {
     var text = format.format(12345.67);
     expect(text, '[XYZZY][1,23,45.67]');
   });
+
+  group('Currency with significant digits', () {
+    test('en_US - 2 decimal digits.', () {
+      var expected = [
+        r'$0',
+        r'$10,000,000',
+        r'$9,900,000',
+        r'$9,880,000',
+        r'$9,877,000',
+        r'$9,876,500',
+        r'$9,876,540',
+        r'$9,876,543',
+        r'$9,876,543.21',
+        r'$9,876,543.21',
+        r'$9,876,543.21',
+        r'$9,876,543.21',
+        r'$9,876,543.21',
+        r'$9,876,543.21',
+      ];
+      for (var i = 0; i < expected.length; i++) {
+        var f = NumberFormat.simpleCurrency(locale: 'en_US', name: 'USD');
+        f.significantDigits = i;
+        expect(f.format(9876543.21012), expected[i],
+            reason: 'significantDigits: $i');
+      }
+    });
+
+    test('ja - 0 decimal digits.', () {
+      var expected = [
+        '¥0',
+        '¥10,000,000',
+        '¥9,900,000',
+        '¥9,880,000',
+        '¥9,877,000',
+        '¥9,876,500',
+        '¥9,876,540',
+        '¥9,876,543',
+        '¥9,876,543',
+        '¥9,876,543',
+        '¥9,876,543',
+        '¥9,876,543',
+        '¥9,876,543',
+        '¥9,876,543',
+      ];
+      for (var i = 0; i < expected.length; i++) {
+        var f = NumberFormat.simpleCurrency(locale: 'ja', name: 'JPY');
+        f.significantDigits = i;
+        expect(f.format(9876543.21012), expected[i],
+            reason: 'significantDigits: $i');
+      }
+    });
+  });
+
+  group('Currency with minimumFractionDigits', () {
+    var expectedBase = <double, String>{
+      0.001: r'$0.00',
+      0.009: r'$0.01',
+      0.01: r'$0.01',
+      0.09: r'$0.09',
+      0.1: r'$0.10',
+      0.9: r'$0.90',
+      1: r'$1.00',
+      1.1: r'$1.10',
+      1.9: r'$1.90',
+      1.999: r'$2.00',
+      999: r'$999.00',
+      999.1: r'$999.10',
+      999.9: r'$999.90',
+    };
+    for (var entry in expectedBase.entries) {
+      test('en_US - minimumFractionDigits: not set - ${entry.key}', () {
+        var f = NumberFormat.simpleCurrency(locale: 'en_US', name: 'USD');
+        expect(f.format(entry.key), entry.value);
+      });
+    }
+
+    var expected0 = <double, String>{
+      0.001: r'$0',
+      0.009: r'$0.01',
+      0.01: r'$0.01',
+      0.09: r'$0.09',
+      0.1: r'$0.1',
+      0.9: r'$0.9',
+      1: r'$1',
+      1.1: r'$1.1',
+      1.9: r'$1.9',
+      1.999: r'$2',
+      999: r'$999',
+      999.1: r'$999.1',
+      999.9: r'$999.9',
+    };
+    for (var entry in expected0.entries) {
+      test('en_US - minimumFractionDigits: 0 - ${entry.key}', () {
+        var f = NumberFormat.simpleCurrency(locale: 'en_US', name: 'USD')
+          ..minimumFractionDigits = 0;
+        expect(f.format(entry.key), entry.value);
+      });
+    }
+
+    var expected1 = <double, String>{
+      0.001: r'$0.0',
+      0.009: r'$0.01',
+      0.01: r'$0.01',
+      0.09: r'$0.09',
+      0.1: r'$0.1',
+      0.9: r'$0.9',
+      1: r'$1.0',
+      1.1: r'$1.1',
+      1.9: r'$1.9',
+      1.999: r'$2.0',
+      999: r'$999.0',
+      999.1: r'$999.1',
+      999.9: r'$999.9',
+    };
+    for (var entry in expected1.entries) {
+      test('en_US - minimumFractionDigits: 1 - ${entry.key}', () {
+        var f = NumberFormat.simpleCurrency(locale: 'en_US', name: 'USD')
+          ..minimumFractionDigits = 1;
+        expect(f.format(entry.key), entry.value);
+      });
+    }
+  });
 }
 
 String stripExtras(String input) {
@@ -388,7 +657,8 @@ String stripExtras(String input) {
       .replaceAll('\u2212', '-');
 }
 
-void testAgainstIcu(locale, List<NumberFormat> testFormats, list) {
+void testAgainstIcu(
+    String locale, List<NumberFormat> testFormats, Iterator<String> list) {
   test('Test against ICU data for $locale', () {
     for (var format in testFormats) {
       var formatted = format.format(123);
@@ -428,7 +698,8 @@ void testSimpleCurrencySymbols() {
   testCurrencySymbolsFor(expectedSimple, simple, 'simple');
 }
 
-void testCurrencySymbolsFor(expected, formats, name) {
+void testCurrencySymbolsFor(
+    List<String> expected, Iterable<NumberFormat> formats, String name) {
   var amount = 1000000.32;
   Map<Object, NumberFormat>.fromIterables(expected, formats)
       .forEach((expected, NumberFormat format) {

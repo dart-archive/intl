@@ -1,3 +1,6 @@
+[![Dart CI](https://github.com/dart-lang/intl/actions/workflows/test-package.yml/badge.svg)](https://github.com/dart-lang/intl/actions/workflows/test-package.yml)
+[![Pub](https://img.shields.io/pub/v/intl.svg)](https://pub.dev/packages/intl)
+
 Provides internationalization and localization facilities,
 including message translation, plurals and genders, date/number formatting
 and parsing, and bidirectional text.
@@ -38,7 +41,7 @@ the [withLocale][withLocale] operation may be preferable to setting
 [defaultLocale][defaultLocale].
 
 ```dart
-Intl.withLocale('fr', () => print(myLocalizedMessage());
+Intl.withLocale('fr', () => print(myLocalizedMessage()));
 ```
 
 To specify the locale for an operation you can create a format object in
@@ -238,7 +241,7 @@ To format a number, create a NumberFormat instance.
 ```dart
 var f = NumberFormat('###.0#', 'en_US');
 print(f.format(12.345));
-  ==> 12.34
+  ==> 12.35
 ```
 
 The locale parameter is optional. If omitted, then it will use the

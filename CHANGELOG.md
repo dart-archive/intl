@@ -1,13 +1,19 @@
-## 0.17.0-nullsafety.2
+## 0.17.1-dev
 
-* Update SDK constraints to >=2.12.0-0 <3.0.0 based on beta release guidelines.
+ * Add support for `minimumSignificantDigits` / `maximumSignificantDigits` in
+   NumberFormat.
+ * Add support for plural in `NumberFormat.compact()` ('2 milliards').
+ * Fix negative number formatting / parsing in `NumberFormat.compact()`.
+ * Add optional parameter to `NumberFormat.compact()` to explicitly add sign
+   even for positive values.
+ * Add `decimalPatternDigits` to NumberFormat which supports specifying the
+   number of decimal digits in a decimal pattern.
+ * Update to cldr 40.
+ * Migrate to `package:lints/recommended.yaml`.
+ * Remove some instances of dynamic types from the API.
+ * Fix a bug caused by a typo in the plural rules calculation.
 
-## 0.17.0-nullsafety.1
-
-* Allow prereleases of the 2.12 Dart SDK.
-
-## 0.17.0-nullsafety
-
+## 0.17.0
  * Migrate to null safety.
  * Add `@pragma('vm:prefer-inline')` to `Intl` methods that already have
    `@pragma('dart2js:tryInline')`, for the same reason: to help omit message
