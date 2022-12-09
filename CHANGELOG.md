@@ -11,6 +11,7 @@
  * Update to cldr 40.
  * Migrate to `package:lints/recommended.yaml`.
  * Remove some instances of dynamic types from the API.
+ * Fix a bug caused by a typo in the plural rules calculation.
 
 ## 0.17.0
  * Migrate to null safety.
