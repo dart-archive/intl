@@ -10,6 +10,8 @@
 library plural_test;
 
 import 'package:intl/intl.dart';
+import 'package:intl/src/data/dates/locale_list.dart' as locale_list;
+import 'package:intl/src/plural_rules.dart' as plural_rules;
 import 'package:test/test.dart';
 
 /// Hard-coded expected values for a Russian plural rule.
@@ -19,7 +21,7 @@ import 'package:test/test.dart';
 /// use One for the singular, Few for the genitive singular, and Many for the
 /// genitive plural. Other would be used for fractional values if we supported
 /// those.
-var expectedRu = '''
+const String expectedRu = '''
 0:Zero
 1:One
 2:Few
@@ -103,7 +105,7 @@ var expectedRu = '''
 145:Many
 ''';
 
-var expectedEn = '''
+const String expectedEn = '''
 0:Zero
 1:One
 2:Other
@@ -130,7 +132,7 @@ var expectedEn = '''
 145:Other
 ''';
 
-var expectedRo = '''
+const String expectedRo = '''
 0:Few
 1:One
 2:Few
@@ -140,7 +142,7 @@ var expectedRo = '''
 1223:Other
 ''';
 
-var expectedSr = '''
+const String expectedSr = '''
 0:Other
 1:One
 31:One
@@ -160,7 +162,7 @@ var expectedSr = '''
 25:Other
 ''';
 
-String plural(n, locale) => Intl.plural(n,
+String plural(dynamic n, String? locale) => Intl.plural(n,
     locale: locale,
     name: 'plural',
     desc: 'A simple plural test case',
@@ -172,7 +174,7 @@ String plural(n, locale) => Intl.plural(n,
     many: '$n:Many',
     other: '$n:Other');
 
-String pluralNoZero(n, locale) => Intl.plural(n,
+String pluralNoZero(dynamic n, String? locale) => Intl.plural(n,
     locale: locale,
     name: 'plural',
     desc: 'A simple plural test case',
@@ -184,6 +186,8 @@ String pluralNoZero(n, locale) => Intl.plural(n,
     other: '$n:Other');
 
 void main() {
+  verifyLocaleDefinition();
+
   verify(expectedRu, 'ru', plural);
   verify(expectedRu, 'ru_RU', plural);
   verify(expectedEn, 'en', plural);
@@ -209,6 +213,18 @@ void main() {
 
   verifyWithPrecision('3 dollars', 'en', 3.14, 0);
   verifyWithPrecision('3.14 dollars', 'en', 3.14, 2);
+}
+
+void verifyLocaleDefinition() {
+  group('Check locale plural definition', () {
+    // This is a good base of locales (Tier1).
+    for (var locale in locale_list.availableLocalesForDateFormatting) {
+      test('for locale: $locale', () {
+        var plural = plural_rules.pluralRules[locale];
+        expect(plural, isNotNull);
+      });
+    }
+  });
 }
 
 void verify(String expectedValues, String locale, pluralFunction) {

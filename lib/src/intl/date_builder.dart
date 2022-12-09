@@ -51,8 +51,7 @@ class DateBuilder {
   /// the format.
 
   // We do set it, the analyzer just can't tell.
-  // ignore: prefer_final_fields
-  var dateOnly = false;
+  bool dateOnly = false;
 
   /// The function we will call to create a DateTime from its component pieces.
   ///
