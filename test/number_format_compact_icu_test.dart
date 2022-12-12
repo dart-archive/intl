@@ -3,88 +3,98 @@
 /// These tests check that the test cases match what ICU produces. They are not
 /// testing the package:intl implementation, they only help verify consistent
 /// behaviour across platforms.
-
-@TestOn("!browser")
+@TestOn('!browser')
 @Tags(['ffi'])
-@Skip(
-    "currently failing (see issue https://github.com/dart-lang/intl/issues/240)")
+@Skip('currently failing (see https://github.com/dart-lang/intl/issues/240)')
+
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:ffi';
+
 import 'package:ffi/ffi.dart';
 import 'package:test/test.dart';
 
 import 'compact_number_test_data.dart' as testdata35;
 import 'more_compact_number_test_data.dart' as more_testdata;
 
-main() {
-  var problemLocales = [
+void main() {
+  var problemLocales = {
     // ICU produces numerals in Arabic script, package:intl uses Latin script.
     'ar',
     // package:intl includes some tweaks to compact numbers for Bengali.
     'bn',
-  ];
-
+  };
   runICUTests(systemIcuVersion: 63, skipLocales: problemLocales);
 }
 
 void runICUTests(
-    {int? systemIcuVersion, String? specialIcuLib, List<String>? skipLocales}) {
-  if (!setupICU(
+    {int? systemIcuVersion,
+    String? specialIcuLib,
+    Set<String> skipLocales = const {}}) {
+  if (!_setupICU(
       systemIcuVersion: systemIcuVersion, specialIcuLibPath: specialIcuLib)) {
     return;
   }
 
-  print("Skipping problem locales $skipLocales.");
-  testdata35.compactNumberTestData
-      .removeWhere((k, v) => skipLocales!.contains(k));
+  void validate(String locale, List<List<String>> expected) {
+    _validateShort(locale, expected, skipLocales);
+    _validateLong(locale, expected, skipLocales);
+  }
+
   testdata35.compactNumberTestData.forEach(validate);
-  more_testdata.cldr35CompactNumTests.forEach(validateFancy);
+  more_testdata.cldr35CompactNumTests.forEach(_validateFancy);
 
   test('UNumberFormatter simple integer formatting', () {
-    expect(FormatWithUnumf('en', 'precision-integer', 5142.3), '5,142');
+    expect(_formatWithUnumf('en', 'precision-integer', 5142.3), '5,142');
   });
 }
 
-void validate(String locale, List<List<String>> expected) {
-  validateShort(locale, expected);
-  validateLong(locale, expected);
-}
-
-void validateShort(String locale, List<List<String>> expected) {
+void _validateShort(
+    String locale, List<List<String>> expected, Set<String> skipLocales) {
+  var skip =
+      skipLocales.contains(locale) ? 'Skipping problem locale $locale' : false;
   test('Validate $locale SHORT', () {
     for (var data in expected) {
       var number = num.parse(data.first);
-      expect(FormatWithUnumf(locale, 'compact-short', number), data[1]);
+      expect(_formatWithUnumf(locale, 'compact-short', number), data[1]);
     }
-  });
+  }, skip: skip);
 }
 
-void validateLong(String locale, List<List<String>> expected) {
+void _validateLong(
+    String locale, List<List<String>> expected, Set<String> skipLocales) {
+  var skip =
+      skipLocales.contains(locale) ? 'Skipping problem locale $locale' : false;
   test('Validate $locale LONG', () {
     for (var data in expected) {
       var number = num.parse(data.first);
-      expect(FormatWithUnumf(locale, 'compact-long', number), data[2]);
+      expect(_formatWithUnumf(locale, 'compact-long', number), data[2]);
     }
-  });
+  }, skip: skip);
 }
 
-void validateFancy(more_testdata.CompactRoundingTestCase t) {
+void _validateFancy(more_testdata.CompactRoundingTestCase t) {
   var locale = 'en';
   var skel = 'compact-short';
   if (t.minimumIntegerDigits != null) {
-    skel += ' integer-width/+' + '0' * t.minimumIntegerDigits!;
+    skel += ' integer-width/+${'0' * t.minimumIntegerDigits!}';
   }
-  if (t.significantDigits != null) {
-    skel += ' ' + '@' * t.significantDigits!;
+  if (t.maximumSignificantDigits != null) {
+    skel += ' ${'@' * t.maximumSignificantDigits!}';
+    if (t.minimumSignificantDigits != t.maximumSignificantDigits) {
+      // Pattern doesn't support min/max significant digits. Ignore.
+      return;
+    }
   }
   if (t.minimumFractionDigits != null) {
-    skel += ' .' + '0' * t.minimumFractionDigits!;
+    skel += ' .${'0' * t.minimumFractionDigits!}';
     var maxFD = t.maximumFractionDigits ?? 3;
     skel += '#' * (maxFD - t.minimumFractionDigits!);
   } else if (t.maximumFractionDigits != null) {
-    skel += ' .' + '#' * t.maximumFractionDigits!;
+    skel += ' .${'#' * t.maximumFractionDigits!}';
   }
   test(t.toString(), () {
-    expect(FormatWithUnumf(locale, skel, t.number), t.expected,
+    expect(_formatWithUnumf(locale, skel, t.number), t.expected,
         reason: 'Skeleton: $skel');
   });
 }
@@ -106,7 +116,7 @@ UnumfCloseResultOp? unumf_closeResult;
 ///
 /// If [systemIcuVersion] is unspecified, we expect to find all functions in a
 /// library with filename [specialIcuLibPath].
-bool setupICU({int? systemIcuVersion, String? specialIcuLibPath}) {
+bool _setupICU({int? systemIcuVersion, String? specialIcuLibPath}) {
   DynamicLibrary libicui18n;
   String icuVersionSuffix;
   if (systemIcuVersion != null) {
@@ -115,7 +125,7 @@ bool setupICU({int? systemIcuVersion, String? specialIcuLibPath}) {
       DynamicLibrary libicuuc =
           DynamicLibrary.open('libicuuc.so.$systemIcuVersion');
       u_errorName = libicuuc.lookupFunction<NativeUErrorNameOp, UErrorNameOp>(
-          "u_errorName$icuVersionSuffix");
+          'u_errorName$icuVersionSuffix');
       libicui18n = DynamicLibrary.open('libicui18n.so.$systemIcuVersion');
     } on ArgumentError catch (e) {
       print('Unable to test against ICU version $systemIcuVersion: $e');
@@ -125,48 +135,48 @@ bool setupICU({int? systemIcuVersion, String? specialIcuLibPath}) {
     icuVersionSuffix = '';
     libicui18n = DynamicLibrary.open(specialIcuLibPath!);
     u_errorName = libicui18n.lookupFunction<NativeUErrorNameOp, UErrorNameOp>(
-        "u_errorName$icuVersionSuffix");
+        'u_errorName$icuVersionSuffix');
   }
 
   unumf_openForSkeletonAndLocale = libicui18n.lookupFunction<
           NativeUnumfOpenForSkeletonAndLocaleOp,
           UnumfOpenForSkeletonAndLocaleOp>(
-      "unumf_openForSkeletonAndLocale$icuVersionSuffix");
+      'unumf_openForSkeletonAndLocale$icuVersionSuffix');
   unumf_openResult =
       libicui18n.lookupFunction<NativeUnumfOpenResultOp, UnumfOpenResultOp>(
-          "unumf_openResult$icuVersionSuffix");
+          'unumf_openResult$icuVersionSuffix');
   unumf_formatDouble =
       libicui18n.lookupFunction<NativeUnumfFormatDoubleOp, UnumfFormatDoubleOp>(
-          "unumf_formatDouble$icuVersionSuffix");
+          'unumf_formatDouble$icuVersionSuffix');
   unumf_formatInt =
       libicui18n.lookupFunction<NativeUnumfFormatIntOp, UnumfFormatIntOp>(
-          "unumf_formatInt$icuVersionSuffix");
+          'unumf_formatInt$icuVersionSuffix');
   unumf_resultToString = libicui18n.lookupFunction<NativeUnumfResultToStringOp,
-      UnumfResultToStringOp>("unumf_resultToString$icuVersionSuffix");
+      UnumfResultToStringOp>('unumf_resultToString$icuVersionSuffix');
   unumf_close = libicui18n.lookupFunction<NativeUnumfCloseOp, UnumfCloseOp>(
-      "unumf_close$icuVersionSuffix");
+      'unumf_close$icuVersionSuffix');
   unumf_closeResult =
       libicui18n.lookupFunction<NativeUnumfCloseResultOp, UnumfCloseResultOp>(
-          "unumf_closeResult$icuVersionSuffix");
+          'unumf_closeResult$icuVersionSuffix');
 
   return true;
 }
 
-String FormatWithUnumf(String locale, String skeleton, num number) {
+String _formatWithUnumf(String locale, String skeleton, num number) {
   // // Setup:
   // UErrorCode ec = U_ZERO_ERROR;
   // UNumberFormatter* uformatter =
   //     unumf_openForSkeletonAndLocale(u"precision-integer", -1, "en", &ec);
   // UFormattedNumber* uresult = unumf_openResult(&ec);
   // if (U_FAILURE(ec)) { return; }
-  final cLocale = Utf8.toUtf8(locale);
-  final cSkeleton = Utf16.toUtf16(skeleton);
-  final cErrorCode = allocate<Int32>(count: 1);
+  final cLocale = locale.toNativeUtf8();
+  final cSkeleton = skeleton.toNativeUtf16();
+  final cErrorCode = calloc<Int32>();
   cErrorCode.value = 0;
   final uformatter =
       unumf_openForSkeletonAndLocale!(cSkeleton, -1, cLocale, cErrorCode);
-  free(cSkeleton);
-  free(cLocale);
+  calloc.free(cSkeleton);
+  calloc.free(cLocale);
   var errorCode = cErrorCode.value;
   expect(errorCode, lessThanOrEqualTo(0),
       reason: u_errorName!(errorCode).toString());
@@ -201,7 +211,7 @@ String FormatWithUnumf(String locale, String skeleton, num number) {
   expect(errorCode, equals(15), // U_BUFFER_OVERFLOW_ERROR
       reason: u_errorName!(errorCode).toString());
   cErrorCode.value = 0;
-  final buffer = allocate<Utf16>(count: reqLen + 1);
+  final buffer = calloc<Uint16>(reqLen + 1).cast<Utf16>();
   unumf_resultToString!(uresult, buffer, reqLen + 1, cErrorCode);
   errorCode = cErrorCode.value;
   expect(errorCode, lessThanOrEqualTo(0),
@@ -211,11 +221,11 @@ String FormatWithUnumf(String locale, String skeleton, num number) {
   // // Cleanup:
   // unumf_close(uformatter);
   // unumf_closeResult(uresult);
-  // free(buffer);
+  // calloc.free(buffer);
   unumf_close!(uformatter);
   unumf_closeResult!(uresult);
-  free(buffer);
-  free(cErrorCode);
+  calloc.free(buffer);
+  calloc.free(cErrorCode);
 
   return result;
 }
@@ -229,10 +239,10 @@ typedef NativeUErrorNameOp = Pointer<Utf8> Function(Int32 code);
 typedef UErrorNameOp = Pointer<Utf8> Function(int code);
 
 /// [UNumberFormatter](http://icu-project.org/apiref/icu4c/unumberformatter_8h.html#a7c1238b2dd08f32f1ea245ece41e71bd)
-class UNumberFormatter extends Struct {}
+class UNumberFormatter extends Opaque {}
 
 /// [UFormattedNumber](http://icu-project.org/apiref/icu4c/unumberformatter_8h.html#a9d4030bdc4dd1ec4de828bf1bcf4b1b6)
-class UFormattedNumber extends Struct {}
+class UFormattedNumber extends Opaque {}
 
 /// C signature for
 /// [unumf_openForSkeletonAndLocale()](http://icu-project.org/apiref/icu4c/unumberformatter_8h.html#a29339e144833880bda36fb7c17032698)

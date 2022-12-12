@@ -301,7 +301,7 @@ void main() {
   });
 
   test('detectRtlDirectionality', () {
-    var bidiText = [];
+    var bidiText = <SampleItem>[];
     var item = SampleItem('Pure Ascii content');
     bidiText.add(item);
 
