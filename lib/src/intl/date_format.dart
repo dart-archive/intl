@@ -207,9 +207,9 @@ part 'date_format_field.dart';
 ///
 ///     Format Pattern                    Result
 ///     --------------                    -------
-///     'EEE, MMM d, ''yy'                Wed, Jul 10, '96
+///     "EEE, MMM d, ''yy"                Wed, Jul 10, '96
 ///     'h:mm a'                          12:08 PM
-///     'yyyyy.MMMMM.dd GGG hh:mm aaa'    01996.July.10 AD 12:08 PM
+///     'yyyyy.MMMM.dd GGG hh:mm aaa'     01996.July.10 AD 12:08 PM
 //
 // TODO(https://github.com/dart-lang/intl/issues/74): Merge tables.
 //
