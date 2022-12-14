@@ -1,5 +1,4 @@
-## 0.17.1-dev
-
+## 0.18.0
  * Add support for `minimumSignificantDigits` / `maximumSignificantDigits` in
    NumberFormat.
  * Add support for plural in `NumberFormat.compact()` ('2 milliards').
@@ -12,6 +11,11 @@
  * Migrate to `package:lints/recommended.yaml`.
  * Remove some instances of dynamic types from the API.
  * Fix a bug caused by a typo in the plural rules calculation.
+ * Unify `IntlStream` and `StringIterator` into `StringStack`.
+ * Update to CLDR v41.
+ * Add new locales: as, bm, en_NZ, fur, mg, nyn.
+ * Remove unimplemented `formatDuration` and `formatDurationFrom`.
+ * Make `shortLocale` and `canonicalizedLocale` implementations smarter.
 
 ## 0.17.0
  * Migrate to null safety.
