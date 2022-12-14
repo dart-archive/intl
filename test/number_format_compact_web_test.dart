@@ -78,9 +78,10 @@ String _ecmaFormatNumber(String locale, num number,
 
 var _unsupportedChromeLocales = [
   // Not supported in Chrome:
-  'af', 'az', 'be', 'br', 'bs', 'chr', 'cy', 'eu', 'ga', 'gl', 'gsw', 'haw',
-  'hy', 'is', 'ka', 'kk', 'km', 'ky', 'ln', 'lo', 'mk', 'mn', 'mt', 'my', 'ne',
-  'or', 'pa', 'si', 'sq', 'ur', 'uz', 'zu', 'ps'
+  'af', 'as', 'az', 'be', 'bm', 'br', 'bs', 'chr', 'cy', 'eu', 'fur', 'ga',
+  'gl', 'gsw', 'haw', 'hy', 'is', 'ka', 'kk', 'km', 'ky', 'ln', 'lo', 'mg',
+  'mk', 'mn', 'mt', 'my', 'ne', 'nyn', 'or', 'pa', 'si', 'sq', 'ur', 'uz', 'zu',
+  'ps'
 ];
 
 var _skipLocalesShort = [

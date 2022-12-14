@@ -3,6 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 /// Provides locale-specific plural rules. Based on pluralrules.js from Closure.
+/// Follow java/com/google/i18n/tools/generators/README.md to generate js rules,
+/// which can then be ported to dart.
 ///
 /// Each function does the calculation for one or more locales. These are done in terms of
 /// various values used by the CLDR syntax and defined by UTS #35
@@ -477,9 +479,11 @@ final pluralRules = {
   'ar': _ar_rule,
   'ar_DZ': _ar_rule,
   'ar_EG': _ar_rule,
+  'as': _hi_rule,
   'az': _af_rule,
   'be': _be_rule,
   'bg': _af_rule,
+  'bm': _default_rule,
   'bn': _hi_rule,
   'br': _br_rule,
   'bs': _sr_rule,
@@ -499,6 +503,7 @@ final pluralRules = {
   'en_IE': _en_rule,
   'en_IN': _en_rule,
   'en_MY': _en_rule,
+  'en_NZ': _en_rule,
   'en_SG': _en_rule,
   'en_US': _en_rule,
   'en_ZA': _en_rule,
@@ -515,6 +520,7 @@ final pluralRules = {
   'fr': _fr_rule,
   'fr_CA': _fr_rule,
   'fr_CH': _fr_rule,
+  'fur': _af_rule,
   'ga': _ga_rule,
   'gl': _en_rule,
   'gsw': _af_rule,
@@ -542,6 +548,7 @@ final pluralRules = {
   'lo': _default_rule,
   'lt': _lt_rule,
   'lv': _lv_rule,
+  'mg': _ln_rule,
   'mk': _mk_rule,
   'ml': _af_rule,
   'mn': _af_rule,
@@ -554,7 +561,8 @@ final pluralRules = {
   'ne': _af_rule,
   'nl': _en_rule,
   'no': _af_rule,
-  'no_NO': _es_rule,
+  'no_NO': _af_rule,
+  'nyn': _af_rule,
   'or': _af_rule,
   'pa': _ln_rule,
   'pl': _pl_rule,
