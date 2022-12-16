@@ -56,6 +56,7 @@ class MyNum {
   MyNum operator ~/(MyNum other) => MyNum(value ~/ other.value);
   MyNum operator *(MyNum other) => MyNum(value * other.value);
   MyNum operator /(MyNum other) => MyNum(value / other.value);
+  bool operator <(MyNum other) => value < other.value;
   MyNum remainder(MyNum other) => MyNum(value.remainder(other.value));
   int toInt() => value.toInt();
   double toDouble() => value.toDouble();
@@ -85,6 +86,7 @@ class MyNumIntl {
   MyNumIntl operator ~/(dynamic other) => MyNumIntl(value ~/ _toMyNum(other));
   MyNumIntl operator *(dynamic other) => MyNumIntl(value * _toMyNum(other));
   MyNumIntl operator /(dynamic other) => MyNumIntl(value / _toMyNum(other));
+  bool operator <(dynamic other) => value < _toMyNum(other);
   MyNumIntl remainder(dynamic other) =>
       MyNumIntl(value.remainder(_toMyNum(other)));
   int toInt() => value.toInt();
