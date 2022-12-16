@@ -7,8 +7,9 @@
 
 library date_time_format_test;
 
-import 'package:test/test.dart';
 import 'package:intl/intl.dart';
+import 'package:test/test.dart';
+
 import 'date_time_format_test_core.dart';
 
 typedef TestListFunc = List<String> Function();

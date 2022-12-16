@@ -11,7 +11,7 @@ import 'package:test/test.dart';
 import 'number_format_test_core.dart' as core;
 
 /// Test numbers that won't work in Javascript because they're too big.
-var testNumbersOnlyForTheVM = {
+Map<String, int> testNumbersOnlyForTheVM = {
   '9,000,000,000,000,000,000': 9000000000000000000,
   '9,223,372,036,854,775,807': 9223372036854775807
 };

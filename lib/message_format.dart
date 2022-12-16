@@ -136,10 +136,10 @@ class MessageFormat {
   static const String _other = 'other';
 
   /// Regular expression for looking for string literals.
-  static final RegExp _regexLiteral = RegExp("'([{}#].*?)'");
+  static final RegExp _regexLiteral = RegExp(r"'([{}#].*?)'");
 
-  /// Regular expression for looking for '' in the message.
-  static final RegExp _regexDoubleApostrophe = RegExp("''");
+  /// Pattern for looking for '' in the message.
+  static final Pattern _patternDoubleApostrophe = "''";
 
   /// Create a MessageFormat for the ICU message string [pattern].
   /// It does parameter substitutions in a locale-aware way.
@@ -253,8 +253,6 @@ class MessageFormat {
       var patternValue = currentPattern._value;
       var patternType = currentPattern._type;
 
-      _checkAndThrow(patternType is _BlockType,
-          'The type should be a block type: $patternType');
       switch (patternType) {
         case _BlockType.string:
           result.add(patternValue as String);
@@ -355,7 +353,7 @@ class MessageFormat {
   /// Each formatting stage appends its product to the [result].
   void _formatPluralOrdinalBlock(
       Map<String, Object> parsedBlocks,
-      var namedParameters,
+      dynamic namedParameters,
       Function(num, String) pluralSelector,
       bool ignorePound,
       Queue<String> result) {
@@ -410,7 +408,6 @@ class MessageFormat {
     var pluralResult = Queue<String>();
     _formatBlock(option!, namedParameters, ignorePound, pluralResult);
     var plural = pluralResult.join('');
-    _checkAndThrow(plural is String, 'Empty block in plural.');
     if (ignorePound) {
       result.add(plural);
     } else {
@@ -445,14 +442,14 @@ class MessageFormat {
 
     // First replace '' with single quote placeholder since they can be found
     // inside other literals.
-    pattern = pattern.replaceAllMapped(_regexDoubleApostrophe, (match) {
+    pattern = pattern.replaceAllMapped(_patternDoubleApostrophe, (match) {
       literals.add("'");
       return buildPlaceholder(literals);
     });
 
     pattern = pattern.replaceAllMapped(_regexLiteral, (match) {
       // match, text
-      var text = match.group(1)!;
+      var text = match[1]!;
       literals.add(text);
       return buildPlaceholder(literals);
     });
@@ -466,7 +463,7 @@ class MessageFormat {
     var braceStack = Queue<String>();
     var results = Queue<_ElementTypeAndVal>();
 
-    var braces = RegExp('[{}]');
+    var braces = RegExp(r'[{}]');
 
     Match match;
     for (match in braces.allMatches(pattern)) {
@@ -515,19 +512,18 @@ class MessageFormat {
   ///
   /// It extracts the argument index and offset (if any).
   static final RegExp _pluralBlockRe =
-      RegExp('^\\s*(\\w+)\\s*,\\s*plural\\s*,(?:\\s*offset:(\\d+))?');
+      RegExp(r'^\s*(\w+)\s*,\s*plural\s*,(?:\s*offset:(\d+))?');
 
   /// A regular expression to parse the ordinal block.
   ///
   /// It extracts the argument index.
   static final RegExp _ordinalBlockRe =
-      RegExp('^\\s*(\\w+)\\s*,\\s*selectordinal\\s*,');
+      RegExp(r'^\s*(\w+)\s*,\s*selectordinal\s*,');
 
   /// A regular expression to parse the select block.
   ///
   /// It extracts the argument index.
-  static final RegExp _selectBlockRe =
-      RegExp('^\\s*(\\w+)\\s*,\\s*select\\s*,');
+  static final RegExp _selectBlockRe = RegExp(r'^\s*(\w+)\s*,\s*select\s*,');
 
   /// Detects the block type of the [pattern].
   _BlockType _parseBlockType(String pattern) {
@@ -543,7 +539,7 @@ class MessageFormat {
       return _BlockType.select;
     }
 
-    if (RegExp('^\\s*\\w+\\s*').hasMatch(pattern)) {
+    if (RegExp(r'^\s*\w').hasMatch(pattern)) {
       return _BlockType.simple;
     }
 
@@ -562,8 +558,6 @@ class MessageFormat {
       if (_ElementType.string == thePart._type) {
         block = _BlockTypeAndVal(_BlockType.string, thePart._value);
       } else if (_ElementType.block == thePart._type) {
-        _checkAndThrow(thePart._value is String,
-            'The value should be a string: ${thePart._value}');
         var blockType = _parseBlockType(thePart._value);
 
         switch (blockType) {
@@ -604,7 +598,7 @@ class MessageFormat {
     var replaceRegex = _selectBlockRe;
     pattern = pattern.replaceFirstMapped(replaceRegex, (match) {
       // string, name
-      argumentName = match.group(1)!;
+      argumentName = match[1]!;
       return '';
     });
     var result = <String, Object>{'argumentName': argumentName};
@@ -614,7 +608,6 @@ class MessageFormat {
     var pos = 0;
     while (pos < parts.length) {
       var thePart = parts.elementAt(pos);
-      _checkAndThrow(thePart._value is String, 'Missing select key element.');
       var key = thePart._value;
 
       pos++;
@@ -628,7 +621,7 @@ class MessageFormat {
       } else {
         _checkAndThrow(false, 'Expected block type.');
       }
-      result[key.replaceAll(RegExp('\\s'), '')] = value!;
+      result[key.replaceAll(RegExp(r'\s+'), '')] = value!;
       pos++;
     }
 
@@ -647,9 +640,9 @@ class MessageFormat {
     var replaceRegex = _pluralBlockRe;
     pattern = pattern.replaceFirstMapped(replaceRegex, (match) {
       // string, name, offset
-      argumentName = match.group(1)!;
-      if (_isDef(match.group(2))) {
-        argumentOffset = int.parse(match.group(2)!);
+      argumentName = match[1]!;
+      if (_isDef(match[2])) {
+        argumentOffset = int.parse(match[2]!);
       }
       return '';
     });
@@ -664,7 +657,6 @@ class MessageFormat {
     var pos = 0;
     while (pos < parts.length) {
       var thePart = parts.elementAt(pos);
-      _checkAndThrow(thePart._value is String, 'Missing plural key element.');
       var key = thePart._value;
 
       pos++;
@@ -678,8 +670,8 @@ class MessageFormat {
       } else {
         _checkAndThrow(false, 'Expected block type.');
       }
-      key = key.replaceFirstMapped(RegExp('\\s*(?:=)?(\\w+)\\s*'), (match) {
-        return match.group(1).toString();
+      key = key.replaceFirstMapped(RegExp(r'\s*=?(\w+)\s*'), (match) {
+        return match[1].toString();
       });
       result[key] = value!;
       pos++;
@@ -711,7 +703,7 @@ class MessageFormat {
     var replaceRegex = _ordinalBlockRe;
     pattern = pattern.replaceFirstMapped(replaceRegex, (match) {
       // string, name
-      argumentName = match.group(1)!;
+      argumentName = match[1]!;
       return '';
     });
 
@@ -722,7 +714,6 @@ class MessageFormat {
     var pos = 0;
     while (pos < parts.length) {
       var thePart = parts.elementAt(pos);
-      _checkAndThrow(thePart._value is String, 'Missing ordinal key element.');
       var key = thePart._value;
 
       pos++;
@@ -736,8 +727,8 @@ class MessageFormat {
       } else {
         _checkAndThrow(false, 'Expected block type.');
       }
-      key = key.replaceFirstMapped(RegExp('\\s*(?:=)?(\\w+)\\s*'), (match) {
-        return match.group(1).toString();
+      key = key.replaceFirstMapped(RegExp(r'\s*=?(\w+)\s*'), (match) {
+        return match[1].toString();
       });
       result[key] = value!;
       pos++;
@@ -768,7 +759,7 @@ bool _isDef(Object? obj) {
   return obj != null;
 }
 
-// Closure calls assert, which actually ends up with an exception on can catch.
+// Closure calls assert, which actually ends up with an exception one can catch.
 // In Dart assert is only for debug, so I am using this small wrapper method.
 void _checkAndThrow(bool condition, String message) {
   if (!condition) {
@@ -777,7 +768,7 @@ void _checkAndThrow(bool condition, String message) {
 }
 
 // Dart has no support for ordinals
-// TODO(b/142132665): add ordial rules to intl, then fix this
+// TODO(b/142132665): add ordinal rules to intl, then fix this
 class _OrdinalRules {
   static String select(num n, String locale) {
     return _PluralRules.select(n, locale);
@@ -794,7 +785,8 @@ class _PluralRules {
         few: 'few',
         many: 'many',
         other: 'other',
-        locale: locale);
+        locale: locale,
+        useExplicitNumberCases: false);
   }
 }
 
@@ -803,7 +795,7 @@ class _TypeAndVal<T, V> {
   final T _type;
   final V _value;
 
-  _TypeAndVal(var this._type, var this._value);
+  _TypeAndVal(this._type, this._value);
 
   @override
   String toString() {
@@ -815,12 +807,12 @@ class _TypeAndVal<T, V> {
 enum _ElementType { string, block }
 
 class _ElementTypeAndVal extends _TypeAndVal<_ElementType, String> {
-  _ElementTypeAndVal(var _type, var _value) : super(_type, _value);
+  _ElementTypeAndVal(_ElementType type, String value) : super(type, value);
 }
 
 /// Block type.
 enum _BlockType { plural, ordinal, select, simple, string, unknown }
 
 class _BlockTypeAndVal extends _TypeAndVal<_BlockType, Object> {
-  _BlockTypeAndVal(var _type, var _value) : super(_type, _value);
+  _BlockTypeAndVal(_BlockType type, Object value) : super(type, value);
 }

@@ -5,12 +5,13 @@
 import 'package:intl/date_symbols.dart';
 import 'package:intl/src/date_format_internal.dart';
 import 'package:intl/src/intl_helpers.dart' as helpers;
+import 'package:meta/meta.dart';
 
 import 'constants.dart' as constants;
 import 'date_builder.dart';
 import 'date_computation.dart' as date_computation;
-import 'intl_stream.dart';
 import 'regexp.dart' as regexp;
+import 'string_stack.dart';
 
 part 'date_format_field.dart';
 
@@ -206,9 +207,9 @@ part 'date_format_field.dart';
 ///
 ///     Format Pattern                    Result
 ///     --------------                    -------
-///     'EEE, MMM d, ''yy'                Wed, Jul 10, '96
+///     "EEE, MMM d, ''yy"                Wed, Jul 10, '96
 ///     'h:mm a'                          12:08 PM
-///     'yyyyy.MMMMM.dd GGG hh:mm aaa'    01996.July.10 AD 12:08 PM
+///     'yyyyy.MMMM.dd GGG hh:mm aaa'     01996.July.10 AD 12:08 PM
 //
 // TODO(https://github.com/dart-lang/intl/issues/74): Merge tables.
 //
@@ -278,6 +279,9 @@ class DateFormat {
   /// There can be rare and erratic errors in DateTime creation in both
   /// JavaScript and the Dart VM, and this allows us to test ways of
   /// compensating for them.
+  @visibleForTesting
+  @Deprecated('clients should not depend on this internal field')
+  // ignore: library_private_types_in_public_api
   _DateTimeConstructor dateTimeConstructor = (int year, int month, int day,
       int hour24, int minute, int second, int fractionalSecond, bool utc) {
     if (utc) {
@@ -299,20 +303,6 @@ class DateFormat {
     }
     return result.toString();
   }
-
-  /// NOT YET IMPLEMENTED.
-  ///
-  /// Returns a date string indicating how long ago (3 hours, 2 minutes)
-  /// something has happened or how long in the future something will happen
-  /// given a [reference] DateTime relative to the current time.
-  String formatDuration(DateTime reference) => '';
-
-  /// NOT YET IMPLEMENTED.
-  ///
-  /// Formats a string indicating how long ago (negative [duration]) or how far
-  /// in the future (positive [duration]) some time is with respect to a
-  /// reference [date].
-  String formatDurationFrom(Duration duration, DateTime date) => '';
 
   /// Given user input, attempt to parse the [inputString] into the anticipated
   /// format, treating it as being in the local timezone.
@@ -360,11 +350,11 @@ class DateFormat {
   DateTime _parseLoose(String inputString, bool utc) {
     var dateFields = DateBuilder(locale, dateTimeConstructor);
     if (utc) dateFields.utc = true;
-    var stream = IntlStream(inputString);
+    var stack = StringStack(inputString);
     for (var field in _formatFields) {
-      field.parseLoose(stream, dateFields);
+      field.parseLoose(stack, dateFields);
     }
-    if (!stream.atEnd()) {
+    if (!stack.atEnd) {
       throw FormatException(
           'Characters remaining after date parsing in $inputString');
     }
@@ -389,11 +379,11 @@ class DateFormat {
     var dateFields = DateBuilder(locale, dateTimeConstructor);
     if (utc) dateFields.utc = true;
     dateFields.dateOnly = dateOnly;
-    var stream = IntlStream(inputString);
+    var stack = StringStack(inputString);
     for (var field in _formatFields) {
-      field.parse(stream, dateFields);
+      field.parse(stack, dateFields);
     }
-    if (strict && !stream.atEnd()) {
+    if (strict && !stack.atEnd) {
       throw FormatException(
           'Characters remaining after date parsing in $inputString');
     }
@@ -829,7 +819,7 @@ class DateFormat {
 
   /// Return true if the locale exists, or if it is null. The null case
   /// is interpreted to mean that we use the default locale.
-  static bool localeExists(localeName) {
+  static bool localeExists(String? localeName) {
     if (localeName == null) return false;
     return dateTimeSymbols.containsKey(localeName);
   }
@@ -842,6 +832,9 @@ class DateFormat {
           ];
 
   /// Parse the template pattern and return a list of field objects.
+  @visibleForTesting
+  @Deprecated('clients should not depend on this internal method')
+  // ignore: library_private_types_in_public_api
   List<_DateFormatField> parsePattern(String pattern) {
     return _parsePatternHelper(pattern).reversed.toList();
   }

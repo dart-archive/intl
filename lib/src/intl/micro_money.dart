@@ -70,6 +70,7 @@ class _MicroMoney implements MicroMoney {
 
   int toInt() => _integerPart.toInt();
 
+  @override
   String toString() {
     var beforeDecimal = '$_integerPart';
     var decimalPart = '';

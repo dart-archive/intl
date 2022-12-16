@@ -3,38 +3,137 @@
 /// BSD-style license that can be found in the LICENSE file.
 
 /// Tests for compact format numbers, e.g. 1.2M rather than 1,200,000
-import 'dart:math';
-
 import 'package:fixnum/fixnum.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/number_symbols_data.dart' as patterns;
 import 'package:test/test.dart';
 
-import 'compact_number_test_data_33.dart' as testdata33;
+import 'package:test/test.dart';
 
-// End-goal: to stop testing against testdata33 and use testdata35 instead:
-// import 'compact_number_test_data.dart' as testdata35;
+
+import 'compact_number_test_data.dart' as testdata;
 import 'more_compact_number_test_data.dart' as more_testdata;
 
 /// A place to put a case that's causing a problem and have it run first when
 /// debugging
-var interestingCases = <String, List<List<String>>>{
+Map<String, List<List<String>>> interestingCases = <String, List<List<String>>>{
 //  'mn' : [['4321', '4.32M', 'whatever']]
 };
 
-void main() {
-  interestingCases.forEach(validate);
-  testdata33.compactNumberTestData.forEach(validate);
-  more_testdata.oldIntlCompactNumTests.forEach(validateFancy);
-  // Once code and data is updated to CLDR35:
-  // testdata35.compactNumberTestData.forEach(validate);
-  // more_testdata.cldr35CompactNumTests.forEach(validateFancy);
+Map<String, List<List<String>>> compactWithExplicitSign =
+    <String, List<List<String>>>{
+  'en_US': [
+    ['0', '+0', '+0'],
+    ['0.012', '+0.012', '+0.012'],
+    ['0.123', '+0.123', '+0.123'],
+    ['1.234', '+1.23', '+1.23'],
+    ['12', '+12', '+12'],
+    ['12.34', '+12.3', '+12.3'],
+    ['123.4', '+123', '+123'],
+    ['123.41', '+123', '+123'],
+    ['1234.1', '+1.23K', '+1.23 thousand'],
+    ['12341', '+12.3K', '+12.3 thousand'],
+    ['123412', '+123K', '+123 thousand'],
+    ['1234123', '+1.23M', '+1.23 million'],
+    ['12341234', '+12.3M', '+12.3 million'],
+    ['123412341', '+123M', '+123 million'],
+    ['1234123412', '+1.23B', '+1.23 billion'],
+    ['-0.012', '-0.012', '-0.012'],
+    ['-0.123', '-0.123', '-0.123'],
+    ['-1.234', '-1.23', '-1.23'],
+    ['-12', '-12', '-12'],
+    ['-12.34', '-12.3', '-12.3'],
+    ['-123.4', '-123', '-123'],
+    ['-123.41', '-123', '-123'],
+    ['-1234.1', '-1.23K', '-1.23 thousand'],
+    ['-12341', '-12.3K', '-12.3 thousand'],
+    ['-123412', '-123K', '-123 thousand'],
+    ['-1234123', '-1.23M', '-1.23 million'],
+    ['-12341234', '-12.3M', '-12.3 million'],
+    ['-123412341', '-123M', '-123 million'],
+    ['-1234123412', '-1.23B', '-1.23 billion'],
+  ],
+  'sw': [
+    ['12', '+12', '+12'],
+    ['12341', 'elfu\u00A0+12.3', 'elfu +12.3'],
+    ['-12', '-12', '-12'],
+    ['-12341', 'elfu\u00A0-12.3', 'elfu -12.3'],
+  ],
+  'he': [
+    ['12', '\u200e+12', '\u200e+12'],
+    ['12341', '\u200e+12.3K\u200f', '\u200e+\u200f12.3 אלף'],
+    ['-12', '\u200e-12', '\u200e-12'],
+    ['-12341', '\u200e-12.3K\u200f', '\u200e-\u200f12.3 אלף'],
+  ],
+};
 
-  test("Patterns are consistent across locales", () {
+Map<String, List<List<String>>> parsingTestCases = <String, List<List<String>>>{
+  'en_US': [
+    ['1230', '1.23 K', '1.23  thousand'], // Random spaces.
+    ['1230', '1.23\u00a0K', '1.23\u00a0thousand'], // NO-BREAK SPACE.
+    ['1230', '1.23\u202fK', '1.23\u202fthousand'], // NARROW NO-BREAK SPACE.
+  ],
+  'fi': [
+    ['4320', '4,32t.', '4,32tuhatta'], // Actual format uses NO-BREAK SPACE.
+    ['-4320', '-4,32t.', '-4,32tuhatta'], // Actual format uses MINUS SIGN.
+    ['-4320', '\u22124,32t.', '\u22124,32tuhatta'], // Like actual format.
+  ],
+  'he': [
+    ['-12300', '-12.3 K', '-12.3\u05D0\u05DC\u05E3'], // LTR/RTL marks dropped.
+  ],
+  'fa': [
+    [
+      '123',
+      // With locale numerals.
+      '\u06F1\u06F2\u06F3',
+      '\u06F1\u06F2\u06F3'
+    ],
+    [
+      '4320',
+      // With locale numerals.
+      '\u06F4\u066B\u06F3\u06F2 \u0647\u0632\u0627\u0631',
+      '\u06F4\u066B\u06F3\u06F2 \u0647\u0632\u0627\u0631'
+    ],
+    ['123', '123', '123'], // With roman numerals.
+    [
+      '4320',
+      // With roman numerals.
+      '4.32 \u0647\u0632\u0627\u0631',
+      '4.32 \u0647\u0632\u0627\u0631'
+    ],
+  ]
+};
+
+void main() {
+  interestingCases.forEach(_validate);
+  testdata.compactNumberTestData.forEach(_validate);
+  // Once code and data is updated to CLDR35:
+  more_testdata.cldr35CompactNumTests.forEach(_validateFancy);
+
+  compactWithExplicitSign.forEach(_validateWithExplicitSign);
+  parsingTestCases.forEach(_validateParsing);
+
+  test('Patterns are consistent across locales', () {
+    void checkPatterns(Map<int, Map<String, String>> patterns) {
+      expect(patterns, isNotEmpty);
+      // Check patterns are iterable in order.
+      var lastExp = -1;
+      for (var entries in patterns.entries) {
+        var exp = entries.key;
+        expect(exp, isPositive);
+        expect(exp, greaterThan(lastExp));
+        lastExp = exp;
+        var patternMap = entries.value;
+        expect(patternMap, isNotEmpty);
+      }
+    }
+
     patterns.compactNumberSymbols.forEach((locale, patterns) {
-      expect(patterns.COMPACT_DECIMAL_SHORT_PATTERN.keys,
-          orderedEquals([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]),
-          reason: "Precision algorithm expects no gaps in pattern magnitudes");
+      checkPatterns(patterns.COMPACT_DECIMAL_SHORT_PATTERN);
+      if (patterns.COMPACT_DECIMAL_LONG_PATTERN != null) {
+        checkPatterns(patterns.COMPACT_DECIMAL_LONG_PATTERN!);
+      }
+      checkPatterns(patterns.COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN);
     });
   });
 
@@ -45,36 +144,58 @@ void main() {
   // suffixes.
   testCurrency('ja', 1.2345, '¥1', '¥1');
   testCurrency('ja', 1, '¥1', '¥1');
-  testCurrency('ja', 12, '¥12', '¥10');
-  testCurrency('ja', 123, '¥123', '¥100');
-  testCurrency('ja', 1234, '¥1230', '¥1000');
+  testCurrency('ja', 12, '¥12', '¥12');
+  testCurrency('ja', 123, '¥123', '¥123');
+  testCurrency('ja', 1234, '¥1234', '¥1234');
   testCurrency('ja', 12345, '¥1.23\u4E07', '¥1\u4E07');
-  testCurrency('ja', 123456, '¥12.3\u4E07', '¥10\u4E07');
-  testCurrency('ja', 1234567, '¥123\u4e07', '¥100\u4e07');
-  testCurrency('ja', 12345678, '¥1230\u4e07', '¥1000\u4e07');
+  testCurrency('ja', 123456, '¥12.3\u4E07', '¥12\u4E07');
+  testCurrency('ja', 1234567, '¥123\u4e07', '¥123\u4e07');
+  testCurrency('ja', 12345678, '¥1235\u4e07', '¥1235\u4e07');
   testCurrency('ja', 123456789, '¥1.23\u5104', '¥1\u5104');
 
   testCurrency('ja', 0.9876, '¥1', '¥1');
   testCurrency('ja', 9, '¥9', '¥9');
-  testCurrency('ja', 98, '¥98', '¥100');
-  testCurrency('ja', 987, '¥987', '¥1000');
-  testCurrency('ja', 9876, '¥9880', '¥1\u4E07');
+  testCurrency('ja', 98, '¥98', '¥98');
+  testCurrency('ja', 987, '¥987', '¥987');
+  testCurrency('ja', 9876, '¥9876', '¥9876');
   testCurrency('ja', 98765, '¥9.88\u4E07', '¥10\u4E07');
-  testCurrency('ja', 987656, '¥98.8\u4E07', '¥100\u4E07');
-  testCurrency('ja', 9876567, '¥988\u4e07', '¥1000\u4e07');
-  testCurrency('ja', 98765678, '¥9880\u4e07', '¥1\u5104');
+  testCurrency('ja', 987656, '¥98.8\u4E07', '¥99\u4E07');
+  testCurrency('ja', 9876567, '¥988\u4e07', '¥988\u4e07');
+  testCurrency('ja', 98765678, '¥9877\u4e07', '¥9877\u4e07');
   testCurrency('ja', 987656789, '¥9.88\u5104', '¥10\u5104');
 
-  testCurrency('en_US', 1.2345, r'$1.23', r'$1');
+  testCurrency('en_US', 0.1234, r'$0.12', r'$0.12');
   testCurrency('en_US', 1, r'$1.00', r'$1');
-  testCurrency('en_US', 12, r'$12.00', r'$10');
-  testCurrency('en_US', 12.3, r'$12.30', r'$10');
-  testCurrency('en_US', 123, r'$123', r'$100');
+  testCurrency('en_US', 1.2345, r'$1.23', r'$1');
+  testCurrency('en_US', 12, r'$12.00', r'$12');
+  testCurrency('en_US', 12.3, r'$12.30', r'$12');
+  testCurrency('en_US', 99, r'$99.00', r'$99');
+  testCurrency('en_US', 99.9, r'$99.90', r'$100');
+  testCurrency('en_US', 99.99, r'$99.99', r'$100');
+  testCurrency('en_US', 99.999, r'$100', r'$100');
+  testCurrency('en_US', 100, r'$100', r'$100');
+  testCurrency('en_US', 100.001, r'$100', r'$100');
+  testCurrency('en_US', 100.01, r'$100', r'$100');
+  testCurrency('en_US', 100.1, r'$100', r'$100');
+  testCurrency('en_US', 100.9, r'$101', r'$101');
+  testCurrency('en_US', 100.99, r'$101', r'$101');
+  testCurrency('en_US', 123, r'$123', r'$123');
+  testCurrency('en_US', 999, r'$999', r'$999');
+  testCurrency('en_US', 999.9, r'$1K', r'$1K');
+  testCurrency('en_US', 999.99, r'$1K', r'$1K');
   testCurrency('en_US', 1000, r'$1K', r'$1K');
+  testCurrency('en_US', 1000.01, r'$1K', r'$1K');
+  testCurrency('en_US', 1000.1, r'$1K', r'$1K');
+  testCurrency('en_US', 1001, r'$1K', r'$1K');
   testCurrency('en_US', 1234, r'$1.23K', r'$1K');
-  testCurrency('en_US', 12345, r'$12.3K', r'$10K');
-  testCurrency('en_US', 123456, r'$123K', r'$100K');
+  testCurrency('en_US', 12345, r'$12.3K', r'$12K');
+  testCurrency('en_US', 123456, r'$123K', r'$123K');
   testCurrency('en_US', 1234567, r'$1.23M', r'$1M');
+
+  testCurrency('en_US', -1, r'-$1.00', r'-$1');
+  testCurrency('en_US', -12.3, r'-$12.30', r'-$12');
+  testCurrency('en_US', -999, r'-$999', r'-$999');
+  testCurrency('en_US', -1234, r'-$1.23K', r'-$1K');
 
   // Check for order of currency symbol when currency is a suffix.
   testCurrency(
@@ -84,15 +205,108 @@ void main() {
     '4\u00A0тыс.\u00A0\u20BD',
   );
 
+  // Check for sign location when multiple patterns.
+  testCurrency('sw', 12341, 'TSh\u00A0elfu12.3', 'TSh\u00A0elfu12');
+  testCurrency('sw', -12341, 'TShelfu\u00A0-12.3', 'TShelfu\u00A0-12');
+
   // Locales which don't have a suffix for thousands.
-  testCurrency('it', 442, '442\u00A0€', '400\u00A0€');
-  testCurrency('it', 4420, '4420\u00A0\$', '4000\u00A0\$', currency: 'CAD');
+  testCurrency('it', 442, '442\u00A0€', '442\u00A0€');
+  testCurrency('it', 4420, '4420\u00A0\$', '4420\u00A0\$', currency: 'CAD');
   testCurrency('it', 4420000, '4,42\u00A0Mio\u00A0\$', '4\u00A0Mio\u00A0\$',
       currency: 'USD');
 
-  testCurrency('he', 335, '\u200F335 ₪', '\u200F300 ₪',
-      reason: 'TODO(b/36488375): Short format throws away significant digits '
-          'without good reason.');
+  testCurrency('he', 335, '\u200F335\u00A0₪', '\u200F335\u00A0₪');
+  testCurrency('he', -335, '\u200F-335\u00A0₪', '\u200F-335\u00A0₪');
+  testCurrency('he', 12341, '₪12.3K\u200f', '₪12K\u200f');
+  testCurrency('he', -12341, '\u200e-₪12.3K\u200f', '\u200e-₪12K\u200f');
+
+  group('Currency with minimumFractionDigits + significant digits', () {
+    var expectedBase = <double, String>{
+      0.001: r'$0.00',
+      0.009: r'$0.01',
+      0.01: r'$0.01',
+      0.09: r'$0.09',
+      0.1: r'$0.10',
+      0.9: r'$0.90',
+      1: r'$1.00',
+      1.1: r'$1.10',
+      1.9: r'$1.90',
+      1.999: r'$2.00',
+      10: r'$10.00',
+      100: r'$100',
+      999: r'$999',
+      999.1: r'$999',
+      999.9: r'$1K',
+      1001: r'$1K',
+      1009: r'$1.01K',
+      1234.56: r'$1.23K',
+    };
+    for (var entry in expectedBase.entries) {
+      test('en_US - minimumFractionDigits: not set - ${entry.key}', () {
+        var f = NumberFormat.compactSimpleCurrency(locale: 'en_US', name: 'USD')
+          ..significantDigitsInUse = true;
+        expect(f.format(entry.key), entry.value);
+      });
+    }
+
+    var expected0 = <double, String>{
+      0.001: r'$0',
+      0.009: r'$0.01',
+      0.01: r'$0.01',
+      0.09: r'$0.09',
+      0.1: r'$0.1',
+      0.9: r'$0.9',
+      1: r'$1',
+      1.1: r'$1.1',
+      1.9: r'$1.9',
+      1.999: r'$2',
+      10: r'$10',
+      100: r'$100',
+      999: r'$999',
+      999.1: r'$999',
+      999.9: r'$1K',
+      1001: r'$1K',
+      1009: r'$1.01K',
+      1234.56: r'$1.23K',
+    };
+    for (var entry in expected0.entries) {
+      test('en_US - minimumFractionDigits: 0 - ${entry.key}', () {
+        var f = NumberFormat.compactSimpleCurrency(locale: 'en_US', name: 'USD')
+          ..minimumFractionDigits = 0
+          ..significantDigitsInUse = true;
+        expect(f.format(entry.key), entry.value);
+      });
+    }
+
+    var expected1 = <double, String>{
+      0.001: r'$0.0',
+      0.009: r'$0.01',
+      0.01: r'$0.01',
+      0.09: r'$0.09',
+      0.1: r'$0.1',
+      0.9: r'$0.9',
+      1: r'$1.0',
+      1.1: r'$1.1',
+      1.9: r'$1.9',
+      10: r'$10.0',
+      100: r'$100.0',
+      1.999: r'$2.0',
+      999: r'$999.0',
+      999.1: r'$999.1',
+      999.9: r'$1.0K',
+      1001: r'$1.0K',
+      1009: r'$1.01K',
+      1234.56: r'$1.23K',
+    };
+    for (var entry in expected1.entries) {
+      test('en_US - minimumFractionDigits: 1 - ${entry.key}', () {
+        var f = NumberFormat.compactSimpleCurrency(locale: 'en_US', name: 'USD')
+          ..minimumFractionDigits = 1
+          ..significantDigitsInUse = true;
+        expect(f.format(entry.key), entry.value);
+      });
+    }
+  });
 
   test('Explicit non-default symbol with compactCurrency', () {
     var format = NumberFormat.compactCurrency(locale: 'ja', symbol: '()');
@@ -127,6 +341,7 @@ void testCurrency(
       'ru': '\u20BD',
       'it': '€',
       'he': '₪',
+      'sw': 'TSh',
       'CAD': r'$',
       'USD': r'$'
     };
@@ -143,186 +358,76 @@ void testCurrency(
   });
 }
 
+/// Locales that have problems in the short format.
 // TODO(alanknight): Don't just skip the whole locale if there's one problem
 // case.
-// TODO(alanknight): Fix the problems, or at least figure out precisely where
-// the differences are.
-var problemLocalesShort = [
-  'am', // AM Suffixes differ, not sure why.
-  'ca', // For CA, CLDR rules are different. Jumps from 0000 to 00 prefix, so
-  // 11 digits prints as 11900.
-  'es_419', // Some odd formatting rules for these which seem to be different
-  // from CLDR. wants e.g. '160000000000k' Actual: '160 B'
-  'es_ES', // The reverse of es_419 for a few cases. We're printing a longer
-  // form.
-  'es_US', // Like es_419 but not as many of them. e.g. Expected: '87700k'
-  // Actual: '87.7 M'
-  'es_MX', // like es_419
-  'es',
-  'fa',
-  'fr_CA', // Several where PyICU isn't compacting. Expected: '988000000'
-  // Actual: '988 M'.
-  'gsw', // Suffixes disagree
-  'in', // IN not compacting 54321, looks similar to tr.
-  'id', // ID not compacting 54321, looks similar to tr.
-  'ka', // K Slight difference in the suffix
-  'kk', 'mn', // We're picking the wrong pattern for 654321.
-  'lo', 'mk', 'my',
-  'pt_PT', // Seems to differ in appending mil or not after thousands. pt_BR
-  // does it.
-  'sd', // ICU considers this locale data questionable
-  'th', // TH Expected abbreviations as '1.09 พ.ล.' rather than '1.09 พ'
-  'tr', // TR Doesn't have a 0B format, goes directly to 00B, as a result 54321
-  // just prints as 54321
-  'ur', // UR Fails one with Expected: '15 ٹریلین'  Actual: '150 کھرب'
-];
+var _skipLocalsShort = <String>{
+  'bn', // Bug in CLDR: ambiguous parsing: 10^9 ("000 কো") and 10^11 ("000কো") only differ by a nbsp.
+};
 
 /// Locales that have problems in the long format.
-///
-/// These are mostly minor differences in the characters, and many I can't read,
-/// but I'm suspicious many of them are essentially the difference between
-/// million and millions, which we don't distinguish. That's definitely the case
-/// with e.g. DE, but our data definitely has Millionen throughout.
-///
-//TODO(alanknight): Narrow these down to particular numbers. Often it's just
-// 999999.
-var problemLocalesLong = [
-  'ar', 'ar_DZ', 'ar_EG',
-  'be', 'bg', 'bs',
-  'ca', 'cs', 'da', 'de', 'de_AT', 'de_CH', 'el', 'es', 'es_419', 'es_ES',
-  'es_MX', 'es_US', 'et', 'fi',
-  'fil', // FIL is different, seems like a genuine difference in suffixes
-  'fr', 'fr_CA',
-  'fr_CH', // TODO(alanknight): million/millions, supported since CLDR 31.
-  'ga', 'gl',
-  'gsw', // GSW seems like we have long forms and pyICU doesn't
-  'hr', 'is', 'it',
-  'it_CH', 'lo', // LO seems to be picking up a different pattern.
-  'lt', 'lv', 'mk',
-  'my', // Seems to come out in the reverse order
-  'nb', 'ne', 'no', 'no_NO', 'pl',
-  'pt', // PT has some issues with scale as well, but I think it's differences
-  // in the patterns.
-  'pt_BR', 'pt_PT', 'ro', 'ru',
-  'sd', // ICU considers this locale data questionable
-  'sk', 'sl', 'sr', 'sr_Latn', 'sv', 'te', 'tl',
-  'ur',
-  'uk',
-];
+var _skipLocalesLong = <String>{
+  // None ;o)
+};
 
-void validate(String locale, List<List<String>> expected) {
-  validateShort(locale, expected);
-  validateLong(locale, expected);
+void _validate(String locale, List<List<String>> expected) {
+  _validateShort(locale, expected);
+  _validateLong(locale, expected);
 }
 
 /// Check each bit of test data against the short compact format, both
 /// formatting and parsing.
-void validateShort(String locale, List<List<String>> expected) {
-  if (problemLocalesShort.contains(locale)) {
-    print("Skipping problem locale '$locale' for SHORT compact number tests");
-    return;
-  }
-  var shortFormat = NumberFormat.compact(locale: locale);
+void _validateShort(String locale, List<List<String>> expected) {
+  var skip = _skipLocalsShort.contains(locale)
+      ? "Skipping problem locale '$locale' for SHORT compact number tests"
+      : false;
+  var shortFormat = NumberFormat.compact(locale: locale)
+    ..significantDigits = 2; // Default in ICU.
   test('Validate $locale SHORT', () {
     for (var data in expected) {
       var number = num.parse(data.first);
-      validateNumber(number, shortFormat, data[1]);
-      var int64Number = Int64(number as int);
-      validateNumber(int64Number, shortFormat, data[1]);
+      _validateNumber(number, shortFormat, data[1]);
+      if (number == number.round()) {
+        // Check against int64.
+        var int64Number = Int64(number.round());
+        _validateNumber(int64Number, shortFormat, data[1]);
+      }
       // TODO(alanknight): Make this work for MicroMoney
     }
-  });
+  }, skip: skip);
 }
 
-void validateLong(String locale, List<List<String>> expected) {
-  if (problemLocalesLong.contains(locale)) {
-    print("Skipping problem locale '$locale' for LONG compact number tests");
-    return;
-  }
-  var longFormat = NumberFormat.compactLong(locale: locale);
+void _validateLong(String locale, List<List<String>> expected) {
+  var skip = _skipLocalesLong.contains(locale)
+      ? "Skipping problem locale '$locale' for LONG compact number tests"
+      : false;
+  var longFormat = NumberFormat.compactLong(locale: locale)
+    ..significantDigits = 2; // Default in ICU.
   test('Validate $locale LONG', () {
     for (var data in expected) {
       var number = num.parse(data.first);
-      validateNumber(number, longFormat, data[2]);
+      _validateNumber(number, longFormat, data[2]);
     }
-  });
+  }, skip: skip);
 }
 
-void validateNumber(number, NumberFormat format, String expected) {
+void _validateNumber(dynamic number, NumberFormat format, String expected) {
+  var numberDouble = number.toDouble();
   var formatted = format.format(number);
-  var ok = closeEnough(formatted, expected);
-  if (!ok) {
-    expect(
-        '$formatted ${formatted.codeUnits}', '$expected ${expected.codeUnits}');
-  }
+
+  expect('$formatted ${formatted.codeUnits}', '$expected ${expected.codeUnits}',
+      reason: 'for number: $number');
+
   var parsed = format.parse(formatted);
-  var rounded = roundForPrinting(number, format);
-  expect((parsed - rounded) / rounded < 0.001, isTrue);
+  var almostEquals = (number == 0 && parsed.abs() < 0.01) ||
+      ((parsed - numberDouble) / numberDouble).abs() < 0.1;
+  expect(almostEquals, isTrue,
+      reason: 'for number: $number (formatted: $formatted, parsed: $parsed)');
 }
 
-/// Duplicate a bit of the logic in formatting, where if we have a
-/// number that will round to print differently depending on the number
-/// of significant digits, we need to check that as well, e.g.
-/// 999999 may print as 1M.
-num roundForPrinting(number, NumberFormat format) {
-  var originalLength = NumberFormat.numberOfIntegerDigits(number);
-  var additionalDigits = originalLength - format.significantDigits!;
-  if (additionalDigits > 0) {
-    var divisor = pow(10, additionalDigits);
-    // If we have an Int64, value speed over precision and make it double.
-    var rounded = (number.toDouble() / divisor).round() * divisor;
-    return rounded;
-  }
-  return number.toDouble();
-}
-
-final _nbsp = 0xa0;
-final _nbspString = String.fromCharCode(_nbsp);
-
-/// Return true if the strings are close enough to what we
-/// expected to consider a pass.
-///
-/// In particular, there seem to be minor differences between what PyICU is
-/// currently producing and the CLDR data. So if the strings differ only in the
-/// presence or absence of a period at the end or of a space between the number
-/// and the suffix, consider it close enough and return true.
-bool closeEnough(String result, String reference) {
-  var expected = reference.replaceAll(' ', _nbspString);
-  if (result == expected) {
-    return true;
-  }
-  if ('$result.' == expected) {
-    return true;
-  }
-  if (result == '$expected.') {
-    return true;
-  }
-  if (_oneSpaceOnlyDifference(result, expected)) {
-    return true;
-  }
-  return false;
-}
-
-/// Do the two strings differ only by a single space being
-/// omitted in one of them.
-///
-/// We assume non-breaking spaces because we
-/// know that's what the Intl data uses. We already know the strings aren't
-/// equal because that's checked first in the only caller.
-bool _oneSpaceOnlyDifference(String result, String expected) {
-  var resultWithoutSpaces =
-      String.fromCharCodes(result.codeUnits.where((x) => x != _nbsp));
-  var expectedWithoutSpaces =
-      String.fromCharCodes(expected.codeUnits.where((x) => x != _nbsp));
-  var resultDifference = result.length - resultWithoutSpaces.length;
-  var expectedDifference = expected.length - expectedWithoutSpaces.length;
-  return resultWithoutSpaces == expectedWithoutSpaces &&
-      resultDifference <= 1 &&
-      expectedDifference <= 1;
-}
-
-void validateFancy(more_testdata.CompactRoundingTestCase t) {
-  var shortFormat = NumberFormat.compact(locale: 'en');
+void _validateFancy(more_testdata.CompactRoundingTestCase t) {
+  var shortFormat = NumberFormat.compact(locale: 'en')
+    ..significantDigits = 2; // Default in ICU.
   if (t.maximumIntegerDigits != null) {
     shortFormat.maximumIntegerDigits = t.maximumIntegerDigits!;
   }
@@ -343,11 +448,47 @@ void validateFancy(more_testdata.CompactRoundingTestCase t) {
     shortFormat.minimumExponentDigits = t.minimumExponentDigits!;
   }
 
-  if (t.significantDigits != null) {
-    shortFormat.significantDigits = t.significantDigits;
+  if (t.maximumSignificantDigits != null) {
+    shortFormat.maximumSignificantDigits = t.maximumSignificantDigits;
+  }
+
+  if (t.minimumSignificantDigits != null) {
+    shortFormat.minimumSignificantDigits = t.minimumSignificantDigits;
   }
 
   test(t.toString(), () {
     expect(shortFormat.format(t.number), t.expected);
   });
+}
+
+void _validateWithExplicitSign(String locale, List<List<String>> expected) {
+  for (var data in expected) {
+    final input = num.parse(data[0]);
+    test('Validate compact with $locale and explicit sign for $input', () {
+      final numberFormat =
+          NumberFormat.compact(locale: locale, explicitSign: true);
+      expect(numberFormat.format(input), data[1]);
+    });
+    test('Validate compactLong with $locale and explicit sign for $input', () {
+      final numberFormat =
+          NumberFormat.compactLong(locale: locale, explicitSign: true);
+      expect(numberFormat.format(input), data[2]);
+    });
+  }
+}
+
+void _validateParsing(String locale, List<List<String>> expected) {
+  for (var data in expected) {
+    final expected = num.parse(data[0]);
+    final inputShort = data[1];
+    test('Validate compact parsing with $locale for $inputShort', () {
+      final numberFormat = NumberFormat.compact(locale: locale);
+      expect(numberFormat.parse(inputShort), expected);
+    });
+    final inputLong = data[2];
+    test('Validate compactLong parsing with $locale for $inputLong', () {
+      final numberFormat = NumberFormat.compactLong(locale: locale);
+      expect(numberFormat.parse(inputLong), expected);
+    });
+  }
 }

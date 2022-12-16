@@ -4,7 +4,7 @@
 library number_symbols;
 
 // Suppress naming issues as changes would be breaking.
-// ignore_for_file: avoid_types_as_parameter_names, non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names
 
 /// This holds onto information about how a particular locale formats
 /// numbers. It contains strings for things like the decimal separator, digit to
@@ -46,6 +46,7 @@ class NumberSymbols {
       required this.CURRENCY_PATTERN,
       required this.DEF_CURRENCY_CODE});
 
+  @override
   String toString() => NAME;
 }
 
@@ -54,9 +55,9 @@ class NumberSymbols {
 /// (This class' members contain more than just symbols: they contain the full
 /// number formatting pattern.)
 class CompactNumberSymbols {
-  final Map<int, String> COMPACT_DECIMAL_SHORT_PATTERN;
-  final Map<int, String>? COMPACT_DECIMAL_LONG_PATTERN;
-  final Map<int, String> COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN;
+  final Map<int, Map<String, String>> COMPACT_DECIMAL_SHORT_PATTERN;
+  final Map<int, Map<String, String>>? COMPACT_DECIMAL_LONG_PATTERN;
+  final Map<int, Map<String, String>> COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN;
   CompactNumberSymbols(
       {required this.COMPACT_DECIMAL_SHORT_PATTERN,
       this.COMPACT_DECIMAL_LONG_PATTERN,
