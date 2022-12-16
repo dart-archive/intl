@@ -45,7 +45,6 @@ void main() {
   });
 }
 
-
 /// My custom number (like Decimal from decimal package)
 class MyNum {
   MyNum(this.value);
