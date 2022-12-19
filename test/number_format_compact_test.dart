@@ -8,9 +8,6 @@ import 'package:intl/intl.dart';
 import 'package:intl/number_symbols_data.dart' as patterns;
 import 'package:test/test.dart';
 
-import 'package:test/test.dart';
-
-
 import 'compact_number_test_data.dart' as testdata;
 import 'more_compact_number_test_data.dart' as more_testdata;
 
