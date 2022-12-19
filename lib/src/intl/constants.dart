@@ -146,7 +146,7 @@ final Map<String, String> simpleCurrencySymbols = {
   'SOS': 'SOS',
   'TZS': 'TSh',
   'UGX': 'UGX',
-  'PEN': 'S/.',
+  'PEN': 'S/',
   'KGS': 'KGS',
   'UZS': 'so\u02bcm',
   'TJS': 'Som',
