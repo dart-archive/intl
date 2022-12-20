@@ -195,7 +195,12 @@ void main() {
   testCurrency('en_US', -1234, r'-$1.23K', r'-$1K');
 
   // Check for order of currency symbol when currency is a suffix.
-  testCurrency('ru', 4420, '4,42\u00A0тыс.\u00A0руб.', '4\u00A0тыс.\u00A0руб.');
+  testCurrency(
+    'ru',
+    4420,
+    '4,42\u00A0тыс.\u00A0\u20BD',
+    '4\u00A0тыс.\u00A0\u20BD',
+  );
 
   // Check for sign location when multiple patterns.
   testCurrency('sw', 12341, 'TSh\u00A0elfu12.3', 'TSh\u00A0elfu12');
@@ -330,7 +335,7 @@ void testCurrency(
     var symbols = {
       'ja': '¥',
       'en_US': r'$',
-      'ru': 'руб.',
+      'ru': '\u20BD',
       'it': '€',
       'he': '₪',
       'sw': 'TSh',

@@ -1,3 +1,7 @@
+## 0.18.1
+
+* Update ruble sign and update corresponding test
+
 ## 0.18.0
  * Add support for `minimumSignificantDigits` / `maximumSignificantDigits` in
    NumberFormat.
