@@ -156,7 +156,7 @@ class Intl {
   // We want to try to inline these messages, but not inline the internal
   // messages, so it will eliminate the descriptions and other information
   // not needed at runtime.
-  static String message(String messageText,
+  static String message(String messageText, are,
           {String? desc = '',
           Map<String, Object>? examples,
           String? locale,
