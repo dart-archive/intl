@@ -391,7 +391,7 @@ class DateFormat {
     return dateFields.asDate();
   }
 
-  /// Does our format only only date fields, and no time fields.
+  /// Does our format only date fields, and no time fields.
   ///
   /// For example, 'yyyy-MM-dd' would be true, but 'dd hh:mm' would be false.
   bool get dateOnly => _dateOnly ??= _checkDateOnly;
