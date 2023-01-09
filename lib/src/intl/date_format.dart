@@ -253,7 +253,7 @@ class DateFormat {
   /// or the explicit
   ///
   /// ```dart
-  /// DateFormat('EEE, M/d/y');
+  /// DateFormat('  , M/d/y');
   /// ```
   ///
   /// would produce the same result, a date of the form 'Wed, 6/27/2012'.
