@@ -13,6 +13,7 @@ linter:
     - directives_ordering
     - prefer_single_quotes
     - sort_pub_dependencies
+    - unnecessary_parenthesis
 
     # These are works in progress.
     # - avoid_dynamic_calls
