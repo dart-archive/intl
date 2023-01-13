@@ -386,14 +386,8 @@ class _DateFormatPatternField extends _DateFormatField {
         return formatFractionalSeconds(date);
       case 's':
         return formatSeconds(date);
-      case 'v':
-        return formatTimeZoneId(date);
       case 'y':
         return formatYear(date);
-      case 'z':
-        return formatTimeZone(date);
-      case 'Z':
-        return formatTimeZoneRFC(date);
       default:
         return '';
     }
@@ -684,19 +678,6 @@ class _DateFormatPatternField extends _DateFormatField {
 
   String formatSeconds(DateTime date) {
     return padTo(width, date.second);
-  }
-
-  String formatTimeZoneId(DateTime date) {
-    // TODO(alanknight): implement time zone support
-    throw UnimplementedError();
-  }
-
-  String formatTimeZone(DateTime date) {
-    throw UnimplementedError();
-  }
-
-  String formatTimeZoneRFC(DateTime date) {
-    throw UnimplementedError();
   }
 
   /// Return a string representation of the object padded to the left with
