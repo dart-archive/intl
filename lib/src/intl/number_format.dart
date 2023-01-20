@@ -618,9 +618,9 @@ class NumberFormat {
     if (simpleNumber < 100000000000000) return 14;
     if (simpleNumber < 1000000000000000) return 15;
     if (simpleNumber < 10000000000000000) return 16;
-    // We're past the point where being off by one on the number of digits
-    // will affect the pattern, so now we can use logs.
-    return max(1, (log(simpleNumber) / _ln10).ceil());
+    if (simpleNumber < 100000000000000000) return 17;
+    if (simpleNumber < 1000000000000000000) return 18;
+    return 19;
   }
 
   /// Whether to use SignificantDigits unconditionally for fraction digits.
