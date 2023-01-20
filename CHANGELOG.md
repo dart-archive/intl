@@ -1,4 +1,4 @@
-## 0.18.1
+## 0.18.1-dev
 
 * Update ruble sign and update corresponding test
 * Remove unimplemented timezone functionality
