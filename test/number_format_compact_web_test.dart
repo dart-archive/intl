@@ -18,9 +18,9 @@ void main() {
 
   test('RTL currency formatting', () {
     var basic = intl.NumberFormat.currency(locale: 'he');
-    expect(basic.format(1234), '\u200F1,234.00\u00A0ILS');
+    expect(basic.format(1234), '\u200F1,234.00\u00A0\u200FILS');
     basic = intl.NumberFormat.currency(locale: 'he', symbol: '₪');
-    expect(basic.format(1234), '\u200F1,234.00\u00A0₪');
+    expect(basic.format(1234), '\u200F1,234.00\u00A0\u200F₪');
     expect(_ecmaFormatNumber('he', 1234, style: 'currency', currency: 'ILS'),
         '\u200F1,234.00\u00A0₪');
 
@@ -85,15 +85,13 @@ var _unsupportedChromeLocales = [
 ];
 
 var _skipLocalesShort = [
-  'en-IN', // Expected: '160LCr', actual: '160T'.
-  'es-US', // Expected: '1090 M', actual: '1.09 B'.
-  'et', // Expected: '1,4 trln', actual: '1,4 trl'.
-  'fa', // Expected: '۹۸۸ میلیون' , actual: '۹۸۸ م'.
+  'ja', // Expected: '1京', actual: '10000兆'.
+  'ca', // Expected: '4,3\u00A0k', actual: '4,3m'.
   ..._unsupportedChromeLocales
 ];
 
 var _skipLocalesLong = [
-  'es-US', // Expected: '1.09 mil millon', actual: '1.09 billones'.
+  'ja', // Expected: '1京', actual: '10000兆'.
   ..._unsupportedChromeLocales
 ];
 

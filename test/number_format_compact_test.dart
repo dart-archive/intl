@@ -212,8 +212,9 @@ void main() {
   testCurrency('it', 4420000, '4,42\u00A0Mio\u00A0\$', '4\u00A0Mio\u00A0\$',
       currency: 'USD');
 
-  testCurrency('he', 335, '\u200F335\u00A0₪', '\u200F335\u00A0₪');
-  testCurrency('he', -335, '\u200F-335\u00A0₪', '\u200F-335\u00A0₪');
+  testCurrency('he', 335, '\u200F335\u00A0\u200F₪', '\u200F335\u00A0\u200F₪');
+  testCurrency(
+      'he', -335, '\u200F-335\u00A0\u200F₪', '\u200F-335\u00A0\u200F₪');
   testCurrency('he', 12341, '₪12.3K\u200f', '₪12K\u200f');
   testCurrency('he', -12341, '\u200e-₪12.3K\u200f', '\u200e-₪12K\u200f');
 
