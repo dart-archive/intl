@@ -1,13 +1,33 @@
 # Don't commit the following directories created by pub.
-.dart_tool/
-.packages
-pubspec.lock
+intl/.dart_tool/
+intl/.packages
+intl/pubspec.lock
 
 # Files to avoid committing
-BUILD
-METADATA
-OWNERS
-README.google.md
-copy.bara.sky
-test/number_format_compact_google3_icu_test.dart
-update_from_cldr_data.sh
+intl/BUILD
+intl/METADATA
+intl/OWNERS
+intl/README.google.md
+intl/copy.bara.sky
+intl/test/number_format_compact_google3_icu_test.dart
+intl/update_from_cldr_data.sh
+
+
+# Don't commit the following directories created by pub.
+intl_translation/.dart_tool/
+intl_translation/.packages
+intl_translation/.pub
+intl_translation/build/
+
+# Or the files created by dart2js.
+intl_translation/*.dart.js
+intl_translation/*.dart.precompiled.js
+intl_translation/*.js_
+intl_translation/*.js.deps
+intl_translation/*.js.map
+intl_translation/*.sw?
+intl_translation/.idea/
+intl_translation/.pub/
+
+# Include when developing application packages.
+intl_translation/pubspec.lock

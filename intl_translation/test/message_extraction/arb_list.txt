@@ -1,0 +1,3 @@
+translation_fr.arb
+french2.arb
+translation_de_DE.arb

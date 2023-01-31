@@ -1,0 +1,22 @@
+include: package:lints/recommended.yaml
+
+analyzer:
+  errors:
+    # Challenging with the file name patterns that this package generates.
+    file_names: ignore
+    # This can cause issues with recognizing localizable strings.
+    unnecessary_string_interpolations: ignore
+
+linter:
+  rules:
+    # Enable some additional lints.
+    - always_declare_return_types
+    - directives_ordering
+    - omit_local_variable_types
+    - prefer_relative_imports
+    - prefer_single_quotes
+    - sort_pub_dependencies
+    - type_annotate_public_apis
+
+    # This is currently challenging for this package.
+    # - avoid_dynamic_calls

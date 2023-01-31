@@ -1,0 +1,31 @@
+# Copyright (c) 2014, the Dart project authors.  Please see the AUTHORS file
+# for details. All rights reserved. Use of this source code is governed by a
+# BSD-style license that can be found in the LICENSE file.
+
+# Don't run any test-like files that show up in packages directories.
+*/packages/*/*: Skip
+*/*/packages/*/*: Skip
+*/*/*/packages/*/*: Skip
+
+[ $compiler == dart2js ]
+test/*: Skip  # raw tests only meant to be run in dartium. Other browsers run
+              # the output of pub-build
+
+[ $runtime == vm ]
+build/*: Skip
+
+[ $browser ]
+test/message_extraction/examples_parsing_test: Skip # Users dart:io
+test/message_extraction/failed_extraction_test: Skip # Users dart:io
+test/message_extraction/message_extraction_test: Skip # Uses dart:io.
+test/message_extraction/message_extraction_no_deferred_test: Skip # Uses dart:io.
+test/message_extraction/really_fail_extraction_test: Skip # Users dart:io
+test/message_extraction/embedded_plural_text_after_test: Skip # Uses dart:io.
+test/message_extraction/embedded_plural_text_before_test: Skip # Uses dart:io.
+build/test/message_extraction/examples_parsing_test: Skip # Users dart:io
+build/test/message_extraction/failed_extraction_test: Skip # Users dart:io
+build/test/message_extraction/message_extraction_test: Skip # Uses dart:io.
+build/test/message_extraction/message_extraction_no_deferred_test: Skip # Uses dart:io.
+build/test/message_extraction/really_fail_extraction_test: Skip # Users dart:io
+build/test/message_extraction/embedded_plural_text_after_test: Skip # Uses dart:io.
+build/test/message_extraction/embedded_plural_text_before_test: Skip # Uses dart:io.

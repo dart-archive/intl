@@ -1,0 +1,5 @@
+{
+  "_locale": "fr_xyz123",
+  "Hello from component": "Bonjour du composant",
+  "_message2": "Locale explicite"
+}
