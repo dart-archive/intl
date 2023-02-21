@@ -339,22 +339,22 @@ final DateSymbols en_USSymbols = DateSymbols(
     ],
     AMPMS: const ['AM', 'PM'],
     DATEFORMATS: const ['EEEE, MMMM d, y', 'MMMM d, y', 'MMM d, y', 'M/d/yy'],
-    TIMEFORMATS: const ['h:mm:ss a zzzz', 'h:mm:ss a z', 'h:mm:ss a', 'h:mm a'],
+    TIMEFORMATS: const ['h:mm:ss a zzzz', 'h:mm:ss a z', 'h:mm:ss a', 'h:mm a'],
     FIRSTDAYOFWEEK: 6,
     WEEKENDRANGE: const [5, 6],
     FIRSTWEEKCUTOFFDAY: 5,
     DATETIMEFORMATS: const [
-      '{1} \'at\' {0}',
-      '{1} \'at\' {0}',
       '{1}, {0}',
-      '{1}, {0}'
+      '{1}, {0}',
+      '{1}, {0}',
+      '{1}, {0}',
     ]);
 
 // ignore: constant_identifier_names
 const Map<String, String> en_USPatterns = {
   'd': 'd', // DAY
-  'E': 'EEE', // ABBR_WEEKDAY
-  'EEEE': 'EEEE', // WEEKDAY
+  'E': 'ccc', // ABBR_WEEKDAY
+  'EEEE': 'cccc', // WEEKDAY
   'LLL': 'LLL', // ABBR_STANDALONE_MONTH
   'LLLL': 'LLLL', // STANDALONE_MONTH
   'M': 'L', // NUM_MONTH
@@ -383,12 +383,12 @@ const Map<String, String> en_USPatterns = {
   'H': 'HH', // HOUR24
   'Hm': 'HH:mm', // HOUR24_MINUTE
   'Hms': 'HH:mm:ss', // HOUR24_MINUTE_SECOND
-  'j': 'h a', // HOUR
-  'jm': 'h:mm a', // HOUR_MINUTE
-  'jms': 'h:mm:ss a', // HOUR_MINUTE_SECOND
-  'jmv': 'h:mm a v', // HOUR_MINUTE_GENERIC_TZ
-  'jmz': 'h:mm a z', // HOUR_MINUTETZ
-  'jz': 'h a z', // HOURGENERIC_TZ
+  'j': 'h a', // HOUR
+  'jm': 'h:mm a', // HOUR_MINUTE
+  'jms': 'h:mm:ss a', // HOUR_MINUTE_SECOND
+  'jmv': 'h:mm a v', // HOUR_MINUTE_GENERIC_TZ
+  'jmz': 'h:mm a z', // HOUR_MINUTETZ
+  'jz': 'h a z', // HOURGENERIC_TZ
   'm': 'm', // MINUTE
   'ms': 'mm:ss', // MINUTE_SECOND
   's': 's', // SECOND
