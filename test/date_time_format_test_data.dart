@@ -9,8 +9,11 @@
 // TODO(alanknight): Test more locales and a wider variety of test data,
 // possibly by generating test data out of ICU.
 
+// ignore_for_file: unnecessary_brace_in_string_interps
+
 library date_time_format_test_data;
 
+const space = '\u202F';
 const english = {
   'DAY': '27',
   'ABBR_WEEKDAY': 'Fri',
@@ -43,9 +46,9 @@ const english = {
   'HOUR24': '20',
   'HOUR24_MINUTE': '20:58',
   'HOUR24_MINUTE_SECOND': '20:58:59',
-  'HOUR': '8 PM',
-  'HOUR_MINUTE': '8:58 PM',
-  'HOUR_MINUTE_SECOND': '8:58:59 PM',
+  'HOUR': '8${space}PM',
+  'HOUR_MINUTE': '8:58${space}PM',
+  'HOUR_MINUTE_SECOND': '8:58:59${space}PM',
   'MINUTE': '58',
   'MINUTE_SECOND': '58:59',
   'SECOND': '59',
@@ -56,13 +59,13 @@ const english = {
   'ABBR_SPECIFIC_TZ': 'PST',
   'ABBR_UTC_TZ': 'GMT-08:00',
   'YEAR_MONTH_WEEKDAY_DAY + HOUR_MINUTE_SECOND':
-      'Friday, January 27, 2012 8:58:59 PM',
+      'Friday, January 27, 2012 8:58:59${space}PM',
   'YEAR_MONTH_WEEKDAY_DAY + HOUR_MINUTE_SECOND + GENERIC_TZ':
-      'Friday, January 27, 2012 8:58:59 PM Pacific Time',
+      'Friday, January 27, 2012 8:58:59${space}PM Pacific Time',
   'YEAR_ABBR_MONTH_WEEKDAY_DAY + HOUR_MINUTE_SECOND + ABBR_SPECIFIC_TZ':
-      'Fri, Jan 27, 2012 8:58:59 PM PST',
-  'HOUR_MINUTE_SECOND + ABBR_GENERIC_TZ': '8:58:59 PM PT',
-  'HOUR_MINUTE + ABBR_SPECIFIC_TZ': '8:58 PM PST'
+      'Fri, Jan 27, 2012 8:58:59${space}PM PST',
+  'HOUR_MINUTE_SECOND + ABBR_GENERIC_TZ': '8:58:59${space}PM PT',
+  'HOUR_MINUTE + ABBR_SPECIFIC_TZ': '8:58${space}PM PST'
 };
 
 const german = {
@@ -83,7 +86,7 @@ const german = {
   'ABBR_QUARTER': 'Q1',
   'QUARTER': '1. Quartal',
   'YEAR': '2012',
-  'YEAR_NUM_MONTH': '1.2012',
+  'YEAR_NUM_MONTH': '01/2012',
   'YEAR_NUM_MONTH_DAY': '27.1.2012',
   'YEAR_NUM_MONTH_WEEKDAY_DAY': 'Fr., 27.1.2012',
   'YEAR_ABBR_MONTH': 'Jan. 2012',
@@ -138,7 +141,7 @@ const austrian = {
   'ABBR_QUARTER': 'Q1',
   'QUARTER': '1. Quartal',
   'YEAR': '2012',
-  'YEAR_NUM_MONTH': '1.2012',
+  'YEAR_NUM_MONTH': '01/2012',
   'YEAR_NUM_MONTH_DAY': '27.1.2012',
   'YEAR_NUM_MONTH_WEEKDAY_DAY': 'Fr., 27.1.2012',
   'YEAR_ABBR_MONTH': 'Jän. 2012',
@@ -315,9 +318,9 @@ const greek = {
   'HOUR24': '20',
   'HOUR24_MINUTE': '20:58',
   'HOUR24_MINUTE_SECOND': '20:58:59',
-  'HOUR': '8 μ.μ.',
-  'HOUR_MINUTE': '8:58 μ.μ.',
-  'HOUR_MINUTE_SECOND': '8:58:59 μ.μ.',
+  'HOUR': '8${space}μ.μ.',
+  'HOUR_MINUTE': '8:58${space}μ.μ.',
+  'HOUR_MINUTE_SECOND': '8:58:59${space}μ.μ.',
   'MINUTE': '58',
   'MINUTE_SECOND': '58:59',
   'SECOND': '59',
@@ -328,12 +331,12 @@ const greek = {
   'ABBR_SPECIFIC_TZ': 'GMT-08:00',
   'ABBR_UTC_TZ': 'GMT-08:00',
   'YEAR_MONTH_WEEKDAY_DAY + HOUR_MINUTE_SECOND':
-      'Παρασκευή, 27 Ιανουαρίου 2012 8:58:59 μ.μ.',
+      'Παρασκευή, 27 Ιανουαρίου 2012 8:58:59${space}μ.μ.',
   'YEAR_MONTH_WEEKDAY_DAY + HOUR_MINUTE_SECOND + GENERIC_TZ':
-      'Παρασκευή, 27 Ιανουαρίου 2012 8:58:59 μ.μ. Ώρα Ειρηνικού',
+      'Παρασκευή, 27 Ιανουαρίου 2012 8:58:59${space}μ.μ. Ώρα Ειρηνικού',
   'YEAR_ABBR_MONTH_WEEKDAY_DAY + HOUR_MINUTE_SECOND + ABBR_SPECIFIC_TZ':
-      'Παρ, 27 Ιαν 2012 8:58:59 μ.μ. GMT-08:00',
+      'Παρ, 27 Ιαν 2012 8:58:59${space}μ.μ. GMT-08:00',
   'HOUR_MINUTE_SECOND + ABBR_GENERIC_TZ':
-      '8:58:59 μ.μ. Ηνωμένες Πολιτείες της Αμερικής (Λος Άντζελες)',
-  'HOUR_MINUTE + ABBR_SPECIFIC_TZ': '8:58 μ.μ. GMT-08:00'
+      '8:58:59${space}μ.μ. Ηνωμένες Πολιτείες της Αμερικής (Λος Άντζελες)',
+  'HOUR_MINUTE + ABBR_SPECIFIC_TZ': '8:58${space}μ.μ. GMT-08:00'
 };
