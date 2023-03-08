@@ -4021,10 +4021,10 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => <String, DateSymbols>{
           ],
           AMPMS: const ['a.m.', 'p.m.'],
           DATEFORMATS: const [
-            'EEEE, MMMM d, y',
-            'MMMM d, y',
-            'MMM d, y',
-            'y-MM-dd'
+            'EEEE, d MMMM y',
+            'd MMMM y',
+            'd MMM y',
+            'dd-MM-y'
           ],
           TIMEFORMATS: const [
             'h:mm:ss a zzzz',
