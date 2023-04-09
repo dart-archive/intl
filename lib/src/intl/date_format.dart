@@ -314,6 +314,21 @@ class DateFormat {
   DateTime parse(String inputString, [bool utc = false]) =>
       _parse(inputString, utc: utc, strict: false);
 
+  /// Given user input, attempt to parse the [inputString] into the anticipated
+  /// format, treating it as being in the local timezone.
+  ///
+  /// If [inputString] does not match our format, return null.
+  /// This will accept dates whose values are not strictly valid, or strings
+  /// with additional characters (including whitespace) after a valid date. For
+  /// stricter parsing, use [tryParseStrict].
+  DateTime? tryParse(String inputString, [bool utc = false]) {
+    try {
+      return _parse(inputString, utc: utc, strict: false);
+    } on FormatException {
+      return null;
+    }
+  }
+
   /// Given user input, attempt to parse the [inputString] 'loosely' into the
   /// anticipated format, accepting some variations from the strict format.
   ///
@@ -347,6 +362,43 @@ class DateFormat {
     }
   }
 
+  /// Given user input, attempt to parse the [inputString] 'loosely' into the
+  /// anticipated format, accepting some variations from the strict format.
+  ///
+  /// If [inputString] is accepted by [tryParseStrict], just return the result. If
+  /// not, attempt to parse it, but accepting either upper or lower case,
+  /// allowing delimiters to be missing and replaced or supplemented with
+  /// whitespace, and allowing arbitrary amounts of whitespace wherever
+  /// whitespace is permitted. Note that this does not allow trailing
+  /// characters, the way [tryParse] does.  It also does not allow alternative
+  /// names for months or weekdays other than those the format knows about. The
+  /// restrictions are quite arbitrary and it's not known how well they'll work
+  /// for locales that aren't English-like.
+  ///
+  /// If [inputString] does not parse, this return null.
+  ///
+  /// For example, this will accept
+  ///
+  ///       DateFormat.yMMMd('en_US').tryParseLoose('SEp   3 2014');
+  ///       DateFormat.yMd('en_US').tryParseLoose('09    03/2014');
+  ///       DateFormat.yMd('en_US').tryParseLoose('09 / 03 / 2014');
+  ///
+  /// It will NOT accept
+  ///
+  ///       // 'Sept' is not a valid month name.
+  ///       DateFormat.yMMMd('en_US').tryParseLoose('Sept 3, 2014');
+  DateTime? tryParseLoose(String inputString, [bool utc = false]) {
+    try {
+      return _parse(inputString, utc: utc, strict: true);
+    } on FormatException {
+      try {
+        return _parseLoose(inputString.toLowerCase(), utc);
+      } on FormatException {
+        return null;
+      }
+    }
+  }
+
   DateTime _parseLoose(String inputString, bool utc) {
     var dateFields = DateBuilder(locale, dateTimeConstructor);
     if (utc) dateFields.utc = true;
@@ -372,6 +424,22 @@ class DateFormat {
   /// looser parsing, use [parse].
   DateTime parseStrict(String inputString, [bool utc = false]) =>
       _parse(inputString, utc: utc, strict: true);
+
+  /// Given user input, attempt to parse the [inputString] into the anticipated
+  /// format, treating it as being in the local timezone.
+  ///
+  /// If [inputString] does not match our format, return null.
+  /// This will reject dates whose values are not strictly valid, even if the
+  /// DateTime constructor will accept them. It will also reject strings with
+  /// additional characters (including whitespace) after a valid date. For
+  /// looser parsing, use [tryParse].
+  DateTime? tryParseStrict(String inputString, [bool utc = false]) {
+    try {
+      return _parse(inputString, utc: utc, strict: true);
+    } on FormatException {
+      return null;
+    }
+  }
 
   DateTime _parse(String inputString, {bool utc = false, bool strict = false}) {
     // TODO(alanknight): The Closure code refers to special parsing of numeric
@@ -400,6 +468,7 @@ class DateFormat {
 
   /// Given user input, attempt to parse the [inputString] into the anticipated
   /// format, treating it as being in UTC.
+  /// If [inputString] does not match our format, throws a [FormatException].
   ///
   /// The canonical Dart style name
   /// is [parseUtc], but [parseUTC] is retained
@@ -408,11 +477,23 @@ class DateFormat {
 
   /// Given user input, attempt to parse the [inputString] into the anticipated
   /// format, treating it as being in UTC.
+  /// If [inputString] does not match our format, throws a [FormatException].
   ///
   /// The canonical Dart style name
   /// is [parseUtc], but [parseUTC] is retained
   /// for backward-compatibility.
   DateTime parseUtc(String inputString) => parse(inputString, true);
+
+  /// Given user input, attempt to parse the [inputString] into the anticipated
+  /// format, treating it as being in UTC.
+  /// If [inputString] does not match our format, return null.
+  DateTime? tryParseUtc(String inputString) {
+    try {
+      return parse(inputString, true);
+    } on FormatException {
+      return null;
+    }
+  }
 
   /// Return the locale code in which we operate, e.g. 'en_US' or 'pt'.
   String get locale => _locale;

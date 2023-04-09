@@ -16,55 +16,55 @@ import 'package:test/test.dart';
 void main() {
   late DateFormat format;
 
-  var date = DateTime(2014, 9, 3);
+  group('DateFormat#parseLoose', () {
+    var date = DateTime(2014, 9, 3);
 
-  void check(String s) {
-    expect(() => format.parse(s), throwsFormatException);
-    expect(format.parseLoose(s), date);
-  }
+    void check(String s) {
+      expect(() => format.parse(s), throwsFormatException);
+      expect(format.parseLoose(s), date);
+    }
 
-  test('Loose parsing yMMMd', () {
-    // Note: We can't handle e.g. Sept, we don't have those abbreviations
-    // in our data.
-    // Also doesn't handle 'sep3,2014', or 'sep 3.2014'
-    format = DateFormat.yMMMd('en_US');
-    check('Sep 3 2014');
-    check('sep 3 2014');
-    check('sep 3  2014');
-    check('sep  3 2014');
-    check('sep  3       2014');
-    check('sep3 2014');
-    check('september 3, 2014');
-    check('sEPTembER 3, 2014');
-    check('seP 3, 2014');
-    check('Sep 3,2014');
-  });
+    test('Loose parsing yMMMd', () {
+      // Note: We can't handle e.g. Sept, we don't have those abbreviations
+      // in our data.
+      // Also doesn't handle 'sep3,2014', or 'sep 3.2014'
+      format = DateFormat.yMMMd('en_US');
+      check('Sep 3 2014');
+      check('sep 3 2014');
+      check('sep 3  2014');
+      check('sep  3 2014');
+      check('sep  3       2014');
+      check('sep3 2014');
+      check('september 3, 2014');
+      check('sEPTembER 3, 2014');
+      check('seP 3, 2014');
+      check('Sep 3,2014');
+    });
 
-  test('Loose parsing yMMMd that parses strict', () {
-    expect(format.parseLoose('Sep 3, 2014'), date);
-  });
+    test('Loose parsing yMMMd that parses strict', () {
+      expect(format.parseLoose('Sep 3, 2014'), date);
+    });
 
-  test('Loose parsing yMd', () {
-    format = DateFormat.yMd('en_US');
-    check('09 3 2014');
-    check('09 00003    2014');
-    check('09/    03/2014');
-    check('09 / 03 / 2014');
-  });
+    test('Loose parsing yMd', () {
+      format = DateFormat.yMd('en_US');
+      check('09 3 2014');
+      check('09 00003    2014');
+      check('09/    03/2014');
+      check('09 / 03 / 2014');
+    });
 
-  test('Loose parsing yMd that parses strict', () {
-    expect(format.parseLoose('09/03/2014'), date);
-    expect(format.parseLoose('09/3/2014'), date);
-  });
+    test('Loose parsing yMd that parses strict', () {
+      expect(format.parseLoose('09/03/2014'), date);
+      expect(format.parseLoose('09/3/2014'), date);
+    });
 
-  test('Loose parsing should handle standalone month format', () {
-    // This checks that LL actually sets the month.
-    // The appended whitespace and extra d pattern are present to trigger the
-    // loose parsing code path.
-    expect(DateFormat('LL/d', 'en_US').parseLoose('05/ 2').month, 5);
-  });
+    test('Loose parsing should handle standalone month format', () {
+      // This checks that LL actually sets the month.
+      // The appended whitespace and extra d pattern are present to trigger the
+      // loose parsing code path.
+      expect(DateFormat('LL/d', 'en_US').parseLoose('05/ 2').month, 5);
+    });
 
-  group('Loose parsing with year formats', () {
     test('should fail when year is omitted (en_US)', () {
       expect(() => DateFormat('yyyy-MM-dd').parseLoose('1/11'),
           throwsFormatException);
@@ -100,6 +100,80 @@ void main() {
           throwsFormatException);
       expect(() => DateFormat.yMMMMEEEEd('hu').parseLoose('3. 17.'),
           throwsFormatException);
+    });
+  });
+
+  group('DateFormat#tryParseLoose', () {
+    var date = DateTime(2014, 9, 3);
+
+    void check(String s) {
+      expect(format.tryParse(s), isNull);
+      expect(format.tryParseLoose(s), date);
+    }
+
+    test('Loose parsing yMMMd', () {
+      // Note: We can't handle e.g. Sept, we don't have those abbreviations
+      // in our data.
+      // Also doesn't handle 'sep3,2014', or 'sep 3.2014'
+      format = DateFormat.yMMMd('en_US');
+      check('Sep 3 2014');
+      check('sep 3 2014');
+      check('sep 3  2014');
+      check('sep  3 2014');
+      check('sep  3       2014');
+      check('sep3 2014');
+      check('september 3, 2014');
+      check('sEPTembER 3, 2014');
+      check('seP 3, 2014');
+      check('Sep 3,2014');
+    });
+
+    test('Loose parsing yMMMd that parses strict', () {
+      expect(format.tryParseLoose('Sep 3, 2014'), date);
+    });
+
+    test('Loose parsing yMd', () {
+      format = DateFormat.yMd('en_US');
+      check('09 3 2014');
+      check('09 00003    2014');
+      check('09/    03/2014');
+      check('09 / 03 / 2014');
+    });
+
+    test('Loose parsing yMd that parses strict', () {
+      expect(format.tryParseLoose('09/03/2014'), date);
+      expect(format.tryParseLoose('09/3/2014'), date);
+    });
+
+    test('Loose parsing should handle standalone month format', () {
+      // This checks that LL actually sets the month.
+      // The appended whitespace and extra d pattern are present to trigger the
+      // loose parsing code path.
+      expect(DateFormat('LL/d', 'en_US').tryParseLoose('05/ 2')?.month, 5);
+    });
+
+    test('should fail when year is omitted (en_US)', () {
+      expect(DateFormat('yyyy-MM-dd').tryParseLoose('1/11'), isNull);
+    });
+
+    test('should fail when year is omitted (ja)', () {
+      initializeDateFormatting('ja', null);
+      expect(DateFormat.yMMMd('ja').tryParseLoose('12月12日'), isNull);
+      expect(DateFormat.yMd('ja').tryParseLoose('12月12日'), isNull);
+      expect(DateFormat.yMEd('ja').tryParseLoose('12月12日'), isNull);
+      expect(DateFormat.yMMMEd('ja').tryParseLoose('12月12日'), isNull);
+      expect(DateFormat.yMMMMd('ja').tryParseLoose('12月12日'), isNull);
+      expect(DateFormat.yMMMMEEEEd('ja').tryParseLoose('12月12日'), isNull);
+    });
+
+    test('should fail when year is omitted (hu)', () {
+      initializeDateFormatting('hu', null);
+      expect(DateFormat.yMMMd('hu').tryParseLoose('3. 17.'), isNull);
+      expect(DateFormat.yMd('hu').tryParseLoose('3. 17.'), isNull);
+      expect(DateFormat.yMEd('hu').tryParseLoose('3. 17.'), isNull);
+      expect(DateFormat.yMMMEd('hu').tryParseLoose('3. 17.'), isNull);
+      expect(DateFormat.yMMMMd('hu').tryParseLoose('3. 17.'), isNull);
+      expect(DateFormat.yMMMMEEEEd('hu').tryParseLoose('3. 17.'), isNull);
     });
   });
 }

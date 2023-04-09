@@ -85,4 +85,81 @@ void main() {
     check('14:0:60');
     expect(format.parseStrict('14:0:59'), DateTime(1970, 1, 1, 14, 0, 59));
   });
+
+  group('DateFormat#tryParseStrict', () {
+    test('All input consumed', () {
+      var format = DateFormat.yMMMd();
+      var date = DateTime(2014, 9, 3);
+      var formatted = 'Sep 3, 2014';
+      expect(format.format(date), formatted);
+      var parsed = format.tryParseStrict(formatted);
+      expect(parsed, date);
+
+      void check(String s) {
+        expect(format.tryParseStrict(s), isNull);
+        expect(format.tryParse(s), date);
+      }
+
+      check('$formatted,');
+      check('${formatted}abc');
+      check('$formatted   ');
+    });
+
+    test('Invalid dates', () {
+      var format = DateFormat.yMd();
+      void check(s) => expect(format.tryParseStrict(s), isNull);
+      check('0/3/2014');
+      check('13/3/2014');
+      check('9/0/2014');
+      check('9/31/2014');
+      check('09/31/2014');
+      check('10/32/2014');
+      check('2/29/2014');
+      check('1/32/2014');
+      expect(format.tryParseStrict('2/29/2016'), DateTime(2016, 2, 29));
+    });
+
+    test('Valid ordinal date is not rejected', () {
+      var dayOfYearFormat = DateFormat('MM/DD/yyyy');
+      expect(dayOfYearFormat.tryParseStrict('1/32/2014'), DateTime(2014, 2, 1));
+    });
+
+    test('Invalid times am/pm', () {
+      const space = '\u202F';
+      var format = DateFormat.jms();
+      void check(s) => expect(format.tryParseStrict(s), isNull);
+      check('-1:15:00 AM');
+      expect(format.tryParseStrict('0:15:00${space}AM'),
+          DateTime(1970, 1, 1, 0, 15));
+      check('24:00:00 PM');
+      check('24:00:00 AM');
+      check('25:00:00 PM');
+      check('0:-1:00 AM');
+      check('0:60:00 AM');
+      expect(format.tryParseStrict('0:59:00${space}AM'),
+          DateTime(1970, 1, 1, 0, 59));
+      check('0:0:-1 AM');
+      check('0:0:60 AM');
+      check('2:0:60 PM');
+      expect(format.tryParseStrict('2:0:59${space}PM'),
+          DateTime(1970, 1, 1, 14, 0, 59));
+    });
+
+    test('Invalid times 24 hour', () {
+      var format = DateFormat.Hms();
+      void check(s) => expect(format.tryParseStrict(s), isNull);
+      check('-1:15:00');
+      expect(format.tryParseStrict('0:15:00'), DateTime(1970, 1, 1, 0, 15));
+      check('24:00:00');
+      check('24:00:00');
+      check('25:00:00');
+      check('0:-1:00');
+      check('0:60:00');
+      expect(format.tryParseStrict('0:59:00'), DateTime(1970, 1, 1, 0, 59));
+      check('0:0:-1');
+      check('0:0:60');
+      check('14:0:60');
+      expect(format.tryParseStrict('14:0:59'), DateTime(1970, 1, 1, 14, 0, 59));
+    });
+  });
 }
