@@ -497,6 +497,16 @@ class NumberFormat {
   /// parseable, throws a [FormatException].
   num parse(String text) => NumberParser(this, text).value!;
 
+  /// Parse the number represented by the string. If it's not
+  /// parsable, returns null.
+  num? tryParse(String text) {
+    try {
+      return NumberParser(this, text).value!;
+    } on FormatException {
+      return null;
+    }
+  }
+
   /// Format the main part of the number in the form dictated by the pattern.
   void _formatNumber(number) {
     if (_useExponentialNotation) {

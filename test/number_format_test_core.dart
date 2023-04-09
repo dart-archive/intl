@@ -448,6 +448,15 @@ void runTests(Map<String, num> allTestNumbers) {
     expect(() => format.parse('-∞+1'), throwsFormatException);
   });
 
+  test('Invalid currency format returns null with tryParse', () {
+    var format = NumberFormat.currency();
+
+    expect(format.tryParse('abcdefg'), isNull);
+    expect(format.tryParse(''), isNull);
+    expect(format.tryParse('1.0zzz'), isNull);
+    expect(format.tryParse('-∞+1'), isNull);
+  });
+
   test('Decimal digits for decimal pattern', () {
     const number = 4.3219876;
     void expectDigits(String locale, List<String> expectations) {
