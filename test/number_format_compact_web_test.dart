@@ -22,7 +22,7 @@ void main() {
     basic = intl.NumberFormat.currency(locale: 'he', symbol: '₪');
     expect(basic.format(1234), '\u200F1,234.00\u00A0\u200F₪');
     expect(_ecmaFormatNumber('he', 1234, style: 'currency', currency: 'ILS'),
-        '\u200F1,234.00\u00A0₪');
+        '\u200F1,234.00\u00A0\u200F₪');
 
     var compact = intl.NumberFormat.compactCurrency(locale: 'he');
     expect(compact.format(1234), 'ILS1.23K\u200F');
