@@ -1659,7 +1659,7 @@ Map<String, Map<String, String>> dateTimePatternMap() => {
         'M': 'M', // NUM_MONTH
         'Md': 'd.M', // NUM_MONTH_DAY
         'MEd': 'EEE, d.M', // NUM_MONTH_WEEKDAY_DAY
-        'MMM': 'MMMM', // ABBR_MONTH
+        'MMM': 'LLL', // ABBR_MONTH
         'MMMd': 'd. MMM', // ABBR_MONTH_DAY
         'MMMEd': 'EEE, d. MMM', // ABBR_MONTH_WEEKDAY_DAY
         'MMMM': 'MMMM', // MONTH
