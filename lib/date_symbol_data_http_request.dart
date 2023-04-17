@@ -43,7 +43,7 @@ Future<void> initializeDateFormatting(String locale, String url) {
     availableLocalesForDateFormatting.contains,
   )!;
 
-  //Init locale for both symbols and patterns
+  //Initialize locale for both symbols and patterns
   Future<List<void>> initLocale(
     LazyLocaleData symbols,
     LazyLocaleData patterns,
