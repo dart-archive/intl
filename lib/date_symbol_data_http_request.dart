@@ -20,20 +20,41 @@ export 'src/data/dates/locale_list.dart';
 /// The [url] parameter should end with a "/". For example,
 ///   "http://localhost:8000/dates/"
 Future<void> initializeDateFormatting(String locale, String url) {
-  var reader = HttpRequestDataReader('${url}symbols/');
-  initializeDateSymbols(() => LazyLocaleData(
-      reader, _createDateSymbol, availableLocalesForDateFormatting));
-  var reader2 = HttpRequestDataReader('${url}patterns/');
-  initializeDatePatterns(() =>
-      LazyLocaleData(reader2, (x) => x, availableLocalesForDateFormatting));
-  var actualLocale =
-      Intl.verifiedLocale(locale, availableLocalesForDateFormatting.contains);
-  return initializeIndividualLocaleDateFormatting((symbols, patterns) {
-    return Future.wait(<Future<List<dynamic>>>[
+  //Initialize symbols
+  var symbolReader = HttpRequestDataReader('${url}symbols/');
+  LazyLocaleData symbolsInitializer() => LazyLocaleData(
+        symbolReader,
+        _createDateSymbol,
+        availableLocalesForDateFormatting,
+      );
+  initializeDateSymbols(symbolsInitializer);
+
+  //Initialize patterns
+  var patternsReader = HttpRequestDataReader('${url}patterns/');
+  LazyLocaleData patternsInitializer() => LazyLocaleData(
+        patternsReader,
+        (x) => x,
+        availableLocalesForDateFormatting,
+      );
+  initializeDatePatterns(patternsInitializer);
+
+  var actualLocale = Intl.verifiedLocale(
+    locale,
+    availableLocalesForDateFormatting.contains,
+  )!;
+
+  //Initialize locale for both symbols and patterns
+  Future<List<void>> initLocale(
+    LazyLocaleData symbols,
+    LazyLocaleData patterns,
+  ) {
+    return Future.wait([
       symbols.initLocale(actualLocale),
-      patterns.initLocale(actualLocale)
+      patterns.initLocale(actualLocale),
     ]);
-  });
+  }
+
+  return initializeIndividualLocaleDateFormatting(initLocale);
 }
 
 /// Defines how new date symbol entries are created.
