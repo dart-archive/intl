@@ -1,3 +1,6 @@
+## This repository has been moved to https://github.com/dart-lang/i18n/tree/main/pkgs/intl_translation. Please file any PRs and issues there.
+---
+
 [![Dart CI](https://github.com/dart-lang/intl/actions/workflows/test-package.yml/badge.svg)](https://github.com/dart-lang/intl/actions/workflows/test-package.yml)
 [![Pub](https://img.shields.io/pub/v/intl.svg)](https://pub.dev/packages/intl)
 
